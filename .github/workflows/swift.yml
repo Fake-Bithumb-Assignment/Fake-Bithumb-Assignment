@@ -15,4 +15,4 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run tests
       run:
-        xcodebuild test -project ./FakeBithumbAssignment/FakeBithumbAssignment.xcodeproj -scheme FakeBithumbAssignment -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=15.0'
+        xcodebuild test -project ./FakeBithumbAssignment/FakeBithumbAssignment.xcodeproj -scheme FakeBithumbAssignment -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=15.2'
