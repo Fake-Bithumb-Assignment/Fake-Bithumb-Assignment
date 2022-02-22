@@ -13,7 +13,18 @@
 		153D784927C3F07000C940AB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 153D784727C3F07000C940AB /* Main.storyboard */; };
 		153D784B27C3F07100C940AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 153D784A27C3F07100C940AB /* Assets.xcassets */; };
 		153D784E27C3F07100C940AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 153D784C27C3F07100C940AB /* LaunchScreen.storyboard */; };
+		153D786927C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153D786827C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		153D786A27C4CFFC00C940AB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 153D783627C3F06F00C940AB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 153D783D27C3F07000C940AB;
+			remoteInfo = FakeBithumbAssignment;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		153D783E27C3F07000C940AB /* FakeBithumbAssignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FakeBithumbAssignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -24,10 +35,19 @@
 		153D784A27C3F07100C940AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		153D784D27C3F07100C940AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		153D784F27C3F07100C940AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		153D786627C4CFFC00C940AB /* FakeBithumbAssignmentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FakeBithumbAssignmentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		153D786827C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeBithumbAssignmentTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		153D783B27C3F07000C940AB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		153D786327C4CFFC00C940AB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -41,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				153D784027C3F07000C940AB /* FakeBithumbAssignment */,
+				153D786727C4CFFC00C940AB /* FakeBithumbAssignmentTests */,
 				153D783F27C3F07000C940AB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				153D783E27C3F07000C940AB /* FakeBithumbAssignment.app */,
+				153D786627C4CFFC00C940AB /* FakeBithumbAssignmentTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -65,6 +87,14 @@
 				153D784F27C3F07100C940AB /* Info.plist */,
 			);
 			path = FakeBithumbAssignment;
+			sourceTree = "<group>";
+		};
+		153D786727C4CFFC00C940AB /* FakeBithumbAssignmentTests */ = {
+			isa = PBXGroup;
+			children = (
+				153D786827C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift */,
+			);
+			path = FakeBithumbAssignmentTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -87,6 +117,24 @@
 			productReference = 153D783E27C3F07000C940AB /* FakeBithumbAssignment.app */;
 			productType = "com.apple.product-type.application";
 		};
+		153D786527C4CFFC00C940AB /* FakeBithumbAssignmentTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 153D786C27C4CFFC00C940AB /* Build configuration list for PBXNativeTarget "FakeBithumbAssignmentTests" */;
+			buildPhases = (
+				153D786227C4CFFC00C940AB /* Sources */,
+				153D786327C4CFFC00C940AB /* Frameworks */,
+				153D786427C4CFFC00C940AB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				153D786B27C4CFFC00C940AB /* PBXTargetDependency */,
+			);
+			name = FakeBithumbAssignmentTests;
+			productName = FakeBithumbAssignmentTests;
+			productReference = 153D786627C4CFFC00C940AB /* FakeBithumbAssignmentTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -99,6 +147,10 @@
 				TargetAttributes = {
 					153D783D27C3F07000C940AB = {
 						CreatedOnToolsVersion = 13.2.1;
+					};
+					153D786527C4CFFC00C940AB = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = 153D783D27C3F07000C940AB;
 					};
 				};
 			};
@@ -116,6 +168,7 @@
 			projectRoot = "";
 			targets = (
 				153D783D27C3F07000C940AB /* FakeBithumbAssignment */,
+				153D786527C4CFFC00C940AB /* FakeBithumbAssignmentTests */,
 			);
 		};
 /* End PBXProject section */
@@ -128,6 +181,13 @@
 				153D784E27C3F07100C940AB /* LaunchScreen.storyboard in Resources */,
 				153D784B27C3F07100C940AB /* Assets.xcassets in Resources */,
 				153D784927C3F07000C940AB /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		153D786427C4CFFC00C940AB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,7 +204,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		153D786227C4CFFC00C940AB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				153D786927C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		153D786B27C4CFFC00C940AB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 153D783D27C3F07000C940AB /* FakeBithumbAssignment */;
+			targetProxy = 153D786A27C4CFFC00C940AB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		153D784727C3F07000C940AB /* Main.storyboard */ = {
@@ -336,6 +412,42 @@
 			};
 			name = Release;
 		};
+		153D786D27C4CFFC00C940AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fakeBithumbTeam.FakeBithumbAssignmentTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FakeBithumbAssignment.app/FakeBithumbAssignment";
+			};
+			name = Debug;
+		};
+		153D786E27C4CFFC00C940AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fakeBithumbTeam.FakeBithumbAssignmentTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FakeBithumbAssignment.app/FakeBithumbAssignment";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -353,6 +465,15 @@
 			buildConfigurations = (
 				153D785327C3F07100C940AB /* Debug */,
 				153D785427C3F07100C940AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		153D786C27C4CFFC00C940AB /* Build configuration list for PBXNativeTarget "FakeBithumbAssignmentTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				153D786D27C4CFFC00C940AB /* Debug */,
+				153D786E27C4CFFC00C940AB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
