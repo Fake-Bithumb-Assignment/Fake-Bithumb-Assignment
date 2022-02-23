@@ -31,6 +31,8 @@
 		153D784B27C3F07100C940AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 153D784A27C3F07100C940AB /* Assets.xcassets */; };
 		153D784E27C3F07100C940AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 153D784C27C3F07100C940AB /* LaunchScreen.storyboard */; };
 		153D786927C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153D786827C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift */; };
+		7711825CBF106F792BE9AEE8 /* Pods_FakeBithumbAssignmentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1279322932B4E6EF0923160F /* Pods_FakeBithumbAssignmentTests.framework */; };
+		BA184E6AA3D8A24E0F0DD080 /* Pods_FakeBithumbAssignment.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 396F2646855BEFF936DFF560 /* Pods_FakeBithumbAssignment.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1163C06D87FBF0E8CE840CCB /* Pods-FakeBithumbAssignmentTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignmentTests.release.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignmentTests/Pods-FakeBithumbAssignmentTests.release.xcconfig"; sourceTree = "<group>"; };
+		1279322932B4E6EF0923160F /* Pods_FakeBithumbAssignmentTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FakeBithumbAssignmentTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1504F6C327C5F26000A5EC6C /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		1504F6C527C5F3D900A5EC6C /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		1504F6C727C5F40300A5EC6C /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
@@ -71,6 +75,10 @@
 		153D784F27C3F07100C940AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		153D786627C4CFFC00C940AB /* FakeBithumbAssignmentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FakeBithumbAssignmentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		153D786827C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeBithumbAssignmentTests.swift; sourceTree = "<group>"; };
+		396F2646855BEFF936DFF560 /* Pods_FakeBithumbAssignment.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FakeBithumbAssignment.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAB1402CB2E7430FBF8CAFB6 /* Pods-FakeBithumbAssignment.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignment.release.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment.release.xcconfig"; sourceTree = "<group>"; };
+		FAE3F28730A0F75D468665D0 /* Pods-FakeBithumbAssignmentTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignmentTests.debug.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignmentTests/Pods-FakeBithumbAssignmentTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FB1DF18649FC3F7763F4408E /* Pods-FakeBithumbAssignment.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignment.debug.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA184E6AA3D8A24E0F0DD080 /* Pods_FakeBithumbAssignment.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7711825CBF106F792BE9AEE8 /* Pods_FakeBithumbAssignmentTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +150,8 @@
 				153D784027C3F07000C940AB /* FakeBithumbAssignment */,
 				153D786727C4CFFC00C940AB /* FakeBithumbAssignmentTests */,
 				153D783F27C3F07000C940AB /* Products */,
+				527E3AD7F5B3D4AC28CFDCFA /* Pods */,
+				7751250F7A514C3DB0A8E8C9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -300,6 +312,26 @@
 			path = CoinContractDetailsTab;
 			sourceTree = "<group>";
 		};
+		527E3AD7F5B3D4AC28CFDCFA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FB1DF18649FC3F7763F4408E /* Pods-FakeBithumbAssignment.debug.xcconfig */,
+				DAB1402CB2E7430FBF8CAFB6 /* Pods-FakeBithumbAssignment.release.xcconfig */,
+				FAE3F28730A0F75D468665D0 /* Pods-FakeBithumbAssignmentTests.debug.xcconfig */,
+				1163C06D87FBF0E8CE840CCB /* Pods-FakeBithumbAssignmentTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		7751250F7A514C3DB0A8E8C9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				396F2646855BEFF936DFF560 /* Pods_FakeBithumbAssignment.framework */,
+				1279322932B4E6EF0923160F /* Pods_FakeBithumbAssignmentTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -307,9 +339,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 153D785227C3F07100C940AB /* Build configuration list for PBXNativeTarget "FakeBithumbAssignment" */;
 			buildPhases = (
+				EDEAB6F9F087CD694026BBF4 /* [CP] Check Pods Manifest.lock */,
 				153D783A27C3F07000C940AB /* Sources */,
 				153D783B27C3F07000C940AB /* Frameworks */,
 				153D783C27C3F07000C940AB /* Resources */,
+				0A8E0CF58A3AFFE690B40ECE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -324,6 +358,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 153D786C27C4CFFC00C940AB /* Build configuration list for PBXNativeTarget "FakeBithumbAssignmentTests" */;
 			buildPhases = (
+				2B7B8E30E51025257A4EBD24 /* [CP] Check Pods Manifest.lock */,
 				153D786227C4CFFC00C940AB /* Sources */,
 				153D786327C4CFFC00C940AB /* Frameworks */,
 				153D786427C4CFFC00C940AB /* Resources */,
@@ -394,6 +429,70 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0A8E0CF58A3AFFE690B40ECE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2B7B8E30E51025257A4EBD24 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FakeBithumbAssignmentTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EDEAB6F9F087CD694026BBF4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FakeBithumbAssignment-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		153D783A27C3F07000C940AB /* Sources */ = {
@@ -572,6 +671,7 @@
 		};
 		153D785327C3F07100C940AB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FB1DF18649FC3F7763F4408E /* Pods-FakeBithumbAssignment.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -598,6 +698,7 @@
 		};
 		153D785427C3F07100C940AB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DAB1402CB2E7430FBF8CAFB6 /* Pods-FakeBithumbAssignment.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -624,6 +725,7 @@
 		};
 		153D786D27C4CFFC00C940AB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FAE3F28730A0F75D468665D0 /* Pods-FakeBithumbAssignmentTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -642,6 +744,7 @@
 		};
 		153D786E27C4CFFC00C940AB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1163C06D87FBF0E8CE840CCB /* Pods-FakeBithumbAssignmentTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
