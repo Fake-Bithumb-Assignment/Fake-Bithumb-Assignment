@@ -19,7 +19,7 @@ struct WebSocketWrapper {
     /// Optional type인 이유는 WebSocketService에서 Optional type으로 쓰이기 때문.
     init?(of webSocket: WebSocket?) {
         guard let webSocket = webSocket else {
-            return
+            return nil
         }
         self.webSocket = webSocket
     }
