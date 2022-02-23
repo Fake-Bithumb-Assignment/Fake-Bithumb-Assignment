@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class APIService: Requestable {
+final class HttpService: Requestable {
     var requestTimeOut: Float = 30
     
     func request<T: Decodable>(_ request: NetworkRequest) async throws -> T? {
@@ -16,14 +16,14 @@ final class APIService: Requestable {
         
         guard let encodedUrl = request.url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
               let url = URL(string: encodedUrl) else {
-                  throw APIServiceError.urlEncodingError
+                  throw HttpServiceError.urlEncodingError
               }
         
         let (data, response) = try await URLSession.shared.data(for: request.buildURLRequest(with: url))
         
         guard let httpResponse = response as? HTTPURLResponse,
               (200..<500) ~= httpResponse.statusCode else {
-                  throw APIServiceError.serverError
+                  throw HttpServiceError.serverError
               }
         
         let decoder = JSONDecoder()
@@ -31,7 +31,7 @@ final class APIService: Requestable {
         if baseModelData.status == "0000" {
             return baseModelData.data
         } else {
-            throw APIServiceError.clientError(message: baseModelData.message)
+            throw HttpServiceError.clientError(message: baseModelData.message)
         }
     }
 }

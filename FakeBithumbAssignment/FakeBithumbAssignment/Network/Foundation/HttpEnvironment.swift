@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum APIEnvironment {
+enum HttpEnvironment {
     var baseUrl: String {
         return "https://api.bithumb.com/public"
     }
