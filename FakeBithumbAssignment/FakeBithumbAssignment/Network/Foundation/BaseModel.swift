@@ -13,6 +13,6 @@ struct BaseModel<T: Decodable>: Decodable {
     var message: String?
     
     var statusCase: NetworkStatus? {
-        return NetworkStatus(rawValue: status ?? "0000")
+        return NetworkStatus(rawValue: status ?? "5900")
     }
 }
