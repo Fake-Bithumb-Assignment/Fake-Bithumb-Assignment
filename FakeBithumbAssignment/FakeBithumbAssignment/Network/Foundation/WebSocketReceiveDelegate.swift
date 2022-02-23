@@ -10,7 +10,7 @@ import Foundation
 import Starscream
 
 protocol WebSocketReceiveDelegate: WebSocketDelegate {
-    func didReceive(with response: String)
+    func didReceive(with response: String, client: WebSocket)
 }
 
 extension WebSocketReceiveDelegate {
@@ -24,7 +24,7 @@ extension WebSocketReceiveDelegate {
             print("websocket is disconnected: \(reason) with code: \(code)")
         case .text(let string):
             print("Received text: \(string)")
-            didReceive(with: string)
+            didReceive(with: string, client: client)
         case .binary(let data):
             print("Received data: \(data.count)")
         case .ping(_):
