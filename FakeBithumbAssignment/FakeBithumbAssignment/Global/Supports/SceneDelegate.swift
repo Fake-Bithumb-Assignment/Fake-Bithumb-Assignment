@@ -15,7 +15,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = ViewController() 
+        
+        let tabbarController = UITabBarController()
+        let mainViewController = MainViewController()
+        let depositAndWithdrawalViewController = DepositAndWithdrawalViewController()
+        
+        mainViewController.title = "거래소"
+        depositAndWithdrawalViewController.title = "입출금"
+    
+        tabbarController.setViewControllers([mainViewController, depositAndWithdrawalViewController], animated: true)
+        
+        window.rootViewController = tabbarController
         window.makeKeyAndVisible()
         self.window = window
     }

@@ -12,9 +12,14 @@
 		1504F6C827C5F40300A5EC6C /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6C727C5F40300A5EC6C /* BaseTableViewCell.swift */; };
 		1504F6CA27C5F47C00A5EC6C /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6C927C5F47C00A5EC6C /* UIView+Extension.swift */; };
 		1504F6CC27C5F58900A5EC6C /* NSObject+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6CB27C5F58900A5EC6C /* NSObject+Extension.swift */; };
+		1504F6CE27C5F64D00A5EC6C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6CD27C5F64D00A5EC6C /* MainViewController.swift */; };
+		1504F6D027C5F66200A5EC6C /* CoinQuoteInformationTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6CF27C5F66200A5EC6C /* CoinQuoteInformationTabViewController.swift */; };
+		1504F6D227C5F66D00A5EC6C /* CoinGraphTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6D127C5F66D00A5EC6C /* CoinGraphTabViewController.swift */; };
+		1504F6D427C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6D327C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift */; };
+		1504F6D627C5F68E00A5EC6C /* DepositAndWithdrawalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6D527C5F68E00A5EC6C /* DepositAndWithdrawalViewController.swift */; };
+		1504F6D827C5F70B00A5EC6C /* CoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6D727C5F70B00A5EC6C /* CoinViewController.swift */; };
 		153D784227C3F07000C940AB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153D784127C3F07000C940AB /* AppDelegate.swift */; };
 		153D784427C3F07000C940AB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153D784327C3F07000C940AB /* SceneDelegate.swift */; };
-		153D784627C3F07000C940AB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153D784527C3F07000C940AB /* ViewController.swift */; };
 		153D784B27C3F07100C940AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 153D784A27C3F07100C940AB /* Assets.xcassets */; };
 		153D784E27C3F07100C940AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 153D784C27C3F07100C940AB /* LaunchScreen.storyboard */; };
 		153D786927C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153D786827C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift */; };
@@ -36,10 +41,15 @@
 		1504F6C727C5F40300A5EC6C /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		1504F6C927C5F47C00A5EC6C /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		1504F6CB27C5F58900A5EC6C /* NSObject+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Extension.swift"; sourceTree = "<group>"; };
+		1504F6CD27C5F64D00A5EC6C /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		1504F6CF27C5F66200A5EC6C /* CoinQuoteInformationTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinQuoteInformationTabViewController.swift; sourceTree = "<group>"; };
+		1504F6D127C5F66D00A5EC6C /* CoinGraphTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinGraphTabViewController.swift; sourceTree = "<group>"; };
+		1504F6D327C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinContractDetailsTabViewController.swift; sourceTree = "<group>"; };
+		1504F6D527C5F68E00A5EC6C /* DepositAndWithdrawalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositAndWithdrawalViewController.swift; sourceTree = "<group>"; };
+		1504F6D727C5F70B00A5EC6C /* CoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinViewController.swift; sourceTree = "<group>"; };
 		153D783E27C3F07000C940AB /* FakeBithumbAssignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FakeBithumbAssignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		153D784127C3F07000C940AB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		153D784327C3F07000C940AB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		153D784527C3F07000C940AB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		153D784A27C3F07100C940AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		153D784D27C3F07100C940AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		153D784F27C3F07100C940AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -88,7 +98,6 @@
 			children = (
 				15BE7A6227C5DB4E0007FB2F /* Global */,
 				15BE7A6127C5DB470007FB2F /* Network */,
-				153D784527C3F07000C940AB /* ViewController.swift */,
 				15BE7A6327C5DB530007FB2F /* Screens */,
 			);
 			path = FakeBithumbAssignment;
@@ -179,6 +188,7 @@
 		15BE7A6A27C5DC5B0007FB2F /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				1504F6CD27C5F64D00A5EC6C /* MainViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -186,6 +196,7 @@
 		15BE7A6B27C5DC9E0007FB2F /* Coin */ = {
 			isa = PBXGroup;
 			children = (
+				1504F6D727C5F70B00A5EC6C /* CoinViewController.swift */,
 				15BE7A6D27C5E64B0007FB2F /* CoinQuoteInformationTab */,
 				15BE7A6E27C5E6620007FB2F /* CoinGraphTab */,
 				15BE7A6F27C5E6AB0007FB2F /* CoinContractDetailsTab */,
@@ -196,6 +207,7 @@
 		15BE7A6C27C5E6310007FB2F /* DepositAndWithdrawal */ = {
 			isa = PBXGroup;
 			children = (
+				1504F6D527C5F68E00A5EC6C /* DepositAndWithdrawalViewController.swift */,
 			);
 			path = DepositAndWithdrawal;
 			sourceTree = "<group>";
@@ -203,6 +215,7 @@
 		15BE7A6D27C5E64B0007FB2F /* CoinQuoteInformationTab */ = {
 			isa = PBXGroup;
 			children = (
+				1504F6CF27C5F66200A5EC6C /* CoinQuoteInformationTabViewController.swift */,
 			);
 			path = CoinQuoteInformationTab;
 			sourceTree = "<group>";
@@ -210,6 +223,7 @@
 		15BE7A6E27C5E6620007FB2F /* CoinGraphTab */ = {
 			isa = PBXGroup;
 			children = (
+				1504F6D127C5F66D00A5EC6C /* CoinGraphTabViewController.swift */,
 			);
 			path = CoinGraphTab;
 			sourceTree = "<group>";
@@ -217,6 +231,7 @@
 		15BE7A6F27C5E6AB0007FB2F /* CoinContractDetailsTab */ = {
 			isa = PBXGroup;
 			children = (
+				1504F6D327C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift */,
 			);
 			path = CoinContractDetailsTab;
 			sourceTree = "<group>";
@@ -321,12 +336,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1504F6D627C5F68E00A5EC6C /* DepositAndWithdrawalViewController.swift in Sources */,
 				1504F6C627C5F3D900A5EC6C /* BaseCollectionViewCell.swift in Sources */,
 				1504F6CA27C5F47C00A5EC6C /* UIView+Extension.swift in Sources */,
-				153D784627C3F07000C940AB /* ViewController.swift in Sources */,
 				1504F6CC27C5F58900A5EC6C /* NSObject+Extension.swift in Sources */,
 				1504F6C427C5F26000A5EC6C /* BaseViewController.swift in Sources */,
+				1504F6D027C5F66200A5EC6C /* CoinQuoteInformationTabViewController.swift in Sources */,
 				153D784227C3F07000C940AB /* AppDelegate.swift in Sources */,
+				1504F6CE27C5F64D00A5EC6C /* MainViewController.swift in Sources */,
+				1504F6D427C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift in Sources */,
+				1504F6D227C5F66D00A5EC6C /* CoinGraphTabViewController.swift in Sources */,
+				1504F6D827C5F70B00A5EC6C /* CoinViewController.swift in Sources */,
 				1504F6C827C5F40300A5EC6C /* BaseTableViewCell.swift in Sources */,
 				153D784427C3F07000C940AB /* SceneDelegate.swift in Sources */,
 			);
