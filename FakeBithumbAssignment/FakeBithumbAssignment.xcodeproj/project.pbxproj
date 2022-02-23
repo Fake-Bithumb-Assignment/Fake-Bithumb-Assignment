@@ -76,12 +76,10 @@
 		153D784027C3F07000C940AB /* FakeBithumbAssignment */ = {
 			isa = PBXGroup;
 			children = (
-				153D784127C3F07000C940AB /* AppDelegate.swift */,
-				153D784327C3F07000C940AB /* SceneDelegate.swift */,
+				15BE7A6227C5DB4E0007FB2F /* Global */,
+				15BE7A6127C5DB470007FB2F /* Network */,
 				153D784527C3F07000C940AB /* ViewController.swift */,
-				153D784A27C3F07100C940AB /* Assets.xcassets */,
-				153D784C27C3F07100C940AB /* LaunchScreen.storyboard */,
-				153D784F27C3F07100C940AB /* Info.plist */,
+				15BE7A6327C5DB530007FB2F /* Screens */,
 			);
 			path = FakeBithumbAssignment;
 			sourceTree = "<group>";
@@ -92,6 +90,120 @@
 				153D786827C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift */,
 			);
 			path = FakeBithumbAssignmentTests;
+			sourceTree = "<group>";
+		};
+		15BE7A6127C5DB470007FB2F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		15BE7A6227C5DB4E0007FB2F /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				15BE7A6427C5DB740007FB2F /* Base */,
+				15BE7A6527C5DB7B0007FB2F /* Extension */,
+				15BE7A6727C5DB8C0007FB2F /* Utils */,
+				15BE7A6827C5DB990007FB2F /* Supports */,
+				15BE7A6627C5DB820007FB2F /* Resource */,
+			);
+			path = Global;
+			sourceTree = "<group>";
+		};
+		15BE7A6327C5DB530007FB2F /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				15BE7A6A27C5DC5B0007FB2F /* Main */,
+				15BE7A6B27C5DC9E0007FB2F /* Coin */,
+				15BE7A6C27C5E6310007FB2F /* DepositAndWithdrawal */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		15BE7A6427C5DB740007FB2F /* Base */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		15BE7A6527C5DB7B0007FB2F /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		15BE7A6627C5DB820007FB2F /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				153D784A27C3F07100C940AB /* Assets.xcassets */,
+				153D784C27C3F07100C940AB /* LaunchScreen.storyboard */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		15BE7A6727C5DB8C0007FB2F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		15BE7A6827C5DB990007FB2F /* Supports */ = {
+			isa = PBXGroup;
+			children = (
+				153D784127C3F07000C940AB /* AppDelegate.swift */,
+				153D784327C3F07000C940AB /* SceneDelegate.swift */,
+				153D784F27C3F07100C940AB /* Info.plist */,
+			);
+			path = Supports;
+			sourceTree = "<group>";
+		};
+		15BE7A6A27C5DC5B0007FB2F /* Main */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		15BE7A6B27C5DC9E0007FB2F /* Coin */ = {
+			isa = PBXGroup;
+			children = (
+				15BE7A6D27C5E64B0007FB2F /* CoinQuoteInformationTab */,
+				15BE7A6E27C5E6620007FB2F /* CoinGraphTab */,
+				15BE7A6F27C5E6AB0007FB2F /* CoinContractDetailsTab */,
+			);
+			path = Coin;
+			sourceTree = "<group>";
+		};
+		15BE7A6C27C5E6310007FB2F /* DepositAndWithdrawal */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DepositAndWithdrawal;
+			sourceTree = "<group>";
+		};
+		15BE7A6D27C5E64B0007FB2F /* CoinQuoteInformationTab */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CoinQuoteInformationTab;
+			sourceTree = "<group>";
+		};
+		15BE7A6E27C5E6620007FB2F /* CoinGraphTab */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CoinGraphTab;
+			sourceTree = "<group>";
+		};
+		15BE7A6F27C5E6AB0007FB2F /* CoinContractDetailsTab */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CoinContractDetailsTab;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
