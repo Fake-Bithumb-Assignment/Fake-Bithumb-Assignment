@@ -10,6 +10,8 @@
 		1504F6C427C5F26000A5EC6C /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6C327C5F26000A5EC6C /* BaseViewController.swift */; };
 		1504F6C627C5F3D900A5EC6C /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6C527C5F3D900A5EC6C /* BaseCollectionViewCell.swift */; };
 		1504F6C827C5F40300A5EC6C /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6C727C5F40300A5EC6C /* BaseTableViewCell.swift */; };
+		1504F6CA27C5F47C00A5EC6C /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6C927C5F47C00A5EC6C /* UIView+Extension.swift */; };
+		1504F6CC27C5F58900A5EC6C /* NSObject+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6CB27C5F58900A5EC6C /* NSObject+Extension.swift */; };
 		153D784227C3F07000C940AB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153D784127C3F07000C940AB /* AppDelegate.swift */; };
 		153D784427C3F07000C940AB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153D784327C3F07000C940AB /* SceneDelegate.swift */; };
 		153D784627C3F07000C940AB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153D784527C3F07000C940AB /* ViewController.swift */; };
@@ -32,6 +34,8 @@
 		1504F6C327C5F26000A5EC6C /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		1504F6C527C5F3D900A5EC6C /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		1504F6C727C5F40300A5EC6C /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
+		1504F6C927C5F47C00A5EC6C /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		1504F6CB27C5F58900A5EC6C /* NSObject+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Extension.swift"; sourceTree = "<group>"; };
 		153D783E27C3F07000C940AB /* FakeBithumbAssignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FakeBithumbAssignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		153D784127C3F07000C940AB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		153D784327C3F07000C940AB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -140,6 +144,8 @@
 		15BE7A6527C5DB7B0007FB2F /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				1504F6C927C5F47C00A5EC6C /* UIView+Extension.swift */,
+				1504F6CB27C5F58900A5EC6C /* NSObject+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -316,7 +322,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1504F6C627C5F3D900A5EC6C /* BaseCollectionViewCell.swift in Sources */,
+				1504F6CA27C5F47C00A5EC6C /* UIView+Extension.swift in Sources */,
 				153D784627C3F07000C940AB /* ViewController.swift in Sources */,
+				1504F6CC27C5F58900A5EC6C /* NSObject+Extension.swift in Sources */,
 				1504F6C427C5F26000A5EC6C /* BaseViewController.swift in Sources */,
 				153D784227C3F07000C940AB /* AppDelegate.swift in Sources */,
 				1504F6C827C5F40300A5EC6C /* BaseTableViewCell.swift in Sources */,
