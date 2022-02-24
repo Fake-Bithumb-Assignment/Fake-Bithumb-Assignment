@@ -11,7 +11,7 @@ struct BTSocketApiService: BTSocketApiServiceable {
     
     // MARK: - Instance Property
     
-    private let baseUrl: URL? = URL(string: "wss://pubwss.bithumb.com/pub/ws")
+    private let baseURL: URL? = URL(string: "wss://pubwss.bithumb.com/pub/ws")
     private let jsonEncoder: JSONEncoder = JSONEncoder()
     private let webSocketService: WebSocketService = WebSocketService()
     
@@ -23,10 +23,10 @@ struct BTSocketApiService: BTSocketApiServiceable {
         responseHandler: @escaping (BTSocketApiResponse.TickerResponse, WebSocketWrapper?) -> Void
     ) {
         let request = BTSocketApiRequest(type: .ticker, symbols: symbols, tickTypes: tickTypes)
-        guard let baseUrl = baseUrl, let filter = try? jsonEncoder.encode(request) else {
+        guard let baseURL = baseURL, let filter = try? jsonEncoder.encode(request) else {
             return
         }
-        webSocketService.subscribe(to: baseUrl, writeWith: filter, responseHandler)
+        webSocketService.subscribe(to: baseURL, writeWith: filter, responseHandler)
     }
     
     func connectTransaction(
@@ -34,10 +34,10 @@ struct BTSocketApiService: BTSocketApiServiceable {
         responseHandler: @escaping (BTSocketApiResponse.TransactionResponse, WebSocketWrapper?) -> Void
     ) {
         let request = BTSocketApiRequest(type: .transaction, symbols: symbols, tickTypes: nil)
-        guard let baseUrl = baseUrl, let filter = try? jsonEncoder.encode(request) else {
+        guard let baseURL = baseURL, let filter = try? jsonEncoder.encode(request) else {
             return
         }
-        webSocketService.subscribe(to: baseUrl, writeWith: filter, responseHandler)
+        webSocketService.subscribe(to: baseURL, writeWith: filter, responseHandler)
     }
     
     func connectOrderBook(
@@ -45,9 +45,9 @@ struct BTSocketApiService: BTSocketApiServiceable {
         responseHandler: @escaping (BTSocketApiResponse.OrderBookResponse, WebSocketWrapper?) -> Void
     ) {
         let request = BTSocketApiRequest(type: .orderBook, symbols: symbols, tickTypes: nil)
-        guard let baseUrl = baseUrl, let filter = try? jsonEncoder.encode(request) else {
+        guard let baseURL = baseURL, let filter = try? jsonEncoder.encode(request) else {
             return
         }
-        webSocketService.subscribe(to: baseUrl, writeWith: filter, responseHandler)
+        webSocketService.subscribe(to: baseURL, writeWith: filter, responseHandler)
     }
 }
