@@ -8,27 +8,30 @@
 import Foundation
 
 /// 빗썸 web socket api의 선언부가 있는 프로토콜
-protocol BitThumbWebSocketApiServiceable {
+protocol BTSocketApiServiceable {
     /// 현재가 ticker
     ///
     /// - Parameter symbols 통화코드
     /// - Parameter tickTypes: tick 종류
     /// - Parameter responseHander: web socket response와 disconnnect할 WebSocketWrapper 파라미터 타입의 클로져
-    func connectTicker(symbols: [BitThumbWebSocketApiRequest.Symbol],
-                       tickTypes: [BitThumbWebSocketApiRequest.TickType]?,
-                       responseHandler: @escaping (BitThumbWebSocketApiResponse.TickerResponse, WebSocketWrapper?) -> Void)
+    func connectTicker(
+        symbols: [BTSocketApiRequest.Symbol],
+        tickTypes: [BTSocketApiRequest.TickType]?,
+        responseHandler: @escaping (BTSocketApiResponse.TickerResponse, WebSocketWrapper?) -> Void)
     
     /// 체결 transaction
     ///
     /// - Parameter symbols: 통화코드
     /// - Parameter responseHander: web socket response와 disconnnect할 WebSocketWrapper 파라미터 타입의 클로져
-    func connectTransaction(symbols: [BitThumbWebSocketApiRequest.Symbol],
-                            responseHandler: @escaping (BitThumbWebSocketApiResponse.TransactionResponse, WebSocketWrapper?) -> Void)
+    func connectTransaction(
+        symbols: [BTSocketApiRequest.Symbol],
+        responseHandler: @escaping (BTSocketApiResponse.TransactionResponse, WebSocketWrapper?) -> Void)
     
     /// 호가 orderbook
     ///
     /// - Parameter symbols: 통화코드
     /// - Parameter responseHander: web socket response와 disconnnect할 WebSocketWrapper 파라미터 타입의 클로져
-    func connectOrderBook(symbols: [BitThumbWebSocketApiRequest.Symbol],
-                          responseHandler: @escaping (BitThumbWebSocketApiResponse.OrderBookResponse, WebSocketWrapper?) -> Void)
+    func connectOrderBook(
+        symbols: [BTSocketApiRequest.Symbol],
+        responseHandler: @escaping (BTSocketApiResponse.OrderBookResponse, WebSocketWrapper?) -> Void)
 }
