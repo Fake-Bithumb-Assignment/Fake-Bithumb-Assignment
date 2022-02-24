@@ -18,24 +18,27 @@ class WebSocketService {
     
     // MARK: - custom func
     
-    func subscribe<T: Decodable>(
+    func connect<T: Decodable>(
         to url: URL,
         writeWith filter: Data?,
         _ responseHandler: @escaping (T, WebSocketWrapper?) -> Void
     ) {
         var request = URLRequest(url: url)
         request.timeoutInterval = timeOutInterval
-        socket = WebSocket(request: request)
-        socket?.setOnEvent(with: responseHandler)
-        socket?.connect()
+        self.socket = WebSocket(request: request)
+        guard let socket = self.socket else {
+            return
+        }
+        socket.setOnEvent(with: responseHandler)
+        socket.connect()
         guard let filter = filter else {
             return
         }
-        socket?.write(data: filter)
+        socket.write(data: filter)
     }
     
     func disconnect() {
-        socket?.disconnect()
+        self.socket?.disconnect()
     }
 }
 
@@ -64,7 +67,6 @@ extension WebSocket {
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let jsonDecoder = JSONDecoder()
         jsonDecoder.dateDecodingStrategy = .formatted(dateFormatter)
-        
         guard let decodedResponse = jsonDecoder.decode(T.self, from: stringResponse) else {
             return
         }

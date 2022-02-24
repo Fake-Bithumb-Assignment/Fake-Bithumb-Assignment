@@ -77,6 +77,6 @@ struct BTSocketApiService: BTSocketApiServiceable {
         } else {
             self.socketServiceByType[requestType] = WebSocketService()
         }
-        self.socketServiceByType[requestType]?.subscribe(to: baseURL, writeWith: filter, responseHandler)
+        self.socketServiceByType[requestType]?.connect(to: baseURL, writeWith: filter, responseHandler)
     }
 }
