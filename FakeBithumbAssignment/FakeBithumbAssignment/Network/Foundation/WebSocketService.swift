@@ -18,17 +18,24 @@ class WebSocketService {
     // MARK: - custom func
     
     func subscribe<T: Decodable>(to url: URL,
-                                 writeWith filter: String?,
+                                 writeWith filter: Data?,
                                  _ responseHandler: @escaping (T, WebSocketWrapper?) -> Void) {
         var request = URLRequest(url: url)
         request.timeoutInterval = timeOutInterval
         let socket = WebSocket(request: request)
         socket.setOnEvent(with: responseHandler)
         socket.connect()
+        guard let filter = filter else {
+            return
+        }
+        socket.write(data: filter)
     }
 }
 
 extension WebSocket {
+    
+    // MARK: - custom func
+
     func setOnEvent<T:Decodable>(with responseHandler: @escaping (T, WebSocketWrapper?) -> Void) {
         self.onEvent = { [weak self] event in
             switch event {

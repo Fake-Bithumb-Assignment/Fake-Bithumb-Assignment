@@ -16,19 +16,19 @@ protocol BitThumbWebSocketApiServiceable {
     /// - Parameter responseHander: web socket response와 disconnnect할 WebSocketWrapper 파라미터 타입의 클로져
     func connectTicker(symbols: [BitThumbWebSocketApiRequest.Symbol],
                        tickTypes: [BitThumbWebSocketApiRequest.TickType]?,
-                       responseHandler: (BitThumbWebSocketApiResponse.TickerResponse, WebSocketWrapper) -> Void)
+                       responseHandler: @escaping (BitThumbWebSocketApiResponse.TickerResponse, WebSocketWrapper?) -> Void)
     
     /// 체결 transaction
     ///
     /// - Parameter symbols: 통화코드
     /// - Parameter responseHander: web socket response와 disconnnect할 WebSocketWrapper 파라미터 타입의 클로져
     func connectTransaction(symbols: [BitThumbWebSocketApiRequest.Symbol],
-                            responseHandler: (BitThumbWebSocketApiResponse.TransactionResponse, WebSocketWrapper) -> Void)
-
+                            responseHandler: @escaping (BitThumbWebSocketApiResponse.TransactionResponse, WebSocketWrapper?) -> Void)
+    
     /// 호가 orderbook
     ///
     /// - Parameter symbols: 통화코드
     /// - Parameter responseHander: web socket response와 disconnnect할 WebSocketWrapper 파라미터 타입의 클로져
     func connectOrderBook(symbols: [BitThumbWebSocketApiRequest.Symbol],
-                            responseHandler: (BitThumbWebSocketApiResponse.OrderBookResponse, WebSocketWrapper) -> Void)
+                          responseHandler: @escaping (BitThumbWebSocketApiResponse.OrderBookResponse, WebSocketWrapper?) -> Void)
 }
