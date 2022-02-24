@@ -134,7 +134,7 @@
 			isa = PBXGroup;
 			children = (
 			);
-			path = API;
+			name = API;
 			sourceTree = "<group>";
 		};
 		1504F72127C6310100A5EC6C /* APIService */ = {
@@ -150,7 +150,7 @@
 				FAC7F95A27C65A60001E11DA /* BitThumbWebSocketApiResponse.swift */,
 				FAC7F95C27C65AC0001E11DA /* BitThumbWebSocketApiRequest.swift */,
 			);
-			path = Model;
+			name = Model;
 			sourceTree = "<group>";
 		};
 		1504F72327C6310F00A5EC6C /* Serviceable */ = {
@@ -158,7 +158,7 @@
 			children = (
 				FAC7F95827C657C4001E11DA /* BitThumbWebSocketApiServiceable.swift */,
 			);
-			path = Serviceable;
+			name = Serviceable;
 			sourceTree = "<group>";
 		};
 		153D783527C3F06F00C940AB = {
@@ -266,7 +266,7 @@
 			isa = PBXGroup;
 			children = (
 			);
-			path = Utils;
+			name = Utils;
 			sourceTree = "<group>";
 		};
 		15BE7A6827C5DB990007FB2F /* Supports */ = {
