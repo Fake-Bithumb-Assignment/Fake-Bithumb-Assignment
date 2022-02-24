@@ -8,7 +8,7 @@
 import Foundation
 
 /// 빗썸 Web Socket API 요청 시 사용되는 필터
-struct BitThumbWebSocketApiRequest: Codable {
+struct BitThumbWebSocketApiRequest: Encodable {
     
     // MARK: - Instance Property
     
@@ -17,10 +17,10 @@ struct BitThumbWebSocketApiRequest: Codable {
     /// 통화코드
     let symbols: [Symbol]
     /// tick 종류
-    let tickTypes: [TickType]?
+    let tickTypes: [TickType]? = nil
     
     /// 구독 메시지 종류
-    enum RequestType: String, Codable {
+    enum RequestType: String, Encodable {
         /// 현재가
         case ticker = "ticker"
         /// 체결
@@ -30,13 +30,13 @@ struct BitThumbWebSocketApiRequest: Codable {
     }
     
     /// 통화코드
-    enum Symbol: String, Codable {
+    enum Symbol: String, Encodable {
         case btc = "BTC_KRW"
         case eth = "ETH_KRW"
     }
     
     /// tick 종류
-    enum TickType: String, Codable {
+    enum TickType: String, Encodable {
         case _30m = "30M"
         case _1h = "1H"
         case _12h = "12H"

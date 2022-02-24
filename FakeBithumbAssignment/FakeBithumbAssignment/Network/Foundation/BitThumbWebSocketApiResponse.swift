@@ -10,7 +10,7 @@ import Foundation
 /// 빗썸 Web Socket API Response 응답
 struct BitThumbWebSocketApiResponse {
     /// 구독 메시지 종류
-    enum ResponseType: String, Codable {
+    enum ResponseType: String, Decodable {
         /// 현재가
         case ticker
         /// 체결
@@ -26,7 +26,7 @@ struct BitThumbWebSocketApiResponse {
     }
     
     /// 통화코드
-    enum Symbol: String, Codable {
+    enum Symbol: String, Decodable {
         case btc
         case eth
         
@@ -37,7 +37,7 @@ struct BitThumbWebSocketApiResponse {
     }
     
     /// tick 종류
-    enum TickType: String, Codable {
+    enum TickType: String, Decodable {
         case _30m
         case _1h
         case _12h
@@ -54,14 +54,14 @@ struct BitThumbWebSocketApiResponse {
     }
     
     /// Ticker API 응답
-    struct TickerResponse: Codable {
+    struct TickerResponse: Decodable {
         /// WebSocket API type
         let type: ResponseType
         /// Ticker 응답의 유의미한 값
         let content: Ticker
         
         /// Ticker 응답의 유의미한 값
-        struct Ticker: Codable {
+        struct Ticker: Decodable {
             /// 통화 코드
             let symbol: Symbol
             /// 변동 기준시간- 30M, 1H, 12H, 24H, MID
@@ -98,19 +98,19 @@ struct BitThumbWebSocketApiResponse {
     }
     
     /// Transaction API 응답
-    struct TransactionResponse: Codable {
+    struct TransactionResponse: Decodable {
         /// WebSocket API type
         let type: ResponseType
         /// Transaction API의 유의미한 값
         let content: Content
         
         /// Transaction API의 유의미한 값
-        struct Content: Codable {
+        struct Content: Decodable {
             /// 체결 이력
             let list: [Transaction]
             
             /// 체결
-            struct Transaction: Codable {
+            struct Transaction: Decodable {
                 /// 통화코드
                 let symbol: Symbol
                 /// 체결종류
@@ -127,7 +127,7 @@ struct BitThumbWebSocketApiResponse {
                 let updn: UpDown
                 
                 /// 체결종류
-                enum BuyCell: Codable {
+                enum BuyCell: Decodable {
                     /// 매도체결
                     case sell
                     /// 매수체결
@@ -140,7 +140,7 @@ struct BitThumbWebSocketApiResponse {
                 }
                 
                 /// 직전시세와 비교
-                enum UpDown: Codable {
+                enum UpDown: Decodable {
                     /// 상승
                     case up
                     /// 하락
@@ -156,21 +156,21 @@ struct BitThumbWebSocketApiResponse {
     }
     
     /// OrderBook API 응답
-    struct OrderBookResponse: Codable {
+    struct OrderBookResponse: Decodable {
         /// WebSocket API type
         let type: ResponseType
         /// OrderBook API의 유의미한 값
         let content: Content
         
         /// OrderBook API의 유의미한 값
-        struct Content: Codable {
+        struct Content: Decodable {
             /// 호가 이력
             let list: [OrderBook]
             /// 일시
             let dateTime: Int
             
             /// 호가
-            struct OrderBook: Codable {
+            struct OrderBook: Decodable {
                 /// 통화코드
                 let symbol: Symbol
                 /// 주문 타입
@@ -183,7 +183,7 @@ struct BitThumbWebSocketApiResponse {
                 let total: Int
                 
                 /// 주문 타입
-                enum OrderType: Codable {
+                enum OrderType: Decodable {
                     /// 매도
                     case ask
                     /// 매수
