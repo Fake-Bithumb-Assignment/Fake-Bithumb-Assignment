@@ -21,7 +21,7 @@ class WebSocketService {
     func connect<T: Decodable>(
         to url: URL,
         writeWith filter: Data?,
-        _ responseHandler: @escaping (T, WebSocketWrapper?) -> Void
+        _ responseHandler: @escaping (T) -> Void
     ) {
         var request = URLRequest(url: url)
         request.timeoutInterval = timeOutInterval
@@ -46,7 +46,7 @@ extension WebSocket {
     
     // MARK: - custom func
     
-    func setOnEvent<T:Decodable>(with responseHandler: @escaping (T, WebSocketWrapper?) -> Void) {
+    func setOnEvent<T:Decodable>(with responseHandler: @escaping (T) -> Void) {
         self.onEvent = { [weak self] event in
             switch event {
             case .text(let jsonString):
@@ -61,7 +61,7 @@ extension WebSocket {
     
     private func handleStringResponse<T:Decodable>(
         of stringResponse: String,
-        with responseHandler: (T, WebSocketWrapper?) -> Void
+        with responseHandler: (T) -> Void
     ) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -70,7 +70,7 @@ extension WebSocket {
         guard let decodedResponse = jsonDecoder.decode(T.self, from: stringResponse) else {
             return
         }
-        responseHandler(decodedResponse, WebSocketWrapper(of: self))
+        responseHandler(decodedResponse)
     }
     
     private func handleErrorResponse(of error: Error?) {

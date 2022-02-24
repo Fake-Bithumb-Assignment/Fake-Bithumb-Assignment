@@ -20,7 +20,7 @@ struct BTSocketApiService: BTSocketApiServiceable {
     mutating func connectTicker(
         symbols: [BTSocketApiRequest.Symbol],
         tickTypes: [BTSocketApiRequest.TickType]?,
-        responseHandler: @escaping (BTSocketApiResponse.TickerResponse, WebSocketWrapper?) -> Void
+        responseHandler: @escaping (BTSocketApiResponse.TickerResponse) -> Void
     ) {
         let request = BTSocketApiRequest(type: .ticker, symbols: symbols, tickTypes: tickTypes)
         guard let filter = try? self.jsonEncoder.encode(request) else {
@@ -31,7 +31,7 @@ struct BTSocketApiService: BTSocketApiServiceable {
     
     mutating func connectTransaction(
         symbols: [BTSocketApiRequest.Symbol],
-        responseHandler: @escaping (BTSocketApiResponse.TransactionResponse, WebSocketWrapper?) -> Void
+        responseHandler: @escaping (BTSocketApiResponse.TransactionResponse) -> Void
     ) {
         let request = BTSocketApiRequest(type: .transaction, symbols: symbols, tickTypes: nil)
         guard let filter = try? self.jsonEncoder.encode(request) else {
@@ -42,7 +42,7 @@ struct BTSocketApiService: BTSocketApiServiceable {
     
     mutating func connectOrderBook(
         symbols: [BTSocketApiRequest.Symbol],
-        responseHandler: @escaping (BTSocketApiResponse.OrderBookResponse, WebSocketWrapper?) -> Void
+        responseHandler: @escaping (BTSocketApiResponse.OrderBookResponse) -> Void
     ) {
         let request = BTSocketApiRequest(type: .orderBook, symbols: symbols, tickTypes: nil)
         guard let filter = try? self.jsonEncoder.encode(request) else {
@@ -67,7 +67,7 @@ struct BTSocketApiService: BTSocketApiServiceable {
     private mutating func subscribe<T: Decodable>(
         of requestType: BTSocketApiRequest.RequestType,
         writeWith filter: Data,
-        responseHandler: @escaping (T, WebSocketWrapper?) -> Void
+        responseHandler: @escaping (T) -> Void
     ) {
         guard let baseURL = self.baseURL else {
             return

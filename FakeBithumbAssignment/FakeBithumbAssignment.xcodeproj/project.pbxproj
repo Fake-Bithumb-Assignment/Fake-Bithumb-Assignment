@@ -38,7 +38,6 @@
 		FAC7F95927C657C4001E11DA /* BTSocketApiServiceable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F95827C657C4001E11DA /* BTSocketApiServiceable.swift */; };
 		FAC7F95B27C65A60001E11DA /* BTSocketApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F95A27C65A60001E11DA /* BTSocketApiResponse.swift */; };
 		FAC7F95D27C65AC0001E11DA /* BTSocketApiRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F95C27C65AC0001E11DA /* BTSocketApiRequest.swift */; };
-		FAC7F95F27C6EF2B001E11DA /* WebSocketWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F95E27C6EF2B001E11DA /* WebSocketWrapper.swift */; };
 		FAC7F96127C768B5001E11DA /* JSONDecoder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F96027C768B5001E11DA /* JSONDecoder+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -91,7 +90,6 @@
 		FAC7F95827C657C4001E11DA /* BTSocketApiServiceable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BTSocketApiServiceable.swift; path = FakeBithumbAssignment/Network/Foundation/BTSocketApiServiceable.swift; sourceTree = SOURCE_ROOT; };
 		FAC7F95A27C65A60001E11DA /* BTSocketApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BTSocketApiResponse.swift; path = FakeBithumbAssignment/Network/Foundation/BTSocketApiResponse.swift; sourceTree = SOURCE_ROOT; };
 		FAC7F95C27C65AC0001E11DA /* BTSocketApiRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BTSocketApiRequest.swift; path = FakeBithumbAssignment/Network/Foundation/BTSocketApiRequest.swift; sourceTree = SOURCE_ROOT; };
-		FAC7F95E27C6EF2B001E11DA /* WebSocketWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketWrapper.swift; sourceTree = "<group>"; };
 		FAC7F96027C768B5001E11DA /* JSONDecoder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,7 +125,6 @@
 				1504F73327C6339D00A5EC6C /* HttpService.swift */,
 				1504F73527C6363400A5EC6C /* NetworkStatus.swift */,
 				FA79223227C63F3700D1246A /* WebSocketService.swift */,
-				FAC7F95E27C6EF2B001E11DA /* WebSocketWrapper.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -539,7 +536,6 @@
 				153D784227C3F07000C940AB /* AppDelegate.swift in Sources */,
 				1504F6CE27C5F64D00A5EC6C /* MainViewController.swift in Sources */,
 				1504F73627C6363400A5EC6C /* NetworkStatus.swift in Sources */,
-				FAC7F95F27C6EF2B001E11DA /* WebSocketWrapper.swift in Sources */,
 				FA041BBC27C7FA5F0053C996 /* BTSocketApiService.swift in Sources */,
 				1504F6D427C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift in Sources */,
 				1504F6D227C5F66D00A5EC6C /* CoinGraphTabViewController.swift in Sources */,
