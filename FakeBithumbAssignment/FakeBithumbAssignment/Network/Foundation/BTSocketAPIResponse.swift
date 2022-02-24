@@ -8,7 +8,7 @@
 import Foundation
 
 /// 빗썸 Web Socket API Response 응답
-struct BTSocketApiResponse {
+struct BTSocketAPIResponse {
     /// 구독 메시지 종류
     enum ResponseType: String, Decodable {
         /// 현재가

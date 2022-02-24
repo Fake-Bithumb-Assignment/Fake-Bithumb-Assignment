@@ -7,22 +7,22 @@
 
 import Foundation
 
-struct BTSocketApiService: BTSocketApiServiceable {
+struct BTSocketAPIService: BTSocketAPIServiceable {
     
     // MARK: - Instance Property
     
     private let baseURL: URL? = URL(string: "wss://pubwss.bithumb.com/pub/ws")
     private let jsonEncoder: JSONEncoder = JSONEncoder()
-    private var socketServiceByType: [BTSocketApiRequest.RequestType: WebSocketService] = [:]
+    private var socketServiceByType: [BTSocketAPIRequest.RequestType: WebSocketService] = [:]
     
     // MARK: - custom func
     
     mutating func connectTicker(
-        symbols: [BTSocketApiRequest.Symbol],
-        tickTypes: [BTSocketApiRequest.TickType]?,
-        responseHandler: @escaping (BTSocketApiResponse.TickerResponse) -> Void
+        symbols: [BTSocketAPIRequest.Symbol],
+        tickTypes: [BTSocketAPIRequest.TickType]?,
+        responseHandler: @escaping (BTSocketAPIResponse.TickerResponse) -> Void
     ) {
-        let request = BTSocketApiRequest(type: .ticker, symbols: symbols, tickTypes: tickTypes)
+        let request = BTSocketAPIRequest(type: .ticker, symbols: symbols, tickTypes: tickTypes)
         guard let filter = try? self.jsonEncoder.encode(request) else {
             return
         }
@@ -30,10 +30,10 @@ struct BTSocketApiService: BTSocketApiServiceable {
     }
     
     mutating func connectTransaction(
-        symbols: [BTSocketApiRequest.Symbol],
-        responseHandler: @escaping (BTSocketApiResponse.TransactionResponse) -> Void
+        symbols: [BTSocketAPIRequest.Symbol],
+        responseHandler: @escaping (BTSocketAPIResponse.TransactionResponse) -> Void
     ) {
-        let request = BTSocketApiRequest(type: .transaction, symbols: symbols, tickTypes: nil)
+        let request = BTSocketAPIRequest(type: .transaction, symbols: symbols, tickTypes: nil)
         guard let filter = try? self.jsonEncoder.encode(request) else {
             return
         }
@@ -41,17 +41,17 @@ struct BTSocketApiService: BTSocketApiServiceable {
     }
     
     mutating func connectOrderBook(
-        symbols: [BTSocketApiRequest.Symbol],
-        responseHandler: @escaping (BTSocketApiResponse.OrderBookResponse) -> Void
+        symbols: [BTSocketAPIRequest.Symbol],
+        responseHandler: @escaping (BTSocketAPIResponse.OrderBookResponse) -> Void
     ) {
-        let request = BTSocketApiRequest(type: .orderBook, symbols: symbols, tickTypes: nil)
+        let request = BTSocketAPIRequest(type: .orderBook, symbols: symbols, tickTypes: nil)
         guard let filter = try? self.jsonEncoder.encode(request) else {
             return
         }
         self.subscribe(of: .orderBook, writeWith: filter, responseHandler: responseHandler)
     }
     
-    func disconnect(of requestType: BTSocketApiRequest.RequestType) {
+    func disconnect(of requestType: BTSocketAPIRequest.RequestType) {
         guard let socketService = self.socketServiceByType[requestType] else {
             return
         }
@@ -59,13 +59,13 @@ struct BTSocketApiService: BTSocketApiServiceable {
     }
     
     func disconnectAll() {
-        BTSocketApiRequest.RequestType.allCases.forEach { requestType in
+        BTSocketAPIRequest.RequestType.allCases.forEach { requestType in
             self.disconnect(of: requestType)
         }
     }
     
     private mutating func subscribe<T: Decodable>(
-        of requestType: BTSocketApiRequest.RequestType,
+        of requestType: BTSocketAPIRequest.RequestType,
         writeWith filter: Data,
         responseHandler: @escaping (T) -> Void
     ) {
