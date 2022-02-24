@@ -8,7 +8,7 @@
 import Foundation
 
 /// 빗썸 Web Socket API Response 응답
-struct WebSocketApiResponse {
+struct BitThumbWebSocketApiResponse {
     /// 구독 메시지 종류
     enum ResponseType: String, Codable {
         /// 현재가

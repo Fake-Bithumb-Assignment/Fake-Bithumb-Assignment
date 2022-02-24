@@ -8,7 +8,7 @@
 import Foundation
 
 /// 빗썸 Web Socket API 요청 시 사용되는 필터
-struct WebSocketApiRequest {
+struct BitThumbWebSocketApiRequest {
     /// 구독 메시지 종류
     enum RequestType: String {
         /// 현재가
