@@ -37,6 +37,8 @@ final class HeaderView: UIView {
         return button
     }()
 
+    private let columnNameView = ColumnNameView()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
@@ -50,6 +52,7 @@ final class HeaderView: UIView {
         configureSearchBar()
         configureCategories()
         configureSettingButton()
+        configureColumnNameView()
     }
 
     private func configureSearchBar() {
@@ -66,7 +69,7 @@ final class HeaderView: UIView {
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview().multipliedBy(0.7)
             make.top.equalTo(searchBar.snp.bottom)
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().dividedBy(1.3)
         }
         setUpCategories()
     }
@@ -115,6 +118,15 @@ final class HeaderView: UIView {
         }
 
         return action
+    }
+
+    private func configureColumnNameView() {
+        self.addSubview(columnNameView)
+        columnNameView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(categoryView.snp.bottom)
+            make.bottom.equalToSuperview()
+        }
     }
 }
 
