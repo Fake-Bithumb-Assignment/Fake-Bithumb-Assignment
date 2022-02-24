@@ -11,20 +11,30 @@ import SnapKit
 
 final class HeaderView: UIView {
     private let categoryLabels = ["원화", "관심"]
-    
+
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "코인명 또는 심볼 검색"
         searchBar.barTintColor = .white
         return searchBar
     }()
-    
+
     private let categoryView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .vertical
         let view = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         view.backgroundColor = .white
         return view
+    }()
+
+    private let settingButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("인기", for: .normal)
+        button.setTitleColor(.darkGray, for: .normal)
+        button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+        button.tintColor = .darkGray
+        button.semanticContentAttribute = .forceRightToLeft
+        return button
     }()
 
     override init(frame: CGRect) {
@@ -39,8 +49,9 @@ final class HeaderView: UIView {
     private func configureUI() {
         configureSearchBar()
         configureCategories()
+        configureSettingButton()
     }
-    
+
     private func configureSearchBar() {
         self.addSubview(searchBar)
         searchBar.snp.makeConstraints { make in
@@ -48,7 +59,7 @@ final class HeaderView: UIView {
             make.top.equalTo(self.safeAreaLayoutGuide)
         }
     }
-    
+
     private func configureCategories() {
         self.addSubview(categoryView)
         categoryView.snp.makeConstraints { make in
@@ -59,7 +70,7 @@ final class HeaderView: UIView {
         }
         setUpCategories()
     }
-    
+
     private func setUpCategories() {
         categoryView.delegate = self
         categoryView.dataSource = self
@@ -70,6 +81,40 @@ final class HeaderView: UIView {
 
         let indexPath = IndexPath(item: 0, section: 0)
         categoryView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+    }
+
+    private func configureSettingButton() {
+        self.addSubview(settingButton)
+        settingButton.showsMenuAsPrimaryAction = true
+        settingButton.menu = addSettingItems()
+
+        settingButton.snp.makeConstraints { make in
+            make.centerY.equalTo(categoryView)
+            make.trailing.equalToSuperview().offset(-10)
+        }
+    }
+
+    private func addSettingItems() -> UIMenu {
+        let favorite = configureAction("인기")
+        let name = configureAction("이름")
+        let changeRate = configureAction("변동률")
+        favorite.state = .on
+
+        let items = UIMenu(
+            title: "",
+            options: .singleSelection,
+            children: [favorite, name, changeRate]
+        )
+
+        return items
+    }
+
+    private func configureAction(_ title: String) -> UIAction {
+        let action = UIAction(title: title) { [weak self] _ in
+            self?.settingButton.setTitle(title, for: .normal)
+        }
+
+        return action
     }
 }
 
