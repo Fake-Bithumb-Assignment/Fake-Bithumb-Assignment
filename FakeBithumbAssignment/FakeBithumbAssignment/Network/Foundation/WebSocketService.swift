@@ -10,7 +10,12 @@ import Foundation
 import Starscream
 
 class WebSocketService {
+    
+    // MARK: - Instance Property
+    
     let timeOutInterval: TimeInterval = 5
+    
+    // MARK: - custom func
     
     func subscribe<T: Decodable>(to url: URL,
                                  writeWith filter: String?,

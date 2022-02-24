@@ -12,6 +12,9 @@ import Starscream
 /// 외부에서 Starscream을 의존하지 않도록 하는 wrapper struct
 /// WebSocket과 동일한 역할을 하지만 특성 및 행동을 추가할 수 있음.
 struct WebSocketWrapper {
+    
+    // MARK: - Instance Property
+    
     /// wrapping 대상 인스턴스
     private let webSocket: WebSocket
     
@@ -24,7 +27,7 @@ struct WebSocketWrapper {
         self.webSocket = webSocket
     }
     
-    // MARK: custom function
+    // MARK: - custom function
     
     /// 연결되어 있던 socket을 종료.
     func disconnect() {
