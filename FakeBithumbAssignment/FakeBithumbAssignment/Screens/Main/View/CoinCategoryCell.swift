@@ -49,6 +49,8 @@ final class CoinCategoryCell: BaseCollectionViewCell {
         }
     }
 
+    // MARK: - custom func
+
     func configure(with model: String) {
         self.categoryLabel.text = model
     }

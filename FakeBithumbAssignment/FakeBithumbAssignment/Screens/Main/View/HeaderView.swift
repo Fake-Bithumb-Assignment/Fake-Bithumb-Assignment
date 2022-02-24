@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 
 final class HeaderView: UIView {
+
     private let categoryLabels = ["원화", "관심"]
 
     private let searchBar: UISearchBar = {
@@ -39,6 +40,8 @@ final class HeaderView: UIView {
 
     private let columnNameView = ColumnNameView()
 
+    // MARK: - Life Cycle func
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
@@ -47,6 +50,8 @@ final class HeaderView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - custom func
 
     private func configureUI() {
         configureSearchBar()
@@ -130,11 +135,15 @@ final class HeaderView: UIView {
     }
 }
 
+// MARK: - UICollectionViewDelegate
+
 extension HeaderView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+
     }
 }
+
+// MARK: - UICollectionViewDataSource
 
 extension HeaderView: UICollectionViewDataSource {
     func collectionView(
@@ -160,6 +169,8 @@ extension HeaderView: UICollectionViewDataSource {
         return cell
     }
 }
+
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension HeaderView: UICollectionViewDelegateFlowLayout {
     func collectionView(

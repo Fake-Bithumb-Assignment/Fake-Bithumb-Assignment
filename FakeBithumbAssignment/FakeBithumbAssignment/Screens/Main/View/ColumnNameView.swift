@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class ColumnNameView: UIView {
+final class ColumnNameView: UIView {
 
     private let coinNameLabel: UILabel = {
         let label = UILabel()
@@ -25,7 +25,7 @@ class ColumnNameView: UIView {
         label.font = .preferredFont(forTextStyle: .body)
         label.text = "현재가"
         label.textColor = .black
-        label.textAlignment = .center
+        label.textAlignment = .right
         return label
     }()
 
@@ -43,9 +43,11 @@ class ColumnNameView: UIView {
         label.font = .preferredFont(forTextStyle: .body)
         label.text = "거래금액"
         label.textColor = .black
-        label.textAlignment = .center
+        label.textAlignment = .right
         return label
     }()
+
+    // MARK: - Life Cycle func
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -55,6 +57,8 @@ class ColumnNameView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - custom func
 
     private func configureUI() {
         configureCoinNameLabel()
