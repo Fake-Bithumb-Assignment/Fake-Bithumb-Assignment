@@ -17,9 +17,11 @@ class WebSocketService {
     
     // MARK: - custom func
     
-    func subscribe<T: Decodable>(to url: URL,
-                                 writeWith filter: Data?,
-                                 _ responseHandler: @escaping (T, WebSocketWrapper?) -> Void) {
+    func subscribe<T: Decodable>(
+        to url: URL,
+        writeWith filter: Data?,
+        _ responseHandler: @escaping (T, WebSocketWrapper?) -> Void
+    ) {
         var request = URLRequest(url: url)
         request.timeoutInterval = timeOutInterval
         let socket = WebSocket(request: request)
@@ -35,7 +37,7 @@ class WebSocketService {
 extension WebSocket {
     
     // MARK: - custom func
-
+    
     func setOnEvent<T:Decodable>(with responseHandler: @escaping (T, WebSocketWrapper?) -> Void) {
         self.onEvent = { [weak self] event in
             switch event {
@@ -49,8 +51,10 @@ extension WebSocket {
         }
     }
     
-    private func handleStringResponse<T:Decodable>(of stringResponse: String,
-                                                   with responseHandler: (T, WebSocketWrapper?) -> Void) {
+    private func handleStringResponse<T:Decodable>(
+        of stringResponse: String,
+        with responseHandler: (T, WebSocketWrapper?) -> Void
+    ) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let jsonDecoder = JSONDecoder()
