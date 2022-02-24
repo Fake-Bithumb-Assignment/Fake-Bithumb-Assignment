@@ -23,18 +23,18 @@ class WebSocketService {
         writeWith filter: Data?,
         _ responseHandler: @escaping (T) -> Void
     ) {
+        if socket != nil {
+            socket?.disconnect()
+            socket = nil
+        }
         var request = URLRequest(url: url)
         request.timeoutInterval = timeOutInterval
         self.socket = WebSocket(request: request)
         guard let socket = self.socket else {
             return
         }
-        socket.setOnEvent(with: responseHandler)
+        socket.setOnEvent(of: filter, with: responseHandler)
         socket.connect()
-        guard let filter = filter else {
-            return
-        }
-        socket.write(data: filter)
     }
     
     func disconnect() {
@@ -46,9 +46,17 @@ extension WebSocket {
     
     // MARK: - custom func
     
-    func setOnEvent<T:Decodable>(with responseHandler: @escaping (T) -> Void) {
+    func setOnEvent<T:Decodable>(
+        of filter: Data?,
+        with responseHandler: @escaping (T) -> Void
+    ) {
         self.onEvent = { [weak self] event in
             switch event {
+            case .connected:
+                guard let filter = filter else {
+                    return
+                }
+                self?.write(data: filter)
             case .text(let jsonString):
                 self?.handleStringResponse(of: jsonString, with: responseHandler)
             case .error(let error):

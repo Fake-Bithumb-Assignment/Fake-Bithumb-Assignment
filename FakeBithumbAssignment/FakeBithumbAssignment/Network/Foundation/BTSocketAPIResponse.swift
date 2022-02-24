@@ -12,45 +12,26 @@ struct BTSocketAPIResponse {
     /// 구독 메시지 종류
     enum ResponseType: String, Decodable {
         /// 현재가
-        case ticker
+        case ticker = "ticker"
         /// 체결
-        case transaction
+        case transaction = "transaction"
         /// 호가
-        case orderBook
-        
-        enum CodingKeys: String, CodingKey {
-            case ticker = "ticker"
-            case transaction = "transaction"
-            case orderBook = "orderbookdepth"
-        }
+        case orderBook  = "orderbookdepth"
     }
     
     /// 통화코드
     enum Symbol: String, Decodable {
-        case btc
-        case eth
-        
-        enum CodingKeys: String, CodingKey {
-            case btc = "BTC_KRW"
-            case eth = "ETH_KRW"
-        }
+        case btc = "BTC_KRW"
+        case eth = "ETH_KRW"
     }
     
     /// tick 종류
     enum TickType: String, Decodable {
-        case _30m
-        case _1h
-        case _12h
-        case _24h
-        case mid
-        
-        enum CodingKeys: String, CodingKey {
-            case _30m = "30M"
-            case _1h = "1H"
-            case _12h = "12H"
-            case _24h = "24H"
-            case mid = "MID"
-        }
+        case _30m = "30M"
+        case _1h = "1H"
+        case _12h = "12H"
+        case _24h = "24H"
+        case mid = "MID"
     }
     
     /// Ticker API 응답
@@ -116,7 +97,7 @@ struct BTSocketAPIResponse {
                 /// 체결종류
                 let buySellGb: BuyCell
                 /// 체결가격
-                let contentPrice: Int
+                let contPrice: Int
                 /// 체결수량
                 let contQty: Double
                 /// 체결금액
@@ -127,29 +108,19 @@ struct BTSocketAPIResponse {
                 let updn: UpDown
                 
                 /// 체결종류
-                enum BuyCell: Decodable {
+                enum BuyCell: String, Decodable {
                     /// 매도체결
-                    case sell
+                    case sell = "1"
                     /// 매수체결
-                    case buy
-                    
-                    enum CodingKeys: String, CodingKey {
-                        case sell = "1"
-                        case buy = "2"
-                    }
+                    case buy = "2"
                 }
                 
                 /// 직전시세와 비교
-                enum UpDown: Decodable {
+                enum UpDown: String, Decodable {
                     /// 상승
-                    case up
+                    case up = "up"
                     /// 하락
-                    case down
-                    
-                    enum CodingKeys: String, CodingKey {
-                        case up = "up"
-                        case down = "dn"
-                    }
+                    case down = "dn"
                 }
             }
         }
