@@ -11,14 +11,18 @@ import SnapKit
 
 final class MainViewController: BaseViewController {
 
+    // MARK: - Instance Property
+
     private let headerView = HeaderView()
+
+    // MARK: - custom func
 
     override func render() {
         view.addSubview(headerView)
-        headerView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalToSuperview().dividedBy(5)
+        headerView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalToSuperview().dividedBy(5)
         }
     }
 }

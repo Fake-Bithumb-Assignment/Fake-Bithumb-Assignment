@@ -11,6 +11,8 @@ import SnapKit
 
 final class ColumnNameView: UIView {
 
+    // MARK: - Instance Property
+
     private let coinNameLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
@@ -51,7 +53,7 @@ final class ColumnNameView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureUI()
+        configUI()
     }
 
     required init?(coder: NSCoder) {
@@ -60,7 +62,7 @@ final class ColumnNameView: UIView {
 
     // MARK: - custom func
 
-    private func configureUI() {
+    private func configUI() {
         configureCoinNameLabel()
         configureCurrentPriceLabel()
         configureFluctuationRateLabel()
@@ -69,41 +71,41 @@ final class ColumnNameView: UIView {
 
     private func configureCoinNameLabel() {
         self.addSubview(coinNameLabel)
-        coinNameLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalToSuperview().offset(10)
-            make.width.equalToSuperview().dividedBy(4)
-            make.height.equalToSuperview().dividedBy(2)
+        coinNameLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().offset(10)
+            $0.width.equalToSuperview().dividedBy(4)
+            $0.height.equalToSuperview().dividedBy(2)
         }
     }
 
     private func configureCurrentPriceLabel() {
         self.addSubview(currentPriceLabel)
-        currentPriceLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalTo(coinNameLabel.snp.trailing)
-            make.width.equalToSuperview().dividedBy(4)
-            make.height.equalToSuperview().dividedBy(2)
+        currentPriceLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(coinNameLabel.snp.trailing)
+            $0.width.equalToSuperview().dividedBy(4)
+            $0.height.equalToSuperview().dividedBy(2)
         }
     }
 
     private func configureFluctuationRateLabel() {
         self.addSubview(fluctuationRateLabel)
-        fluctuationRateLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalTo(currentPriceLabel.snp.trailing)
-            make.width.equalToSuperview().dividedBy(5)
-            make.height.equalToSuperview().dividedBy(2)
+        fluctuationRateLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(currentPriceLabel.snp.trailing)
+            $0.width.equalToSuperview().dividedBy(5)
+            $0.height.equalToSuperview().dividedBy(2)
         }
     }
 
     private func configureTradeValueLabel() {
         self.addSubview(tradeValueLabel)
-        tradeValueLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalTo(fluctuationRateLabel.snp.trailing)
-            make.trailing.equalToSuperview().offset(-10)
-            make.height.equalToSuperview().dividedBy(2)
+        tradeValueLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(fluctuationRateLabel.snp.trailing)
+            $0.trailing.equalToSuperview().inset(10)
+            $0.height.equalToSuperview().dividedBy(2)
         }
     }
 }

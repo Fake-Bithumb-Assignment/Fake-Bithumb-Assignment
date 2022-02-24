@@ -11,7 +11,7 @@ import SnapKit
 
 final class CoinCategoryCell: BaseCollectionViewCell {
 
-    static let identifier = "CoinCategoryCell"
+    // MARK: - Instance Property
 
     private let categoryLabel: UILabel = {
         let label = UILabel()
@@ -20,7 +20,7 @@ final class CoinCategoryCell: BaseCollectionViewCell {
         label.textColor = .lightGray
         return label
     }()
-    
+
     private let indicatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .black
@@ -35,23 +35,23 @@ final class CoinCategoryCell: BaseCollectionViewCell {
         }
     }
 
+    // MARK: - custom func
+
     override func render() {
-        self.addSubview(categoryLabel)
-        self.categoryLabel.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+        self.addSubViews([categoryLabel, indicatorView])
+
+        categoryLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
         }
-        
-        self.addSubview(indicatorView)
-        indicatorView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(5)
-            make.bottom.equalToSuperview()
+
+        indicatorView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(5)
+            $0.bottom.equalToSuperview()
         }
     }
 
-    // MARK: - custom func
-
-    func configure(with model: String) {
-        self.categoryLabel.text = model
+    func configureCategoryLabel(with model: String) {
+        categoryLabel.text = model
     }
 }

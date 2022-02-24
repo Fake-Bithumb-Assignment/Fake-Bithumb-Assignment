@@ -11,6 +11,8 @@ import SnapKit
 
 final class HeaderView: UIView {
 
+    // MARK: - Instance Property
+
     private let categoryLabels = ["원화", "관심"]
 
     private let searchBar: UISearchBar = {
@@ -44,7 +46,7 @@ final class HeaderView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureUI()
+        configUI()
     }
 
     required init?(coder: NSCoder) {
@@ -53,7 +55,7 @@ final class HeaderView: UIView {
 
     // MARK: - custom func
 
-    private func configureUI() {
+    private func configUI() {
         configureSearchBar()
         configureCategories()
         configureSettingButton()
@@ -62,19 +64,19 @@ final class HeaderView: UIView {
 
     private func configureSearchBar() {
         self.addSubview(searchBar)
-        searchBar.snp.makeConstraints { make in
-            make.leading.trailing.top.equalToSuperview()
-            make.top.equalTo(self.safeAreaLayoutGuide)
+        searchBar.snp.makeConstraints {
+            $0.leading.trailing.top.equalToSuperview()
+            $0.top.equalTo(self.safeAreaLayoutGuide)
         }
     }
 
     private func configureCategories() {
         self.addSubview(categoryView)
-        categoryView.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview().multipliedBy(0.7)
-            make.top.equalTo(searchBar.snp.bottom)
-            make.bottom.equalToSuperview().dividedBy(1.3)
+        categoryView.snp.makeConstraints {
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview().multipliedBy(0.7)
+            $0.top.equalTo(searchBar.snp.bottom)
+            $0.bottom.equalToSuperview().dividedBy(1.3)
         }
         setUpCategories()
     }
@@ -84,7 +86,7 @@ final class HeaderView: UIView {
         categoryView.dataSource = self
         categoryView.register(
             CoinCategoryCell.self,
-            forCellWithReuseIdentifier: CoinCategoryCell.identifier
+            forCellWithReuseIdentifier: CoinCategoryCell.className
         )
 
         let indexPath = IndexPath(item: 0, section: 0)
@@ -96,9 +98,9 @@ final class HeaderView: UIView {
         settingButton.showsMenuAsPrimaryAction = true
         settingButton.menu = addSettingItems()
 
-        settingButton.snp.makeConstraints { make in
-            make.centerY.equalTo(categoryView)
-            make.trailing.equalToSuperview().offset(-10)
+        settingButton.snp.makeConstraints {
+            $0.centerY.equalTo(categoryView)
+            $0.trailing.equalToSuperview().inset(10)
         }
     }
 
@@ -127,10 +129,10 @@ final class HeaderView: UIView {
 
     private func configureColumnNameView() {
         self.addSubview(columnNameView)
-        columnNameView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(categoryView.snp.bottom)
-            make.bottom.equalToSuperview()
+        columnNameView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(categoryView.snp.bottom)
+            $0.bottom.equalToSuperview()
         }
     }
 }
@@ -158,14 +160,14 @@ extension HeaderView: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: CoinCategoryCell.identifier,
+            withReuseIdentifier: CoinCategoryCell.className,
             for: indexPath
         ) as? CoinCategoryCell
         else {
             return UICollectionViewCell()
         }
         
-        cell.configure(with: categoryLabels[indexPath.row])
+        cell.configureCategoryLabel(with: categoryLabels[indexPath.row])
         return cell
     }
 }
