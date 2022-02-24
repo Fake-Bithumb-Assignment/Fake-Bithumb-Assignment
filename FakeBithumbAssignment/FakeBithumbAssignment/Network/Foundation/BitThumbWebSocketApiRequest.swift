@@ -17,7 +17,7 @@ struct BitThumbWebSocketApiRequest: Encodable {
     /// 통화코드
     let symbols: [Symbol]
     /// tick 종류
-    let tickTypes: [TickType]? = nil
+    let tickTypes: [TickType]?
     
     /// 구독 메시지 종류
     enum RequestType: String, Encodable {
