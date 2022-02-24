@@ -20,10 +20,18 @@ final class CoinCategoryCell: BaseCollectionViewCell {
         label.textColor = .lightGray
         return label
     }()
+    
+    private let indicatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        view.isHidden = true
+        return view
+    }()
 
     override var isSelected: Bool {
         didSet {
             self.categoryLabel.textColor = isSelected ? .black : .lightGray
+            self.indicatorView.isHidden = isSelected ? false : true
         }
     }
 
@@ -31,6 +39,13 @@ final class CoinCategoryCell: BaseCollectionViewCell {
         self.addSubview(categoryLabel)
         self.categoryLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
+        }
+        
+        self.addSubview(indicatorView)
+        indicatorView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(5)
+            make.bottom.equalToSuperview()
         }
     }
 
