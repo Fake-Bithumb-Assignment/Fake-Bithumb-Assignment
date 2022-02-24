@@ -14,6 +14,7 @@ class WebSocketService {
     // MARK: - Instance Property
     
     let timeOutInterval: TimeInterval = 5
+    var socket: WebSocket? = nil
     
     // MARK: - custom func
     
@@ -24,13 +25,17 @@ class WebSocketService {
     ) {
         var request = URLRequest(url: url)
         request.timeoutInterval = timeOutInterval
-        let socket = WebSocket(request: request)
-        socket.setOnEvent(with: responseHandler)
-        socket.connect()
+        socket = WebSocket(request: request)
+        socket?.setOnEvent(with: responseHandler)
+        socket?.connect()
         guard let filter = filter else {
             return
         }
-        socket.write(data: filter)
+        socket?.write(data: filter)
+    }
+    
+    func disconnect() {
+        socket?.disconnect()
     }
 }
 

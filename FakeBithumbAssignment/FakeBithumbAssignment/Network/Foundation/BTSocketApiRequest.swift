@@ -20,7 +20,7 @@ struct BTSocketApiRequest: Encodable {
     let tickTypes: [TickType]?
     
     /// 구독 메시지 종류
-    enum RequestType: String, Encodable {
+    enum RequestType: String, Encodable, CaseIterable {
         /// 현재가
         case ticker = "ticker"
         /// 체결
