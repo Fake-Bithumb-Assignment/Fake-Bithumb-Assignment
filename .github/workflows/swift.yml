@@ -14,5 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run tests
-      run:
-        xcodebuild test -project ./FakeBithumbAssignment/FakeBithumbAssignment.xcodeproj -scheme FakeBithumbAssignment -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=15.2'
+      run: |
+        pod install --repo-update --clean-install --project-directory=FakeBithumbAssignment/
+        xcodebuild test -workspace ./FakeBithumbAssignment/FakeBithumbAssignment.xcworkspace -scheme FakeBithumbAssignment -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=15.2'

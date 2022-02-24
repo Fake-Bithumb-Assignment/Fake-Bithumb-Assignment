@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum APIServiceError: Error {
+enum HttpServiceError: Error {
     case urlEncodingError
     case clientError(message: String?)
     case serverError
