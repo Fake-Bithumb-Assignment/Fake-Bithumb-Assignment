@@ -73,14 +73,14 @@ final class HeaderView: UIView {
         configureKRWButon()
         configureFavoritesButton()
     }
-    
+
     private func configureStackViews() {
         let horizontalStackView = UIStackView(arrangedSubviews: [
             krwButton,
             favoritesButton,
             settingButton
         ])
-        
+
         let stackView = UIStackView(arrangedSubviews: [
             self.searchBar,
             horizontalStackView,
@@ -124,15 +124,17 @@ final class HeaderView: UIView {
 
         return action
     }
-    
+
     private func configureKRWButon() {
         self.krwButton.addTarget(self, action: #selector(tapKRWButton), for: .touchUpInside)
     }
-    
+
     private func configureFavoritesButton() {
         self.favoritesButton.addTarget(self, action: #selector(tapFavoritesButton), for: .touchUpInside)
     }
-    
+
+    // MARK: - @objc
+
     @objc private func tapKRWButton() {
         self.krwButton.setTitleColor(.black, for: .normal)
         self.favoritesButton.setTitleColor(.lightGray, for: .normal)
