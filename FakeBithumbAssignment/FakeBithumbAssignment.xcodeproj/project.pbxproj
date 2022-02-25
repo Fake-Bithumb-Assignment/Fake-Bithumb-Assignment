@@ -20,11 +20,11 @@
 		1504F6D827C5F70B00A5EC6C /* CoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6D727C5F70B00A5EC6C /* CoinViewController.swift */; };
 		1504F72527C6316900A5EC6C /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F72427C6316900A5EC6C /* BaseModel.swift */; };
 		1504F72727C631A500A5EC6C /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F72627C631A500A5EC6C /* HttpMethod.swift */; };
-		1504F72927C631C100A5EC6C /* APIEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F72827C631C100A5EC6C /* APIEnvironment.swift */; };
-		1504F72D27C6322500A5EC6C /* APIServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F72C27C6322500A5EC6C /* APIServiceError.swift */; };
+		1504F72927C631C100A5EC6C /* HttpEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F72827C631C100A5EC6C /* HttpEnvironment.swift */; };
+		1504F72D27C6322500A5EC6C /* HttpServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F72C27C6322500A5EC6C /* HttpServiceError.swift */; };
 		1504F72F27C6324600A5EC6C /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F72E27C6324600A5EC6C /* NetworkRequest.swift */; };
 		1504F73227C6338100A5EC6C /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F73127C6338100A5EC6C /* Requestable.swift */; };
-		1504F73427C6339D00A5EC6C /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F73327C6339D00A5EC6C /* APIService.swift */; };
+		1504F73427C6339D00A5EC6C /* HttpService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F73327C6339D00A5EC6C /* HttpService.swift */; };
 		1504F73627C6363400A5EC6C /* NetworkStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F73527C6363400A5EC6C /* NetworkStatus.swift */; };
 		153D784227C3F07000C940AB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153D784127C3F07000C940AB /* AppDelegate.swift */; };
 		153D784427C3F07000C940AB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153D784327C3F07000C940AB /* SceneDelegate.swift */; };
@@ -63,11 +63,11 @@
 		1504F6D727C5F70B00A5EC6C /* CoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinViewController.swift; sourceTree = "<group>"; };
 		1504F72427C6316900A5EC6C /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		1504F72627C631A500A5EC6C /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
-		1504F72827C631C100A5EC6C /* APIEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEnvironment.swift; sourceTree = "<group>"; };
-		1504F72C27C6322500A5EC6C /* APIServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceError.swift; sourceTree = "<group>"; };
+		1504F72827C631C100A5EC6C /* HttpEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpEnvironment.swift; sourceTree = "<group>"; };
+		1504F72C27C6322500A5EC6C /* HttpServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpServiceError.swift; sourceTree = "<group>"; };
 		1504F72E27C6324600A5EC6C /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		1504F73127C6338100A5EC6C /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
-		1504F73327C6339D00A5EC6C /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		1504F73327C6339D00A5EC6C /* HttpService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpService.swift; sourceTree = "<group>"; };
 		1504F73527C6363400A5EC6C /* NetworkStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatus.swift; sourceTree = "<group>"; };
 		153D783E27C3F07000C940AB /* FakeBithumbAssignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FakeBithumbAssignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		153D784127C3F07000C940AB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -110,11 +110,11 @@
 			children = (
 				1504F72427C6316900A5EC6C /* BaseModel.swift */,
 				1504F72627C631A500A5EC6C /* HttpMethod.swift */,
-				1504F72827C631C100A5EC6C /* APIEnvironment.swift */,
-				1504F72C27C6322500A5EC6C /* APIServiceError.swift */,
+				1504F72827C631C100A5EC6C /* HttpEnvironment.swift */,
+				1504F72C27C6322500A5EC6C /* HttpServiceError.swift */,
 				1504F72E27C6324600A5EC6C /* NetworkRequest.swift */,
 				1504F73127C6338100A5EC6C /* Requestable.swift */,
-				1504F73327C6339D00A5EC6C /* APIService.swift */,
+				1504F73327C6339D00A5EC6C /* HttpService.swift */,
 				1504F73527C6363400A5EC6C /* NetworkStatus.swift */,
 			);
 			path = Foundation;
@@ -519,10 +519,10 @@
 				1504F72527C6316900A5EC6C /* BaseModel.swift in Sources */,
 				1504F6CA27C5F47C00A5EC6C /* UIView+Extension.swift in Sources */,
 				1504F6CC27C5F58900A5EC6C /* NSObject+Extension.swift in Sources */,
-				1504F73427C6339D00A5EC6C /* APIService.swift in Sources */,
+				1504F73427C6339D00A5EC6C /* HttpService.swift in Sources */,
 				1504F6C427C5F26000A5EC6C /* BaseViewController.swift in Sources */,
 				1504F6D027C5F66200A5EC6C /* CoinQuoteInformationTabViewController.swift in Sources */,
-				1504F72D27C6322500A5EC6C /* APIServiceError.swift in Sources */,
+				1504F72D27C6322500A5EC6C /* HttpServiceError.swift in Sources */,
 				1504F72727C631A500A5EC6C /* HttpMethod.swift in Sources */,
 				153D784227C3F07000C940AB /* AppDelegate.swift in Sources */,
 				1504F6CE27C5F64D00A5EC6C /* MainViewController.swift in Sources */,
@@ -532,7 +532,7 @@
 				43F60EC527C7666A0027699B /* ColumnNameView.swift in Sources */,
 				1504F6D827C5F70B00A5EC6C /* CoinViewController.swift in Sources */,
 				1504F6C827C5F40300A5EC6C /* BaseTableViewCell.swift in Sources */,
-				1504F72927C631C100A5EC6C /* APIEnvironment.swift in Sources */,
+				1504F72927C631C100A5EC6C /* HttpEnvironment.swift in Sources */,
 				1504F72F27C6324600A5EC6C /* NetworkRequest.swift in Sources */,
 				43F60EC327C6874A0027699B /* HeaderView.swift in Sources */,
 				153D784427C3F07000C940AB /* SceneDelegate.swift in Sources */,
