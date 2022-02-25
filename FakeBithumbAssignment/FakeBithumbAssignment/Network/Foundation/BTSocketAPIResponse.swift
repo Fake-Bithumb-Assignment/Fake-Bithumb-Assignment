@@ -56,7 +56,7 @@ struct BTSocketAPIResponse {
             /// 종가
             let closePrice: String //Int
             /// 저가
-            let rowPrice: String //Int
+            let lowPrice: String //Int
             /// 고가
             let highPrice: String //Int
             /// 누적거래금액
@@ -138,7 +138,7 @@ struct BTSocketAPIResponse {
             /// 호가 이력
             let list: [OrderBook]
             /// 일시
-            let dateTime: String //Int
+            let datetime: String //Int
             
             /// 호가
             struct OrderBook: Decodable {
@@ -154,11 +154,11 @@ struct BTSocketAPIResponse {
                 let total: String //Int
                 
                 /// 주문 타입
-                enum OrderType: Decodable {
+                enum OrderType: String, Decodable {
                     /// 매도
-                    case ask
+                    case ask = "ask"
                     /// 매수
-                    case bid
+                    case bid = "bid"
                 }
             }
         }
