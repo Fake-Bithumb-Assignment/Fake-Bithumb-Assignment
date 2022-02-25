@@ -64,15 +64,11 @@ final class HeaderView: UIView {
     }
 
     private func configureStackViews() {
-        let horizontalStackView = UIStackView(arrangedSubviews: [
-            krwButton,
-            favoritesButton,
-            settingButton
-        ])
+        let subStackview = configureSubStackView()
 
         let stackView = UIStackView(arrangedSubviews: [
             self.searchBar,
-            horizontalStackView,
+            subStackview,
             self.columnNameView
         ]).then {
             $0.axis = .vertical
@@ -82,9 +78,32 @@ final class HeaderView: UIView {
         self.addSubview(stackView)
         stackView.snp.makeConstraints { make in
             make.size.equalToSuperview()
+        }
+
+        subStackview.snp.makeConstraints { make in
             make.width.equalTo(self.krwButton).multipliedBy(4)
             make.width.equalTo(self.favoritesButton).multipliedBy(4)
         }
+    }
+
+    private func configureSubStackView() -> UIStackView {
+        let emptyView = UIView()
+
+        let stackView = UIStackView(arrangedSubviews: [
+            self.krwButton,
+            self.favoritesButton,
+            emptyView,
+            self.settingButton
+        ]).then {
+            $0.alignment = .center
+        }
+
+        self.krwButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        self.favoritesButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        self.settingButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        emptyView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+
+        return stackView
     }
 
     private func configureSettingButton() {
