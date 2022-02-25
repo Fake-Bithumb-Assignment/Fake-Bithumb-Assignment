@@ -17,7 +17,7 @@ struct BTSocketAPIService: BTSocketAPIServiceable {
     
     // MARK: - custom func
     
-    mutating func connectTicker(
+    mutating func subscribeTicker(
         symbols: [BTSocketAPIRequest.Symbol],
         tickTypes: [BTSocketAPIRequest.TickType]?,
         responseHandler: @escaping (BTSocketAPIResponse.TickerResponse) -> Void
@@ -29,7 +29,7 @@ struct BTSocketAPIService: BTSocketAPIServiceable {
         self.subscribe(of: .ticker, writeWith: filter, responseHandler: responseHandler)
     }
     
-    mutating func connectTransaction(
+    mutating func subscribeTransaction(
         symbols: [BTSocketAPIRequest.Symbol],
         responseHandler: @escaping (BTSocketAPIResponse.TransactionResponse) -> Void
     ) {
@@ -40,7 +40,7 @@ struct BTSocketAPIService: BTSocketAPIServiceable {
         self.subscribe(of: .transaction, writeWith: filter, responseHandler: responseHandler)
     }
     
-    mutating func connectOrderBook(
+    mutating func subscribeOrderBook(
         symbols: [BTSocketAPIRequest.Symbol],
         responseHandler: @escaping (BTSocketAPIResponse.OrderBookResponse) -> Void
     ) {
@@ -74,8 +74,6 @@ struct BTSocketAPIService: BTSocketAPIServiceable {
         }
         if var socketService = self.socketServiceByType[requestType] {
             socketService.disconnect()
-        } else {
-            self.socketServiceByType[requestType] = WebSocketService()
         }
         self.socketServiceByType[requestType]?.connect(to: baseURL, writeWith: filter, responseHandler)
     }

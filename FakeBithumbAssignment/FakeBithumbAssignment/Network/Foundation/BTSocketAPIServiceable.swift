@@ -14,7 +14,7 @@ protocol BTSocketAPIServiceable {
     /// - Parameter symbols 통화코드
     /// - Parameter tickTypes: tick 종류
     /// - Parameter responseHander: web socket response -> Void 파라미터 타입의 클로져
-    mutating func connectTicker(
+    mutating func subscribeTicker(
         symbols: [BTSocketAPIRequest.Symbol],
         tickTypes: [BTSocketAPIRequest.TickType]?,
         responseHandler: @escaping (BTSocketAPIResponse.TickerResponse) -> Void)
@@ -23,7 +23,7 @@ protocol BTSocketAPIServiceable {
     ///
     /// - Parameter symbols: 통화코드
     /// - Parameter responseHander: web socket response -> Void 파라미터 타입의 클로져
-    mutating func connectTransaction(
+    mutating func subscribeTransaction(
         symbols: [BTSocketAPIRequest.Symbol],
         responseHandler: @escaping (BTSocketAPIResponse.TransactionResponse) -> Void)
     
@@ -31,7 +31,7 @@ protocol BTSocketAPIServiceable {
     ///
     /// - Parameter symbols: 통화코드
     /// - Parameter responseHander: web socket response -> Void 파라미터 타입의 클로져
-    mutating func connectOrderBook(
+    mutating func subscribeOrderBook(
         symbols: [BTSocketAPIRequest.Symbol],
         responseHandler: @escaping (BTSocketAPIResponse.OrderBookResponse) -> Void)
 }
