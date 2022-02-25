@@ -29,6 +29,10 @@ struct BTSocketAPIService: BTSocketAPIServiceable {
         self.subscribe(of: .ticker, writeWith: filter, responseHandler: responseHandler)
     }
     
+    mutating func disconnectTicker() {
+        self.disconnect(of: .ticker)
+    }
+    
     mutating func subscribeTransaction(
         symbols: [BTSocketAPIRequest.Symbol],
         responseHandler: @escaping (BTSocketAPIResponse.TransactionResponse) -> Void
@@ -40,6 +44,10 @@ struct BTSocketAPIService: BTSocketAPIServiceable {
         self.subscribe(of: .transaction, writeWith: filter, responseHandler: responseHandler)
     }
     
+    mutating func disconnectTransaction() {
+        self.disconnect(of: .transaction)
+    }
+
     mutating func subscribeOrderBook(
         symbols: [BTSocketAPIRequest.Symbol],
         responseHandler: @escaping (BTSocketAPIResponse.OrderBookResponse) -> Void
@@ -51,17 +59,21 @@ struct BTSocketAPIService: BTSocketAPIServiceable {
         self.subscribe(of: .orderBook, writeWith: filter, responseHandler: responseHandler)
     }
     
-    func disconnect(of requestType: BTSocketAPIRequest.RequestType) {
-        guard var socketService = self.socketServiceByType[requestType] else {
-            return
-        }
-        socketService.disconnect()
+    mutating func disconnectOrderBook() {
+        self.disconnect(of: .orderBook)
     }
     
     func disconnectAll() {
         BTSocketAPIRequest.RequestType.allCases.forEach { requestType in
             self.disconnect(of: requestType)
         }
+    }
+    
+    private func disconnect(of requestType: BTSocketAPIRequest.RequestType) {
+        guard var socketService = self.socketServiceByType[requestType] else {
+            return
+        }
+        socketService.disconnect()
     }
     
     private mutating func subscribe<T: Decodable>(

@@ -19,6 +19,9 @@ protocol BTSocketAPIServiceable {
         tickTypes: [BTSocketAPIRequest.TickType]?,
         responseHandler: @escaping (BTSocketAPIResponse.TickerResponse) -> Void)
     
+    /// ticket 연결 해제
+    mutating func disconnectTicker()
+    
     /// 체결 transaction
     ///
     /// - Parameter symbols: 통화코드
@@ -27,6 +30,9 @@ protocol BTSocketAPIServiceable {
         symbols: [BTSocketAPIRequest.Symbol],
         responseHandler: @escaping (BTSocketAPIResponse.TransactionResponse) -> Void)
     
+    /// transaction 연결 해제
+    mutating func disconnectTransaction()
+    
     /// 호가 orderbook
     ///
     /// - Parameter symbols: 통화코드
@@ -34,4 +40,10 @@ protocol BTSocketAPIServiceable {
     mutating func subscribeOrderBook(
         symbols: [BTSocketAPIRequest.Symbol],
         responseHandler: @escaping (BTSocketAPIResponse.OrderBookResponse) -> Void)
+    
+    /// orderbook 연결 해제
+    mutating func disconnectOrderBook()
+    
+    /// 전체 연결 해제
+    func disconnectAll()
 }
