@@ -52,7 +52,7 @@ struct BTSocketAPIService: BTSocketAPIServiceable {
     }
     
     func disconnect(of requestType: BTSocketAPIRequest.RequestType) {
-        guard let socketService = self.socketServiceByType[requestType] else {
+        guard var socketService = self.socketServiceByType[requestType] else {
             return
         }
         socketService.disconnect()
@@ -72,7 +72,7 @@ struct BTSocketAPIService: BTSocketAPIServiceable {
         guard let baseURL = self.baseURL else {
             return
         }
-        if let socketService = self.socketServiceByType[requestType] {
+        if var socketService = self.socketServiceByType[requestType] {
             socketService.disconnect()
         } else {
             self.socketServiceByType[requestType] = WebSocketService()

@@ -347,14 +347,14 @@
 			children = (
 				FA40939B27C82B9800EFA433 /* APIService */,
 			);
-			path = Network;
+			name = Network;
 			sourceTree = "<group>";
 		};
 		FA40939B27C82B9800EFA433 /* APIService */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = APIService;
+			name = APIService;
 			sourceTree = "<group>";
 		};
 		FA40D877F2AC738A5C446C10 /* Frameworks */ = {

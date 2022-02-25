@@ -9,7 +9,7 @@ import Foundation
 
 import Starscream
 
-class WebSocketService {
+struct WebSocketService {
     
     // MARK: - Instance Property
     
@@ -18,14 +18,13 @@ class WebSocketService {
     
     // MARK: - custom func
     
-    func connect<T: Decodable>(
+    mutating func connect<T: Decodable>(
         to url: URL,
         writeWith filter: Data?,
         _ responseHandler: @escaping (T) -> Void
     ) {
-        if socket != nil {
-            socket?.disconnect()
-            socket = nil
+        if self.socket != nil {
+            self.disconnect()
         }
         var request = URLRequest(url: url)
         request.timeoutInterval = timeOutInterval
@@ -37,8 +36,9 @@ class WebSocketService {
         socket.connect()
     }
     
-    func disconnect() {
+    mutating func disconnect() {
         self.socket?.disconnect()
+        self.socket = nil
     }
 }
 
