@@ -48,33 +48,33 @@ struct BTSocketAPIResponse {
             /// 변동 기준시간- 30M, 1H, 12H, 24H, MID
             let tickType: TickType
             /// 일자
-            let date: Int
+            let date: String //Int
             /// 시간
-            let time: Int
+            let time: String //Int
             /// 시가
-            let openPrice: Int
+            let openPrice: String //Int
             /// 종가
-            let closePrice: Int
+            let closePrice: String //Int
             /// 저가
-            let rowPrice: Int
+            let rowPrice: String //Int
             /// 고가
-            let highPrice: Int
+            let highPrice: String //Int
             /// 누적거래금액
-            let value: Double
+            let value: String //Double
             /// 누적거래량
-            let volume: Double
+            let volume: String //Double
             /// 매도누적거래량
-            let sellVolume: Double
+            let sellVolume: String //Double
             /// 매수누적거래량
-            let buyVolume: Double
+            let buyVolume: String //Double
             /// 전일종가
-            let prevClosePrice: Int
+            let prevClosePrice: String //Int
             /// 변동률
-            let chgRate: Double
+            let chgRate: String //Double
             /// 변동금액
-            let chgAmt: Int
+            let chgAmt: String //Int
             /// 체결강도
-            let volumePower: Double
+            let volumePower: String //Double
         }
     }
     
@@ -97,13 +97,13 @@ struct BTSocketAPIResponse {
                 /// 체결종류
                 let buySellGb: BuyCell
                 /// 체결가격
-                let contPrice: Int
+                let contPrice: String //Int
                 /// 체결수량
-                let contQty: Double
+                let contQty: String //Double
                 /// 체결금액
-                let contAmt: Double
+                let contAmt: String //Double
                 /// 체결시각
-                let contDtm: Date
+                let contDtm: String //Date
                 /// 직전시세와 비교
                 let updn: UpDown
                 
@@ -138,7 +138,7 @@ struct BTSocketAPIResponse {
             /// 호가 이력
             let list: [OrderBook]
             /// 일시
-            let dateTime: Int
+            let dateTime: String //Int
             
             /// 호가
             struct OrderBook: Decodable {
@@ -147,11 +147,11 @@ struct BTSocketAPIResponse {
                 /// 주문 타입
                 let orderType: OrderType
                 /// 호가
-                let price: Int
+                let price: String //Int
                 /// 잔량
-                let quantity: Double
+                let quantity: String //Double
                 /// 건수
-                let total: Int
+                let total: String //Int
                 
                 /// 주문 타입
                 enum OrderType: Decodable {
