@@ -51,6 +51,12 @@ final class HeaderView: UIView {
         button.semanticContentAttribute = .forceRightToLeft
         return button
     }()
+    
+    private let indicatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        return view
+    }()
 
     private let columnNameView = ColumnNameView()
 
@@ -88,6 +94,7 @@ final class HeaderView: UIView {
         ])
 
         stackView.axis = .vertical
+        stackView.spacing = 10
 
         self.addSubview(stackView)
         stackView.snp.makeConstraints { make in
@@ -127,10 +134,20 @@ final class HeaderView: UIView {
 
     private func configureKRWButon() {
         self.krwButton.addTarget(self, action: #selector(tapKRWButton), for: .touchUpInside)
+        setBottomBorder(to: self.krwButton)
     }
 
     private func configureFavoritesButton() {
         self.favoritesButton.addTarget(self, action: #selector(tapFavoritesButton), for: .touchUpInside)
+    }
+    
+    private func setBottomBorder(to button: UIButton) {
+        self.indicatorView.removeFromSuperview()
+        button.addSubview(indicatorView)
+        indicatorView.snp.makeConstraints { make in
+            make.leading.width.bottom.equalToSuperview()
+            make.height.equalTo(3)
+        }
     }
 
     // MARK: - @objc
@@ -138,10 +155,12 @@ final class HeaderView: UIView {
     @objc private func tapKRWButton() {
         self.krwButton.setTitleColor(.black, for: .normal)
         self.favoritesButton.setTitleColor(.lightGray, for: .normal)
+        setBottomBorder(to: self.krwButton)
     }
     
     @objc private func tapFavoritesButton() {
         self.krwButton.setTitleColor(.lightGray, for: .normal)
         self.favoritesButton.setTitleColor(.black, for: .normal)
+        setBottomBorder(to: self.favoritesButton)
     }
 }

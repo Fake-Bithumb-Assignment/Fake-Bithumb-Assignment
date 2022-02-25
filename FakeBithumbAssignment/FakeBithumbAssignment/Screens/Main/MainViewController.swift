@@ -19,10 +19,10 @@ final class MainViewController: BaseViewController {
 
     override func render() {
         view.addSubview(headerView)
-        headerView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.height.lessThanOrEqualTo(200)
+        headerView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.height.lessThanOrEqualTo(200)
         }
     }
 }
