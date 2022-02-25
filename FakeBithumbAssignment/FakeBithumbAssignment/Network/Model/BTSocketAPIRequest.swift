@@ -15,9 +15,22 @@ struct BTSocketAPIRequest: Encodable {
     /// 구독 메시지 종류
     let type: RequestType
     /// 통화코드
-    let symbols: [Symbol]
+    let symbols: [String]
     /// tick 종류
     let tickTypes: [TickType]?
+    
+    // MARK: - Initializer
+    
+    init(
+        type: RequestType,
+        orderCyrrency: [String], // ["BTC", "ETH"], ...
+        paymentCurrency: PaymentCurrency = .krw,
+        tickTypes: [TickType]? = nil
+    ) {
+        self.type = type
+        self.symbols = orderCyrrency.map{ "\($0)_\(paymentCurrency.rawValue)" }
+        self.tickTypes = tickTypes
+    }
     
     /// 구독 메시지 종류
     enum RequestType: String, Encodable, CaseIterable {
@@ -28,11 +41,10 @@ struct BTSocketAPIRequest: Encodable {
         /// 호가
         case orderBook = "orderbookdepth"
     }
-    
-    /// 통화코드
-    enum Symbol: String, Encodable {
-        case btc = "BTC_KRW"
-        case eth = "ETH_KRW"
+        
+    enum PaymentCurrency: String, Encodable {
+        case krw = "KRW"
+        case btc = "BTC"
     }
     
     /// tick 종류

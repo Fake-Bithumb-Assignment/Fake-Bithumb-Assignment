@@ -23,11 +23,17 @@ struct BTSocketAPIService {
     /// - Parameter tickTypes: tick 종류
     /// - Parameter responseHander: 응답으로 온 Ticket의 핸들러
     mutating func subscribeTicker(
-        symbols: [BTSocketAPIRequest.Symbol],
+        orderCyrrency: [String],
+        paymentCurrency: BTSocketAPIRequest.PaymentCurrency,
         tickTypes: [BTSocketAPIRequest.TickType]?,
         responseHandler: @escaping (BTSocketAPIResponse.TickerResponse) -> Void
     ) {
-        let request = BTSocketAPIRequest(type: .ticker, symbols: symbols, tickTypes: tickTypes)
+        let request = BTSocketAPIRequest(
+            type: .ticker,
+            orderCyrrency: orderCyrrency,
+            paymentCurrency: paymentCurrency,
+            tickTypes: tickTypes
+        )
         guard let filter = try? self.jsonEncoder.encode(request) else {
             return
         }
@@ -44,10 +50,15 @@ struct BTSocketAPIService {
     /// - Parameter symbols: 통화코드
     /// - Parameter responseHander: 응답으로 온 Transaction의 핸들러
     mutating func subscribeTransaction(
-        symbols: [BTSocketAPIRequest.Symbol],
+        orderCyrrency: [String],
+        paymentCurrency: BTSocketAPIRequest.PaymentCurrency,
         responseHandler: @escaping (BTSocketAPIResponse.TransactionResponse) -> Void
     ) {
-        let request = BTSocketAPIRequest(type: .transaction, symbols: symbols, tickTypes: nil)
+        let request = BTSocketAPIRequest(
+            type: .transaction,
+            orderCyrrency: orderCyrrency,
+            paymentCurrency: paymentCurrency
+        )
         guard let filter = try? self.jsonEncoder.encode(request) else {
             return
         }
@@ -64,10 +75,15 @@ struct BTSocketAPIService {
     /// - Parameter symbols: 통화코드
     /// - Parameter responseHander: 응답으로 온 OrderBook의 핸들러
     mutating func subscribeOrderBook(
-        symbols: [BTSocketAPIRequest.Symbol],
+        orderCyrrency: [String],
+        paymentCurrency: BTSocketAPIRequest.PaymentCurrency,
         responseHandler: @escaping (BTSocketAPIResponse.OrderBookResponse) -> Void
     ) {
-        let request = BTSocketAPIRequest(type: .orderBook, symbols: symbols, tickTypes: nil)
+        let request = BTSocketAPIRequest(
+            type: .orderBook,
+            orderCyrrency: orderCyrrency,
+            paymentCurrency: paymentCurrency
+        )
         guard let filter = try? self.jsonEncoder.encode(request) else {
             return
         }
