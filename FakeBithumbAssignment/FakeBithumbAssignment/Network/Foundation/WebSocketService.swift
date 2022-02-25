@@ -71,10 +71,7 @@ extension WebSocket {
         of stringResponse: String,
         with responseHandler: (T) -> Void
     ) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let jsonDecoder = JSONDecoder()
-        jsonDecoder.dateDecodingStrategy = .formatted(dateFormatter)
         guard let decodedResponse = jsonDecoder.decode(T.self, from: stringResponse) else {
             return
         }
