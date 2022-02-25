@@ -22,7 +22,7 @@ final class MainViewController: BaseViewController {
         headerView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalToSuperview().dividedBy(5)
+            $0.height.lessThanOrEqualTo(200)
         }
     }
 }

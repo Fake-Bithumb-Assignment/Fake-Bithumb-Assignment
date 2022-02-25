@@ -31,7 +31,6 @@
 		153D784B27C3F07100C940AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 153D784A27C3F07100C940AB /* Assets.xcassets */; };
 		153D784E27C3F07100C940AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 153D784C27C3F07100C940AB /* LaunchScreen.storyboard */; };
 		153D786927C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153D786827C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift */; };
-		43F60EBF27C6585A0027699B /* CoinCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F60EBE27C6585A0027699B /* CoinCategoryCell.swift */; };
 		43F60EC327C6874A0027699B /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F60EC227C6874A0027699B /* HeaderView.swift */; };
 		43F60EC527C7666A0027699B /* ColumnNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F60EC427C7666A0027699B /* ColumnNameView.swift */; };
 		7711825CBF106F792BE9AEE8 /* Pods_FakeBithumbAssignmentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1279322932B4E6EF0923160F /* Pods_FakeBithumbAssignmentTests.framework */; };
@@ -79,7 +78,6 @@
 		153D786627C4CFFC00C940AB /* FakeBithumbAssignmentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FakeBithumbAssignmentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		153D786827C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeBithumbAssignmentTests.swift; sourceTree = "<group>"; };
 		396F2646855BEFF936DFF560 /* Pods_FakeBithumbAssignment.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FakeBithumbAssignment.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		43F60EBE27C6585A0027699B /* CoinCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinCategoryCell.swift; sourceTree = "<group>"; };
 		43F60EC227C6874A0027699B /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		43F60EC427C7666A0027699B /* ColumnNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnNameView.swift; sourceTree = "<group>"; };
 		DAB1402CB2E7430FBF8CAFB6 /* Pods-FakeBithumbAssignment.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignment.release.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment.release.xcconfig"; sourceTree = "<group>"; };
@@ -322,7 +320,6 @@
 		43F60EBB27C6524A0027699B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				43F60EBE27C6585A0027699B /* CoinCategoryCell.swift */,
 				43F60EC227C6874A0027699B /* HeaderView.swift */,
 				43F60EC427C7666A0027699B /* ColumnNameView.swift */,
 			);
@@ -517,7 +514,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1504F73227C6338100A5EC6C /* Requestable.swift in Sources */,
-				43F60EBF27C6585A0027699B /* CoinCategoryCell.swift in Sources */,
 				1504F6D627C5F68E00A5EC6C /* DepositAndWithdrawalViewController.swift in Sources */,
 				1504F6C627C5F3D900A5EC6C /* BaseCollectionViewCell.swift in Sources */,
 				1504F72527C6316900A5EC6C /* BaseModel.swift in Sources */,

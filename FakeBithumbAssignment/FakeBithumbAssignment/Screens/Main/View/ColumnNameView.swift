@@ -63,49 +63,20 @@ final class ColumnNameView: UIView {
     // MARK: - custom func
 
     private func configUI() {
-        configureCoinNameLabel()
-        configureCurrentPriceLabel()
-        configureFluctuationRateLabel()
-        configureTradeValueLabel()
-    }
+        let stackView = UIStackView(arrangedSubviews: [
+            self.coinNameLabel,
+            self.currentPriceLabel,
+            self.fluctuationRateLabel,
+            self.tradeValueLabel
+        ])
+        stackView.alignment = .center
 
-    private func configureCoinNameLabel() {
-        self.addSubview(coinNameLabel)
-        coinNameLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().offset(10)
-            $0.width.equalToSuperview().dividedBy(4)
-            $0.height.equalToSuperview().dividedBy(2)
-        }
-    }
-
-    private func configureCurrentPriceLabel() {
-        self.addSubview(currentPriceLabel)
-        currentPriceLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalTo(coinNameLabel.snp.trailing)
-            $0.width.equalToSuperview().dividedBy(4)
-            $0.height.equalToSuperview().dividedBy(2)
-        }
-    }
-
-    private func configureFluctuationRateLabel() {
-        self.addSubview(fluctuationRateLabel)
-        fluctuationRateLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalTo(currentPriceLabel.snp.trailing)
-            $0.width.equalToSuperview().dividedBy(5)
-            $0.height.equalToSuperview().dividedBy(2)
-        }
-    }
-
-    private func configureTradeValueLabel() {
-        self.addSubview(tradeValueLabel)
-        tradeValueLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalTo(fluctuationRateLabel.snp.trailing)
-            $0.trailing.equalToSuperview().inset(10)
-            $0.height.equalToSuperview().dividedBy(2)
+        self.addSubview(stackView)
+        stackView.snp.makeConstraints { make in
+            make.edges.equalTo(self).inset(UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10))
+            make.width.equalTo(self.coinNameLabel).multipliedBy(4)
+            make.width.equalTo(self.currentPriceLabel).multipliedBy(4)
+            make.width.equalTo(self.fluctuationRateLabel).multipliedBy(5)
         }
     }
 }

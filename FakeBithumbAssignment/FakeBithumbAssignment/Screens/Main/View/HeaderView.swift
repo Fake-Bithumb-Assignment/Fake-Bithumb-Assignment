@@ -13,8 +13,20 @@ final class HeaderView: UIView {
 
     // MARK: - Instance Property
 
-    private let categoryLabels = ["원화", "관심"]
-
+    private let krwButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("원화", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        return button
+    }()
+    
+    private let favoritesButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("관심", for: .normal)
+        button.setTitleColor(.lightGray, for: .normal)
+        return button
+    }()
+    
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "코인명 또는 심볼 검색"
@@ -56,52 +68,38 @@ final class HeaderView: UIView {
     // MARK: - custom func
 
     private func configUI() {
-        configureSearchBar()
-        configureCategories()
         configureSettingButton()
-        configureColumnNameView()
+        configureStackViews()
+        configureKRWButon()
+        configureFavoritesButton()
     }
+    
+    private func configureStackViews() {
+        let horizontalStackView = UIStackView(arrangedSubviews: [
+            krwButton,
+            favoritesButton,
+            settingButton
+        ])
+        
+        let stackView = UIStackView(arrangedSubviews: [
+            self.searchBar,
+            horizontalStackView,
+            self.columnNameView
+        ])
 
-    private func configureSearchBar() {
-        self.addSubview(searchBar)
-        searchBar.snp.makeConstraints {
-            $0.leading.trailing.top.equalToSuperview()
-            $0.top.equalTo(self.safeAreaLayoutGuide)
+        stackView.axis = .vertical
+
+        self.addSubview(stackView)
+        stackView.snp.makeConstraints { make in
+            make.size.equalToSuperview()
+            make.width.equalTo(self.krwButton).multipliedBy(4)
+            make.width.equalTo(self.favoritesButton).multipliedBy(4)
         }
-    }
-
-    private func configureCategories() {
-        self.addSubview(categoryView)
-        categoryView.snp.makeConstraints {
-            $0.leading.equalToSuperview()
-            $0.trailing.equalToSuperview().multipliedBy(0.7)
-            $0.top.equalTo(searchBar.snp.bottom)
-            $0.bottom.equalToSuperview().dividedBy(1.3)
-        }
-        setUpCategories()
-    }
-
-    private func setUpCategories() {
-        categoryView.delegate = self
-        categoryView.dataSource = self
-        categoryView.register(
-            CoinCategoryCell.self,
-            forCellWithReuseIdentifier: CoinCategoryCell.className
-        )
-
-        let indexPath = IndexPath(item: 0, section: 0)
-        categoryView.selectItem(at: indexPath, animated: false, scrollPosition: [])
     }
 
     private func configureSettingButton() {
-        self.addSubview(settingButton)
         settingButton.showsMenuAsPrimaryAction = true
         settingButton.menu = addSettingItems()
-
-        settingButton.snp.makeConstraints {
-            $0.centerY.equalTo(categoryView)
-            $0.trailing.equalToSuperview().inset(10)
-        }
     }
 
     private func addSettingItems() -> UIMenu {
@@ -126,71 +124,22 @@ final class HeaderView: UIView {
 
         return action
     }
-
-    private func configureColumnNameView() {
-        self.addSubview(columnNameView)
-        columnNameView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(categoryView.snp.bottom)
-            $0.bottom.equalToSuperview()
-        }
-    }
-}
-
-// MARK: - UICollectionViewDelegate
-
-extension HeaderView: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
-    }
-}
-
-// MARK: - UICollectionViewDataSource
-
-extension HeaderView: UICollectionViewDataSource {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        return categoryLabels.count
+    
+    private func configureKRWButon() {
+        self.krwButton.addTarget(self, action: #selector(tapKRWButton), for: .touchUpInside)
     }
     
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: CoinCategoryCell.className,
-            for: indexPath
-        ) as? CoinCategoryCell
-        else {
-            return UICollectionViewCell()
-        }
-        
-        cell.configureCategoryLabel(with: categoryLabels[indexPath.row])
-        return cell
-    }
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-
-extension HeaderView: UICollectionViewDelegateFlowLayout {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        insetForSectionAt section: Int
-    ) -> UIEdgeInsets {
-        let size = categoryView.frame.size.height / 2
-        let topBottomInsets = (categoryView.frame.size.height - size ) / 2
-        return UIEdgeInsets(top: topBottomInsets, left: 10, bottom: topBottomInsets, right: 10)
+    private func configureFavoritesButton() {
+        self.favoritesButton.addTarget(self, action: #selector(tapFavoritesButton), for: .touchUpInside)
     }
     
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        let size = categoryView.frame.size.height / 2
-        return CGSize(width: size, height: size)
+    @objc private func tapKRWButton() {
+        self.krwButton.setTitleColor(.black, for: .normal)
+        self.favoritesButton.setTitleColor(.lightGray, for: .normal)
+    }
+    
+    @objc private func tapFavoritesButton() {
+        self.krwButton.setTitleColor(.lightGray, for: .normal)
+        self.favoritesButton.setTitleColor(.black, for: .normal)
     }
 }
