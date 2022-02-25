@@ -35,7 +35,6 @@
 		E8FE79FD3BAD0C02A5568BBB /* Pods_FakeBithumbAssignment.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D43C2E6B906412E3436BAB9 /* Pods_FakeBithumbAssignment.framework */; };
 		FA041BBC27C7FA5F0053C996 /* BTSocketAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA041BBB27C7FA5F0053C996 /* BTSocketAPIService.swift */; };
 		FA79223327C63F3700D1246A /* WebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA79223227C63F3700D1246A /* WebSocketService.swift */; };
-		FAC7F95927C657C4001E11DA /* BTSocketAPIServiceable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F95827C657C4001E11DA /* BTSocketAPIServiceable.swift */; };
 		FAC7F95B27C65A60001E11DA /* BTSocketAPIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F95A27C65A60001E11DA /* BTSocketAPIResponse.swift */; };
 		FAC7F95D27C65AC0001E11DA /* BTSocketAPIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F95C27C65AC0001E11DA /* BTSocketAPIRequest.swift */; };
 		FAC7F96127C768B5001E11DA /* JSONDecoder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F96027C768B5001E11DA /* JSONDecoder+Extension.swift */; };
@@ -87,7 +86,6 @@
 		AE02598F192C0E80255BEA38 /* Pods-FakeBithumbAssignment.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignment.debug.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment.debug.xcconfig"; sourceTree = "<group>"; };
 		FA041BBB27C7FA5F0053C996 /* BTSocketAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTSocketAPIService.swift; sourceTree = "<group>"; };
 		FA79223227C63F3700D1246A /* WebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketService.swift; sourceTree = "<group>"; };
-		FAC7F95827C657C4001E11DA /* BTSocketAPIServiceable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BTSocketAPIServiceable.swift; path = FakeBithumbAssignment/Network/Serviceable/BTSocketAPIServiceable.swift; sourceTree = SOURCE_ROOT; };
 		FAC7F95A27C65A60001E11DA /* BTSocketAPIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BTSocketAPIResponse.swift; path = FakeBithumbAssignment/Network/Model/BTSocketAPIResponse.swift; sourceTree = SOURCE_ROOT; };
 		FAC7F95C27C65AC0001E11DA /* BTSocketAPIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BTSocketAPIRequest.swift; path = FakeBithumbAssignment/Network/Model/BTSocketAPIRequest.swift; sourceTree = SOURCE_ROOT; };
 		FAC7F96027C768B5001E11DA /* JSONDecoder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+Extension.swift"; sourceTree = "<group>"; };
@@ -153,14 +151,6 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		1504F72327C6310F00A5EC6C /* Serviceable */ = {
-			isa = PBXGroup;
-			children = (
-				FAC7F95827C657C4001E11DA /* BTSocketAPIServiceable.swift */,
-			);
-			path = Serviceable;
-			sourceTree = "<group>";
-		};
 		153D783527C3F06F00C940AB = {
 			isa = PBXGroup;
 			children = (
@@ -207,7 +197,6 @@
 				1504F72027C630D600A5EC6C /* API */,
 				1504F72127C6310100A5EC6C /* APIService */,
 				1504F72227C6310A00A5EC6C /* Model */,
-				1504F72327C6310F00A5EC6C /* Serviceable */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -559,7 +548,6 @@
 				1504F6C827C5F40300A5EC6C /* BaseTableViewCell.swift in Sources */,
 				1504F72927C631C100A5EC6C /* HttpEnvironment.swift in Sources */,
 				1504F72F27C6324600A5EC6C /* NetworkRequest.swift in Sources */,
-				FAC7F95927C657C4001E11DA /* BTSocketAPIServiceable.swift in Sources */,
 				153D784427C3F07000C940AB /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

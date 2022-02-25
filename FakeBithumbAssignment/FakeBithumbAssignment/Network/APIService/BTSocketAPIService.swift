@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BTSocketAPIService: BTSocketAPIServiceable {
+struct BTSocketAPIService {
     
     // MARK: - Instance Property
     
@@ -17,6 +17,11 @@ struct BTSocketAPIService: BTSocketAPIServiceable {
     
     // MARK: - custom func
     
+    /// 현재가 ticker
+    ///
+    /// - Parameter symbols 통화코드
+    /// - Parameter tickTypes: tick 종류
+    /// - Parameter responseHander: 응답으로 온 Ticket의 핸들러
     mutating func subscribeTicker(
         symbols: [BTSocketAPIRequest.Symbol],
         tickTypes: [BTSocketAPIRequest.TickType]?,
@@ -29,10 +34,15 @@ struct BTSocketAPIService: BTSocketAPIServiceable {
         self.subscribe(of: .ticker, writeWith: filter, responseHandler: responseHandler)
     }
     
+    /// ticker 연결 해제
     mutating func disconnectTicker() {
         self.disconnect(of: .ticker)
     }
     
+    /// 체결 transaction
+    ///
+    /// - Parameter symbols: 통화코드
+    /// - Parameter responseHander: 응답으로 온 Transaction의 핸들러
     mutating func subscribeTransaction(
         symbols: [BTSocketAPIRequest.Symbol],
         responseHandler: @escaping (BTSocketAPIResponse.TransactionResponse) -> Void
@@ -44,10 +54,15 @@ struct BTSocketAPIService: BTSocketAPIServiceable {
         self.subscribe(of: .transaction, writeWith: filter, responseHandler: responseHandler)
     }
     
+    /// transaction 연결 해제
     mutating func disconnectTransaction() {
         self.disconnect(of: .transaction)
     }
 
+    /// 호가 orderbook
+    ///
+    /// - Parameter symbols: 통화코드
+    /// - Parameter responseHander: 응답으로 온 OrderBook의 핸들러
     mutating func subscribeOrderBook(
         symbols: [BTSocketAPIRequest.Symbol],
         responseHandler: @escaping (BTSocketAPIResponse.OrderBookResponse) -> Void
@@ -59,10 +74,12 @@ struct BTSocketAPIService: BTSocketAPIServiceable {
         self.subscribe(of: .orderBook, writeWith: filter, responseHandler: responseHandler)
     }
     
+    /// orderbook 연결 해제
     mutating func disconnectOrderBook() {
         self.disconnect(of: .orderBook)
     }
     
+    /// 전체 연결 해제
     func disconnectAll() {
         BTSocketAPIRequest.RequestType.allCases.forEach { requestType in
             self.disconnect(of: requestType)
