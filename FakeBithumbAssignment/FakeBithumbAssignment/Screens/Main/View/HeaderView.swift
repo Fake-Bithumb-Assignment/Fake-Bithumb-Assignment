@@ -8,55 +8,38 @@
 import UIKit
 
 import SnapKit
+import Then
 
 final class HeaderView: UIView {
 
     // MARK: - Instance Property
 
-    private let krwButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("원화", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        return button
-    }()
-    
-    private let favoritesButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("관심", for: .normal)
-        button.setTitleColor(.lightGray, for: .normal)
-        return button
-    }()
-    
-    private let searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "코인명 또는 심볼 검색"
-        searchBar.barTintColor = .white
-        return searchBar
-    }()
+    private let krwButton = UIButton().then {
+        $0.setTitle("원화", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+    }
 
-    private let categoryView: UICollectionView = {
-        let collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.scrollDirection = .vertical
-        let view = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
-        view.backgroundColor = .white
-        return view
-    }()
-
-    private let settingButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("인기", for: .normal)
-        button.setTitleColor(.darkGray, for: .normal)
-        button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
-        button.tintColor = .darkGray
-        button.semanticContentAttribute = .forceRightToLeft
-        return button
-    }()
+    private let favoritesButton = UIButton().then {
+        $0.setTitle("관심", for: .normal)
+        $0.setTitleColor(.lightGray, for: .normal)
+    }
     
-    private let indicatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black
-        return view
-    }()
+    private let searchBar = UISearchBar().then {
+        $0.placeholder = "코인명 또는 심볼 검색"
+        $0.barTintColor = .white
+    }
+
+    private let settingButton = UIButton().then {
+        $0.setTitle("인기", for: .normal)
+        $0.setTitleColor(.darkGray, for: .normal)
+        $0.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+        $0.tintColor = .darkGray
+        $0.semanticContentAttribute = .forceRightToLeft
+    }
+    
+    private let indicatorView = UIView().then {
+        $0.backgroundColor = .black
+    }
 
     private let columnNameView = ColumnNameView()
 
@@ -91,10 +74,10 @@ final class HeaderView: UIView {
             self.searchBar,
             horizontalStackView,
             self.columnNameView
-        ])
-
-        stackView.axis = .vertical
-        stackView.spacing = 10
+        ]).then {
+            $0.axis = .vertical
+            $0.spacing = 10
+        }
 
         self.addSubview(stackView)
         stackView.snp.makeConstraints { make in

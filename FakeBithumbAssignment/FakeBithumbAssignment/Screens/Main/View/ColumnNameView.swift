@@ -8,46 +8,39 @@
 import UIKit
 
 import SnapKit
+import Then
 
 final class ColumnNameView: UIView {
 
     // MARK: - Instance Property
 
-    private let coinNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        label.text = "가상자산명"
-        label.textColor = .black
-        label.textAlignment = .center
-        return label
-    }()
+    private let coinNameLabel = UILabel().then {
+        $0.font = .preferredFont(forTextStyle: .body)
+        $0.text = "가상자산명"
+        $0.textColor = .black
+        $0.textAlignment = .center
+    }
 
-    private let currentPriceLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        label.text = "현재가"
-        label.textColor = .black
-        label.textAlignment = .right
-        return label
-    }()
+    private let currentPriceLabel = UILabel().then {
+        $0.font = .preferredFont(forTextStyle: .body)
+        $0.text = "현재가"
+        $0.textColor = .black
+        $0.textAlignment = .right
+    }
 
-    private let fluctuationRateLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        label.text = "변동률"
-        label.textColor = .black
-        label.textAlignment = .center
-        return label
-    }()
+    private let fluctuationRateLabel = UILabel().then {
+        $0.font = .preferredFont(forTextStyle: .body)
+        $0.text = "변동률"
+        $0.textColor = .black
+        $0.textAlignment = .center
+    }
 
-    private let tradeValueLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        label.text = "거래금액"
-        label.textColor = .black
-        label.textAlignment = .right
-        return label
-    }()
+    private let tradeValueLabel = UILabel().then {
+        $0.font = .preferredFont(forTextStyle: .body)
+        $0.text = "거래금액"
+        $0.textColor = .black
+        $0.textAlignment = .right
+    }
 
     // MARK: - Life Cycle func
 
@@ -68,8 +61,9 @@ final class ColumnNameView: UIView {
             self.currentPriceLabel,
             self.fluctuationRateLabel,
             self.tradeValueLabel
-        ])
-        stackView.alignment = .center
+        ]).then {
+            $0.alignment = .center
+        }
 
         self.addSubview(stackView)
         stackView.snp.makeConstraints { make in
