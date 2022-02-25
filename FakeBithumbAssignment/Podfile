@@ -15,5 +15,6 @@ target 'FakeBithumbAssignment' do
 pod 'Starscream', '~> 4.0.0'
 pod 'SnapKit', '~> 5.0.0'
 pod 'Then', '~> 2.7.0'
+pod 'Charts', '~> 3.6.0'
 
 end
