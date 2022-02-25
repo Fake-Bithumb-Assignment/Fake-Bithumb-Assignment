@@ -74,6 +74,8 @@ struct BTSocketAPIService: BTSocketAPIServiceable {
         }
         if var socketService = self.socketServiceByType[requestType] {
             socketService.disconnect()
+        } else {
+            self.socketServiceByType[requestType] = WebSocketService()
         }
         self.socketServiceByType[requestType]?.connect(to: baseURL, writeWith: filter, responseHandler)
     }
