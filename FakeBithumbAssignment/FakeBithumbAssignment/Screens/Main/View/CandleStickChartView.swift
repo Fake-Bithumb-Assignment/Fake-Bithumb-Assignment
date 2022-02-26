@@ -30,6 +30,10 @@ class CandleStickChartView: UIView {
     /// 세로줄을 그려줄 레이어 (스크롤에 포함)
     private let verticalGridLayer: CALayer = CALayer()
     
+    /// 양봉 색상
+    private let redColor: CGColor = CGColor(red: 194/255, green: 72/255, blue: 79/255, alpha: 1.0)
+    /// 음복 색상
+    private let blueColor: CGColor = CGColor(red: 50/255, green: 93/255, blue: 202/255, alpha: 1.0)
     /// 오른쪽 값 영역의 너비
     private let valueWidth: CGFloat = 40.0
     /// 아래 날짜, 시간 영역의 높이
