@@ -35,6 +35,7 @@
 		43F60EC527C7666A0027699B /* ColumnNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F60EC427C7666A0027699B /* ColumnNameView.swift */; };
 		7711825CBF106F792BE9AEE8 /* Pods_FakeBithumbAssignmentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1279322932B4E6EF0923160F /* Pods_FakeBithumbAssignmentTests.framework */; };
 		BA184E6AA3D8A24E0F0DD080 /* Pods_FakeBithumbAssignment.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 396F2646855BEFF936DFF560 /* Pods_FakeBithumbAssignment.framework */; };
+		FA4093A127CA43D800EFA433 /* CandleStickChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4093A027CA43D800EFA433 /* CandleStickChartView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		43F60EC227C6874A0027699B /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		43F60EC427C7666A0027699B /* ColumnNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnNameView.swift; sourceTree = "<group>"; };
 		DAB1402CB2E7430FBF8CAFB6 /* Pods-FakeBithumbAssignment.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignment.release.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment.release.xcconfig"; sourceTree = "<group>"; };
+		FA4093A027CA43D800EFA433 /* CandleStickChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChartView.swift; sourceTree = "<group>"; };
 		FAE3F28730A0F75D468665D0 /* Pods-FakeBithumbAssignmentTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignmentTests.debug.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignmentTests/Pods-FakeBithumbAssignmentTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FB1DF18649FC3F7763F4408E /* Pods-FakeBithumbAssignment.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignment.debug.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -322,6 +324,7 @@
 			children = (
 				43F60EC227C6874A0027699B /* HeaderView.swift */,
 				43F60EC427C7666A0027699B /* ColumnNameView.swift */,
+				FA4093A027CA43D800EFA433 /* CandleStickChartView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				1504F6CA27C5F47C00A5EC6C /* UIView+Extension.swift in Sources */,
 				1504F6CC27C5F58900A5EC6C /* NSObject+Extension.swift in Sources */,
 				1504F73427C6339D00A5EC6C /* HttpService.swift in Sources */,
+				FA4093A127CA43D800EFA433 /* CandleStickChartView.swift in Sources */,
 				1504F6C427C5F26000A5EC6C /* BaseViewController.swift in Sources */,
 				1504F6D027C5F66200A5EC6C /* CoinQuoteInformationTabViewController.swift in Sources */,
 				1504F72D27C6322500A5EC6C /* HttpServiceError.swift in Sources */,
