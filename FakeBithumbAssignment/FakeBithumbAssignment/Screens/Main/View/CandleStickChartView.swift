@@ -40,8 +40,12 @@ class CandleStickChartView: UIView {
     private let dateTimeHeight: CGFloat = 20.0
     /// 캔들스틱 너비
     private var candleStickWidth: CGFloat = 5.0
+    /// 캔들스틱 얇은 선 너비
+    private var candleStickLineWidth: CGFloat = 1.0
     /// 캔들스틱 간격
     private var candleStickSpace: CGFloat = 1.0
+    /// 캔들스틱 차트 영역 위, 빈 공간 비율
+    private let verticalFrontRearSpaceRate: CGFloat = 0.1
     /// 그래프 맨앞, 맨 뒤의 빈 공간
     private var horizontalFrontRearSpace: CGFloat {
         get {
@@ -51,18 +55,6 @@ class CandleStickChartView: UIView {
     
     /// 캔들스틱 값들
     private var candleSticks: [CandleStick] = []
-    /// 캔들스틱 x값
-    private var candleStickXAxis: [CGFloat] {
-        get {
-            var xAxis: [CGFloat] = [self.horizontalFrontRearSpace + self.candleStickWidth / 2.0]
-            var previousAxis: CGFloat = xAxis[0]
-            (1...self.candleSticks.count - 1).forEach { _ in
-                previousAxis = previousAxis + self.candleStickWidth + self.candleStickSpace
-                xAxis.append(previousAxis)
-            }
-            return xAxis
-        }
-    }
     
     // MARK: - Initializer
     
@@ -100,6 +92,7 @@ class CandleStickChartView: UIView {
     override func layoutSubviews() {
         setFrame()
         cleanLayers()
+        drawChart()
     }
     
     private func setFrame() {
@@ -155,6 +148,63 @@ class CandleStickChartView: UIView {
         self.valueLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
         self.horizontalGridLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
         self.verticalGridLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
+    }
+    
+    private func drawChart() {
+        self.candleSticks.indices.forEach { index in
+            let candleStick: CandleStick = candleSticks[index]
+            let xCoord: CGFloat = getXCoord(indexOf: index)
+            let color: CGColor = candleStick.type == .blue ? self.blueColor : self.redColor
+            guard let openingPriceYCoord: CGFloat = self.getYCoord(of: candleStick.openingPrice) else {
+                return
+            }
+            guard let highPriceYCoord: CGFloat = self.getYCoord(of: candleStick.highPrice) else {
+                return
+            }
+            guard let lowPriceYCoord: CGFloat = self.getYCoord(of: candleStick.lowPrice) else {
+                return
+            }
+            guard let tradePriceYCoord: CGFloat = self.getYCoord(of: candleStick.tradePrice) else {
+                return
+            }
+            let lineLayer: CALayer = CALayer().then {
+                $0.frame = CGRect(x: xCoord - self.candleStickLineWidth / 2,
+                                  y: highPriceYCoord,
+                                  width: self.candleStickLineWidth,
+                                  height: lowPriceYCoord - highPriceYCoord
+                )
+                $0.backgroundColor = color
+            }
+            let rectLayer: CALayer = CALayer().then {
+                $0.frame = CGRect(x: xCoord - self.candleStickWidth / 2,
+                                  y: max(openingPriceYCoord, tradePriceYCoord),
+                                  width: self.candleStickWidth,
+                                  height: max(openingPriceYCoord, tradePriceYCoord) -
+                                  min(openingPriceYCoord, tradePriceYCoord)
+                )
+                $0.backgroundColor = color
+            }
+            self.dataLayer.addSublayer(lineLayer)
+            self.dataLayer.addSublayer(rectLayer)
+        }
+    }
+    
+    private func getYCoord(of current: Double) -> CGFloat? {
+        guard let maxPrice: Double = self.candleSticks.max(by: { $0.highPrice < $1.highPrice })?.highPrice else {
+            return nil
+        }
+        guard let minPrice: Double = self.candleSticks.max(by: { $0.highPrice > $1.highPrice })?.highPrice else {
+            return nil
+        }
+        let chartContentHeight: CGFloat = self.frame.size.height - self.dateTimeHeight
+        return ((maxPrice - current) / (maxPrice - minPrice)) *
+        (chartContentHeight * (1 - self.verticalFrontRearSpaceRate)) +
+        (chartContentHeight * self.verticalFrontRearSpaceRate) / 2
+    }
+    
+    private func getXCoord(indexOf index: Int) -> CGFloat {
+        return (self.horizontalFrontRearSpace + self.candleStickWidth / 2.0) +
+        CGFloat(index - 1) * (self.candleStickWidth + self.candleStickSpace)
     }
 }
 
