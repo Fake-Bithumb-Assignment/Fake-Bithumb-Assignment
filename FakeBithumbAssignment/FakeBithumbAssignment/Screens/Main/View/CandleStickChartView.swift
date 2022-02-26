@@ -79,6 +79,7 @@ class CandleStickChartView: UIView {
     
     override func layoutSubviews() {
         setFrame()
+        cleanLayers()
     }
     
     private func setFrame() {
@@ -125,6 +126,15 @@ class CandleStickChartView: UIView {
                                                 width: chartContentWidth,
                                                 height: chartContentHeight
         )
+    }
+    
+    private func cleanLayers() {
+        self.mainLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        self.dataLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        self.dateTimeLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        self.valueLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        self.horizontalGridLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        self.verticalGridLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
     }
 }
 
