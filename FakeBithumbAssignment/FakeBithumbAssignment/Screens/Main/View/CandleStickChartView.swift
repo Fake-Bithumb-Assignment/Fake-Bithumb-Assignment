@@ -39,7 +39,11 @@ class CandleStickChartView: UIView {
     /// 캔들스틱 간격
     private var candleStickSpace: CGFloat = 1.0
     /// 그래프 맨앞, 맨 뒤의 빈 공간
-    private let horizontalFrontRearSpace: CGFloat = 40.0
+    private var horizontalFrontRearSpace: CGFloat {
+        get {
+            self.frame.size.width / 2
+        }
+    }
     
     /// 캔들스틱 값들
     private var candleSticks: [CandleStick] = []
