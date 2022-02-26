@@ -31,7 +31,7 @@ final class CoinViewController: BaseViewController {
     }
     
     private let fluctateImageView = UIImageView().then {
-        $0.image = UIImage()
+        $0.image = UIImage(named: "up")
     }
     
     private let fluctateRateLabel = UILabel().then {
@@ -82,14 +82,14 @@ final class CoinViewController: BaseViewController {
         }
         
         fluctateImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(currentPriceLabel.snp.bottom)
+            make.centerY.equalTo(fluctateLabel)
             make.leading.equalTo(fluctateLabel.snp.trailing).offset(10)
-            make.width.height.equalTo(18)
+            make.width.height.equalTo(10)
         }
         
         fluctateRateLabel.snp.makeConstraints { (make) in
             make.top.equalTo(currentPriceLabel.snp.bottom)
-            make.leading.equalTo(fluctateImageView.snp.trailing)
+            make.leading.equalTo(fluctateImageView.snp.trailing).offset(2)
         }
         
         menuCollectionView.snp.makeConstraints { (make) in
