@@ -132,6 +132,8 @@ extension CoinViewController: UICollectionViewDataSource {
         switch indexPath.row {
         case 0:
             cell.update(type: .quoteInformation)
+            collectionView.selectItem(at: indexPath, animated: false , scrollPosition: .init())
+            cell.isSelected = true
         case 1:
             cell.update(type: .graph)
         case 2:

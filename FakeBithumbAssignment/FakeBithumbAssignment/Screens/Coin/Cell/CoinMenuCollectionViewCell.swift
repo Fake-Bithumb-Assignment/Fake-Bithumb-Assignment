@@ -40,7 +40,7 @@ class CoinMenuCollectionViewCell: BaseCollectionViewCell {
     
     override var isSelected: Bool {
         willSet {
-            if isSelected {
+            if newValue {
                 bottomView.backgroundColor = .black
             } else {
                 bottomView.backgroundColor = .white
