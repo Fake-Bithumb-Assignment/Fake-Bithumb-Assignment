@@ -39,7 +39,7 @@ class CandleStickChartView: UIView {
     /// 캔들스틱 간격
     private var candleStickSpace: CGFloat = 1.0
     /// 그래프 맨앞, 맨 뒤의 빈 공간
-    private let widthFrontRearSpace: CGFloat = 40.0
+    private let horizontalFrontRearSpace: CGFloat = 40.0
     
     /// 캔들스틱 값들
     private var candleSticks: [CandleStick] = []
@@ -66,15 +66,15 @@ class CandleStickChartView: UIView {
     
     private func setupLayers() {
         // 스크롤에 포함될 전체 영역인 mainLayer
-        mainLayer.addSublayer(dataLayer)
-        mainLayer.addSublayer(dateTimeLayer)
-        mainLayer.addSublayer(verticalGridLayer)
-        scrollView.layer.addSublayer(mainLayer)
+        self.mainLayer.addSublayer(self.dataLayer)
+        self.mainLayer.addSublayer(self.dateTimeLayer)
+        self.mainLayer.addSublayer(self.verticalGridLayer)
+        self.scrollView.layer.addSublayer(self.mainLayer)
         // 가로줄, 값은 스크롤 되지 않음
-        self.layer.addSublayer(horizontalGridLayer)
-        self.layer.addSublayer(valueLayer)
+        self.layer.addSublayer(self.horizontalGridLayer)
+        self.layer.addSublayer(self.valueLayer)
         // subView로 추가
-        self.addSubview(scrollView)
+        self.addSubview(self.scrollView)
     }
     
     override func layoutSubviews() {
