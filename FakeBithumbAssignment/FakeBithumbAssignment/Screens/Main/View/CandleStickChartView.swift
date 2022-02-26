@@ -31,25 +31,29 @@ class CandleStickChartView: UIView {
     private let verticalGridLayer: CALayer = CALayer()
     
     /// 오른쪽 값 영역의 너비
-    private var valueWidth: CGFloat = 40.0
+    private let valueWidth: CGFloat = 40.0
     /// 아래 날짜, 시간 영역의 높이
-    private var dateTimeHeight: CGFloat = 20.0
+    private let dateTimeHeight: CGFloat = 20.0
     /// 캔들스틱 너비
     private var candleStickWidth: CGFloat = 5.0
     /// 캔들스틱 간격
     private var candleStickSpace: CGFloat = 1.0
     /// 그래프 맨앞, 맨 뒤의 빈 공간
-    private var widthFrontRearSpace: CGFloat = 40.0
+    private let widthFrontRearSpace: CGFloat = 40.0
+    
+    /// 캔들스틱 값들
+    private var candleSticks: [CandleStick] = []
     
     // MARK: - Initializer
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, with candleSticks: [CandleStick]) {
+        self.candleSticks = candleSticks
         super.init(frame: frame)
         setupLayers()
     }
     
-    convenience init() {
-        self.init(frame: CGRect.zero)
+    convenience init(with candleSticks: [CandleStick]) {
+        self.init(frame: CGRect.zero, with: candleSticks)
         setupLayers()
     }
     
@@ -75,5 +79,37 @@ class CandleStickChartView: UIView {
     
     override func layoutSubviews() {
         // Frame 설정
+    }
+}
+
+extension CandleStickChartView {
+    /// 캔들스틱 값
+    struct CandleStick {
+        /// 일시
+        let date: Date
+        /// 시가
+        let openingPrice: Double
+        /// 고가
+        let highPrice: Double
+        /// 저가
+        let lowPrice: Double
+        /// 종가
+        let tradePrice: Double
+        /// 거래량
+        let tradeVolume: Double
+        /// 양봉 or 음봉
+        var type: CandleType {
+            get {
+                return .red
+            }
+        }
+        
+        /// 양봉 or 음봉
+        enum CandleType {
+            /// 양봉
+            case red
+            /// 음봉
+            case blue
+        }
     }
 }
