@@ -78,7 +78,53 @@ class CandleStickChartView: UIView {
     }
     
     override func layoutSubviews() {
-        // Frame 설정
+        setFrame()
+    }
+    
+    private func setFrame() {
+        let chartContentWidth: CGFloat = 2 * self.horizontalFrontRearSpace
+        + CGFloat(self.candleSticks.count) * self.candleStickWidth
+        + CGFloat(self.candleSticks.count) - 1 * self.candleStickSpace
+        let chartContentHeight: CGFloat = self.frame.size.height - self.dateTimeHeight
+        
+        self.scrollView.frame = CGRect(x: 0,
+                                       y: 0,
+                                       width: self.frame.size.width - self.valueWidth,
+                                       height: self.frame.size.height
+        )
+        self.scrollView.contentSize = CGSize(width: chartContentWidth,
+                                             height: self.frame.size.height
+        )
+        self.mainLayer.frame = CGRect(x: 0,
+                                      y: 0,
+                                      width: chartContentWidth,
+                                      height: self.frame.size.height
+        )
+        self.dataLayer.frame = CGRect(x: 0,
+                                      y: 0,
+                                      width: chartContentWidth,
+                                      height: chartContentHeight
+        )
+        self.dateTimeLayer.frame = CGRect(x: 0,
+                                          y: chartContentHeight,
+                                          width: chartContentWidth,
+                                          height: self.dateTimeHeight
+        )
+        self.valueLayer.frame = CGRect(x: chartContentWidth,
+                                       y: 0,
+                                       width: self.valueWidth,
+                                       height: chartContentHeight
+        )
+        self.horizontalGridLayer.frame = CGRect(x: 0,
+                                                y: 0,
+                                                width: chartContentWidth,
+                                                height: chartContentHeight
+        )
+        self.horizontalGridLayer.frame = CGRect(x: 0,
+                                                y: 0,
+                                                width: chartContentWidth,
+                                                height: chartContentHeight
+        )
     }
 }
 
