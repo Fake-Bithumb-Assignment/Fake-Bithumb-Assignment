@@ -45,7 +45,7 @@ final class CoinViewController: BaseViewController {
     
     
     // MARK: - Life Cycle func
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         render()
@@ -81,13 +81,11 @@ final class CoinViewController: BaseViewController {
     override func configUI() {
         super.configUI()
     }
-        
-    
-    
-    // MARK: - @IBOutlets Action
     
     // MARK: - custom func
     
+    // MARK: - @IBOutlets Action
+    
     // MARK: - @objc
-
+    
 }
