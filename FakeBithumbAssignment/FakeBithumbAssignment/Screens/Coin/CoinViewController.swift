@@ -14,6 +14,10 @@ final class CoinViewController: BaseViewController {
     
     // MARK: - Instance Property
     
+    private let informationView = UIView().then {
+        $0.backgroundColor = .white
+    }
+    
     private let currentPriceLabel = UILabel().then {
         $0.text = "45,594,000"
         $0.font = UIFont.systemFont(ofSize: 25)
@@ -33,15 +37,17 @@ final class CoinViewController: BaseViewController {
         $0.font = UIFont.systemFont(ofSize: 15)
     }
     
-    private let informationView = UIView()
-    private let pageView = UIView()
-    
     private let menuCollectionView: UICollectionView = {
         var collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .blue
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.className)
         return collectionView
     }()
+    
+    let pageView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = .white
+    }
     
     
     // MARK: - Life Cycle func
@@ -53,17 +59,23 @@ final class CoinViewController: BaseViewController {
     }
     
     override func render() {
-        view.addSubViews([currentPriceLabel, fluctateLabel, fluctateImageView, fluctateRateLabel, pageView])
+        view.addSubViews([informationView, menuCollectionView, pageView])
+        informationView.addSubViews([currentPriceLabel, fluctateLabel, fluctateImageView, fluctateRateLabel])
+        
+        informationView.snp.makeConstraints { (make) in
+            make.leading.top.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(80)
+        }
         
         currentPriceLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(30)
-            make.leading.equalTo(view).offset(20)
+            make.top.equalTo(informationView).offset(20)
+            make.leading.equalTo(informationView).offset(20)
             make.width.equalTo(150)
         }
         
         fluctateLabel.snp.makeConstraints { (make) in
             make.top.equalTo(currentPriceLabel.snp.bottom)
-            make.leading.equalTo(view).offset(20)
+            make.leading.equalTo(informationView).offset(20)
         }
         
         fluctateImageView.snp.makeConstraints { (make) in
@@ -76,10 +88,22 @@ final class CoinViewController: BaseViewController {
             make.top.equalTo(currentPriceLabel.snp.bottom)
             make.leading.equalTo(fluctateImageView.snp.trailing)
         }
+        
+        menuCollectionView.snp.makeConstraints { (make) in
+            make.top.equalTo(informationView.snp.bottom).offset(1)
+            make.leading.trailing.equalTo(view)
+            make.height.equalTo(35)
+        }
+        
+        pageView.snp.makeConstraints { (make) in
+            make.top.equalTo(menuCollectionView.snp.bottom).offset(1)
+            make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
     }
     
     override func configUI() {
         super.configUI()
+        view.backgroundColor = .gray
     }
     
     // MARK: - custom func
