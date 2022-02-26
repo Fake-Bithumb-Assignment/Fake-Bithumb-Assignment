@@ -43,6 +43,19 @@ extension CoinViewController: UICollectionViewDelegate {
         
         return CGSize(width: cellWidth, height: cellHeight)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            pageViewController?.setViewControllers([pages[0]], direction: .forward, animated: false, completion: nil)
+        case 1:
+            pageViewController?.setViewControllers([pages[1]], direction: .forward, animated: false, completion: nil)
+        case 2:
+            pageViewController?.setViewControllers([pages[2]], direction: .forward, animated: false, completion: nil)
+        default:
+            pageViewController?.setViewControllers([pages[0]], direction: .forward, animated: false, completion: nil)
+        }
+    }
 }
 
 extension CoinViewController: UICollectionViewDelegateFlowLayout {

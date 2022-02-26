@@ -14,13 +14,20 @@ enum CoinMenuTitle {
     case quoteInformation, graph, contractDetails
 }
 
-final class CoinMenuCollectionViewCell: BaseCollectionViewCell {
+protocol PageIndexDelegate {
+    func SelectMenuItem(pageIndex: Int)
+}
+
+class CoinMenuCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - Instance Property
     
     private var titleLabel = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .body)
     }
+    var delegate: PageIndexDelegate?
+    
+    private var titleLabel = UILabel()
     
     private var bottomView = UIView().then {
         $0.backgroundColor = .white

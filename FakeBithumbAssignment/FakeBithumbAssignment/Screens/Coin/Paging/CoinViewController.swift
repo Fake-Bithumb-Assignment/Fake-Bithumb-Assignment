@@ -12,6 +12,8 @@ import Then
 
 final class CoinViewController: BaseViewController {
     
+    var pages: [UIViewController] = [CoinQuoteInformationTabViewController(), CoinGraphTabViewController(), CoinContractDetailsTabViewController()]
+    
     // MARK: - Instance Property
     
     let sectionInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
@@ -70,7 +72,7 @@ final class CoinViewController: BaseViewController {
     }
     
     func setPageView() {
-        pageViewController = CoinPagingViewController()
+        pageViewController = CoinPagingViewController(pages: pages)
         
         if let pageViewController = pageViewController {
             addChild(pageViewController)
