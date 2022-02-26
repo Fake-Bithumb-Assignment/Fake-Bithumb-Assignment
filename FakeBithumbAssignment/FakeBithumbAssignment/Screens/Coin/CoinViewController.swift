@@ -42,7 +42,7 @@ final class CoinViewController: BaseViewController {
     private let menuCollectionView: UICollectionView = {
         var collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         collectionView.backgroundColor = .white
-        collectionView.register(CoinMenuCollectionViewCell.self, forCellWithReuseIdentifier: CoinMenuCollectionViewCell.className)
+        collectionView.register(cell: CoinMenuCollectionViewCell.self)
         return collectionView
     }()
     
@@ -128,7 +128,7 @@ extension CoinViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: CoinMenuCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoinMenuCollectionViewCell.className, for: indexPath) as! CoinMenuCollectionViewCell
+        let cell: CoinMenuCollectionViewCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
         switch indexPath.row {
         case 0:
             cell.update(type: .quoteInformation)
