@@ -51,6 +51,18 @@ class CandleStickChartView: UIView {
     
     /// 캔들스틱 값들
     private var candleSticks: [CandleStick] = []
+    /// 캔들스틱 x값
+    private var candleStickXAxis: [CGFloat] {
+        get {
+            var xAxis: [CGFloat] = [self.horizontalFrontRearSpace + self.candleStickWidth / 2.0]
+            var previousAxis: CGFloat = xAxis[0]
+            (1...self.candleSticks.count - 1).forEach { _ in
+                previousAxis = previousAxis + self.candleStickWidth + self.candleStickSpace
+                xAxis.append(previousAxis)
+            }
+            return xAxis
+        }
+    }
     
     // MARK: - Initializer
     
