@@ -14,6 +14,8 @@ final class CoinViewController: BaseViewController {
     
     // MARK: - Instance Property
     
+    let sectionInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+
     private let informationView = UIView().then {
         $0.backgroundColor = .white
     }
@@ -39,8 +41,8 @@ final class CoinViewController: BaseViewController {
     
     private let menuCollectionView: UICollectionView = {
         var collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-        collectionView.backgroundColor = .blue
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.className)
+        collectionView.backgroundColor = .white
+        collectionView.register(CoinMenuCollectionViewCell.self, forCellWithReuseIdentifier: CoinMenuCollectionViewCell.className)
         return collectionView
     }()
     
@@ -56,6 +58,7 @@ final class CoinViewController: BaseViewController {
         super.viewDidLoad()
         render()
         configUI()
+        setDelegations()
     }
     
     override func render() {
@@ -64,7 +67,7 @@ final class CoinViewController: BaseViewController {
         
         informationView.snp.makeConstraints { (make) in
             make.leading.top.trailing.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalTo(80)
+            make.height.equalTo(90)
         }
         
         currentPriceLabel.snp.makeConstraints { (make) in
@@ -108,8 +111,52 @@ final class CoinViewController: BaseViewController {
     
     // MARK: - custom func
     
+    func setDelegations() {
+        menuCollectionView.delegate = self
+        menuCollectionView.dataSource = self
+    }
+    
     // MARK: - @IBOutlets Action
     
     // MARK: - @objc
     
+}
+
+extension CoinViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell: CoinMenuCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoinMenuCollectionViewCell.className, for: indexPath) as! CoinMenuCollectionViewCell
+        switch indexPath.row {
+        case 0:
+            cell.update(type: .quoteInformation)
+        case 1:
+            cell.update(type: .graph)
+        case 2:
+            cell.update(type: .contractDetails)
+        default:
+            cell.update(type: .quoteInformation)
+        }
+        return cell
+    }
+}
+
+extension CoinViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width
+                let height = collectionView.frame.height
+                let itemsPerRow: CGFloat = 3
+                let widthPadding = sectionInsets.left * (itemsPerRow + 1)
+                let itemsPerColumn: CGFloat = 1
+                let heightPadding = sectionInsets.top * (itemsPerColumn + 1)
+                let cellWidth = (width - widthPadding) / itemsPerRow
+                let cellHeight = (height - heightPadding) / itemsPerColumn
+                
+                return CGSize(width: cellWidth, height: cellHeight)
+    }
+}
+
+extension CoinViewController: UICollectionViewDelegateFlowLayout {
 }
