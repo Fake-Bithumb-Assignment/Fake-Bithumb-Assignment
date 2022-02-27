@@ -110,6 +110,7 @@ class CandleStickChartView: UIView {
         cleanLayers()
         drawChart()
         drawDateTime()
+        drawDivivisionLine()
     }
     
     private func setFrame() {
@@ -227,7 +228,7 @@ class CandleStickChartView: UIView {
                 return
             }
             let xCoord: CGFloat = getXCoord(indexOf: index)
-            let thornLineLayer: CAShapeLayer  = CAShapeLayer.lineLayer(
+            let thornLineLayer: CAShapeLayer = CAShapeLayer.lineLayer(
                 from: CGPoint(x: xCoord, y: 0),
                 to: CGPoint(x: xCoord, y: self.thornLength),
                 color: self.defaultColor,
@@ -251,6 +252,23 @@ class CandleStickChartView: UIView {
             self.dateTimeLayer.addSublayer(thornLineLayer)
             self.dateTimeLayer.addSublayer(textLayer)
         }
+    }
+    
+    private func drawDivivisionLine() {
+        let horizontalLine: CAShapeLayer = CAShapeLayer.lineLayer(
+            from: CGPoint(x: -(2 * self.mainLayer.bounds.size.width), y: 0),
+            to: CGPoint(x: (2 * self.mainLayer.bounds.size.width), y: 0),
+            color: self.defaultColor,
+            width: self.defaultLineWidth
+        )
+        let verticalLine: CAShapeLayer = CAShapeLayer.lineLayer(
+            from: .zero,
+            to: CGPoint(x: 0, y: self.bounds.height - self.dateTimeHeight),
+            color: self.defaultColor,
+            width: self.defaultLineWidth
+        )
+        self.dateTimeLayer.addSublayer(horizontalLine)
+        self.valueLayer.addSublayer(verticalLine)
     }
     
     private func getYCoord(of current: Double) -> CGFloat? {
