@@ -53,24 +53,24 @@ class CoinHeaderView: UIView {
     func render() {
         self.addSubViews([currentPriceLabel, fluctateLabel, fluctateImageView, fluctateRateLabel])
         
-        currentPriceLabel.snp.makeConstraints { (make) in
+        currentPriceLabel.snp.makeConstraints { make in
             make.top.equalTo(self).offset(20)
             make.leading.equalTo(self).offset(20)
             make.width.equalTo(150)
         }
         
-        fluctateLabel.snp.makeConstraints { (make) in
+        fluctateLabel.snp.makeConstraints { make in
             make.top.equalTo(currentPriceLabel.snp.bottom)
             make.leading.equalTo(self).offset(20)
         }
         
-        fluctateImageView.snp.makeConstraints { (make) in
+        fluctateImageView.snp.makeConstraints { make in
             make.centerY.equalTo(fluctateLabel)
             make.leading.equalTo(fluctateLabel.snp.trailing).offset(10)
             make.width.height.equalTo(10)
         }
         
-        fluctateRateLabel.snp.makeConstraints { (make) in
+        fluctateRateLabel.snp.makeConstraints { make in
             make.top.equalTo(currentPriceLabel.snp.bottom)
             make.leading.equalTo(fluctateImageView.snp.trailing).offset(2)
         }

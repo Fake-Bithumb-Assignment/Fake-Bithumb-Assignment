@@ -43,18 +43,18 @@ final class CoinViewController: BaseViewController {
     override func render() {
         view.addSubViews([headerView, menuCollectionView, pageView])
        
-        headerView.snp.makeConstraints { (make) in
+        headerView.snp.makeConstraints { make in
             make.leading.top.trailing.equalTo(view.safeAreaLayoutGuide)
             make.height.equalTo(90)
         }
         
-        menuCollectionView.snp.makeConstraints { (make) in
+        menuCollectionView.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(1)
             make.leading.trailing.equalTo(view)
             make.height.equalTo(35)
         }
         
-        pageView.snp.makeConstraints { (make) in
+        pageView.snp.makeConstraints { make in
             make.top.equalTo(menuCollectionView.snp.bottom).offset(1)
             make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
         }

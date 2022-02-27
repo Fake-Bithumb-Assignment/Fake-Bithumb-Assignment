@@ -29,12 +29,12 @@ class CoinMenuCollectionViewCell: BaseCollectionViewCell {
     override func render() {
         contentView.addSubViews([titleLabel, bottomView])
         
-        titleLabel.snp.makeConstraints { (make) in
+        titleLabel.snp.makeConstraints { make in
             make.centerX.equalTo(contentView)
             make.top.equalTo(contentView).offset(5)
         }
         
-        bottomView.snp.makeConstraints { (make) in
+        bottomView.snp.makeConstraints { make in
             make.leading.bottom.trailing.equalTo(contentView)
             make.height.equalTo(3)
         }
