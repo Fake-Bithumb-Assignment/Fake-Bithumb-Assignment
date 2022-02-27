@@ -18,12 +18,11 @@ final class CoinViewController: BaseViewController {
     
     private let headerView = CoinHeaderView()
     
-    private let menuCollectionView: UICollectionView = {
-        var collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-        collectionView.backgroundColor = .white
-        collectionView.register(cell: CoinMenuCollectionViewCell.self)
-        return collectionView
-    }()
+    private let menuCollectionView = UICollectionView(frame: CGRect.zero,
+                                                     collectionViewLayout: UICollectionViewFlowLayout.init()).then {
+        $0.backgroundColor = .white
+        $0.register(cell: CoinMenuCollectionViewCell.self)
+    }
     
     private let pageView = UIView().then {
         $0.backgroundColor = .white
