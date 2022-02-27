@@ -32,12 +32,28 @@ class CandleStickChartView: UIView {
     
     /// 양봉 색상
     private let redColor: CGColor = CGColor(red: 194/255, green: 72/255, blue: 79/255, alpha: 1.0)
-    /// 음복 색상
+    /// 음봉 색상
     private let blueColor: CGColor = CGColor(red: 50/255, green: 93/255, blue: 202/255, alpha: 1.0)
+    /// 기본 선 색상
+    private let defaultColor: CGColor = CGColor(red: 96/255, green: 96/255, blue: 96/255, alpha: 1.0)
+    /// 기본 선 너비
+    private let defaultLineWidth: CGFloat = 0.5
+    /// 기본 텍스트 크기
+    private let defaultFontSize: CGFloat = 11.0
     /// 오른쪽 값 영역의 너비
     private let valueWidth: CGFloat = 40.0
     /// 아래 날짜, 시간 영역의 높이
     private let dateTimeHeight: CGFloat = 20.0
+    /// 한 화면에 나올 날짜, 시간 레이블의 개수
+    private let numbersOfDateTimeInFrame: Int = 4
+    /// 한 화면에 나올 날짜, 시간 레이블의 개수
+    private let dateTimeTextWidth: Int = 4
+    /// 수치 표시할 때 튀어나온 선 길이
+    private let thornLength: CGFloat = 2.0
+    /// 수치 표시할 때 튀어나온 선 - 수치 텍스트 간격
+    private let thornTextSpace: CGFloat = 1.0
+    /// 날짜, 시간 레이블의 크기
+    private let dateTimeTextSize: CGSize = CGSize(width: 5.0, height: 3.0)
     /// 캔들스틱 너비
     private var candleStickWidth: CGFloat = 5.0
     /// 캔들스틱 얇은 선 너비
@@ -93,6 +109,7 @@ class CandleStickChartView: UIView {
         setFrame()
         cleanLayers()
         drawChart()
+        drawDateTime()
     }
     
     private func setFrame() {
@@ -186,6 +203,42 @@ class CandleStickChartView: UIView {
             }
             self.dataLayer.addSublayer(lineLayer)
             self.dataLayer.addSublayer(rectLayer)
+        }
+    }
+    
+    private func drawDateTime() {
+        let drawPerCandleStickCount: Int = Int(
+            (self.scrollView.frame.size.width / CGFloat(self.numbersOfDateTimeInFrame)) / (self.candleStickWidth + self.candleStickSpace)
+        )
+        self.candleSticks.indices.forEach {
+            let index: Int = self.candleSticks.count - 1 - $0
+            guard $0 % drawPerCandleStickCount == 0 else {
+                return
+            }
+            let xCoord: CGFloat = getXCoord(indexOf: index)
+            let thornLineLayer: CAShapeLayer  = CAShapeLayer.lineLayer(
+                from: CGPoint(x: xCoord, y: 0),
+                to: CGPoint(x: xCoord, y: self.thornLength),
+                color: self.defaultColor,
+                width: self.defaultLineWidth
+            )
+            let textLayer: CATextLayer = CATextLayer().then {
+                $0.frame = CGRect(
+                    x: xCoord - (self.dateTimeTextSize.width / 2),
+                    y: self.thornLength + self.thornTextSpace,
+                    width: self.dateTimeTextSize.width,
+                    height: self.dateTimeTextSize.height
+                )
+                $0.foregroundColor = self.defaultColor
+                $0.backgroundColor = UIColor.clear.cgColor
+                $0.alignmentMode = CATextLayerAlignmentMode.center
+                $0.contentsScale = UIScreen.main.scale
+                $0.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
+                $0.fontSize = self.defaultFontSize
+                $0.string = self.candleSticks[index].date.formatted()
+            }
+            self.dateTimeLayer.addSublayer(thornLineLayer)
+            self.dateTimeLayer.addSublayer(textLayer)
         }
     }
     
