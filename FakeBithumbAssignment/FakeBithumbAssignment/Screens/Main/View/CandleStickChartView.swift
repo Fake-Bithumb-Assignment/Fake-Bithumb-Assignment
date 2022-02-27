@@ -16,6 +16,7 @@ class CandleStickChartView: UIView {
     /// 스크롤 뷰
     private let scrollView: UIScrollView = UIScrollView().then {
         $0.backgroundColor = .clear
+        $0.showsHorizontalScrollIndicator = false
     }
     /// 스크롤 뷰를 가득 채울 레이어
     private let mainLayer: CALayer = CALayer()
@@ -43,29 +44,27 @@ class CandleStickChartView: UIView {
     /// 오른쪽 값 영역의 너비
     private let valueWidth: CGFloat = 40.0
     /// 아래 날짜, 시간 영역의 높이
-    private let dateTimeHeight: CGFloat = 20.0
+    private let dateTimeHeight: CGFloat = 40.0
     /// 한 화면에 나올 날짜, 시간 레이블의 개수
     private let numbersOfDateTimeInFrame: Int = 4
-    /// 한 화면에 나올 날짜, 시간 레이블의 개수
-    private let dateTimeTextWidth: Int = 4
     /// 수치 표시할 때 튀어나온 선 길이
-    private let thornLength: CGFloat = 2.0
+    private let thornLength: CGFloat = 10.0
     /// 수치 표시할 때 튀어나온 선 - 수치 텍스트 간격
-    private let thornTextSpace: CGFloat = 1.0
+    private let thornTextSpace: CGFloat = 5.0
     /// 날짜, 시간 레이블의 크기
-    private let dateTimeTextSize: CGSize = CGSize(width: 5.0, height: 3.0)
+    private let dateTimeTextSize: CGSize = CGSize(width: 40.0, height: 20.0)
     /// 캔들스틱 너비
-    private var candleStickWidth: CGFloat = 5.0
+    private var candleStickWidth: CGFloat = 50.0
     /// 캔들스틱 얇은 선 너비
-    private var candleStickLineWidth: CGFloat = 1.0
+    private var candleStickLineWidth: CGFloat = 10.0
     /// 캔들스틱 간격
-    private var candleStickSpace: CGFloat = 1.0
+    private var candleStickSpace: CGFloat = 5.0
     /// 캔들스틱 차트 영역 위, 빈 공간 비율
     private let verticalFrontRearSpaceRate: CGFloat = 0.1
     /// 그래프 맨앞, 맨 뒤의 빈 공간
     private var horizontalFrontRearSpace: CGFloat {
         get {
-            self.frame.size.width / 2
+            self.bounds.size.width / 3
         }
     }
     
@@ -103,6 +102,7 @@ class CandleStickChartView: UIView {
         self.layer.addSublayer(self.valueLayer)
         // subView로 추가
         self.addSubview(self.scrollView)
+        self.backgroundColor = .clear
     }
     
     override func layoutSubviews() {
@@ -116,23 +116,23 @@ class CandleStickChartView: UIView {
         let chartContentWidth: CGFloat = 2 * self.horizontalFrontRearSpace
         + CGFloat(self.candleSticks.count) * self.candleStickWidth
         + CGFloat(self.candleSticks.count) - 1 * self.candleStickSpace
-        let chartContentHeight: CGFloat = self.frame.size.height - self.dateTimeHeight
+        let chartContentHeight: CGFloat = self.bounds.height - self.dateTimeHeight
         
         self.scrollView.frame = CGRect(
             x: 0,
             y: 0,
-            width: self.frame.size.width - self.valueWidth,
-            height: self.frame.size.height
+            width: self.bounds.size.width - self.valueWidth,
+            height: self.bounds.size.height
         )
         self.scrollView.contentSize = CGSize(
             width: chartContentWidth,
-            height: self.frame.size.height
+            height: self.bounds.size.height
         )
         self.mainLayer.frame = CGRect(
             x: 0,
             y: 0,
             width: chartContentWidth,
-            height: self.frame.size.height
+            height: self.bounds.size.height
         )
         self.dataLayer.frame = CGRect(
             x: 0,
@@ -147,7 +147,7 @@ class CandleStickChartView: UIView {
             height: self.dateTimeHeight
         )
         self.valueLayer.frame = CGRect(
-            x: chartContentWidth,
+            x: self.bounds.size.width - self.valueWidth,
             y: 0,
             width: self.valueWidth,
             height: chartContentHeight
@@ -155,10 +155,10 @@ class CandleStickChartView: UIView {
         self.horizontalGridLayer.frame = CGRect(
             x: 0,
             y: 0,
-            width: chartContentWidth,
+            width: self.bounds.size.width - self.valueWidth,
             height: chartContentHeight
         )
-        self.horizontalGridLayer.frame = CGRect(
+        self.verticalGridLayer.frame = CGRect(
             x: 0,
             y: 0,
             width: chartContentWidth,
@@ -167,7 +167,8 @@ class CandleStickChartView: UIView {
     }
     
     private func cleanLayers() {
-        self.mainLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        // TODO: 핀치 들어갈 때 수정해줄 것
+        // self.mainLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
         self.dataLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
         self.dateTimeLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
         self.valueLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
@@ -204,7 +205,7 @@ class CandleStickChartView: UIView {
             let rectLayer: CALayer = CALayer().then {
                 $0.frame = CGRect(
                     x: xCoord - self.candleStickWidth / 2,
-                    y: max(openingPriceYCoord, tradePriceYCoord),
+                    y: min(openingPriceYCoord, tradePriceYCoord),
                     width: self.candleStickWidth,
                     height: max(openingPriceYCoord, tradePriceYCoord) -
                     min(openingPriceYCoord, tradePriceYCoord)
@@ -218,7 +219,7 @@ class CandleStickChartView: UIView {
     
     private func drawDateTime() {
         let drawPerCandleStickCount: Int = Int(
-            (self.scrollView.frame.size.width / CGFloat(self.numbersOfDateTimeInFrame)) / (self.candleStickWidth + self.candleStickSpace)
+            (self.scrollView.bounds.size.width / CGFloat(self.numbersOfDateTimeInFrame)) / (self.candleStickWidth + self.candleStickSpace)
         )
         self.candleSticks.indices.forEach {
             let index: Int = self.candleSticks.count - 1 - $0
@@ -256,10 +257,10 @@ class CandleStickChartView: UIView {
         guard let maxPrice: Double = self.candleSticks.max(by: { $0.highPrice < $1.highPrice })?.highPrice else {
             return nil
         }
-        guard let minPrice: Double = self.candleSticks.max(by: { $0.highPrice > $1.highPrice })?.highPrice else {
+        guard let minPrice: Double = self.candleSticks.min(by: { $0.lowPrice < $1.lowPrice })?.lowPrice else {
             return nil
         }
-        let chartContentHeight: CGFloat = self.frame.size.height - self.dateTimeHeight
+        let chartContentHeight: CGFloat = self.bounds.size.height - self.dateTimeHeight
         return ((maxPrice - current) / (maxPrice - minPrice)) *
         (chartContentHeight * (1 - self.verticalFrontRearSpaceRate)) +
         (chartContentHeight * self.verticalFrontRearSpaceRate) / 2
