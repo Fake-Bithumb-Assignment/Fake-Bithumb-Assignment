@@ -19,7 +19,7 @@ final class CoinViewController: BaseViewController {
     private let headerView = CoinHeaderView()
     
     private let menuCollectionView = UICollectionView(frame: CGRect.zero,
-                                                     collectionViewLayout: UICollectionViewFlowLayout.init()).then {
+                                                      collectionViewLayout: UICollectionViewFlowLayout.init()).then {
         $0.backgroundColor = .white
         $0.register(cell: CoinMenuCollectionViewCell.self)
     }
@@ -38,28 +38,9 @@ final class CoinViewController: BaseViewController {
         setDelegations()
     }
     
-    override func render() {
-        view.addSubViews([headerView, menuCollectionView, pageView])
-       
-        headerView.snp.makeConstraints { make in
-            make.leading.top.trailing.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalTo(90)
-        }
-        
-        menuCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(headerView.snp.bottom).offset(1)
-            make.leading.trailing.equalTo(view)
-            make.height.equalTo(35)
-        }
-        
-        pageView.snp.makeConstraints { make in
-            make.top.equalTo(menuCollectionView.snp.bottom).offset(1)
-            make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-    }
-    
     override func configUI() {
         super.configUI()
+        configStackView()
     }
     
     
@@ -68,5 +49,26 @@ final class CoinViewController: BaseViewController {
     private func setDelegations() {
         menuCollectionView.delegate = self
         menuCollectionView.dataSource = self
+    }
+    
+    private func configStackView() {
+        let stackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.headerView, self.menuCollectionView, self.pageView]
+        ).then {
+            $0.axis = .vertical
+            $0.alignment = .fill
+            $0.spacing = 1
+        }
+        
+        self.view.addSubview(stackView)
+        self.headerView.snp.makeConstraints { (make) in
+            make.height.equalTo(90)
+        }
+        self.menuCollectionView.snp.makeConstraints { (make) in
+            make.height.equalTo(35)
+        }
+        stackView.snp.makeConstraints { make in
+            make.edges.equalTo(self.view.safeAreaLayoutGuide)
+        }
     }
 }
