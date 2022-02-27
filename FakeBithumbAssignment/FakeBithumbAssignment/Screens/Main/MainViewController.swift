@@ -16,6 +16,8 @@ final class MainViewController: BaseViewController {
 
     private let headerView = HeaderView()
 
+    private var dataSource: UITableViewDiffableDataSource<Int, UUID>?
+
     private let coinTableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
     }
@@ -36,8 +38,32 @@ final class MainViewController: BaseViewController {
         }
     }
 
+    private func configurediffableDataSource() {
+        dataSource = UITableViewDiffableDataSource(tableView: coinTableView)
+        { tableView, indexPath, itemIdentifier in
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: CoinTableViewCell.className,
+                for: indexPath
+            )
+            return cell
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Int, UUID>()
+        snapshot.appendSections([0])
+        
+        /// 디버깅 용 코드
+        var uuidArray: [UUID] = []
+        for _ in 0..<50 {
+            uuidArray.append(UUID())
+        }
+        ///
+        snapshot.appendItems(uuidArray)
+        self.dataSource?.apply(snapshot)
+    }
+
     private func configureTableView() {
-        coinTableView.dataSource = self
+        configurediffableDataSource()
+        coinTableView.dataSource = dataSource
         coinTableView.delegate = self
 
         view.addSubview(coinTableView)
@@ -55,23 +81,6 @@ final class MainViewController: BaseViewController {
     
     private func updateInterestList() {
         
-    }
-}
-
-// MARK: - UITableViewDataSource
-
-extension MainViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 50
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: CoinTableViewCell.className,
-            for: indexPath
-        )
-
-        return cell
     }
 }
 
