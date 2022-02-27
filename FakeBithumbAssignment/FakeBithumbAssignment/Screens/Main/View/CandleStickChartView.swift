@@ -118,43 +118,51 @@ class CandleStickChartView: UIView {
         + CGFloat(self.candleSticks.count) - 1 * self.candleStickSpace
         let chartContentHeight: CGFloat = self.frame.size.height - self.dateTimeHeight
         
-        self.scrollView.frame = CGRect(x: 0,
-                                       y: 0,
-                                       width: self.frame.size.width - self.valueWidth,
-                                       height: self.frame.size.height
+        self.scrollView.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: self.frame.size.width - self.valueWidth,
+            height: self.frame.size.height
         )
-        self.scrollView.contentSize = CGSize(width: chartContentWidth,
-                                             height: self.frame.size.height
+        self.scrollView.contentSize = CGSize(
+            width: chartContentWidth,
+            height: self.frame.size.height
         )
-        self.mainLayer.frame = CGRect(x: 0,
-                                      y: 0,
-                                      width: chartContentWidth,
-                                      height: self.frame.size.height
+        self.mainLayer.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: chartContentWidth,
+            height: self.frame.size.height
         )
-        self.dataLayer.frame = CGRect(x: 0,
-                                      y: 0,
-                                      width: chartContentWidth,
-                                      height: chartContentHeight
+        self.dataLayer.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: chartContentWidth,
+            height: chartContentHeight
         )
-        self.dateTimeLayer.frame = CGRect(x: 0,
-                                          y: chartContentHeight,
-                                          width: chartContentWidth,
-                                          height: self.dateTimeHeight
+        self.dateTimeLayer.frame = CGRect(
+            x: 0,
+            y: chartContentHeight,
+            width: chartContentWidth,
+            height: self.dateTimeHeight
         )
-        self.valueLayer.frame = CGRect(x: chartContentWidth,
-                                       y: 0,
-                                       width: self.valueWidth,
-                                       height: chartContentHeight
+        self.valueLayer.frame = CGRect(
+            x: chartContentWidth,
+            y: 0,
+            width: self.valueWidth,
+            height: chartContentHeight
         )
-        self.horizontalGridLayer.frame = CGRect(x: 0,
-                                                y: 0,
-                                                width: chartContentWidth,
-                                                height: chartContentHeight
+        self.horizontalGridLayer.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: chartContentWidth,
+            height: chartContentHeight
         )
-        self.horizontalGridLayer.frame = CGRect(x: 0,
-                                                y: 0,
-                                                width: chartContentWidth,
-                                                height: chartContentHeight
+        self.horizontalGridLayer.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: chartContentWidth,
+            height: chartContentHeight
         )
     }
     
@@ -185,19 +193,21 @@ class CandleStickChartView: UIView {
                 return
             }
             let lineLayer: CALayer = CALayer().then {
-                $0.frame = CGRect(x: xCoord - self.candleStickLineWidth / 2,
-                                  y: highPriceYCoord,
-                                  width: self.candleStickLineWidth,
-                                  height: lowPriceYCoord - highPriceYCoord
+                $0.frame = CGRect(
+                    x: xCoord - self.candleStickLineWidth / 2,
+                    y: highPriceYCoord,
+                    width: self.candleStickLineWidth,
+                    height: lowPriceYCoord - highPriceYCoord
                 )
                 $0.backgroundColor = color
             }
             let rectLayer: CALayer = CALayer().then {
-                $0.frame = CGRect(x: xCoord - self.candleStickWidth / 2,
-                                  y: max(openingPriceYCoord, tradePriceYCoord),
-                                  width: self.candleStickWidth,
-                                  height: max(openingPriceYCoord, tradePriceYCoord) -
-                                  min(openingPriceYCoord, tradePriceYCoord)
+                $0.frame = CGRect(
+                    x: xCoord - self.candleStickWidth / 2,
+                    y: max(openingPriceYCoord, tradePriceYCoord),
+                    width: self.candleStickWidth,
+                    height: max(openingPriceYCoord, tradePriceYCoord) -
+                    min(openingPriceYCoord, tradePriceYCoord)
                 )
                 $0.backgroundColor = color
             }
