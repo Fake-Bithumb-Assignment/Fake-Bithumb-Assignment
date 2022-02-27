@@ -38,6 +38,7 @@ final class MainViewController: BaseViewController {
 
     private func configureTableView() {
         coinTableView.dataSource = self
+        coinTableView.delegate = self
 
         view.addSubview(coinTableView)
         guard let tabBarHeight = self.tabBarController?.tabBar.frame.size.height
@@ -50,6 +51,10 @@ final class MainViewController: BaseViewController {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview().inset(tabBarHeight)
         }
+    }
+    
+    private func updateInterestList() {
+        
     }
 }
 
@@ -67,5 +72,29 @@ extension MainViewController: UITableViewDataSource {
         )
 
         return cell
+    }
+}
+
+// MARK: - UITableViewDelegate
+
+extension MainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let interest = UIContextualAction(
+            style: .normal,
+            title: nil
+        ) { [weak self] _, _, completion in
+            self?.updateInterestList()
+            completion(true)
+        }
+        interest.image = UIImage(named: "Interest")
+
+        return UISwipeActionsConfiguration(actions: [interest])
     }
 }
