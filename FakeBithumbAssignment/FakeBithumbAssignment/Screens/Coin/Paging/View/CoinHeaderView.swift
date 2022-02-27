@@ -15,21 +15,18 @@ final class CoinHeaderView: UIView {
     // MARK: - Instance Property
 
     private let currentPriceLabel = UILabel().then {
-        $0.text = "45,594,000"
         $0.font = .preferredFont(forTextStyle: .title2)
     }
     
     private let fluctateLabel = UILabel().then {
-        $0.text = "-1,578,000"
         $0.font = .preferredFont(forTextStyle: .subheadline)
     }
     
     private let fluctateImageView = UIImageView().then {
-        $0.image = UIImage(named: "up")
+        $0.image = UIImage()
     }
     
     private let fluctateRateLabel = UILabel().then {
-        $0.text = "3.35%"
         $0.font = .preferredFont(forTextStyle: .subheadline)
     }
     
@@ -78,5 +75,12 @@ final class CoinHeaderView: UIView {
     
     func configUI() {
         self.backgroundColor = .white
+    }
+    
+    func patchData(data: CoinHeaderModel) {
+        currentPriceLabel.text = "\(data.currentPrice)"
+        fluctateLabel.text = "\(data.fluctate)"
+        fluctateImageView.image = UIImage(named: data.fluctateUpDown)
+        fluctateRateLabel.text = "\(data.fluctateRate)%"
     }
 }

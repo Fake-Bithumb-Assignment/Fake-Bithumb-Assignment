@@ -36,6 +36,7 @@ final class CoinViewController: BaseViewController {
         render()
         configUI()
         setDelegations()
+        patchHeaderViewData()
     }
     
     override func configUI() {
@@ -70,5 +71,9 @@ final class CoinViewController: BaseViewController {
         stackView.snp.makeConstraints { make in
             make.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
+    }
+    
+    private func patchHeaderViewData() {
+        headerView.patchData(data: CoinHeaderModel(currentPrice: 4559400, fluctate: -1578000, fluctateUpDown: "up", fluctateRate: 3.35))
     }
 }
