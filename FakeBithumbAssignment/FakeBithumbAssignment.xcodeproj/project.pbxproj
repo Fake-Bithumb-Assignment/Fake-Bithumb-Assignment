@@ -196,18 +196,11 @@
 			path = FakeBithumbAssignmentTests;
 			sourceTree = "<group>";
 		};
-		15ACAE9227C9B64E00AB7EDC /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				15ACAE9427C9B69900AB7EDC /* CoinNavigationTitleView.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
 		15ACAE9327C9B65900AB7EDC /* Cell */ = {
 			isa = PBXGroup;
 			children = (
 				15ACAE9627C9BEA200AB7EDC /* CoinMenuCollectionViewCell.swift */,
+				15ACAE9F27CA06A400AB7EDC /* CoinMenuCollectionViewDataViewController.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -216,7 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				15ACAE9D27CA061100AB7EDC /* CoinHeaderView.swift */,
-				15ACAE9F27CA06A400AB7EDC /* CoinMenuCollectionViewDataViewController.swift */,
+				15ACAE9427C9B69900AB7EDC /* CoinNavigationTitleView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -237,7 +230,6 @@
 				1504F6D727C5F70B00A5EC6C /* CoinViewController.swift */,
 				15ACAE9A27CA052300AB7EDC /* View */,
 				15ACAE9327C9B65900AB7EDC /* Cell */,
-				15ACAE9227C9B64E00AB7EDC /* Components */,
 			);
 			path = Paging;
 			sourceTree = "<group>";
