@@ -16,7 +16,7 @@ class CoinNavigationTitleView: UIView {
     
     let coinLabel = UILabel().then {
         $0.text = "비트코인"
-        $0.font = UIFont.systemFont(ofSize: 10)
+        $0.font = .preferredFont(forTextStyle: .caption2)
     }
     
     let subCoinLabel = UILabel().then {

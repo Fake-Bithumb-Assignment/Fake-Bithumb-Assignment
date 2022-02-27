@@ -18,7 +18,9 @@ class CoinMenuCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - Instance Property
     
-    private var titleLabel = UILabel()
+    private var titleLabel = UILabel().then {
+        $0.font = .preferredFont(forTextStyle: .body)
+    }
     
     private var bottomView = UIView().then {
         $0.backgroundColor = .white

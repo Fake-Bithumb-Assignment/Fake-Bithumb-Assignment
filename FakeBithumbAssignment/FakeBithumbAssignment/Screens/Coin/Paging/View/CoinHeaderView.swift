@@ -16,12 +16,12 @@ class CoinHeaderView: UIView {
 
     private let currentPriceLabel = UILabel().then {
         $0.text = "45,594,000"
-        $0.font = UIFont.systemFont(ofSize: 25)
+        $0.font = .preferredFont(forTextStyle: .title2)
     }
     
     private let fluctateLabel = UILabel().then {
         $0.text = "-1,578,000"
-        $0.font = UIFont.systemFont(ofSize: 15)
+        $0.font = .preferredFont(forTextStyle: .subheadline)
     }
     
     private let fluctateImageView = UIImageView().then {
@@ -30,7 +30,7 @@ class CoinHeaderView: UIView {
     
     private let fluctateRateLabel = UILabel().then {
         $0.text = "3.35%"
-        $0.font = UIFont.systemFont(ofSize: 15)
+        $0.font = .preferredFont(forTextStyle: .subheadline)
     }
     
     
