@@ -16,15 +16,15 @@ extension CoinViewController: UICollectionViewDataSource {
         let cell: CoinMenuCollectionViewCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
         switch indexPath.row {
         case 0:
-            cell.update(type: .quoteInformation)
+            cell.update(to: .quoteInformation)
             collectionView.selectItem(at: indexPath, animated: false , scrollPosition: .init())
             cell.isSelected = true
         case 1:
-            cell.update(type: .graph)
+            cell.update(to: .graph)
         case 2:
-            cell.update(type: .contractDetails)
+            cell.update(to: .contractDetails)
         default:
-            cell.update(type: .quoteInformation)
+            cell.update(to: .quoteInformation)
         }
         return cell
     }

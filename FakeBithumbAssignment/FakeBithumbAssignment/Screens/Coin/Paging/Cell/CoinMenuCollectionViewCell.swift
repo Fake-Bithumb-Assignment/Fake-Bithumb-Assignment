@@ -52,7 +52,7 @@ final class CoinMenuCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - custom func
     
-    func update(type: CoinMenuTitle) {
+    func update(to type: CoinMenuTitle) {
         switch type {
         case .quoteInformation:
             titleLabel.text = "호가"

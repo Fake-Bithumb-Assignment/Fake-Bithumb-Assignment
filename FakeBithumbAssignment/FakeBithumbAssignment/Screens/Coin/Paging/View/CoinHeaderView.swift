@@ -78,9 +78,9 @@ final class CoinHeaderView: UIView {
     }
     
     func patchData(data: CoinHeaderModel) {
-        currentPriceLabel.text = "\(data.currentPrice)".DecimalWon(value: Double(data.currentPrice))
-        fluctateLabel.text = "\(data.fluctate)".DecimalWon(value: Double(data.fluctate))
+        currentPriceLabel.text = "\(data.currentPrice)".insertComma(value: Double(data.currentPrice))
+        fluctateLabel.text = "\(data.fluctate)".insertComma(value: Double(data.fluctate))
         fluctateImageView.image = UIImage(named: data.fluctateUpDown)
-        fluctateRateLabel.text = "\(data.fluctateRate)".DecimalWon(value: Double(data.fluctateRate)) + "%"
+        fluctateRateLabel.text = "\(data.fluctateRate)".insertComma(value: Double(data.fluctateRate)) + "%"
     }
 }
