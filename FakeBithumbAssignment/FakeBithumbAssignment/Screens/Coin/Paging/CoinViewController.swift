@@ -25,8 +25,7 @@ final class CoinViewController: BaseViewController {
         return collectionView
     }()
     
-    let pageView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+    private let pageView = UIView().then {
         $0.backgroundColor = .white
     }
     
@@ -67,7 +66,7 @@ final class CoinViewController: BaseViewController {
     
     // MARK: - custom func
     
-    func setDelegations() {
+    private func setDelegations() {
         menuCollectionView.delegate = self
         menuCollectionView.dataSource = self
     }

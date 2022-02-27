@@ -10,11 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
-enum CoinMenuTitleEnum {
+enum CoinMenuTitle {
     case quoteInformation, graph, contractDetails
 }
 
-class CoinMenuCollectionViewCell: BaseCollectionViewCell {
+final class CoinMenuCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - Instance Property
     
@@ -52,7 +52,7 @@ class CoinMenuCollectionViewCell: BaseCollectionViewCell {
     
     // MARK: - custom func
     
-    func update(type: CoinMenuTitleEnum) {
+    func update(type: CoinMenuTitle) {
         switch type {
         case .quoteInformation:
             titleLabel.text = "호가"

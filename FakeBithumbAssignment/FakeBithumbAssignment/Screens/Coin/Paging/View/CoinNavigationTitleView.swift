@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class CoinNavigationTitleView: UIView {
+final class CoinNavigationTitleView: UIView {
     
     // MARK: - Instance Property
     
