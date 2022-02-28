@@ -275,20 +275,17 @@ class CandleStickChartView: UIView {
     }
     
     private func drawValue() {
-        guard let maxPrice: Double = self.candleSticks.max { $0.highPrice < $1.highPrice }?.highPrice
+        guard let maxPrice: Double = self.candleSticks.max(by: { $0.highPrice < $1.highPrice })?.highPrice
         else {
             return
         }
-        guard let minPrice: Double = self.candleSticks.min { $0.lowPrice < $1.lowPrice }?.lowPrice
+        guard let minPrice: Double = self.candleSticks.min(by: { $0.lowPrice < $1.lowPrice })?.lowPrice
         else {
             return
         }
-        print("max:", maxPrice)
-        print("min: ", minPrice)
         let valueGap: Double = (maxPrice - minPrice) / Double(self.numbersOfValueInFrame - 1)
         (0..<self.numbersOfValueInFrame).forEach { valueCount in
             let value: Double = maxPrice - valueGap * Double(valueCount)
-            print("value:", value)
             guard let yCoord: CGFloat = getYCoord(of: value) else {
                 return
             }
@@ -298,10 +295,10 @@ class CandleStickChartView: UIView {
                 color: self.defaultColor,
                 width: self.defaultLineWidth
             )
-            let textLayer: CATextLayer = CATextLayer().then {
+            let textLayer: CATextLayer = VerticalCenterCATextLayer().then {
                 $0.frame = CGRect(
                     x: self.thornLength + self.thornTextSpace,
-                    y: yCoord,
+                    y: yCoord - self.defaultTextSize.height / 2,
                     width: self.defaultTextSize.width,
                     height: self.defaultTextSize.height
                 )
@@ -366,5 +363,17 @@ extension CandleStickChartView {
             /// 음봉
             case blue
         }
+    }
+}
+
+class VerticalCenterCATextLayer : CATextLayer {
+    override func draw(in context: CGContext) {
+        let height = self.bounds.size.height
+        let fontSize = self.fontSize
+        let yDiff = (height-fontSize)/2 - fontSize/10
+        context.saveGState()
+        context.translateBy(x: 0, y: yDiff)
+        super.draw(in: context)
+        context.restoreGState()
     }
 }
