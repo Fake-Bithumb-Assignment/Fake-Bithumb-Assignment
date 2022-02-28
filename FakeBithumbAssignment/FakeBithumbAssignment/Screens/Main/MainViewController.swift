@@ -28,6 +28,11 @@ final class MainViewController: BaseViewController {
         configureHeaderView()
         configureTableView()
     }
+    
+    override func configUI() {
+        super.configUI()
+        setDelegations()
+    }
 
     private func configureHeaderView() {
         view.addSubview(headerView)
@@ -62,10 +67,6 @@ final class MainViewController: BaseViewController {
     }
 
     private func configureTableView() {
-        configurediffableDataSource()
-        coinTableView.dataSource = dataSource
-        coinTableView.delegate = self
-
         view.addSubview(coinTableView)
         guard let tabBarHeight = self.tabBarController?.tabBar.frame.size.height
         else {
@@ -77,6 +78,12 @@ final class MainViewController: BaseViewController {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview().inset(tabBarHeight)
         }
+    }
+    
+    private func setDelegations() {
+        configurediffableDataSource()
+        coinTableView.dataSource = dataSource
+        coinTableView.delegate = self
     }
     
     private func updateInterestList() {
