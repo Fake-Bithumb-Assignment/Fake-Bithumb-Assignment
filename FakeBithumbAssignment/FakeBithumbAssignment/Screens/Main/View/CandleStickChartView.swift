@@ -43,6 +43,8 @@ class CandleStickChartView: UIView {
     private let defaultFontSize: CGFloat = 11.0
     /// 오른쪽 값 영역의 너비
     private let valueWidth: CGFloat = 40.0
+    /// 오른쪽 값 영역에 표시될 값의 개수
+    private let numbersOfValueInFrame: Int = 10
     /// 아래 날짜, 시간 영역의 높이
     private let dateTimeHeight: CGFloat = 40.0
     /// 한 화면에 나올 날짜, 시간 레이블의 개수
@@ -52,7 +54,7 @@ class CandleStickChartView: UIView {
     /// 수치 표시할 때 튀어나온 선 - 수치 텍스트 간격
     private let thornTextSpace: CGFloat = 5.0
     /// 날짜, 시간 레이블의 크기
-    private let dateTimeTextSize: CGSize = CGSize(width: 40.0, height: 20.0)
+    private let defaultTextSize: CGSize = CGSize(width: 40.0, height: 20.0)
     /// 캔들스틱 너비
     private var candleStickWidth: CGFloat = 50.0
     /// 캔들스틱 얇은 선 너비
@@ -111,6 +113,7 @@ class CandleStickChartView: UIView {
         drawChart()
         drawDateTime()
         drawDivivisionLine()
+        drawValue()
     }
     
     private func setFrame() {
@@ -236,10 +239,10 @@ class CandleStickChartView: UIView {
             )
             let textLayer: CATextLayer = CATextLayer().then {
                 $0.frame = CGRect(
-                    x: xCoord - (self.dateTimeTextSize.width / 2),
+                    x: xCoord - (self.defaultTextSize.width / 2),
                     y: self.thornLength + self.thornTextSpace,
-                    width: self.dateTimeTextSize.width,
-                    height: self.dateTimeTextSize.height
+                    width: self.defaultTextSize.width,
+                    height: self.defaultTextSize.height
                 )
                 $0.foregroundColor = self.defaultColor
                 $0.backgroundColor = UIColor.clear.cgColor
@@ -269,6 +272,50 @@ class CandleStickChartView: UIView {
         )
         self.dateTimeLayer.addSublayer(horizontalLine)
         self.valueLayer.addSublayer(verticalLine)
+    }
+    
+    private func drawValue() {
+        guard let maxPrice: Double = self.candleSticks.max { $0.highPrice < $1.highPrice }?.highPrice
+        else {
+            return
+        }
+        guard let minPrice: Double = self.candleSticks.min { $0.lowPrice < $1.lowPrice }?.lowPrice
+        else {
+            return
+        }
+        print("max:", maxPrice)
+        print("min: ", minPrice)
+        let valueGap: Double = (maxPrice - minPrice) / Double(self.numbersOfValueInFrame - 1)
+        (0..<self.numbersOfValueInFrame).forEach { valueCount in
+            let value: Double = maxPrice - valueGap * Double(valueCount)
+            print("value:", value)
+            guard let yCoord: CGFloat = getYCoord(of: value) else {
+                return
+            }
+            let thornLineLayer: CAShapeLayer = CAShapeLayer.lineLayer(
+                from: CGPoint(x: 0, y: yCoord),
+                to: CGPoint(x: self.thornLength, y: yCoord),
+                color: self.defaultColor,
+                width: self.defaultLineWidth
+            )
+            let textLayer: CATextLayer = CATextLayer().then {
+                $0.frame = CGRect(
+                    x: self.thornLength + self.thornTextSpace,
+                    y: yCoord,
+                    width: self.defaultTextSize.width,
+                    height: self.defaultTextSize.height
+                )
+                $0.foregroundColor = self.defaultColor
+                $0.backgroundColor = UIColor.clear.cgColor
+                $0.alignmentMode = CATextLayerAlignmentMode.left
+                $0.contentsScale = UIScreen.main.scale
+                $0.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
+                $0.fontSize = self.defaultFontSize
+                $0.string = String(Int(value))
+            }
+            self.valueLayer.addSublayer(thornLineLayer)
+            self.valueLayer.addSublayer(textLayer)
+        }
     }
     
     private func getYCoord(of current: Double) -> CGFloat? {
