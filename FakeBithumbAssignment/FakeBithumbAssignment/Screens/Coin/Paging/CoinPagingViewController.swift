@@ -7,10 +7,6 @@
 
 import UIKit
 
-enum PageTab {
-    case quote, graph, contract
-}
-
 final class CoinPagingViewController: UIPageViewController {
     
     // MARK: - Instance Property

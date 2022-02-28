@@ -12,18 +12,31 @@ import Then
 
 final class CoinViewController: BaseViewController {
     
-    var pages: [UIViewController] = [CoinQuoteInformationTabViewController(), CoinGraphTabViewController(), CoinContractDetailsTabViewController()]
-    
     // MARK: - Instance Property
+    
+    var pages: [UIViewController] = [CoinQuoteInformationTabViewController(), CoinGraphTabViewController(), CoinContractDetailsTabViewController()]
     
     let sectionInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     
     private let headerView = CoinHeaderView()
     
-    private let menuCollectionView = UICollectionView(frame: CGRect.zero,
-                                                      collectionViewLayout: UICollectionViewFlowLayout.init()).then {
-        $0.backgroundColor = .white
-        $0.register(cell: CoinMenuCollectionViewCell.self)
+    let quoteButton = UIButton().then {
+        $0.setTitle("호가", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+    }
+    
+    let graphButton = UIButton().then {
+        $0.setTitle("차트", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+    }
+    
+    let contractDetailsButton = UIButton().then {
+        $0.setTitle("시세", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+    }
+    
+    private let indicatorView = UIView().then {
+        $0.backgroundColor = .black
     }
     
     private let pageView = UIView().then {
@@ -39,50 +52,45 @@ final class CoinViewController: BaseViewController {
         super.viewDidLoad()
         render()
         configUI()
-        setDelegations()
         setPageView()
         patchHeaderViewData()
     }
     
     override func render() {
-        view.addSubViews([headerView, menuCollectionView, pageView])
+        self.view.addSubViews([headerView, pageView])
         
-        self.headerView.snp.makeConstraints { (make) in
-            make.leading.top.trailing.equalTo(view.safeAreaLayoutGuide)
+        self.headerView.snp.makeConstraints { make in
+            make.leading.top.trailing.equalTo(self.view.safeAreaLayoutGuide)
             make.height.equalTo(90)
-        }
-        self.menuCollectionView.snp.makeConstraints { (make) in
-            make.height.equalTo(35)
         }
     }
     
     override func configUI() {
         super.configUI()
         self.configStackView()
+        self.configMenuButtons()
     }
     
     
     // MARK: - custom func
-    
-    private func setDelegations() {
-        self.menuCollectionView.delegate = self
-        self.menuCollectionView.dataSource = self
-    }
-    
-    private func setPageView() {
-        self.pageViewController = CoinPagingViewController(pages: pages)
-        
-        if let pageViewController = pageViewController {
-            addChild(pageViewController)
-            pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
-            self.pageView.addSubview(pageViewController.view)
-            pageViewController.didMove(toParent: self)
-        }
-    }
-    
+
     private func configStackView() {
+        let menuStackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.quoteButton, self.graphButton, self.contractDetailsButton]
+        ).then {
+            $0.axis = .horizontal
+            $0.distribution = .fillEqually
+            $0.spacing = 1
+        }
+        
+        self.view.addSubview(menuStackView)
+        
+        menuStackView.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
+        }
+        
         let stackView: UIStackView = UIStackView(
-            arrangedSubviews: [self.headerView, self.menuCollectionView, self.pageView]
+            arrangedSubviews: [self.headerView, menuStackView, self.pageView]
         ).then {
             $0.axis = .vertical
             $0.alignment = .fill
@@ -90,14 +98,40 @@ final class CoinViewController: BaseViewController {
         }
         
         self.view.addSubview(stackView)
-        self.headerView.snp.makeConstraints { (make) in
-            make.height.equalTo(90)
-        }
-        self.menuCollectionView.snp.makeConstraints { (make) in
-            make.height.equalTo(35)
-        }
+        
         stackView.snp.makeConstraints { make in
             make.edges.equalTo(self.view.safeAreaLayoutGuide)
+        }
+    }
+    
+    private func configMenuButtons() {
+        self.graphButton.addTarget(self, action: #selector(self.tapGraphButton), for: .touchUpInside)
+        self.setBottomBorder(to: self.graphButton)
+        
+        self.contractDetailsButton.addTarget(self, action: #selector(self.tapContractDetailsButton), for: .touchUpInside)
+        self.setBottomBorder(to: self.contractDetailsButton)
+        
+        self.quoteButton.addTarget(self, action: #selector(self.tapQuoteButton), for: .touchUpInside)
+        self.setBottomBorder(to: self.quoteButton)
+    }
+    
+    private func setPageView() {
+        self.pageViewController = CoinPagingViewController(pages: pages)
+        
+        if let pageViewController = pageViewController {
+            self.addChild(pageViewController)
+            pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
+            self.pageView.addSubview(pageViewController.view)
+            pageViewController.didMove(toParent: self)
+        }
+    }
+    
+    private func setBottomBorder(to button: UIButton) {
+        self.indicatorView.removeFromSuperview()
+        button.addSubview(indicatorView)
+        indicatorView.snp.makeConstraints { make in
+            make.leading.width.bottom.equalToSuperview()
+            make.height.equalTo(3)
         }
     }
     
@@ -106,5 +140,23 @@ final class CoinViewController: BaseViewController {
                                                         fluctate: -1578000,
                                                         fluctateUpDown: "up",
                                                         fluctateRate: 3.35))
+    }
+    
+    
+    // MARK: - @objc
+    
+    @objc private func tapQuoteButton(sender: UIButton) {
+        setBottomBorder(to: self.quoteButton)
+        pageViewController?.setViewControllers([pages[0]], direction: .forward, animated: false, completion: nil)
+    }
+    
+    @objc private func tapGraphButton() {
+        setBottomBorder(to: self.graphButton)
+        pageViewController?.setViewControllers([pages[1]], direction: .forward, animated: false, completion: nil)
+    }
+    
+    @objc private func tapContractDetailsButton() {
+        setBottomBorder(to: self.contractDetailsButton)
+        pageViewController?.setViewControllers([pages[2]], direction: .forward, animated: false, completion: nil)
     }
 }
