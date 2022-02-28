@@ -50,24 +50,24 @@ final class CoinHeaderView: UIView {
     func render() {
         self.addSubViews([currentPriceLabel, fluctateLabel, fluctateImageView, fluctateRateLabel])
         
-        currentPriceLabel.snp.makeConstraints { make in
+        self.currentPriceLabel.snp.makeConstraints { make in
             make.top.equalTo(self).offset(20)
             make.leading.equalTo(self).offset(20)
             make.width.equalTo(150)
         }
         
-        fluctateLabel.snp.makeConstraints { make in
+        self.fluctateLabel.snp.makeConstraints { make in
             make.top.equalTo(currentPriceLabel.snp.bottom)
             make.leading.equalTo(self).offset(20)
         }
         
-        fluctateImageView.snp.makeConstraints { make in
+        self.fluctateImageView.snp.makeConstraints { make in
             make.centerY.equalTo(fluctateLabel)
             make.leading.equalTo(fluctateLabel.snp.trailing).offset(10)
             make.width.height.equalTo(10)
         }
         
-        fluctateRateLabel.snp.makeConstraints { make in
+        self.fluctateRateLabel.snp.makeConstraints { make in
             make.top.equalTo(currentPriceLabel.snp.bottom)
             make.leading.equalTo(fluctateImageView.snp.trailing).offset(2)
         }
@@ -78,9 +78,9 @@ final class CoinHeaderView: UIView {
     }
     
     func patchData(data: CoinHeaderModel) {
-        currentPriceLabel.text = "\(data.currentPrice)".insertComma(value: Double(data.currentPrice))
-        fluctateLabel.text = "\(data.fluctate)".insertComma(value: Double(data.fluctate))
-        fluctateImageView.image = UIImage(named: data.fluctateUpDown)
-        fluctateRateLabel.text = "\(data.fluctateRate)".insertComma(value: Double(data.fluctateRate)) + "%"
+        self.currentPriceLabel.text = "\(data.currentPrice)".insertComma(value: Double(data.currentPrice))
+        self.fluctateLabel.text = "\(data.fluctate)".insertComma(value: Double(data.fluctate))
+        self.fluctateImageView.image = UIImage(named: data.fluctateUpDown)
+        self.fluctateRateLabel.text = "\(data.fluctateRate)".insertComma(value: Double(data.fluctateRate)) + "%"
     }
 }

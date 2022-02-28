@@ -29,12 +29,12 @@ final class CoinMenuCollectionViewCell: BaseCollectionViewCell {
     override func render() {
         contentView.addSubViews([titleLabel, bottomView])
         
-        titleLabel.snp.makeConstraints { make in
+        self.titleLabel.snp.makeConstraints { make in
             make.centerX.equalTo(contentView)
             make.top.equalTo(contentView).offset(5)
         }
         
-        bottomView.snp.makeConstraints { make in
+        self.bottomView.snp.makeConstraints { make in
             make.leading.bottom.trailing.equalTo(contentView)
             make.height.equalTo(3)
         }
@@ -43,9 +43,9 @@ final class CoinMenuCollectionViewCell: BaseCollectionViewCell {
     override var isSelected: Bool {
         willSet {
             if newValue {
-                bottomView.backgroundColor = .black
+                self.bottomView.backgroundColor = .black
             } else {
-                bottomView.backgroundColor = .white
+                self.bottomView.backgroundColor = .white
             }
         }
     }
@@ -55,11 +55,11 @@ final class CoinMenuCollectionViewCell: BaseCollectionViewCell {
     func update(to type: CoinMenuTitle) {
         switch type {
         case .quoteInformation:
-            titleLabel.text = "호가"
+            self.titleLabel.text = "호가"
         case .graph:
-            titleLabel.text = "차트"
+            self.titleLabel.text = "차트"
         case .contractDetails:
-            titleLabel.text = "시세"
+            self.titleLabel.text = "시세"
         }
     }
 }

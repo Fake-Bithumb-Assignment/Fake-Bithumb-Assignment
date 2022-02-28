@@ -48,8 +48,8 @@ final class CoinViewController: BaseViewController {
     // MARK: - custom func
     
     private func setDelegations() {
-        menuCollectionView.delegate = self
-        menuCollectionView.dataSource = self
+        self.menuCollectionView.delegate = self
+        self.menuCollectionView.dataSource = self
     }
     
     private func configStackView() {
@@ -74,6 +74,6 @@ final class CoinViewController: BaseViewController {
     }
     
     private func patchHeaderViewData() {
-        headerView.patchData(data: CoinHeaderModel(currentPrice: 4559400, fluctate: -1578000, fluctateUpDown: "up", fluctateRate: 3.35))
+        self.headerView.patchData(data: CoinHeaderModel(currentPrice: 4559400, fluctate: -1578000, fluctateUpDown: "up", fluctateRate: 3.35))
     }
 }

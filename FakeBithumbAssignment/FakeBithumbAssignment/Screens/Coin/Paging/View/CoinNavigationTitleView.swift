@@ -45,11 +45,11 @@ final class CoinNavigationTitleView: UIView {
     func render() {
         self.addSubViews([coinLabel, subCoinLabel])
         
-        coinLabel.snp.makeConstraints { make in
+        self.coinLabel.snp.makeConstraints { make in
             make.leading.top.trailing.equalTo(self)
         }
         
-        subCoinLabel.snp.makeConstraints { make in
+        self.subCoinLabel.snp.makeConstraints { make in
             make.top.equalTo(coinLabel)
             make.leading.trailing.bottom.equalTo(self)
         }
