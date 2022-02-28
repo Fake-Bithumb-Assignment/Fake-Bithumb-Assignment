@@ -56,11 +56,11 @@ class CandleStickChartView: UIView {
     /// 날짜, 시간 레이블의 크기
     private let defaultTextSize: CGSize = CGSize(width: 40.0, height: 20.0)
     /// 캔들스틱 너비
-    private var candleStickWidth: CGFloat = 50.0
+    private var candleStickWidth: CGFloat = 5.0
     /// 캔들스틱 얇은 선 너비
-    private var candleStickLineWidth: CGFloat = 10.0
+    private var candleStickLineWidth: CGFloat = 1.5
     /// 캔들스틱 간격
-    private var candleStickSpace: CGFloat = 5.0
+    private var candleStickSpace: CGFloat = 2.0
     /// 캔들스틱 차트 영역 위, 빈 공간 비율
     private let verticalFrontRearSpaceRate: CGFloat = 0.1
     /// 그래프 맨앞, 맨 뒤의 빈 공간
