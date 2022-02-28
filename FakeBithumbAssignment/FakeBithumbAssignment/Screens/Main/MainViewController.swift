@@ -89,6 +89,8 @@ final class MainViewController: BaseViewController {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let vc = CoinViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     func tableView(
