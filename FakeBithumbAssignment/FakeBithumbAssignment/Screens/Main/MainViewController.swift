@@ -7,23 +7,22 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+import SnapKit
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+final class MainViewController: BaseViewController {
 
-        // Do any additional setup after loading the view.
+    // MARK: - Instance Property
+
+    private let headerView = HeaderView()
+
+    // MARK: - custom func
+
+    override func render() {
+        view.addSubview(headerView)
+        headerView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.height.lessThanOrEqualTo(200)
+        }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
