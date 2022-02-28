@@ -25,9 +25,8 @@ class CoinMenuCollectionViewCell: BaseCollectionViewCell {
     private var titleLabel = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .body)
     }
-    var delegate: PageIndexDelegate?
     
-    private var titleLabel = UILabel()
+    private var delegate: PageIndexDelegate?
     
     private var bottomView = UIView().then {
         $0.backgroundColor = .white

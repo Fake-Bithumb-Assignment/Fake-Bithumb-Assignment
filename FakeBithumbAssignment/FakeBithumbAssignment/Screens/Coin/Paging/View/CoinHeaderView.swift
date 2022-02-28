@@ -35,8 +35,8 @@ final class CoinHeaderView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        render()
-        configUI()
+        self.render()
+        self.configUI()
     }
     
     @available(*, unavailable)
@@ -47,7 +47,7 @@ final class CoinHeaderView: UIView {
     
     // MARK: - custom func
     
-    func render() {
+    private func render() {
         self.addSubViews([currentPriceLabel, fluctateLabel, fluctateImageView, fluctateRateLabel])
         
         self.currentPriceLabel.snp.makeConstraints { make in
@@ -73,7 +73,7 @@ final class CoinHeaderView: UIView {
         }
     }
     
-    func configUI() {
+    private func configUI() {
         self.backgroundColor = .white
     }
     

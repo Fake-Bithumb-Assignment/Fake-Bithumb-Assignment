@@ -47,8 +47,50 @@ final class CoinViewController: BaseViewController {
     override func render() {
         view.addSubViews([headerView, menuCollectionView, pageView])
         
-        headerView.snp.makeConstraints { (make) in
+        self.headerView.snp.makeConstraints { (make) in
             make.leading.top.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(90)
+        }
+        self.menuCollectionView.snp.makeConstraints { (make) in
+            make.height.equalTo(35)
+        }
+    }
+    
+    override func configUI() {
+        super.configUI()
+        self.configStackView()
+    }
+    
+    
+    // MARK: - custom func
+    
+    private func setDelegations() {
+        self.menuCollectionView.delegate = self
+        self.menuCollectionView.dataSource = self
+    }
+    
+    private func setPageView() {
+        self.pageViewController = CoinPagingViewController(pages: pages)
+        
+        if let pageViewController = pageViewController {
+            addChild(pageViewController)
+            pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
+            self.pageView.addSubview(pageViewController.view)
+            pageViewController.didMove(toParent: self)
+        }
+    }
+    
+    private func configStackView() {
+        let stackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.headerView, self.menuCollectionView, self.pageView]
+        ).then {
+            $0.axis = .vertical
+            $0.alignment = .fill
+            $0.spacing = 1
+        }
+        
+        self.view.addSubview(stackView)
+        self.headerView.snp.makeConstraints { (make) in
             make.height.equalTo(90)
         }
         self.menuCollectionView.snp.makeConstraints { (make) in
@@ -60,25 +102,9 @@ final class CoinViewController: BaseViewController {
     }
     
     private func patchHeaderViewData() {
-        self.headerView.patchData(data: CoinHeaderModel(currentPrice: 4559400, fluctate: -1578000, fluctateUpDown: "up", fluctateRate: 3.35))
-    }
-    
-    
-    // MARK: - custom func
-    
-    func setDelegations() {
-        menuCollectionView.delegate = self
-        menuCollectionView.dataSource = self
-    }
-    
-    func setPageView() {
-        pageViewController = CoinPagingViewController(pages: pages)
-        
-        if let pageViewController = pageViewController {
-            addChild(pageViewController)
-            pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
-            pageView.addSubview(pageViewController.view)
-            pageViewController.didMove(toParent: self)
-        }
+        self.headerView.patchData(data: CoinHeaderModel(currentPrice: 4559400,
+                                                        fluctate: -1578000,
+                                                        fluctateUpDown: "up",
+                                                        fluctateRate: 3.35))
     }
 }

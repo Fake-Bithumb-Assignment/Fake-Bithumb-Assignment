@@ -11,11 +11,11 @@ enum PageTab {
     case quote, graph, contract
 }
 
-class CoinPagingViewController: UIPageViewController {
+final class CoinPagingViewController: UIPageViewController {
     
     // MARK: - Instance Property
     
-    var pages: [UIViewController]?
+    private var pages: [UIViewController]?
     
     
     // MARK: - Life Cycle func
@@ -44,13 +44,13 @@ class CoinPagingViewController: UIPageViewController {
     
     // MARK: - custom funcs
     
-    func configUI() {
+    private func configUI() {
         if let pages = pages {
             setViewControllers([pages[0]], direction: .forward, animated: false, completion: nil)
         }
     }
     
-    func setDelegations() {
+    private func setDelegations() {
         dataSource = nil
         delegate = nil
     }
