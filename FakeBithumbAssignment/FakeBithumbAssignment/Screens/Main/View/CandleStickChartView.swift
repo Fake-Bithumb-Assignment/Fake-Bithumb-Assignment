@@ -38,7 +38,7 @@ class CandleStickChartView: UIView {
     /// 기본 선 색상
     private let defaultColor: CGColor = CGColor(red: 96/255, green: 96/255, blue: 96/255, alpha: 1.0)
     /// 기본 선 너비
-    private let defaultLineWidth: CGFloat = 0.5
+    private let defaultLineWidth: CGFloat = 1.0
     /// 기본 텍스트 크기
     private let defaultFontSize: CGFloat = 11.0
     /// 오른쪽 값 영역의 너비
