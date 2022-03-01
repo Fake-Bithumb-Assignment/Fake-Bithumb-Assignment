@@ -60,6 +60,7 @@ class CoinTableViewCell: BaseTableViewCell {
             self.tradeValue
         ]).then {
             $0.spacing = 10
+            $0.axis = .horizontal
         }
 
         self.addSubview(stackView)

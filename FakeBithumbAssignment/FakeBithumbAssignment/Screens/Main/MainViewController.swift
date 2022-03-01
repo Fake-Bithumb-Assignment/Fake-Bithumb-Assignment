@@ -25,21 +25,30 @@ final class MainViewController: BaseViewController {
     // MARK: - custom func
 
     override func render() {
-        configureHeaderView()
-        configureTableView()
+        configureUI()
     }
-    
+
     override func configUI() {
         super.configUI()
         setDelegations()
     }
 
-    private func configureHeaderView() {
-        view.addSubview(headerView)
-        headerView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide)
+    private func configureUI() {
+        let stackView = UIStackView(arrangedSubviews: [
+            self.headerView, self.coinTableView
+        ]).then {
+            $0.axis = .vertical
+            $0.alignment = .fill
+        }
+
+        self.view.addSubview(stackView)
+        self.headerView.snp.makeConstraints { make in
             make.height.lessThanOrEqualTo(200)
+        }
+
+        stackView.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide)
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
 
@@ -52,10 +61,10 @@ final class MainViewController: BaseViewController {
             )
             return cell
         }
-        
+
         var snapshot = NSDiffableDataSourceSnapshot<Int, UUID>()
         snapshot.appendSections([0])
-        
+
         /// 디버깅 용 코드
         var uuidArray: [UUID] = []
         for _ in 0..<50 {
@@ -66,26 +75,12 @@ final class MainViewController: BaseViewController {
         self.dataSource?.apply(snapshot)
     }
 
-    private func configureTableView() {
-        view.addSubview(coinTableView)
-        guard let tabBarHeight = self.tabBarController?.tabBar.frame.size.height
-        else {
-            return
-        }
-
-        coinTableView.snp.makeConstraints { make in
-            make.top.equalTo(headerView.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().inset(tabBarHeight)
-        }
-    }
-    
     private func setDelegations() {
         configurediffableDataSource()
         coinTableView.dataSource = dataSource
         coinTableView.delegate = self
     }
-    
+
     private func updateInterestList() {
         
     }
