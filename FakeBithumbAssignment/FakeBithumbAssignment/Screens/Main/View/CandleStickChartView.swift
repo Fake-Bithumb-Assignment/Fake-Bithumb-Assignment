@@ -123,7 +123,7 @@ class CandleStickChartView: UIView {
     private func setFrame() {
         let chartContentWidth: CGFloat = 2 * self.horizontalFrontRearSpace
         + CGFloat(self.candleSticks.count) * self.candleStickWidth
-        + CGFloat(self.candleSticks.count) - 1 * self.candleStickSpace
+        + (CGFloat(self.candleSticks.count) - 1) * self.candleStickSpace
         let chartContentHeight: CGFloat = self.bounds.height - self.dateTimeHeight
         
         self.scrollView.frame = CGRect(
