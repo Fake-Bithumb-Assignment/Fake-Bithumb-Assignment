@@ -16,21 +16,29 @@ final class MainViewController: BaseViewController {
 
     private let headerView = HeaderView()
 
-    private var dataSource: UITableViewDiffableDataSource<Int, UUID>?
+    private var dataSource: UITableViewDiffableDataSource<Section, CoinData>?
+
+    private var snapshot = NSDiffableDataSourceSnapshot<Section, CoinData>()
+
+    private var coinData: [CoinData] = []
 
     private let coinTableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
+        $0.backgroundColor = .white
+    }
+
+    // MARK: - Life Cycle func
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureCoinData()
+        setDelegations()
     }
 
     // MARK: - custom func
 
     override func render() {
         configureUI()
-    }
-
-    override func configUI() {
-        super.configUI()
-        setDelegations()
     }
 
     private func configureUI() {
@@ -52,27 +60,50 @@ final class MainViewController: BaseViewController {
         }
     }
 
+    private func configureCoinData() {
+        Coin.allCases.forEach {
+            if UserDefaults.standard.string(forKey: $0.rawValue) != nil {
+                coinData.append(
+                    CoinData(
+                        coinName: $0.rawValue,
+                        currentPrice: "43,926,000",
+                        fluctuationRate: "-23.46%",
+                        tradeValue: "256,880백만",
+                        isInterested: true
+                    ))
+            }
+            else {
+                coinData.append(
+                    CoinData(
+                        coinName: $0.rawValue,
+                        currentPrice: "43,926,000",
+                        fluctuationRate: "-23.46%",
+                        tradeValue: "256,880백만"
+                    ))
+            }
+        }
+    }
+
     private func configurediffableDataSource() {
         dataSource = UITableViewDiffableDataSource(tableView: coinTableView)
-        { tableView, indexPath, itemIdentifier in
+        { [weak self] tableView, indexPath, itemIdentifier in
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: CoinTableViewCell.className,
                 for: indexPath
-            )
+            ) as? CoinTableViewCell
+            
+            cell?.configure(with: self?.coinData[indexPath.row])
             return cell
         }
 
-        var snapshot = NSDiffableDataSourceSnapshot<Int, UUID>()
-        snapshot.appendSections([0])
-
-        /// 디버깅 용 코드
-        var uuidArray: [UUID] = []
-        for _ in 0..<50 {
-            uuidArray.append(UUID())
-        }
-        ///
-        snapshot.appendItems(uuidArray)
-        self.dataSource?.apply(snapshot)
+        configureSnapshot()
+    }
+    
+    private func configureSnapshot() {
+        self.snapshot.deleteAllItems()
+        self.snapshot.appendSections([.main])
+        self.snapshot.appendItems(coinData)
+        self.dataSource?.apply(self.snapshot)
     }
 
     private func setDelegations() {

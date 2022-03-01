@@ -52,6 +52,13 @@ class CoinTableViewCell: BaseTableViewCell {
         configureStackView()
     }
 
+    func configure(with model: CoinData?) {
+        coinName.text = model?.coinName
+        currentPrice.text = model?.currentPrice
+        fluctuationRate.text = model?.fluctuationRate
+        tradeValue.text = model?.tradeValue
+    }
+
     private func configureStackView() {
         let stackView = UIStackView(arrangedSubviews: [
             self.coinName,
