@@ -50,6 +50,10 @@ final class CoinHeaderView: UIView {
     private func render() {
         self.addSubViews([currentPriceLabel, fluctateLabel, fluctateImageView, fluctateRateLabel])
         
+        self.snp.makeConstraints { make in
+            make.height.equalTo(90)
+        }
+        
         self.currentPriceLabel.snp.makeConstraints { make in
             make.top.equalTo(self).offset(20)
             make.leading.equalTo(self).offset(20)

@@ -56,16 +56,6 @@ final class CoinViewController: BaseViewController {
     
     override func render() {
         self.view.addSubViews([headerView, pageView])
-        
-        self.headerView.snp.makeConstraints { make in
-            make.leading.top.trailing.equalTo(self.view.safeAreaLayoutGuide)
-            make.height.equalTo(90)
-        }
-        
-        self.pageView.snp.makeConstraints { make in
-            make.top.equalTo(self.headerView.snp.bottom)
-            make.leading.bottom.trailing.equalTo(self.view)
-        }
     }
     
     override func configUI() {
@@ -84,12 +74,6 @@ final class CoinViewController: BaseViewController {
             $0.axis = .horizontal
             $0.distribution = .fillEqually
             $0.spacing = 1
-        }
-        
-        self.view.addSubview(menuStackView)
-        
-        menuStackView.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         let stackView: UIStackView = UIStackView(

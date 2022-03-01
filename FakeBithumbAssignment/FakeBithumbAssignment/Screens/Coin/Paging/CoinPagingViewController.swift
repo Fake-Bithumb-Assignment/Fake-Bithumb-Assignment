@@ -7,6 +7,9 @@
 
 import UIKit
 
+import SnapKit
+import Then
+
 enum TabView {
     case quote, graph, contractDetails
 }
