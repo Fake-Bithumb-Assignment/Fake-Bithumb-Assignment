@@ -40,6 +40,7 @@
 		15ACAEA027CA06A400AB7EDC /* CoinMenuCollectionViewDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ACAE9F27CA06A400AB7EDC /* CoinMenuCollectionViewDataViewController.swift */; };
 		43BEFF7727C9B99800FFA217 /* CoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEFF7627C9B99800FFA217 /* CoinTableViewCell.swift */; };
 		43EE309327CDDD4D00130EC1 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EE309227CDDD4D00130EC1 /* Coin.swift */; };
+		43EE309727CDEF3700130EC1 /* CoinData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EE309627CDEF3700130EC1 /* CoinData.swift */; };
 		43F60EC327C6874A0027699B /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F60EC227C6874A0027699B /* HeaderView.swift */; };
 		43F60EC527C7666A0027699B /* ColumnNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F60EC427C7666A0027699B /* ColumnNameView.swift */; };
 		560F6282225D043E542509BC /* Pods_FakeBithumbAssignmentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C088A727AD09503EE5E4ACC /* Pods_FakeBithumbAssignmentTests.framework */; };
@@ -100,6 +101,7 @@
 		31928FD3DB50A78B294459C0 /* Pods-FakeBithumbAssignmentTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignmentTests.release.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignmentTests/Pods-FakeBithumbAssignmentTests.release.xcconfig"; sourceTree = "<group>"; };
 		43BEFF7627C9B99800FFA217 /* CoinTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTableViewCell.swift; sourceTree = "<group>"; };
 		43EE309227CDDD4D00130EC1 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
+		43EE309627CDEF3700130EC1 /* CoinData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinData.swift; sourceTree = "<group>"; };
 		43F60EC227C6874A0027699B /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		43F60EC427C7666A0027699B /* ColumnNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnNameView.swift; sourceTree = "<group>"; };
 		5C088A727AD09503EE5E4ACC /* Pods_FakeBithumbAssignmentTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FakeBithumbAssignmentTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -170,6 +172,7 @@
 				FAC7F95A27C65A60001E11DA /* BTSocketAPIResponse.swift */,
 				FAC7F95C27C65AC0001E11DA /* BTSocketAPIRequest.swift */,
 				43EE309227CDDD4D00130EC1 /* Coin.swift */,
+				43EE309627CDEF3700130EC1 /* CoinData.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -603,6 +606,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43EE309727CDEF3700130EC1 /* CoinData.swift in Sources */,
 				15ACAE9927C9DEC900AB7EDC /* UICollectionView+Extension.swift in Sources */,
 				1504F73227C6338100A5EC6C /* Requestable.swift in Sources */,
 				1504F6D627C5F68E00A5EC6C /* DepositAndWithdrawalViewController.swift in Sources */,
