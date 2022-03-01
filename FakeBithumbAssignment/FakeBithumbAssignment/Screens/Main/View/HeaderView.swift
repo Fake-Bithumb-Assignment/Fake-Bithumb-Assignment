@@ -10,9 +10,17 @@ import UIKit
 import SnapKit
 import Then
 
+// MARK: - HeaderViewDelegateProtocol
+
+protocol HeaderViewDelegate: AnyObject {
+    func selectCategory(_ category: Category)
+}
+
 final class HeaderView: UIView {
 
     // MARK: - Instance Property
+
+    weak var delegate: HeaderViewDelegate?
 
     private let krwButton = UIButton().then {
         $0.setTitle("원화", for: .normal)
@@ -158,11 +166,13 @@ final class HeaderView: UIView {
         self.krwButton.setTitleColor(.black, for: .normal)
         self.favoritesButton.setTitleColor(.lightGray, for: .normal)
         setBottomBorder(to: self.krwButton)
+        delegate?.selectCategory(.krw)
     }
     
     @objc private func tapFavoritesButton() {
         self.krwButton.setTitleColor(.lightGray, for: .normal)
         self.favoritesButton.setTitleColor(.black, for: .normal)
         setBottomBorder(to: self.favoritesButton)
+        delegate?.selectCategory(.interest)
     }
 }

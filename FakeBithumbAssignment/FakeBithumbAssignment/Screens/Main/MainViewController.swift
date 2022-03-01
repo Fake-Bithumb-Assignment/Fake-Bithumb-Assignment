@@ -79,6 +79,7 @@ final class MainViewController: BaseViewController {
         configurediffableDataSource()
         coinTableView.dataSource = dataSource
         coinTableView.delegate = self
+        headerView.delegate = self
     }
 
     private func updateInterestList() {
@@ -109,5 +110,20 @@ extension MainViewController: UITableViewDelegate {
         interest.image = UIImage(named: "Interest")
 
         return UISwipeActionsConfiguration(actions: [interest])
+    }
+}
+
+// MARK: - HeaderViewDelegate
+
+extension MainViewController: HeaderViewDelegate {
+    func selectCategory(_ category: Category) {
+        switch category {
+        case .krw:
+            break
+        case .interest:
+            break
+        default:
+            break
+        }
     }
 }
