@@ -38,6 +38,7 @@
 		15ACAE9927C9DEC900AB7EDC /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ACAE9827C9DEC900AB7EDC /* UICollectionView+Extension.swift */; };
 		15ACAE9E27CA061100AB7EDC /* CoinHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ACAE9D27CA061100AB7EDC /* CoinHeaderView.swift */; };
 		15ACAEA027CA06A400AB7EDC /* CoinMenuCollectionViewDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ACAE9F27CA06A400AB7EDC /* CoinMenuCollectionViewDataViewController.swift */; };
+		4320861527CE0473002CFDBF /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320861427CE0473002CFDBF /* Category.swift */; };
 		43BEFF7727C9B99800FFA217 /* CoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEFF7627C9B99800FFA217 /* CoinTableViewCell.swift */; };
 		43EE309327CDDD4D00130EC1 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EE309227CDDD4D00130EC1 /* Coin.swift */; };
 		43EE309727CDEF3700130EC1 /* CoinData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EE309627CDEF3700130EC1 /* CoinData.swift */; };
@@ -99,6 +100,7 @@
 		15ACAE9D27CA061100AB7EDC /* CoinHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinHeaderView.swift; sourceTree = "<group>"; };
 		15ACAE9F27CA06A400AB7EDC /* CoinMenuCollectionViewDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinMenuCollectionViewDataViewController.swift; sourceTree = "<group>"; };
 		31928FD3DB50A78B294459C0 /* Pods-FakeBithumbAssignmentTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignmentTests.release.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignmentTests/Pods-FakeBithumbAssignmentTests.release.xcconfig"; sourceTree = "<group>"; };
+		4320861427CE0473002CFDBF /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		43BEFF7627C9B99800FFA217 /* CoinTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTableViewCell.swift; sourceTree = "<group>"; };
 		43EE309227CDDD4D00130EC1 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
 		43EE309627CDEF3700130EC1 /* CoinData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinData.swift; sourceTree = "<group>"; };
@@ -171,8 +173,6 @@
 			children = (
 				FAC7F95A27C65A60001E11DA /* BTSocketAPIResponse.swift */,
 				FAC7F95C27C65AC0001E11DA /* BTSocketAPIRequest.swift */,
-				43EE309227CDDD4D00130EC1 /* Coin.swift */,
-				43EE309627CDEF3700130EC1 /* CoinData.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -347,6 +347,7 @@
 		15BE7A6A27C5DC5B0007FB2F /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				4320861327CE045D002CFDBF /* Model */,
 				43F60EBB27C6524A0027699B /* View */,
 				1504F6CD27C5F64D00A5EC6C /* MainViewController.swift */,
 			);
@@ -392,6 +393,16 @@
 				1504F6D327C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift */,
 			);
 			path = CoinContractDetailsTab;
+			sourceTree = "<group>";
+		};
+		4320861327CE045D002CFDBF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				43EE309227CDDD4D00130EC1 /* Coin.swift */,
+				43EE309627CDEF3700130EC1 /* CoinData.swift */,
+				4320861427CE0473002CFDBF /* Category.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		43F60EBB27C6524A0027699B /* View */ = {
@@ -637,6 +648,7 @@
 				158731A127CB715A0018E67B /* CoinHeaderModel.swift in Sources */,
 				1504F6D427C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift in Sources */,
 				15ACAE9E27CA061100AB7EDC /* CoinHeaderView.swift in Sources */,
+				4320861527CE0473002CFDBF /* Category.swift in Sources */,
 				1504F6D227C5F66D00A5EC6C /* CoinGraphTabViewController.swift in Sources */,
 				43F60EC527C7666A0027699B /* ColumnNameView.swift in Sources */,
 				1504F6D827C5F70B00A5EC6C /* CoinViewController.swift in Sources */,
