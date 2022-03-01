@@ -225,12 +225,19 @@ class CandleStickChartView: UIView {
         let drawPerCandleStickCount: Int = Int(
             (self.scrollView.bounds.size.width / CGFloat(self.numbersOfDateTimeInFrame)) / (self.candleStickWidth + self.candleStickSpace)
         )
+//        let dateFormatter = DateFormatter().then {
+//            $0.dateFormat = "yy.MM.dd"
+//        }
+        let timeFormatter = DateFormatter().then {
+            $0.dateFormat = "HH:mm"
+        }
         self.candleSticks.indices.forEach {
             let index: Int = self.candleSticks.count - 1 - $0
             guard $0 % drawPerCandleStickCount == 0 else {
                 return
             }
             let xCoord: CGFloat = getXCoord(indexOf: index)
+            let date: Date = self.candleSticks[index].date
             let thornLineLayer: CAShapeLayer = CAShapeLayer.lineLayer(
                 from: CGPoint(x: xCoord, y: 0),
                 to: CGPoint(x: xCoord, y: self.thornLength),
@@ -250,7 +257,7 @@ class CandleStickChartView: UIView {
                 $0.contentsScale = UIScreen.main.scale
                 $0.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
                 $0.fontSize = self.defaultFontSize
-                $0.string = self.candleSticks[index].date.formatted()
+                $0.string = timeFormatter.string(from: date)
             }
             self.dateTimeLayer.addSublayer(thornLineLayer)
             self.dateTimeLayer.addSublayer(textLayer)
