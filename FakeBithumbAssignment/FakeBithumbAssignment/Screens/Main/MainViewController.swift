@@ -22,6 +22,8 @@ final class MainViewController: BaseViewController {
 
     private var coinData: [CoinData] = []
 
+    private var selectedCategory = Category.krw
+
     private let coinTableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
         $0.backgroundColor = .white
@@ -105,6 +107,17 @@ final class MainViewController: BaseViewController {
         self.snapshot.appendItems(coinData)
         self.dataSource?.apply(self.snapshot)
     }
+    
+    private func updateSnapshot(_ beUpdatedData: [CoinData]) {
+        guard let snapshot = dataSource?.snapshot() else {
+            return
+        }
+
+        self.snapshot = snapshot
+        self.snapshot.deleteItems(self.coinData)
+        self.snapshot.appendItems(beUpdatedData)
+        self.dataSource?.apply(self.snapshot)
+    }
 
     private func setDelegations() {
         configurediffableDataSource()
@@ -113,8 +126,29 @@ final class MainViewController: BaseViewController {
         headerView.delegate = self
     }
 
-    private func updateInterestList() {
+    private func updateInterestList(_ indexPath: IndexPath) {
+        let targetCoinData: CoinData
+        if selectedCategory == .interest {
+            targetCoinData = coinData.filter { $0.isInterested }[indexPath.row]
+        }
+        else {
+            targetCoinData = coinData[indexPath.row]
+        }
         
+        let targetCoin = targetCoinData.coinName
+        
+        if let alreadyRegisteredCoin = UserDefaults.standard.string(forKey: targetCoin) {
+            UserDefaults.standard.removeObject(forKey: alreadyRegisteredCoin)
+            targetCoinData.isInterested.toggle()
+            if selectedCategory == .interest {
+                let beUpdatedData = coinData.filter { $0.isInterested }
+                updateSnapshot(beUpdatedData)
+            }
+        }
+        else {
+            UserDefaults.standard.set(targetCoin, forKey: targetCoin)
+            targetCoinData.isInterested.toggle()
+        }
     }
 }
 
@@ -135,7 +169,7 @@ extension MainViewController: UITableViewDelegate {
             style: .normal,
             title: nil
         ) { [weak self] _, _, completion in
-            self?.updateInterestList()
+            self?.updateInterestList(indexPath)
             completion(true)
         }
         interest.image = UIImage(named: "Interest")
@@ -150,9 +184,12 @@ extension MainViewController: HeaderViewDelegate {
     func selectCategory(_ category: Category) {
         switch category {
         case .krw:
-            break
+            self.selectedCategory = .krw
+            configureSnapshot()
         case .interest:
-            break
+            self.selectedCategory = .interest
+            let beUpdatedData = coinData.filter { $0.isInterested }
+            updateSnapshot(beUpdatedData)
         default:
             break
         }
