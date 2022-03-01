@@ -7,7 +7,13 @@
 
 import Foundation
 
-struct CoinData: Hashable {
+final class CoinData: Hashable {
+    let coinName: String
+    var currentPrice: String
+    var fluctuationRate: String
+    var tradeValue: String
+    var isInterested: Bool
+
     static func == (lhs: CoinData, rhs: CoinData) -> Bool {
         return lhs.coinName == rhs.coinName
     }
@@ -15,10 +21,12 @@ struct CoinData: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(coinName)
     }
-    
-    let coinName: String
-    var currentPrice: String
-    var fluctuationRate: String
-    var tradeValue: String
-    var isInterested: Bool = false
+
+    init(coinName: String, currentPrice: String, fluctuationRate: String, tradeValue: String, isInterested: Bool = false) {
+        self.coinName = coinName
+        self.currentPrice = currentPrice
+        self.fluctuationRate = fluctuationRate
+        self.tradeValue = tradeValue
+        self.isInterested = isInterested
+    }
 }
