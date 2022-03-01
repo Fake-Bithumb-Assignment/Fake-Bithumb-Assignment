@@ -115,7 +115,7 @@ final class CoinViewController: BaseViewController {
     private func setBottomBorder(to button: UIButton) {
         self.indicatorView.removeFromSuperview()
         button.addSubview(indicatorView)
-        indicatorView.snp.makeConstraints { make in
+        self.indicatorView.snp.makeConstraints { make in
             make.leading.width.bottom.equalToSuperview()
             make.height.equalTo(3)
         }
@@ -132,17 +132,17 @@ final class CoinViewController: BaseViewController {
     // MARK: - @objc
     
     @objc private func tapQuoteButton(sender: UIButton) {
-        setBottomBorder(to: self.quoteButton)
-        pageViewController?.setTabViewController(to: .quote)
+        self.setBottomBorder(to: self.quoteButton)
+        self.pageViewController?.setTabViewController(to: .quote)
     }
     
     @objc private func tapGraphButton() {
-        setBottomBorder(to: self.graphButton)
-        pageViewController?.setTabViewController(to: .graph)
+        self.setBottomBorder(to: self.graphButton)
+        self.pageViewController?.setTabViewController(to: .graph)
     }
     
     @objc private func tapContractDetailsButton() {
-        setBottomBorder(to: self.contractDetailsButton)
-        pageViewController?.setTabViewController(to: .contractDetails)
+        self.setBottomBorder(to: self.contractDetailsButton)
+        self.pageViewController?.setTabViewController(to: .contractDetails)
     }
 }

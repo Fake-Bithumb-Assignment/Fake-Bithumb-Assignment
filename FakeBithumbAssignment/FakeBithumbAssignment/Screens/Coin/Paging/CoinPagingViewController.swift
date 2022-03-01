@@ -23,7 +23,8 @@ final class CoinPagingViewController: UIPageViewController {
     
     override init(transitionStyle style: UIPageViewController.TransitionStyle,
                   navigationOrientation: UIPageViewController.NavigationOrientation,
-                  options: [UIPageViewController.OptionsKey : Any]? = nil) {
+                  options: [UIPageViewController.OptionsKey : Any]? = nil
+    ) {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     }
     
@@ -41,7 +42,9 @@ final class CoinPagingViewController: UIPageViewController {
     // MARK: - custom funcs
     
     private func makeTabViewController() {
-        self.pages = [CoinQuoteInformationTabViewController(), CoinGraphTabViewController(), CoinContractDetailsTabViewController()]
+        self.pages = [CoinQuoteInformationTabViewController(),
+                      CoinGraphTabViewController(),
+                      CoinContractDetailsTabViewController()]
     }
     
     private func setFirstShowViewController() {
