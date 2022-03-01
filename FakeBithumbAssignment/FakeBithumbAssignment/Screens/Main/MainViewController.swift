@@ -24,6 +24,17 @@ final class MainViewController: BaseViewController {
 
     private var selectedCategory = Category.krw
 
+    private let noInterestedCoinView = UIView().then {
+        $0.backgroundColor = .white
+        $0.isHidden = true
+    }
+
+    private let noInterestedCoinLabel = UILabel().then {
+        $0.text = "등록된 관심 가상자산이 없습니다."
+        $0.font = .preferredFont(forTextStyle: .headline)
+        $0.textColor = .darkGray
+    }
+
     private let coinTableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
         $0.backgroundColor = .white
@@ -44,6 +55,7 @@ final class MainViewController: BaseViewController {
     }
 
     private func configureUI() {
+        configureNoInterestedCoinView()
         let stackView = UIStackView(arrangedSubviews: [
             self.headerView, self.coinTableView
         ]).then {
@@ -83,6 +95,28 @@ final class MainViewController: BaseViewController {
                         tradeValue: "256,880백만"
                     ))
             }
+        }
+    }
+    
+    private func configureNoInterestedCoinView() {
+        self.noInterestedCoinView.addSubview(noInterestedCoinLabel)
+        self.noInterestedCoinLabel.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        
+        self.coinTableView.addSubview(noInterestedCoinView)
+        noInterestedCoinView.snp.makeConstraints { make in
+            make.size.equalToSuperview()
+        }
+    }
+
+    private func checkIfEmpty() {
+        let beUpdatedData = coinData.filter { $0.isInterested }
+        if beUpdatedData.isEmpty {
+            noInterestedCoinView.isHidden = false
+        }
+        else {
+            updateSnapshot(beUpdatedData)
         }
     }
 
@@ -141,8 +175,7 @@ final class MainViewController: BaseViewController {
             UserDefaults.standard.removeObject(forKey: alreadyRegisteredCoin)
             targetCoinData.isInterested.toggle()
             if selectedCategory == .interest {
-                let beUpdatedData = coinData.filter { $0.isInterested }
-                updateSnapshot(beUpdatedData)
+                checkIfEmpty()
             }
         }
         else {
@@ -185,11 +218,11 @@ extension MainViewController: HeaderViewDelegate {
         switch category {
         case .krw:
             self.selectedCategory = .krw
+            noInterestedCoinView.isHidden = true
             configureSnapshot()
         case .interest:
             self.selectedCategory = .interest
-            let beUpdatedData = coinData.filter { $0.isInterested }
-            updateSnapshot(beUpdatedData)
+            checkIfEmpty()
         default:
             break
         }
