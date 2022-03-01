@@ -56,6 +56,10 @@ final class MainViewController: BaseViewController {
 
     private func configureUI() {
         configureNoInterestedCoinView()
+        configureStackView()
+    }
+
+    private func configureStackView() {
         let stackView = UIStackView(arrangedSubviews: [
             self.headerView, self.coinTableView
         ]).then {
@@ -97,13 +101,13 @@ final class MainViewController: BaseViewController {
             }
         }
     }
-    
+
     private func configureNoInterestedCoinView() {
         self.noInterestedCoinView.addSubview(noInterestedCoinLabel)
         self.noInterestedCoinLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
-        
+
         self.coinTableView.addSubview(noInterestedCoinView)
         noInterestedCoinView.snp.makeConstraints { make in
             make.size.equalToSuperview()

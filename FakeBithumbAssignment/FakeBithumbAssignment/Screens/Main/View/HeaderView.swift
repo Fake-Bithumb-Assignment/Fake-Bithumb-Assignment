@@ -148,7 +148,11 @@ final class HeaderView: UIView {
     }
 
     private func configureFavoritesButton() {
-        self.favoritesButton.addTarget(self, action: #selector(tapFavoritesButton), for: .touchUpInside)
+        self.favoritesButton.addTarget(
+            self,
+            action: #selector(tapFavoritesButton),
+            for: .touchUpInside
+        )
     }
     
     private func setBottomBorder(to button: UIButton) {
