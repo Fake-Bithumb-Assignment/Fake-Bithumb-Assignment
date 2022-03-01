@@ -19,18 +19,19 @@ struct BTSocketAPIService {
     
     /// 현재가 ticker
     ///
-    /// - Parameter symbols 통화코드
+    /// - Parameter orderCyrrency: 주문 통화 ["BTC", "ETH"], ...
+    /// - Parameter paymentCurrency: 결제 통화
     /// - Parameter tickTypes: tick 종류
     /// - Parameter responseHander: 응답으로 온 Ticket의 핸들러
     mutating func subscribeTicker(
-        orderCyrrency: [String],
+        orderCurrency: [String],
         paymentCurrency: BTSocketAPIRequest.PaymentCurrency,
         tickTypes: [BTSocketAPIRequest.TickType]?,
         responseHandler: @escaping (BTSocketAPIResponse.TickerResponse) -> Void
     ) {
         let request = BTSocketAPIRequest(
             type: .ticker,
-            orderCyrrency: orderCyrrency,
+            orderCurrency: orderCurrency,
             paymentCurrency: paymentCurrency,
             tickTypes: tickTypes
         )
@@ -47,16 +48,17 @@ struct BTSocketAPIService {
     
     /// 체결 transaction
     ///
-    /// - Parameter symbols: 통화코드
+    /// - Parameter orderCyrrency: 주문 통화 ["BTC", "ETH"], ...
+    /// - Parameter paymentCurrency: 결제 통화
     /// - Parameter responseHander: 응답으로 온 Transaction의 핸들러
     mutating func subscribeTransaction(
-        orderCyrrency: [String],
+        orderCurrency: [String],
         paymentCurrency: BTSocketAPIRequest.PaymentCurrency,
         responseHandler: @escaping (BTSocketAPIResponse.TransactionResponse) -> Void
     ) {
         let request = BTSocketAPIRequest(
             type: .transaction,
-            orderCyrrency: orderCyrrency,
+            orderCurrency: orderCurrency,
             paymentCurrency: paymentCurrency
         )
         guard let filter = try? self.jsonEncoder.encode(request) else {
@@ -72,16 +74,17 @@ struct BTSocketAPIService {
 
     /// 호가 orderbook
     ///
-    /// - Parameter symbols: 통화코드
+    /// - Parameter orderCyrrency: 주문 통화 ["BTC", "ETH"], ...
+    /// - Parameter paymentCurrency: 결제 통화
     /// - Parameter responseHander: 응답으로 온 OrderBook의 핸들러
     mutating func subscribeOrderBook(
-        orderCyrrency: [String],
+        orderCurrency: [String],
         paymentCurrency: BTSocketAPIRequest.PaymentCurrency,
         responseHandler: @escaping (BTSocketAPIResponse.OrderBookResponse) -> Void
     ) {
         let request = BTSocketAPIRequest(
             type: .orderBook,
-            orderCyrrency: orderCyrrency,
+            orderCurrency: orderCurrency,
             paymentCurrency: paymentCurrency
         )
         guard let filter = try? self.jsonEncoder.encode(request) else {
