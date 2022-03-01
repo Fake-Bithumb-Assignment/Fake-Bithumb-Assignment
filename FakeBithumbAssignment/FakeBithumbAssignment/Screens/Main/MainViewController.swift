@@ -209,7 +209,19 @@ extension MainViewController: UITableViewDelegate {
             self?.updateInterestList(indexPath)
             completion(true)
         }
-        interest.image = UIImage(named: "Interest")
+
+        if selectedCategory == .interest {
+            interest.image = UIImage(named: "Interested")
+        }
+
+        else {
+            if coinData[indexPath.row].isInterested {
+                interest.image = UIImage(named: "Interested")
+            }
+            else {
+                interest.image = UIImage(named: "Interest")
+            }
+        }
 
         return UISwipeActionsConfiguration(actions: [interest])
     }
