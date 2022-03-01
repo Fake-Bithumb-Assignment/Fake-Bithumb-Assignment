@@ -37,8 +37,12 @@ class CandleStickChartView: UIView {
     private let blueColor: CGColor = CGColor(red: 50/255, green: 93/255, blue: 202/255, alpha: 1.0)
     /// 기본 선 색상
     private let defaultColor: CGColor = CGColor(red: 96/255, green: 96/255, blue: 96/255, alpha: 1.0)
+    /// 그리드 선 색상
+    private let gridColor: CGColor = CGColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
     /// 기본 선 너비
     private let defaultLineWidth: CGFloat = 1.0
+    /// 그리드 선 너비
+    private let gridWidth: CGFloat = 0.5
     /// 기본 텍스트 크기
     private let defaultFontSize: CGFloat = 11.0
     /// 오른쪽 값 영역의 너비
@@ -95,9 +99,9 @@ class CandleStickChartView: UIView {
     
     private func setupLayers() {
         // 스크롤에 포함될 전체 영역인 mainLayer
+        self.mainLayer.addSublayer(self.verticalGridLayer)
         self.mainLayer.addSublayer(self.dataLayer)
         self.mainLayer.addSublayer(self.dateTimeLayer)
-        self.mainLayer.addSublayer(self.verticalGridLayer)
         self.scrollView.layer.addSublayer(self.mainLayer)
         // 가로줄, 값은 스크롤 되지 않음
         self.layer.addSublayer(self.horizontalGridLayer)
@@ -110,10 +114,10 @@ class CandleStickChartView: UIView {
     override func layoutSubviews() {
         setFrame()
         cleanLayers()
-        drawChart()
         drawDateTime()
         drawDivivisionLine()
         drawValue()
+        drawChart()
     }
     
     private func setFrame() {
@@ -165,7 +169,7 @@ class CandleStickChartView: UIView {
         self.verticalGridLayer.frame = CGRect(
             x: 0,
             y: 0,
-            width: chartContentWidth,
+            width: chartContentWidth - self.valueWidth,
             height: chartContentHeight
         )
     }
@@ -261,6 +265,14 @@ class CandleStickChartView: UIView {
             }
             self.dateTimeLayer.addSublayer(thornLineLayer)
             self.dateTimeLayer.addSublayer(textLayer)
+            
+            let gridLayer: CAShapeLayer = CAShapeLayer.lineLayer(
+                from: CGPoint(x: xCoord, y: 0),
+                to: CGPoint(x: xCoord, y: self.bounds.height - self.dateTimeHeight),
+                color: self.gridColor,
+                width: gridWidth
+            )
+            self.verticalGridLayer.addSublayer(gridLayer)
         }
     }
     
@@ -319,6 +331,14 @@ class CandleStickChartView: UIView {
             }
             self.valueLayer.addSublayer(thornLineLayer)
             self.valueLayer.addSublayer(textLayer)
+            
+            let gridLayer: CAShapeLayer = CAShapeLayer.lineLayer(
+                from: CGPoint(x: 0, y: yCoord),
+                to: CGPoint(x: self.verticalGridLayer.bounds.width, y: yCoord),
+                color: self.gridColor,
+                width: gridWidth
+            )
+            self.horizontalGridLayer.addSublayer(gridLayer)
         }
     }
     
