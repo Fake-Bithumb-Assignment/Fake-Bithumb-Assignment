@@ -23,7 +23,7 @@ struct BTSocketAPIRequest: Encodable {
     
     init(
         type: RequestType,
-        orderCyrrency: [String], // ["BTC", "ETH"], ...
+        orderCyrrency: [Coin], // ["BTC", "ETH"], ...
         paymentCurrency: PaymentCurrency = .krw,
         tickTypes: [TickType]? = nil
     ) {
