@@ -14,8 +14,6 @@ final class CoinViewController: BaseViewController {
     
     // MARK: - Instance Property
     
-    var pages: [UIViewController] = [CoinQuoteInformationTabViewController(), CoinGraphTabViewController(), CoinContractDetailsTabViewController()]
-    
     let sectionInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     
     private let headerView = CoinHeaderView()
@@ -62,6 +60,11 @@ final class CoinViewController: BaseViewController {
         self.headerView.snp.makeConstraints { make in
             make.leading.top.trailing.equalTo(self.view.safeAreaLayoutGuide)
             make.height.equalTo(90)
+        }
+        
+        self.pageView.snp.makeConstraints { make in
+            make.top.equalTo(self.headerView.snp.bottom)
+            make.leading.bottom.trailing.equalTo(self.view)
         }
     }
     
@@ -116,11 +119,10 @@ final class CoinViewController: BaseViewController {
     }
     
     private func setPageView() {
-        self.pageViewController = CoinPagingViewController(pages: pages)
+        self.pageViewController = CoinPagingViewController()
         
         if let pageViewController = pageViewController {
             self.addChild(pageViewController)
-            pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
             self.pageView.addSubview(pageViewController.view)
             pageViewController.didMove(toParent: self)
         }
@@ -147,16 +149,16 @@ final class CoinViewController: BaseViewController {
     
     @objc private func tapQuoteButton(sender: UIButton) {
         setBottomBorder(to: self.quoteButton)
-        pageViewController?.setViewControllers([pages[0]], direction: .forward, animated: false, completion: nil)
+        pageViewController?.setTabViewController(to: .quote)
     }
     
     @objc private func tapGraphButton() {
         setBottomBorder(to: self.graphButton)
-        pageViewController?.setViewControllers([pages[1]], direction: .forward, animated: false, completion: nil)
+        pageViewController?.setTabViewController(to: .graph)
     }
     
     @objc private func tapContractDetailsButton() {
         setBottomBorder(to: self.contractDetailsButton)
-        pageViewController?.setViewControllers([pages[2]], direction: .forward, animated: false, completion: nil)
+        pageViewController?.setTabViewController(to: .contractDetails)
     }
 }
