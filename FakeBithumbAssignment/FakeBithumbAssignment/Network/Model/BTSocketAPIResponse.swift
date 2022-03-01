@@ -24,13 +24,7 @@ struct BTSocketAPIResponse {
         /// 호가
         case orderBook  = "orderbookdepth"
     }
-    
-    /// 통화코드
-    enum Symbol: String, Decodable {
-        case btc = "BTC_KRW"
-        case eth = "ETH_KRW"
-    }
-    
+        
     /// tick 종류
     enum TickType: String, Decodable {
         case _30m = "30M"
@@ -50,7 +44,7 @@ struct BTSocketAPIResponse {
         /// Ticker 응답의 유의미한 값
         struct Ticker: Decodable {
             /// 통화 코드
-            let symbol: Symbol
+            let symbol: String
             /// 변동 기준시간- 30M, 1H, 12H, 24H, MID
             let tickType: TickType
             /// 일자
@@ -89,7 +83,7 @@ struct BTSocketAPIResponse {
                         
             init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: CodingKeys.self)
-                self.symbol = try values.decode(Symbol.self, forKey: .symbol)
+                self.symbol = try values.decode(String.self, forKey: .symbol)
                 self.tickType = try values.decode(TickType.self, forKey: .tickType)
                 guard let date = Int(try values.decode(String.self, forKey: .date)),
                       let time = Int(try values.decode(String.self, forKey: .time)),
@@ -151,7 +145,7 @@ struct BTSocketAPIResponse {
             /// 체결
             struct Transaction: Decodable {
                 /// 통화코드
-                let symbol: Symbol
+                let symbol: String
                 /// 체결종류
                 let buySellGb: BuyCell
                 /// 체결가격
@@ -191,7 +185,7 @@ struct BTSocketAPIResponse {
                 
                 init(from decoder: Decoder) throws {
                     let values = try decoder.container(keyedBy: CodingKeys.self)
-                    self.symbol = try values.decode(Symbol.self, forKey: .symbol)
+                    self.symbol = try values.decode(String.self, forKey: .symbol)
                     self.buySellGb = try values.decode(BuyCell.self, forKey: .buySellGb)
                     self.updn = try values.decode(UpDown.self, forKey: .updn)
                     guard let contPrice = Int(try values.decode(String.self, forKey: .contPrice)),
@@ -248,7 +242,7 @@ struct BTSocketAPIResponse {
             /// 호가
             struct OrderBook: Decodable {
                 /// 통화코드
-                let symbol: Symbol
+                let symbol: String
                 /// 주문 타입
                 let orderType: OrderType
                 /// 호가
@@ -272,7 +266,7 @@ struct BTSocketAPIResponse {
                 
                 init(from decoder: Decoder) throws {
                     let values = try decoder.container(keyedBy: CodingKeys.self)
-                    self.symbol = try values.decode(Symbol.self, forKey: .symbol)
+                    self.symbol = try values.decode(String.self, forKey: .symbol)
                     self.orderType = try values.decode(OrderType.self, forKey: .orderType)
                     guard let price = Int(try values.decode(String.self, forKey: .price)),
                           let quantity = Double(try values.decode(String.self, forKey: .quantity)),
