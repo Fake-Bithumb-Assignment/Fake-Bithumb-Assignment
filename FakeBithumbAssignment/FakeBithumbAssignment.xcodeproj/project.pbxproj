@@ -310,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				1504F6D127C5F66D00A5EC6C /* CoinGraphTabViewController.swift */,
+				FA4093A027CA43D800EFA433 /* CandleStickChartView.swift */,
 			);
 			path = CoinGraphTab;
 			sourceTree = "<group>";
@@ -327,7 +328,6 @@
 			children = (
 				43F60EC227C6874A0027699B /* HeaderView.swift */,
 				43F60EC427C7666A0027699B /* ColumnNameView.swift */,
-				FA4093A027CA43D800EFA433 /* CandleStickChartView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
