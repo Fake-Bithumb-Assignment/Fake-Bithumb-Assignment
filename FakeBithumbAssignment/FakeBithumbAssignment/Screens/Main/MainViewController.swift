@@ -61,9 +61,28 @@ final class MainViewController: BaseViewController {
         configureNoInterestedCoinView()
         configureStackView()
     }
-    
+
     private func fetchData() {
         fetchCurrentPrice()
+        fetchChangeRate()
+    }
+    
+    private func fetchChangeRate() {
+        btsocketAPIService.subscribeTicker(
+            orderCurrency: Array(Coin.allCases),
+            paymentCurrency: .krw, tickTypes: [.mid]
+        ) { [weak self] response in
+            guard let self = self else {
+                return
+            }
+
+            guard let coin = self.parseSymbol(symbol: response.content.symbol) else {
+                return
+            }
+
+            self.updateCurrentChangeRate(coin: coin, data: response)
+            self.updateSnapshot(accordingTo: self.selectedCategory)
+        }
     }
     
     private func fetchCurrentPrice() {
@@ -80,18 +99,18 @@ final class MainViewController: BaseViewController {
             }
 
             self.updateCurrentPrice(coin: coin, data: response)
-
-            if self.selectedCategory == .krw {
-                self.updateSnapshot(self.coinData)
-            }
-            
-            else if self.selectedCategory == .interest {
-                let interestedCoin = self.coinData.filter { $0.isInterested }
-                self.updateSnapshot(interestedCoin)
-            }
+            self.updateSnapshot(accordingTo: self.selectedCategory)
         }
     }
-    
+
+    private func updateCurrentChangeRate(coin: Coin, data: BTSocketAPIResponse.TickerResponse) {
+        guard let receivedCoinData = self.coinData.first(where: { $0.coinName.rawValue == coin.rawValue }) else {
+            return
+        }
+        let currentChangeRate = data.content.chgRate
+        receivedCoinData.changeRate = String(currentChangeRate) + "%"
+    }
+
     private func updateCurrentPrice(coin: Coin, data: BTSocketAPIResponse.TransactionResponse) {
         guard let receivedCoinData = self.coinData.first(where: { $0.coinName.rawValue == coin.rawValue }) else {
             return
@@ -101,6 +120,18 @@ final class MainViewController: BaseViewController {
         }
 
         receivedCoinData.currentPrice = String(currentPrice)
+    }
+    
+    private func updateSnapshot(accordingTo category: Category) {
+        switch category {
+        case .krw:
+            self.updateSnapshot(self.coinData)
+        case .interest:
+            let interestedCoin = self.coinData.filter { $0.isInterested }
+            self.updateSnapshot(interestedCoin)
+        default:
+            break
+        }
     }
 
     private func parseSymbol(symbol: String?) -> Coin? {
@@ -140,7 +171,7 @@ final class MainViewController: BaseViewController {
                     CoinData(
                         coinName: $0,
                         currentPrice: "",
-                        changeRate: "-23.46%",
+                        changeRate: "",
                         tradeValue: "256,880백만",
                         isInterested: true
                     ))
@@ -150,7 +181,7 @@ final class MainViewController: BaseViewController {
                     CoinData(
                         coinName: $0,
                         currentPrice: "",
-                        changeRate: "-23.46%",
+                        changeRate: "",
                         tradeValue: "256,880백만"
                     ))
             }
