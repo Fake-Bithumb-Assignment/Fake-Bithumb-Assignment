@@ -53,7 +53,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         }
         
         let rightStackView = UIStackView(arrangedSubviews: [
-            coinFirstInformationView,
+            coinSecondInformationView,
             buyGraphTableViewController.view
         ]).then {
             $0.axis = .vertical
@@ -78,11 +78,11 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         }
 
         leftStackView.snp.makeConstraints { make in
-            make.width.equalTo(wholeStackView).multipliedBy(0.335)
+            make.width.equalTo(wholeStackView).multipliedBy(0.33)
         }
 
         rightStackView.snp.makeConstraints { make in
-            make.width.equalTo(wholeStackView).multipliedBy(0.335)
+            make.width.equalTo(wholeStackView).multipliedBy(0.35)
         }
     }
 }
