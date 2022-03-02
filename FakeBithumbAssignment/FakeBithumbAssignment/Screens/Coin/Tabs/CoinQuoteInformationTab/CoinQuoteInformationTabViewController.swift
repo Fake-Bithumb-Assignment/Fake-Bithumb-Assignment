@@ -16,6 +16,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     
     let sellGraphTableViewController = SellGraphTableViewController()
     let buyGraphTableViewController = BuyGraphTableViewController()
+    let quoteTableViewController = QuoteTableViewController()
     
     let scrollView = UIScrollView().then { make in
         make.backgroundColor = .white
@@ -60,7 +61,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         
         let wholeStackView = UIStackView(arrangedSubviews: [
             leftStackView,
-            QuoteTableViewController().view,
+            quoteTableViewController.view,
             rightStackView
         ]).then {
             $0.axis = .horizontal

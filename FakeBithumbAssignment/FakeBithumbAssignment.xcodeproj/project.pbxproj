@@ -36,7 +36,7 @@
 		15564DB127CEFB4400BF9314 /* QuoteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DB027CEFB4400BF9314 /* QuoteTableViewController.swift */; };
 		15564DB427CEFB7500BF9314 /* PriceInformationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DB327CEFB7500BF9314 /* PriceInformationTableViewController.swift */; };
 		15564DB627CEFBB200BF9314 /* BuyGraphTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DB527CEFBB200BF9314 /* BuyGraphTableViewController.swift */; };
-		15564DB827CF03A700BF9314 /* QuoteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DB727CF03A700BF9314 /* QuoteCollectionViewCell.swift */; };
+		15564DB827CF03A700BF9314 /* QuoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DB727CF03A700BF9314 /* QuoteTableViewCell.swift */; };
 		15564DBB27CF0AC400BF9314 /* SellGraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DBA27CF0AC400BF9314 /* SellGraphTableViewCell.swift */; };
 		15564DBD27CF0D9000BF9314 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DBC27CF0D9000BF9314 /* UITableView+Extension.swift */; };
 		15564DBF27CF73E100BF9314 /* BuyGraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DBE27CF73E100BF9314 /* BuyGraphTableViewCell.swift */; };
@@ -102,7 +102,7 @@
 		15564DB027CEFB4400BF9314 /* QuoteTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteTableViewController.swift; sourceTree = "<group>"; };
 		15564DB327CEFB7500BF9314 /* PriceInformationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceInformationTableViewController.swift; sourceTree = "<group>"; };
 		15564DB527CEFBB200BF9314 /* BuyGraphTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyGraphTableViewController.swift; sourceTree = "<group>"; };
-		15564DB727CF03A700BF9314 /* QuoteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteCollectionViewCell.swift; sourceTree = "<group>"; };
+		15564DB727CF03A700BF9314 /* QuoteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteTableViewCell.swift; sourceTree = "<group>"; };
 		15564DBA27CF0AC400BF9314 /* SellGraphTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellGraphTableViewCell.swift; sourceTree = "<group>"; };
 		15564DBC27CF0D9000BF9314 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		15564DBE27CF73E100BF9314 /* BuyGraphTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyGraphTableViewCell.swift; sourceTree = "<group>"; };
@@ -242,7 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				15564DBA27CF0AC400BF9314 /* SellGraphTableViewCell.swift */,
-				15564DB727CF03A700BF9314 /* QuoteCollectionViewCell.swift */,
+				15564DB727CF03A700BF9314 /* QuoteTableViewCell.swift */,
 				15564DBE27CF73E100BF9314 /* BuyGraphTableViewCell.swift */,
 			);
 			path = Cell;
@@ -641,7 +641,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15ACAE9927C9DEC900AB7EDC /* UICollectionView+Extension.swift in Sources */,
-				15564DB827CF03A700BF9314 /* QuoteCollectionViewCell.swift in Sources */,
+				15564DB827CF03A700BF9314 /* QuoteTableViewCell.swift in Sources */,
 				1504F73227C6338100A5EC6C /* Requestable.swift in Sources */,
 				15564DB127CEFB4400BF9314 /* QuoteTableViewController.swift in Sources */,
 				1504F6D627C5F68E00A5EC6C /* DepositAndWithdrawalViewController.swift in Sources */,

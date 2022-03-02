@@ -15,7 +15,7 @@ final class PriceInformationTableViewController: UITableViewController {
     // MARK: - Life Cycle func
     
     override func viewDidLoad() {
-        self.view.backgroundColor = .green
+        self.view.backgroundColor = .white
     }
 
     
