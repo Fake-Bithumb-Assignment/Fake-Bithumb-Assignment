@@ -37,6 +37,8 @@
 		15564DB427CEFB7500BF9314 /* PriceInformationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DB327CEFB7500BF9314 /* PriceInformationTableViewController.swift */; };
 		15564DB627CEFBB200BF9314 /* BuyGraphTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DB527CEFBB200BF9314 /* BuyGraphTableViewController.swift */; };
 		15564DB827CF03A700BF9314 /* QuoteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DB727CF03A700BF9314 /* QuoteCollectionViewCell.swift */; };
+		15564DBB27CF0AC400BF9314 /* SellGraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DBA27CF0AC400BF9314 /* SellGraphTableViewCell.swift */; };
+		15564DBD27CF0D9000BF9314 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DBC27CF0D9000BF9314 /* UITableView+Extension.swift */; };
 		158731A127CB715A0018E67B /* CoinHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158731A027CB715A0018E67B /* CoinHeaderModel.swift */; };
 		158731A327CB75790018E67B /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158731A227CB75790018E67B /* String+Extension.swift */; };
 		15ACAE9527C9B69900AB7EDC /* CoinNavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ACAE9427C9B69900AB7EDC /* CoinNavigationTitleView.swift */; };
@@ -100,6 +102,8 @@
 		15564DB327CEFB7500BF9314 /* PriceInformationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceInformationTableViewController.swift; sourceTree = "<group>"; };
 		15564DB527CEFBB200BF9314 /* BuyGraphTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyGraphTableViewController.swift; sourceTree = "<group>"; };
 		15564DB727CF03A700BF9314 /* QuoteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteCollectionViewCell.swift; sourceTree = "<group>"; };
+		15564DBA27CF0AC400BF9314 /* SellGraphTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellGraphTableViewCell.swift; sourceTree = "<group>"; };
+		15564DBC27CF0D9000BF9314 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		158731A027CB715A0018E67B /* CoinHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinHeaderModel.swift; sourceTree = "<group>"; };
 		158731A227CB75790018E67B /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		15ACAE9427C9B69900AB7EDC /* CoinNavigationTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinNavigationTitleView.swift; sourceTree = "<group>"; };
@@ -235,6 +239,7 @@
 		15564DB927CF03AB00BF9314 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				15564DBA27CF0AC400BF9314 /* SellGraphTableViewCell.swift */,
 				15564DB727CF03A700BF9314 /* QuoteCollectionViewCell.swift */,
 			);
 			path = Cell;
@@ -338,6 +343,7 @@
 				FAC7F96027C768B5001E11DA /* JSONDecoder+Extension.swift */,
 				15ACAE9827C9DEC900AB7EDC /* UICollectionView+Extension.swift */,
 				158731A227CB75790018E67B /* String+Extension.swift */,
+				15564DBC27CF0D9000BF9314 /* UITableView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -642,7 +648,9 @@
 				FAC7F95B27C65A60001E11DA /* BTSocketAPIResponse.swift in Sources */,
 				1504F6CC27C5F58900A5EC6C /* NSObject+Extension.swift in Sources */,
 				15ACAE9527C9B69900AB7EDC /* CoinNavigationTitleView.swift in Sources */,
+				15564DBD27CF0D9000BF9314 /* UITableView+Extension.swift in Sources */,
 				15ACAE9727C9BEA200AB7EDC /* CoinMenuCollectionViewCell.swift in Sources */,
+				15564DBB27CF0AC400BF9314 /* SellGraphTableViewCell.swift in Sources */,
 				15564DB627CEFBB200BF9314 /* BuyGraphTableViewController.swift in Sources */,
 				1504F73427C6339D00A5EC6C /* HttpService.swift in Sources */,
 				FA79223327C63F3700D1246A /* WebSocketService.swift in Sources */,

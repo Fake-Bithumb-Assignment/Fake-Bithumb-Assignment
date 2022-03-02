@@ -14,15 +14,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     
     // MARK: - Instance Property
     
-    let labelOne = UILabel().then { make in
-        make.text = "Scroll Top"
-        make.backgroundColor = .red
-    }
-    
-    let labelTwo = UILabel().then { make in
-        make.text = "Scroll Top"
-        make.backgroundColor = .green
-    }
+    let sellGraphTableViewController = SellGraphTableViewController()
     
     let scrollView = UIScrollView().then { make in
         make.backgroundColor = .white
@@ -32,15 +24,13 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        render()
-        configUI()
     }
     
     override func render() {
         self.view.addSubview(self.scrollView)
         
         self.scrollView.snp.makeConstraints { make in
-            make.leading.top.trailing.bottom.equalTo(self.view)
+            make.leading.top.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
     
@@ -50,15 +40,12 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     
     func configStackView() {
         let leftStackView = UIStackView(arrangedSubviews: [
-            SellGraphTableViewController().view,
+            sellGraphTableViewController.view,
             ConclusionTableViewController().view
         ]).then {
             $0.axis = .vertical
             $0.spacing = 1
             $0.distribution = .fillEqually
-        }
-        
-        leftStackView.snp.makeConstraints { make in
         }
         
         let rightStackView = UIStackView(arrangedSubviews: [
@@ -77,12 +64,21 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         ]).then {
             $0.axis = .horizontal
             $0.spacing = 1
-            $0.distribution = .fillEqually
         }
-        
-        scrollView.addSubview(wholeStackView)
+
+        self.scrollView.addSubview(wholeStackView)
         wholeStackView.snp.makeConstraints { make in
-            make.top.leading.bottom.trailing.equalTo(self.scrollView.safeAreaLayoutGuide)
+            make.top.leading.bottom.trailing.equalTo(self.scrollView)
+            make.width.equalTo(self.scrollView)
+            make.height.equalTo(1800)
+        }
+
+        leftStackView.snp.makeConstraints { make in
+            make.width.equalTo(wholeStackView).multipliedBy(0.335)
+        }
+
+        rightStackView.snp.makeConstraints { make in
+            make.width.equalTo(wholeStackView).multipliedBy(0.335)
         }
     }
 }
