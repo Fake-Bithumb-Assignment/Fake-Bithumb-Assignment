@@ -75,14 +75,14 @@ final class CoinFirstInformationView: UIView {
     private let highPriceLabel = UILabel().then {
         $0.text = "47,188,000"
         $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-        $0.textColor = .lightGray
+        $0.textColor = UIColor(named: "up")
         $0.textAlignment = .right
     }
     
     private let highPriceRateLabel = UILabel().then {
         $0.text = "1.31%"
         $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-        $0.textColor = .lightGray
+        $0.textColor = UIColor(named: "up")
         $0.textAlignment = .left
     }
     
@@ -95,14 +95,14 @@ final class CoinFirstInformationView: UIView {
     private let lowPriceLabel = UILabel().then {
         $0.text = "44,676,000"
         $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-        $0.textColor = .lightGray
+        $0.textColor = UIColor(named: "down")
         $0.textAlignment = .right
     }
     
     private let lowPriceRateLabel = UILabel().then {
         $0.text = "-5.29%"
         $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-        $0.textColor = .lightGray
+        $0.textColor = UIColor(named: "down")
         $0.textAlignment = .right
     }
     
@@ -222,13 +222,12 @@ final class CoinFirstInformationView: UIView {
         let wholeStackView = UIStackView(arrangedSubviews: [
             tradingVolumeStackView,
             tradingAmountStackView,
-            UIView(),
+            self.borderView,
             previousPriceStackView,
             startPriceStackView,
             highPriceStackView,
             highPriceRateStackView,
             lowPriceStackView,
-            UIView(),
             lowPriceRateStackView
         ]).then {
             $0.axis = .vertical
@@ -241,6 +240,10 @@ final class CoinFirstInformationView: UIView {
             make.leading.equalTo(self).offset(2)
             make.trailing.equalTo(self).inset(2)
             make.bottom.equalTo(self.pageControlView).inset(5)
+        }
+        
+        self.borderView.snp.makeConstraints { make in
+            make.height.equalTo(0.3)
         }
     }
 }
