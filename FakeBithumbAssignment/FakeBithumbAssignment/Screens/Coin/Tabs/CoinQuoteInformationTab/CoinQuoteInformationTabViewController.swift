@@ -50,8 +50,8 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     
     func configStackView() {
         let leftStackView = UIStackView(arrangedSubviews: [
-            SellGraphView(),
-            ConclusionView()
+            SellGraphTableViewController().view,
+            ConclusionTableViewController().view
         ]).then {
             $0.axis = .vertical
             $0.spacing = 1
@@ -62,8 +62,8 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         }
         
         let rightStackView = UIStackView(arrangedSubviews: [
-            PriceInformationView(),
-            BuyGraphView()
+            PriceInformationTableViewController().view,
+            BuyGraphTableViewController().view
         ]).then {
             $0.axis = .vertical
             $0.spacing = 1
@@ -72,7 +72,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         
         let wholeStackView = UIStackView(arrangedSubviews: [
             leftStackView,
-            QuoteView(),
+            QuoteTableViewController().view,
             rightStackView
         ]).then {
             $0.axis = .horizontal
