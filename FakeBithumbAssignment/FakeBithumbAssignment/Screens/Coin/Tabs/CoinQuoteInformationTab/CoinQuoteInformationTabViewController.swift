@@ -30,6 +30,10 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         super.viewDidLoad()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        self.scrollView.scrollToCenter()
+    }
+    
     override func render() {
         self.view.addSubview(self.scrollView)
         
@@ -69,18 +73,18 @@ class CoinQuoteInformationTabViewController: BaseViewController {
             $0.axis = .horizontal
             $0.spacing = 1
         }
-
+        
         self.scrollView.addSubview(wholeStackView)
         wholeStackView.snp.makeConstraints { make in
             make.top.leading.bottom.trailing.equalTo(self.scrollView)
             make.width.equalTo(self.scrollView)
             make.height.equalTo(2100)
         }
-
+        
         leftStackView.snp.makeConstraints { make in
             make.width.equalTo(wholeStackView).multipliedBy(0.33)
         }
-
+        
         rightStackView.snp.makeConstraints { make in
             make.width.equalTo(wholeStackView).multipliedBy(0.35)
         }
