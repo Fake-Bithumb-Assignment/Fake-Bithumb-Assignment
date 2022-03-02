@@ -18,7 +18,7 @@ final class ColumnNameView: UIView {
         $0.font = .preferredFont(forTextStyle: .body)
         $0.text = "가상자산명"
         $0.textColor = .black
-        $0.textAlignment = .center
+        $0.textAlignment = .left
     }
 
     private let currentPriceLabel = UILabel().then {
@@ -63,6 +63,7 @@ final class ColumnNameView: UIView {
             self.tradeValueLabel
         ]).then {
             $0.alignment = .center
+            $0.spacing = 10
         }
 
         self.addSubview(stackView)
