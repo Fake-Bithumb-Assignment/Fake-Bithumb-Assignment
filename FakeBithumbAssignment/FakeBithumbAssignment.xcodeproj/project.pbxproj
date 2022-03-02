@@ -43,6 +43,8 @@
 		43EE309727CDEF3700130EC1 /* CoinData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EE309627CDEF3700130EC1 /* CoinData.swift */; };
 		43F60EC327C6874A0027699B /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F60EC227C6874A0027699B /* HeaderView.swift */; };
 		43F60EC527C7666A0027699B /* ColumnNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F60EC427C7666A0027699B /* ColumnNameView.swift */; };
+		FA4093A127CA43D800EFA433 /* CandleStickChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4093A027CA43D800EFA433 /* CandleStickChartView.swift */; };
+		FAA2E36827CBB7D5003E3184 /* CoreAnimation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2E36727CBB7D5003E3184 /* CoreAnimation+Extension.swift */; };
 		560F6282225D043E542509BC /* Pods_FakeBithumbAssignmentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C088A727AD09503EE5E4ACC /* Pods_FakeBithumbAssignmentTests.framework */; };
 		E8FE79FD3BAD0C02A5568BBB /* Pods_FakeBithumbAssignment.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D43C2E6B906412E3436BAB9 /* Pods_FakeBithumbAssignment.framework */; };
 		FA041BBC27C7FA5F0053C996 /* BTSocketAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA041BBB27C7FA5F0053C996 /* BTSocketAPIService.swift */; };
@@ -104,6 +106,8 @@
 		43EE309627CDEF3700130EC1 /* CoinData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinData.swift; sourceTree = "<group>"; };
 		43F60EC227C6874A0027699B /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		43F60EC427C7666A0027699B /* ColumnNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnNameView.swift; sourceTree = "<group>"; };
+		FA4093A027CA43D800EFA433 /* CandleStickChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChartView.swift; sourceTree = "<group>"; };
+		FAA2E36727CBB7D5003E3184 /* CoreAnimation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreAnimation+Extension.swift"; sourceTree = "<group>"; };
 		5C088A727AD09503EE5E4ACC /* Pods_FakeBithumbAssignmentTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FakeBithumbAssignmentTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D43C2E6B906412E3436BAB9 /* Pods_FakeBithumbAssignment.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FakeBithumbAssignment.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73B6FB0421C21C09E1FF0F1F /* Pods-FakeBithumbAssignment.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignment.release.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment.release.xcconfig"; sourceTree = "<group>"; };
@@ -311,6 +315,7 @@
 			children = (
 				1504F6C927C5F47C00A5EC6C /* UIView+Extension.swift */,
 				1504F6CB27C5F58900A5EC6C /* NSObject+Extension.swift */,
+				FAA2E36727CBB7D5003E3184 /* CoreAnimation+Extension.swift */,
 				FAC7F96027C768B5001E11DA /* JSONDecoder+Extension.swift */,
 				15ACAE9827C9DEC900AB7EDC /* UICollectionView+Extension.swift */,
 				158731A227CB75790018E67B /* String+Extension.swift */,
@@ -382,6 +387,7 @@
 			isa = PBXGroup;
 			children = (
 				1504F6D127C5F66D00A5EC6C /* CoinGraphTabViewController.swift */,
+				FA4093A027CA43D800EFA433 /* CandleStickChartView.swift */,
 			);
 			path = CoinGraphTab;
 			sourceTree = "<group>";
@@ -614,6 +620,7 @@
 				43EE309327CDDD4D00130EC1 /* Coin.swift in Sources */,
 				1504F72527C6316900A5EC6C /* BaseModel.swift in Sources */,
 				1504F6CA27C5F47C00A5EC6C /* UIView+Extension.swift in Sources */,
+				FAA2E36827CBB7D5003E3184 /* CoreAnimation+Extension.swift in Sources */,
 				FAC7F95B27C65A60001E11DA /* BTSocketAPIResponse.swift in Sources */,
 				1504F6CC27C5F58900A5EC6C /* NSObject+Extension.swift in Sources */,
 				43BEFF7727C9B99800FFA217 /* CoinTableViewCell.swift in Sources */,
@@ -623,6 +630,7 @@
 				FA79223327C63F3700D1246A /* WebSocketService.swift in Sources */,
 				FAC7F96127C768B5001E11DA /* JSONDecoder+Extension.swift in Sources */,
 				1504F73427C6339D00A5EC6C /* HttpService.swift in Sources */,
+				FA4093A127CA43D800EFA433 /* CandleStickChartView.swift in Sources */,
 				1504F6C427C5F26000A5EC6C /* BaseViewController.swift in Sources */,
 				FAC7F95D27C65AC0001E11DA /* BTSocketAPIRequest.swift in Sources */,
 				15ACAEA027CA06A400AB7EDC /* CoinMenuCollectionViewDataViewController.swift in Sources */,
