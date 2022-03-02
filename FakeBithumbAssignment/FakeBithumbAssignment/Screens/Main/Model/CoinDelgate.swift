@@ -6,3 +6,9 @@
 //
 
 import Foundation
+import UIKit
+
+protocol CoinDelgate: AnyObject {
+    func updateInterestList(coin: CoinData)
+    func showCoinInformation(coin: CoinData)
+}

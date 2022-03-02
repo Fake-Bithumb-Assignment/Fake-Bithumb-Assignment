@@ -1,5 +1,5 @@
 //
-//  KRWView.swift
+//  TotalCoinListView.swift
 //  FakeBithumbAssignment
 //
 //  Created by chihoooon on 2022/03/02.
@@ -10,34 +10,32 @@ import UIKit
 import SnapKit
 import Then
 
-protocol KRWViewDelegate: AnyObject {
-    func updateInterestList(coin: CoinData)
-    func showCoinInformation(coin: CoinData)
-}
+final class TotalCoinListView: UIView {
 
-final class KRWView: UIView {
+    // MARK: - Instance Property
 
     private var dataSource: UITableViewDiffableDataSource<Section, CoinData>?
 
     private var snapshot = NSDiffableDataSourceSnapshot<Section, CoinData>()
 
-    weak var delegate: KRWViewDelegate?
+    weak var delegate: CoinDelgate?
 
     var totalCoinList: [CoinData] = [] {
         didSet {
-            print("didset")
             configureSnapshot()
         }
     }
 
-    private let krwTableView = UITableView().then {
+    private let totalCoinListTableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
-        $0.backgroundColor = .red
+        $0.backgroundColor = .white
     }
+
+    // MARK: - Initializer
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureKRWTable()
+        configureTotalCoinListTableView()
         configurediffableDataSource()
     }
 
@@ -45,18 +43,25 @@ final class KRWView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
-    private func configureKRWTable() {
-        self.addSubview(krwTableView)
-        krwTableView.delegate = self
-        krwTableView.dataSource = dataSource
-        krwTableView.snp.makeConstraints { make in
+
+    // MARK: - custom func
+
+    private func configureTotalCoinListTableView() {
+        self.addSubview(totalCoinListTableView)
+        totalCoinListTableView.delegate = self
+        totalCoinListTableView.dataSource = dataSource
+        totalCoinListTableView.snp.makeConstraints { make in
             make.size.equalToSuperview()
         }
     }
-    
+
+    private func setUpInterestedCoinListTableView() {
+        totalCoinListTableView.delegate = self
+        totalCoinListTableView.dataSource = dataSource
+    }
+
     private func configurediffableDataSource() {
-        dataSource = UITableViewDiffableDataSource(tableView: krwTableView)
+        dataSource = UITableViewDiffableDataSource(tableView: totalCoinListTableView)
         { tableView, indexPath, itemIdentifier in
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: CoinTableViewCell.className,
@@ -78,8 +83,10 @@ final class KRWView: UIView {
     }
 }
 
-extension KRWView: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+// MARK: - UITableViewDelegate
+
+extension TotalCoinListView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         delegate?.showCoinInformation(coin: totalCoinList[indexPath.row])
     }
