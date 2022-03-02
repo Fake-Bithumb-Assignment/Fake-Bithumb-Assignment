@@ -31,6 +31,7 @@ final class QuoteTableViewController: UITableViewController {
     func setTableView() {
         self.tableView.register(cell: QuoteTableViewCell.self)
         self.tableView.isScrollEnabled = false
+        self.tableView.isUserInteractionEnabled = false
     }
     
     func setDelegates() {

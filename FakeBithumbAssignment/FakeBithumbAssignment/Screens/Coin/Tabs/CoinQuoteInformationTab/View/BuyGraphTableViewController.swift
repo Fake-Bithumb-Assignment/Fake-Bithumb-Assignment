@@ -31,6 +31,7 @@ final class BuyGraphTableViewController: UITableViewController {
     func setTableView() {
         self.tableView.register(cell: BuyGraphTableViewCell.self)
         self.tableView.isScrollEnabled = false
+        self.tableView.isUserInteractionEnabled = false
     }
     
     func setDelegates() {
