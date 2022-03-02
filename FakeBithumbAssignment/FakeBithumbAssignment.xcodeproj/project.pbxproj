@@ -50,6 +50,8 @@
 		FA4093A127CA43D800EFA433 /* CandleStickChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4093A027CA43D800EFA433 /* CandleStickChartView.swift */; };
 		FA79223327C63F3700D1246A /* WebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA79223227C63F3700D1246A /* WebSocketService.swift */; };
 		FAA2E36827CBB7D5003E3184 /* CoreAnimation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2E36727CBB7D5003E3184 /* CoreAnimation+Extension.swift */; };
+		FABFF57B27CFFBCF000B65E6 /* BTCandleStick.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABFF57A27CFFBCF000B65E6 /* BTCandleStick.swift */; };
+		FABFF57D27CFFD83000B65E6 /* BTCandleStickRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABFF57C27CFFD83000B65E6 /* BTCandleStickRepository.swift */; };
 		FAC7F95B27C65A60001E11DA /* BTSocketAPIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F95A27C65A60001E11DA /* BTSocketAPIResponse.swift */; };
 		FAC7F95D27C65AC0001E11DA /* BTSocketAPIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F95C27C65AC0001E11DA /* BTSocketAPIRequest.swift */; };
 		FAC7F96127C768B5001E11DA /* JSONDecoder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F96027C768B5001E11DA /* JSONDecoder+Extension.swift */; };
@@ -116,6 +118,8 @@
 		FA4093A027CA43D800EFA433 /* CandleStickChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChartView.swift; sourceTree = "<group>"; };
 		FA79223227C63F3700D1246A /* WebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketService.swift; sourceTree = "<group>"; };
 		FAA2E36727CBB7D5003E3184 /* CoreAnimation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreAnimation+Extension.swift"; sourceTree = "<group>"; };
+		FABFF57A27CFFBCF000B65E6 /* BTCandleStick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTCandleStick.swift; sourceTree = "<group>"; };
+		FABFF57C27CFFD83000B65E6 /* BTCandleStickRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTCandleStickRepository.swift; sourceTree = "<group>"; };
 		FAC7F95A27C65A60001E11DA /* BTSocketAPIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BTSocketAPIResponse.swift; path = FakeBithumbAssignment/Network/Model/BTSocketAPIResponse.swift; sourceTree = SOURCE_ROOT; };
 		FAC7F95C27C65AC0001E11DA /* BTSocketAPIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BTSocketAPIRequest.swift; path = FakeBithumbAssignment/Network/Model/BTSocketAPIRequest.swift; sourceTree = SOURCE_ROOT; };
 		FAC7F96027C768B5001E11DA /* JSONDecoder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+Extension.swift"; sourceTree = "<group>"; };
@@ -283,6 +287,7 @@
 		15BE7A6227C5DB4E0007FB2F /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				FABFF57927CFFBAE000B65E6 /* Persistent */,
 				15BE7A6427C5DB740007FB2F /* Base */,
 				15BE7A6527C5DB7B0007FB2F /* Extension */,
 				15BE7A6727C5DB8C0007FB2F /* Utils */,
@@ -328,7 +333,6 @@
 		15BE7A6627C5DB820007FB2F /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				FA35687E27CFDD1F0056980B /* BithumbAPI.xcdatamodeld */,
 				153D784A27C3F07100C940AB /* Assets.xcassets */,
 				153D784C27C3F07100C940AB /* LaunchScreen.storyboard */,
 			);
@@ -446,6 +450,16 @@
 				5C088A727AD09503EE5E4ACC /* Pods_FakeBithumbAssignmentTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FABFF57927CFFBAE000B65E6 /* Persistent */ = {
+			isa = PBXGroup;
+			children = (
+				FA35687E27CFDD1F0056980B /* BithumbAPI.xcdatamodeld */,
+				FABFF57A27CFFBCF000B65E6 /* BTCandleStick.swift */,
+				FABFF57C27CFFD83000B65E6 /* BTCandleStickRepository.swift */,
+			);
+			path = Persistent;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -655,8 +669,10 @@
 				1504F6C827C5F40300A5EC6C /* BaseTableViewCell.swift in Sources */,
 				1504F72927C631C100A5EC6C /* HttpEnvironment.swift in Sources */,
 				1504F72F27C6324600A5EC6C /* NetworkRequest.swift in Sources */,
+				FABFF57B27CFFBCF000B65E6 /* BTCandleStick.swift in Sources */,
 				43F60EC327C6874A0027699B /* HeaderView.swift in Sources */,
 				153D784427C3F07000C940AB /* SceneDelegate.swift in Sources */,
+				FABFF57D27CFFD83000B65E6 /* BTCandleStickRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
