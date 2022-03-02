@@ -25,7 +25,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     }
     
     let scrollView = UIScrollView().then { make in
-        make.backgroundColor = .cyan
+        make.backgroundColor = .white
     }
     
     // MARK: - Life Cycle func
@@ -33,32 +33,56 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         render()
+        configUI()
     }
     
     override func render() {
         self.view.addSubview(self.scrollView)
         
         self.scrollView.snp.makeConstraints { make in
-            make.left.top.right.bottom.equalTo(self.view)
-        }
-        
-        self.scrollView.addSubview(self.labelOne)
-        
-        self.labelOne.snp.makeConstraints { make in
-            make.leading.top.equalTo(self.scrollView).offset(16)
-            
-        }
-        
-        self.scrollView.addSubview(self.labelTwo)
-        
-        self.labelTwo.snp.makeConstraints { make in
-            make.leading.equalTo(self.scrollView).offset(200)
-            make.top.equalTo(self.scrollView).offset(1000)
-            make.trailing.bottom.equalTo(self.scrollView).inset(16)
+            make.leading.top.trailing.bottom.equalTo(self.view)
         }
     }
     
     override func configUI() {
+        configStackView()
+    }
+    
+    func configStackView() {
+        let leftStackView = UIStackView(arrangedSubviews: [
+            SellGraphView(),
+            ConclusionView()
+        ]).then {
+            $0.axis = .vertical
+            $0.spacing = 1
+            $0.distribution = .fillEqually
+        }
         
+        leftStackView.snp.makeConstraints { make in
+        }
+        
+        let rightStackView = UIStackView(arrangedSubviews: [
+            PriceInformationView(),
+            BuyGraphView()
+        ]).then {
+            $0.axis = .vertical
+            $0.spacing = 1
+            $0.distribution = .fillEqually
+        }
+        
+        let wholeStackView = UIStackView(arrangedSubviews: [
+            leftStackView,
+            QuoteView(),
+            rightStackView
+        ]).then {
+            $0.axis = .horizontal
+            $0.spacing = 1
+            $0.distribution = .fillEqually
+        }
+        
+        scrollView.addSubview(wholeStackView)
+        wholeStackView.snp.makeConstraints { make in
+            make.top.leading.bottom.trailing.equalTo(self.scrollView.safeAreaLayoutGuide)
+        }
     }
 }

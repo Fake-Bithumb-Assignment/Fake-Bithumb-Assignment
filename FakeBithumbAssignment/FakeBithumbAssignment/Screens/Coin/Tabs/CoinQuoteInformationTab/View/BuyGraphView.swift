@@ -16,7 +16,7 @@ final class BuyGraphView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        configUI()
     }
     
     @available(*, unavailable)
