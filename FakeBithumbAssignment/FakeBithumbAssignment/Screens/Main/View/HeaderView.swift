@@ -58,6 +58,7 @@ final class HeaderView: UIView {
         configUI()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }

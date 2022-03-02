@@ -14,7 +14,8 @@ class BaseTableViewCell: UITableViewCell {
         render()
         configUI()
     }
-    
+
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
