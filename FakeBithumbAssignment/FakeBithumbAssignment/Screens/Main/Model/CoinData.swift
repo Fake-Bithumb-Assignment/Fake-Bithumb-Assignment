@@ -8,7 +8,7 @@
 import Foundation
 
 final class CoinData {
-    let coinName: String
+    let coinName: Coin
     var currentPrice: String
     var fluctuationRate: String
     var tradeValue: String
@@ -17,7 +17,7 @@ final class CoinData {
     // MARK: - Initializer
 
     init(
-        coinName: String,
+        coinName: Coin,
         currentPrice: String,
         fluctuationRate: String,
         tradeValue: String,

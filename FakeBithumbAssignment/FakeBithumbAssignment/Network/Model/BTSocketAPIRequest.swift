@@ -28,7 +28,7 @@ struct BTSocketAPIRequest: Encodable {
     /// - Parameter tickTypes: 틱 종류
     init(
         type: RequestType,
-        orderCurrency: [String],
+        orderCurrency: [Coin],
         paymentCurrency: PaymentCurrency = .krw,
         tickTypes: [TickType]? = nil
     ) {
