@@ -8,7 +8,7 @@
 import UIKit
 
 extension String {
-    func insertComma(value: Double) -> String {
+    static func insertComma(value: Double) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         guard let formattedString = numberFormatter.string(from: NSNumber(value: value)) else { return "0" }
