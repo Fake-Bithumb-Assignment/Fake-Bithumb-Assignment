@@ -21,7 +21,7 @@ class SellGraphTableViewCell: BaseTableViewCell {
     }
     
     private let sellGraphView = UIView().then {
-        $0.backgroundColor = .blue
+        $0.backgroundColor = UIColor(named: "sellGraphView")
     }
     
     
@@ -35,6 +35,14 @@ class SellGraphTableViewCell: BaseTableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.contentView.frame = self.contentView.frame.inset(by: UIEdgeInsets(top: 0.5,
+                                                                               left: 0.5,
+                                                                               bottom: 0.5,
+                                                                               right: 0.5))
     }
     
     override func render() {
@@ -54,7 +62,7 @@ class SellGraphTableViewCell: BaseTableViewCell {
     }
     
     override func configUI() {
-        self.contentView.backgroundColor = .white
+        self.contentView.backgroundColor = UIColor(named: "sellView")
     }
     
     

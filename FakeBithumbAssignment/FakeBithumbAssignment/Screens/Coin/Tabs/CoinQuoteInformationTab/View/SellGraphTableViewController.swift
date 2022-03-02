@@ -18,12 +18,28 @@ final class SellGraphTableViewController: UITableViewController {
     // MARK: - Life Cycle func
     
     override func viewDidLoad() {
-        self.view.backgroundColor = .red
+        self.configUI()
+        self.setTableView()
+        self.setDelegates()
+    }
+    
+    func configUI() {
+        self.view.backgroundColor = UIColor(named: "sellView")
+        self.tableView.separatorStyle = .none
+    }
+    
+    func setTableView() {
         self.tableView.register(cell: SellGraphTableViewCell.self)
+        self.tableView.isScrollEnabled = false
+    }
+    
+    func setDelegates() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
     }
-    
+}
+
+extension SellGraphTableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 30
     }
@@ -34,7 +50,6 @@ final class SellGraphTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 30
+        return 35
     }
-
 }

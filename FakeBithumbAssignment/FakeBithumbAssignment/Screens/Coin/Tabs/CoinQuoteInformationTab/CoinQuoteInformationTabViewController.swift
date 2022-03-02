@@ -70,7 +70,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         wholeStackView.snp.makeConstraints { make in
             make.top.leading.bottom.trailing.equalTo(self.scrollView)
             make.width.equalTo(self.scrollView)
-            make.height.equalTo(1800)
+            make.height.equalTo(2100)
         }
 
         leftStackView.snp.makeConstraints { make in
