@@ -49,7 +49,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     func configStackView() {
         let leftStackView = UIStackView(arrangedSubviews: [
             sellGraphTableViewController.view,
-            ConclusionTableViewController().view
+            coinSecondInformationView
         ]).then {
             $0.axis = .vertical
             $0.spacing = 1
@@ -57,7 +57,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         }
         
         let rightStackView = UIStackView(arrangedSubviews: [
-            coinSecondInformationView,
+            coinFirstInformationView,
             buyGraphTableViewController.view
         ]).then {
             $0.axis = .vertical
@@ -82,11 +82,11 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         }
         
         leftStackView.snp.makeConstraints { make in
-            make.width.equalTo(wholeStackView).multipliedBy(0.33)
+            make.width.equalTo(wholeStackView).multipliedBy(0.35)
         }
         
         rightStackView.snp.makeConstraints { make in
-            make.width.equalTo(wholeStackView).multipliedBy(0.35)
+            make.width.equalTo(wholeStackView).multipliedBy(0.33)
         }
     }
 }

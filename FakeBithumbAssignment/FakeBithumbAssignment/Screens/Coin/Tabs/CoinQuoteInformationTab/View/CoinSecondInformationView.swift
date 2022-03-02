@@ -193,7 +193,7 @@ final class CoinSecondInformationView: UIView {
         wholeStackView.snp.makeConstraints { make in
             make.leading.equalTo(self).offset(2)
             make.trailing.equalTo(self).inset(2)
-            make.bottom.equalTo(self.pageControlView).inset(5)
+            make.top.equalTo(self.snp.top).offset(5)
         }
         
         self.borderView.snp.makeConstraints { make in
