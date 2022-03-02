@@ -64,10 +64,10 @@ final class MainViewController: BaseViewController {
 
     private func fetchData() {
         fetchCurrentPrice()
-        fetchChangeRate()
+        fetchChangeRateAndValue()
     }
     
-    private func fetchChangeRate() {
+    private func fetchChangeRateAndValue() {
         btsocketAPIService.subscribeTicker(
             orderCurrency: Array(Coin.allCases),
             paymentCurrency: .krw, tickTypes: [.mid]
@@ -80,7 +80,7 @@ final class MainViewController: BaseViewController {
                 return
             }
 
-            self.updateCurrentChangeRate(coin: coin, data: response)
+            self.updateCurrentChangeRateAndValue(coin: coin, data: response)
             self.updateSnapshot(accordingTo: self.selectedCategory)
         }
     }
@@ -103,18 +103,23 @@ final class MainViewController: BaseViewController {
         }
     }
 
-    private func updateCurrentChangeRate(coin: Coin, data: BTSocketAPIResponse.TickerResponse) {
+    private func updateCurrentChangeRateAndValue(coin: Coin, data: BTSocketAPIResponse.TickerResponse) {
         guard let receivedCoinData = self.coinData.first(where: { $0.coinName.rawValue == coin.rawValue }) else {
             return
         }
+
         let currentChangeRate = data.content.chgRate
-        receivedCoinData.changeRate = String(currentChangeRate) + "%"
+        receivedCoinData.changeRate = "\(currentChangeRate)".insertComma(value: currentChangeRate) + "%"
+
+        let currentTradeValue = Int(data.content.value) / 1000000
+        receivedCoinData.tradeValue = "\(currentTradeValue)".insertComma(value: Double(currentTradeValue)) + "백만"
     }
 
     private func updateCurrentPrice(coin: Coin, data: BTSocketAPIResponse.TransactionResponse) {
         guard let receivedCoinData = self.coinData.first(where: { $0.coinName.rawValue == coin.rawValue }) else {
             return
         }
+
         guard let currentPrice = data.content.list.first?.contPrice else {
             return
         }
@@ -172,7 +177,7 @@ final class MainViewController: BaseViewController {
                         coinName: $0,
                         currentPrice: "",
                         changeRate: "",
-                        tradeValue: "256,880백만",
+                        tradeValue: "",
                         isInterested: true
                     ))
             }
@@ -182,7 +187,7 @@ final class MainViewController: BaseViewController {
                         coinName: $0,
                         currentPrice: "",
                         changeRate: "",
-                        tradeValue: "256,880백만"
+                        tradeValue: ""
                     ))
             }
         }
