@@ -108,6 +108,10 @@ final class CoinViewController: BaseViewController {
         if let pageViewController = pageViewController {
             self.addChild(pageViewController)
             self.pageView.addSubview(pageViewController.view)
+            self.pageViewController?.view.snp.makeConstraints { make in
+                print("?")
+                make.top.leading.trailing.bottom.equalTo(self.pageView)
+            }
             pageViewController.didMove(toParent: self)
         }
     }
