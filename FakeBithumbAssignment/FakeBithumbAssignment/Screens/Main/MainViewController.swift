@@ -24,6 +24,8 @@ final class MainViewController: BaseViewController {
 
     private var selectedCategory = Category.krw
 
+    private var btsocketAPIService = BTSocketAPIService()
+
     private let noInterestedCoinView = UIView().then {
         $0.backgroundColor = .white
         $0.isHidden = true
@@ -46,6 +48,7 @@ final class MainViewController: BaseViewController {
         super.viewDidLoad()
         configureCoinData()
         setDelegations()
+        fetchData()
     }
 
     // MARK: - custom func
@@ -57,6 +60,58 @@ final class MainViewController: BaseViewController {
     private func configureUI() {
         configureNoInterestedCoinView()
         configureStackView()
+    }
+    
+    private func fetchData() {
+        fetchCurrentPrice()
+    }
+    
+    private func fetchCurrentPrice() {
+        btsocketAPIService.subscribeTransaction(
+            orderCurrency: Array(Coin.allCases),
+            paymentCurrency: .krw
+        ) { [weak self] response in
+            guard let self = self else {
+                return
+            }
+
+            guard let coin = self.parseSymbol(symbol: response.content.list.first?.symbol) else {
+                return
+            }
+
+            self.updateCurrentPrice(coin: coin, data: response)
+
+            if self.selectedCategory == .krw {
+                self.updateSnapshot(self.coinData)
+            }
+            
+            else if self.selectedCategory == .interest {
+                let interestedCoin = self.coinData.filter { $0.isInterested }
+                self.updateSnapshot(interestedCoin)
+            }
+        }
+    }
+    
+    private func updateCurrentPrice(coin: Coin, data: BTSocketAPIResponse.TransactionResponse) {
+        guard let receivedCoinData = self.coinData.first(where: { $0.coinName.rawValue == coin.rawValue }) else {
+            return
+        }
+        guard let currentPrice = data.content.list.first?.contPrice else {
+            return
+        }
+
+        receivedCoinData.currentPrice = String(currentPrice)
+    }
+
+    private func parseSymbol(symbol: String?) -> Coin? {
+        guard let symbol = symbol else {
+            return nil
+        }
+
+        let endIndex = symbol.index(symbol.endIndex, offsetBy: -4)
+        let parsedCoin = String(symbol[..<endIndex])
+        
+        return Coin(rawValue: parsedCoin)
     }
 
     private func configureStackView() {
@@ -83,8 +138,8 @@ final class MainViewController: BaseViewController {
             if UserDefaults.standard.string(forKey: $0.rawValue) != nil {
                 coinData.append(
                     CoinData(
-                        coinName: $0.rawValue,
-                        currentPrice: "43,926,000",
+                        coinName: $0,
+                        currentPrice: "",
                         fluctuationRate: "-23.46%",
                         tradeValue: "256,880백만",
                         isInterested: true
@@ -93,8 +148,8 @@ final class MainViewController: BaseViewController {
             else {
                 coinData.append(
                     CoinData(
-                        coinName: $0.rawValue,
-                        currentPrice: "43,926,000",
+                        coinName: $0,
+                        currentPrice: "",
                         fluctuationRate: "-23.46%",
                         tradeValue: "256,880백만"
                     ))
@@ -154,6 +209,7 @@ final class MainViewController: BaseViewController {
         self.snapshot = snapshot
         self.snapshot.deleteItems(self.coinData)
         self.snapshot.appendItems(beUpdatedData)
+        self.snapshot.reconfigureItems(beUpdatedData)
         self.dataSource?.apply(self.snapshot)
     }
 
@@ -175,7 +231,7 @@ final class MainViewController: BaseViewController {
         
         let targetCoin = targetCoinData.coinName
         
-        if let alreadyRegisteredCoin = UserDefaults.standard.string(forKey: targetCoin) {
+        if let alreadyRegisteredCoin = UserDefaults.standard.string(forKey: targetCoin.rawValue) {
             UserDefaults.standard.removeObject(forKey: alreadyRegisteredCoin)
             targetCoinData.isInterested.toggle()
             if selectedCategory == .interest {
@@ -183,7 +239,7 @@ final class MainViewController: BaseViewController {
             }
         }
         else {
-            UserDefaults.standard.set(targetCoin, forKey: targetCoin)
+            UserDefaults.standard.set(targetCoin.rawValue, forKey: targetCoin.rawValue)
             targetCoinData.isInterested.toggle()
         }
     }

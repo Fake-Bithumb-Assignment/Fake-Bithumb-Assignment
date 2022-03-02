@@ -53,7 +53,7 @@ class CoinTableViewCell: BaseTableViewCell {
     }
 
     func configure(with model: CoinData?) {
-        coinName.text = model?.coinName
+        coinName.text = model?.coinName.rawValue
         currentPrice.text = model?.currentPrice
         fluctuationRate.text = model?.fluctuationRate
         tradeValue.text = model?.tradeValue
