@@ -28,7 +28,7 @@ final class ColumnNameView: UIView {
         $0.textAlignment = .right
     }
 
-    private let fluctuationRateLabel = UILabel().then {
+    private let changeRateLabel = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .body)
         $0.text = "변동률"
         $0.textColor = .black
@@ -59,7 +59,7 @@ final class ColumnNameView: UIView {
         let stackView = UIStackView(arrangedSubviews: [
             self.coinNameLabel,
             self.currentPriceLabel,
-            self.fluctuationRateLabel,
+            self.changeRateLabel,
             self.tradeValueLabel
         ]).then {
             $0.alignment = .center
@@ -71,7 +71,7 @@ final class ColumnNameView: UIView {
             make.edges.equalTo(self).inset(UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10))
             make.width.equalTo(self.coinNameLabel).multipliedBy(4)
             make.width.equalTo(self.currentPriceLabel).multipliedBy(4)
-            make.width.equalTo(self.fluctuationRateLabel).multipliedBy(5)
+            make.width.equalTo(self.changeRateLabel).multipliedBy(5)
         }
     }
 }

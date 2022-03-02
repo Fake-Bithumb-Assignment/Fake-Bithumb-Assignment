@@ -140,7 +140,7 @@ final class MainViewController: BaseViewController {
                     CoinData(
                         coinName: $0,
                         currentPrice: "",
-                        fluctuationRate: "-23.46%",
+                        changeRate: "-23.46%",
                         tradeValue: "256,880백만",
                         isInterested: true
                     ))
@@ -150,7 +150,7 @@ final class MainViewController: BaseViewController {
                     CoinData(
                         coinName: $0,
                         currentPrice: "",
-                        fluctuationRate: "-23.46%",
+                        changeRate: "-23.46%",
                         tradeValue: "256,880백만"
                     ))
             }

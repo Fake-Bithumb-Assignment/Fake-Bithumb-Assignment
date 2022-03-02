@@ -122,13 +122,13 @@ final class HeaderView: UIView {
     private func addSettingItems() -> UIMenu {
         let favorite = configureAction("인기")
         let name = configureAction("이름")
-        let changeRate = configureAction("변동률")
+        let Rate = configureAction("변동률")
         favorite.state = .on
 
         let items = UIMenu(
             title: "",
             options: .singleSelection,
-            children: [favorite, name, changeRate]
+            children: [favorite, name, Rate]
         )
 
         return items

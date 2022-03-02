@@ -10,7 +10,7 @@ import Foundation
 final class CoinData {
     let coinName: Coin
     var currentPrice: String
-    var fluctuationRate: String
+    var changeRate: String
     var tradeValue: String
     var isInterested: Bool
 
@@ -19,13 +19,13 @@ final class CoinData {
     init(
         coinName: Coin,
         currentPrice: String,
-        fluctuationRate: String,
+        changeRate: String,
         tradeValue: String,
         isInterested: Bool = false
     ) {
         self.coinName = coinName
         self.currentPrice = currentPrice
-        self.fluctuationRate = fluctuationRate
+        self.changeRate = changeRate
         self.tradeValue = tradeValue
         self.isInterested = isInterested
     }
