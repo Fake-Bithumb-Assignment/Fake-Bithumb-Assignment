@@ -35,6 +35,7 @@
 		43F60EC527C7666A0027699B /* ColumnNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F60EC427C7666A0027699B /* ColumnNameView.swift */; };
 		7711825CBF106F792BE9AEE8 /* Pods_FakeBithumbAssignmentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1279322932B4E6EF0923160F /* Pods_FakeBithumbAssignmentTests.framework */; };
 		BA184E6AA3D8A24E0F0DD080 /* Pods_FakeBithumbAssignment.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 396F2646855BEFF936DFF560 /* Pods_FakeBithumbAssignment.framework */; };
+		FA35688027CFDD1F0056980B /* BithumbAPI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FA35687E27CFDD1F0056980B /* BithumbAPI.xcdatamodeld */; };
 		FA4093A127CA43D800EFA433 /* CandleStickChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4093A027CA43D800EFA433 /* CandleStickChartView.swift */; };
 		FAA2E36827CBB7D5003E3184 /* CoreAnimation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2E36727CBB7D5003E3184 /* CoreAnimation+Extension.swift */; };
 /* End PBXBuildFile section */
@@ -83,6 +84,7 @@
 		43F60EC227C6874A0027699B /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		43F60EC427C7666A0027699B /* ColumnNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnNameView.swift; sourceTree = "<group>"; };
 		DAB1402CB2E7430FBF8CAFB6 /* Pods-FakeBithumbAssignment.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignment.release.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment.release.xcconfig"; sourceTree = "<group>"; };
+		FA35687F27CFDD1F0056980B /* BithumbAPI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BithumbAPI.xcdatamodel; sourceTree = "<group>"; };
 		FA4093A027CA43D800EFA433 /* CandleStickChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChartView.swift; sourceTree = "<group>"; };
 		FAA2E36727CBB7D5003E3184 /* CoreAnimation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreAnimation+Extension.swift"; sourceTree = "<group>"; };
 		FAE3F28730A0F75D468665D0 /* Pods-FakeBithumbAssignmentTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignmentTests.debug.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignmentTests/Pods-FakeBithumbAssignmentTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 			children = (
 				153D784A27C3F07100C940AB /* Assets.xcassets */,
 				153D784C27C3F07100C940AB /* LaunchScreen.storyboard */,
+				FA35687E27CFDD1F0056980B /* BithumbAPI.xcdatamodeld */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -525,6 +528,7 @@
 				1504F72527C6316900A5EC6C /* BaseModel.swift in Sources */,
 				1504F6CA27C5F47C00A5EC6C /* UIView+Extension.swift in Sources */,
 				FAA2E36827CBB7D5003E3184 /* CoreAnimation+Extension.swift in Sources */,
+				FA35688027CFDD1F0056980B /* BithumbAPI.xcdatamodeld in Sources */,
 				1504F6CC27C5F58900A5EC6C /* NSObject+Extension.swift in Sources */,
 				1504F73427C6339D00A5EC6C /* HttpService.swift in Sources */,
 				FA4093A127CA43D800EFA433 /* CandleStickChartView.swift in Sources */,
@@ -818,6 +822,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FA35687E27CFDD1F0056980B /* BithumbAPI.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FA35687F27CFDD1F0056980B /* BithumbAPI.xcdatamodel */,
+			);
+			currentVersion = FA35687F27CFDD1F0056980B /* BithumbAPI.xcdatamodel */;
+			path = BithumbAPI.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 153D783627C3F06F00C940AB /* Project object */;
 }
