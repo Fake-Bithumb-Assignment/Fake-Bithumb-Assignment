@@ -10,15 +10,15 @@ import UIKit
 import SnapKit
 import Then
 
-enum TabView {
+enum TabView: Int{
     case quote, graph, contractDetails
 }
 
 final class CoinPagingViewController: UIPageViewController {
     
     // MARK: - Instance Property
-    private var pages : [UIViewController]?
-    
+    private var pages: [UIViewController]?
+
     // MARK: - Life Cycle func
     
     override init(transitionStyle style: UIPageViewController.TransitionStyle,
@@ -53,14 +53,7 @@ final class CoinPagingViewController: UIPageViewController {
     
     func setTabViewController(to type: TabView) {
         guard let pages = self.pages else { return }
-        switch type {
-        case .quote:
-            self.setViewControllers([pages[0]], direction: .forward, animated: false, completion: nil)
-        case .graph:
-            self.setViewControllers([pages[1]], direction: .forward, animated: false, completion: nil)
-        case .contractDetails:
-            self.setViewControllers([pages[2]], direction: .forward, animated: false, completion: nil)
-        }
+        self.setViewControllers([pages[type.rawValue]], direction: .forward, animated: false, completion: nil)
     }
 }
 
