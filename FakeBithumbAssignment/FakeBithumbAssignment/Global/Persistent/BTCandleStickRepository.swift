@@ -18,7 +18,14 @@ struct BTCandleStickRepository {
         self.context = appDelegate?.persistentContainer.viewContext
     }
     
-    func findAllBTCandleStickOrderByDateDesc(
+    func makeNewBTCandleStick() -> BTCandleStick? {
+        guard let context = self.context else {
+            return nil
+        }
+        return BTCandleStick(context: context)
+    }
+    
+    func findAllBTCandleSticksOrderByDateDesc(
         orderPayment: String,
         chartIntervals: String
     ) -> [BTCandleStick] {
