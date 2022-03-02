@@ -15,7 +15,7 @@ final class ConclusionTableViewController: UITableViewController {
     // MARK: - Life Cycle func
     
     override func viewDidLoad() {
-        self.view.backgroundColor = .orange
+        self.view.backgroundColor = .white
     }
     
 }

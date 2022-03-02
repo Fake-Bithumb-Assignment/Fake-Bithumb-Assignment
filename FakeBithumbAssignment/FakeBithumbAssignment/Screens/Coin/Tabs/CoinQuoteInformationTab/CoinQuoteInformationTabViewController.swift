@@ -15,6 +15,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     // MARK: - Instance Property
     
     let sellGraphTableViewController = SellGraphTableViewController()
+    let buyGraphTableViewController = BuyGraphTableViewController()
     
     let scrollView = UIScrollView().then { make in
         make.backgroundColor = .white
@@ -50,7 +51,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         
         let rightStackView = UIStackView(arrangedSubviews: [
             PriceInformationTableViewController().view,
-            BuyGraphTableViewController().view
+            buyGraphTableViewController.view
         ]).then {
             $0.axis = .vertical
             $0.spacing = 1
