@@ -17,7 +17,11 @@ enum TabView: Int{
 final class CoinPagingViewController: UIPageViewController {
     
     // MARK: - Instance Property
-    private var pages: [UIViewController]?
+    private var pages : [TabView: UIViewController] = [
+        .quote: CoinQuoteInformationTabViewController(),
+        .graph: CoinGraphTabViewController(),
+        .contractDetails: CoinContractDetailsTabViewController()
+    ]
 
     // MARK: - Life Cycle func
     
@@ -42,9 +46,11 @@ final class CoinPagingViewController: UIPageViewController {
     // MARK: - custom funcs
     
     private func makeTabViewController() {
-        self.pages = [CoinQuoteInformationTabViewController(),
-                      CoinGraphTabViewController(),
-                      CoinContractDetailsTabViewController()]
+//        self.pages = [
+//            .quote: CoinQuoteInformationTabViewController(),
+//            .graph: CoinGraphTabViewController(),
+//            .contractDetails: CoinContractDetailsTabViewController()
+//        ]
     }
     
     private func setFirstShowViewController() {
@@ -52,8 +58,8 @@ final class CoinPagingViewController: UIPageViewController {
     }
     
     func setTabViewController(to type: TabView) {
-        guard let pages = self.pages else { return }
-        self.setViewControllers([pages[type.rawValue]], direction: .forward, animated: false, completion: nil)
+        guard let page = pages[type] else { return }
+        self.setViewControllers([page], direction: .forward, animated: false, completion: nil)
     }
 }
 
