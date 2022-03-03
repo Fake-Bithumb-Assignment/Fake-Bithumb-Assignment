@@ -28,7 +28,7 @@ final class TotalCoinListView: UIView {
 
     private let totalCoinListTableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
-        $0.backgroundColor = .white
+        $0.backgroundColor = .clear
     }
 
     // MARK: - Initializer

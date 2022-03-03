@@ -21,7 +21,7 @@ final class InterestedCoinListView: UIView {
     weak var delegate: CoinDelgate?
 
     private let noInterestedCoinView = UIView().then {
-        $0.backgroundColor = .white
+        $0.backgroundColor = .clear
         $0.isHidden = true
     }
 
@@ -40,7 +40,7 @@ final class InterestedCoinListView: UIView {
 
     private let interestedCoinListTableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
-        $0.backgroundColor = .white
+        $0.backgroundColor = .clear
     }
 
     // MARK: - Initializer
