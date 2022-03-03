@@ -135,13 +135,13 @@ final class HeaderView: UIView {
     }
 
     private func configureKRWButon() {
-        self.krwCoinListButton.configuration = setConfiguration(.tinted(), image: "won")
+        self.krwCoinListButton.configuration = setConfiguration(.tinted(), image: "won", title: "원화")
         self.krwCoinListButton.addTarget(self, action: #selector(tapKRWButton), for: .touchUpInside)
         setBottomBorder(to: self.krwCoinListButton)
     }
 
     private func configureFavoritesButton() {
-        self.InterestCoinListButton.configuration = setConfiguration(.gray(), image: "star")
+        self.InterestCoinListButton.configuration = setConfiguration(.gray(), image: "star", title: "관심")
         self.InterestCoinListButton.addTarget(
             self,
             action: #selector(tapFavoritesButton),
@@ -160,10 +160,14 @@ final class HeaderView: UIView {
 
     private func setConfiguration(
         _ config: UIButton.Configuration,
-        image: String
+        image: String,
+        title: String
     ) -> UIButton.Configuration {
         var config = config
         config.image = UIImage(named: image)
+        config.title = title
+        config.imagePlacement = .trailing
+        config.imagePadding = 10
         config.buttonSize = .small
         config.cornerStyle = .small
         return config
@@ -173,14 +177,14 @@ final class HeaderView: UIView {
 
     @objc private func tapKRWButton() {
         setBottomBorder(to: self.krwCoinListButton)
-        self.krwCoinListButton.configuration = setConfiguration(.tinted(), image: "won")
-        self.InterestCoinListButton.configuration = setConfiguration(.gray(), image: "star")
+        self.krwCoinListButton.configuration = setConfiguration(.tinted(), image: "won", title: "원화")
+        self.InterestCoinListButton.configuration = setConfiguration(.gray(), image: "star", title: "관심")
         delegate?.selectCategory(.krw)
     }
 
     @objc private func tapFavoritesButton() {
-        self.krwCoinListButton.configuration = setConfiguration(.gray(), image: "won")
-        self.InterestCoinListButton.configuration = setConfiguration(.tinted(), image: "star")
+        self.krwCoinListButton.configuration = setConfiguration(.gray(), image: "won", title: "원화")
+        self.InterestCoinListButton.configuration = setConfiguration(.tinted(), image: "star", title: "관심")
         setBottomBorder(to: self.InterestCoinListButton)
         delegate?.selectCategory(.interest)
     }
