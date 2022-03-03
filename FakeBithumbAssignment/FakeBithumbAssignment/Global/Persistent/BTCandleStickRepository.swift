@@ -55,6 +55,13 @@ struct BTCandleStickRepository {
         }
     }
     
+    func delete(of candleStick: BTCandleStick) {
+        guard let context = self.context else {
+            return
+        }
+        context.delete(candleStick)
+    }
+    
     func saveContext() {
         guard let appDelegate = self.appDelegate else {
             return
