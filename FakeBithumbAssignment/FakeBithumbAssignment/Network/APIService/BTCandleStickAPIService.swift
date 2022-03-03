@@ -10,8 +10,11 @@ import Foundation
 struct BTCandleStickAPIService {
     private let httpService: HttpService = HttpService()
     
-    func requestCandleStick(of orderCurrency: String, interval: String) async -> [BTCandleStickResponse] {
-        let url: String = "https://api.bithumb.com/public/candlestick/\(orderCurrency)_KRW/\(interval)"
+    func requestCandleStick(
+        of orderCurrency: String,
+        interval: BTCandleStickChartInterval
+    ) async -> [BTCandleStickResponse] {
+        let url: String = "https://api.bithumb.com/public/candlestick/\(orderCurrency)_KRW/\(interval.rawValue)"
         let request: NetworkRequest = NetworkRequest(
             url: url,
             headers: nil,
@@ -49,4 +52,16 @@ struct BTCandleStickAPIService {
 
 enum BTCandleStickAPIError: Error {
     case unknownError
+}
+
+enum BTCandleStickChartInterval: String {
+    case _1m = "1m"
+    case _3m = "3m"
+    case _5m = "5m"
+    case _10m = "10m"
+    case _30m = "30m"
+    case _1h = "1h"
+    case _6h = "6h"
+    case _12h = "12h"
+    case _24h = "24h"
 }
