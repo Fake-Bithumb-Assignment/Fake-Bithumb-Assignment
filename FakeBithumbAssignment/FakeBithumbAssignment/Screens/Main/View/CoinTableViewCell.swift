@@ -45,7 +45,7 @@ class CoinTableViewCell: BaseTableViewCell {
     // MARK: - custom func
 
     override func configUI() {
-        self.backgroundColor = .white
+        self.backgroundColor = .clear
     }
     
     override func render() {

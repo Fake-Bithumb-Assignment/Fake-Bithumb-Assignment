@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Group@1x.png",
+      "filename" : "clarity_star-solid@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Group@2x.png",
+      "filename" : "clarity_star-solid@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Group@3x.png",
+      "filename" : "clarity_star-solid@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
