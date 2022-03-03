@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BTCandleStickApiService {
+struct BTCandleStickAPIService {
     private let httpService: HttpService = HttpService()
     
     func requestCandleStick(of orderCurrency: String, interval: String) async -> [BTCandleStickResponse] {
@@ -29,7 +29,7 @@ struct BTCandleStickApiService {
                       let highPrice = Double(rawCandleStick[3].stringValue),
                       let lowPrice = Double(rawCandleStick[4].stringValue),
                       let tradeVolume = Double(rawCandleStick[5].stringValue) else {
-                          throw BTCandleStickApiError.unknownError
+                          throw BTCandleStickAPIError.unknownError
                       }
                 return BTCandleStickResponse(
                     date: rawCandleStick[0].intValue,
@@ -47,6 +47,6 @@ struct BTCandleStickApiService {
     }
 }
 
-enum BTCandleStickApiError: Error {
+enum BTCandleStickAPIError: Error {
     case unknownError
 }
