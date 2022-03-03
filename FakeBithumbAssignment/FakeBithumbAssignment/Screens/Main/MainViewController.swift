@@ -69,7 +69,7 @@ final class MainViewController: BaseViewController {
     
     private func fetchChangeRateAndValue() {
         btsocketAPIService.subscribeTicker(
-            orderCurrency: [.XRP],
+            orderCurrency: Array(Coin.allCases),
             paymentCurrency: .krw, tickTypes: [.mid]
         ) { [weak self] response in
             guard let self = self else {
