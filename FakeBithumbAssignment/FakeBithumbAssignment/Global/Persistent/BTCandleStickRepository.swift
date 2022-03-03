@@ -27,7 +27,7 @@ struct BTCandleStickRepository {
     
     func findAllBTCandleSticksOrderByDateDesc(
         orderPayment: String,
-        chartIntervals: String
+        chartIntervals: BTCandleStickChartInterval
     ) -> [BTCandleStick] {
         guard let context = self.context else {
             return []
@@ -39,7 +39,7 @@ struct BTCandleStickRepository {
         )
         let predicateChartIntervals = NSPredicate(
             format: "chartIntervals == %@",
-            NSString(string: chartIntervals)
+            NSString(string: chartIntervals.rawValue)
         )
         let andPredicate = NSCompoundPredicate(
             type: .and,
