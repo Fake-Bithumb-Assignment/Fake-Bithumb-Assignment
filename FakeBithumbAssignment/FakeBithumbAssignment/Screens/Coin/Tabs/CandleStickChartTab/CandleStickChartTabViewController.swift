@@ -8,9 +8,11 @@
 import UIKit
 
 class CandleStickChartTabViewController: BaseViewController {
+    
+    // MARK: - Instance Property
+
     private let btCandleStickRepository: BTCandleStickRepository = BTCandleStickRepository()
     private let btCandleStickApiService: BTCandleStickAPIService = BTCandleStickAPIService()
-    
     private let orderCurrency: String = "BTC"
     private var interval: BTCandleStickChartInterval = ._1m
     private let intervalButtons: [IntervalButton] = [
@@ -25,9 +27,10 @@ class CandleStickChartTabViewController: BaseViewController {
         IntervalButton(title: "24시간",interval: ._24h)
     ]
     private var candleSticks: [BTCandleStick] = []
-    
     private let candleStickChardView: CandleStickChartView = CandleStickChartView(with: [])
     
+    // MARK: - Life Cycle func
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configUI()
@@ -35,6 +38,8 @@ class CandleStickChartTabViewController: BaseViewController {
         Task { await self.fetchInitialData() }
         Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(refreshData), userInfo: nil, repeats: true)
     }
+    
+    // MARK: - custom func
     
     override func configUI() {
         self.view.backgroundColor = UIColor.white
@@ -64,7 +69,10 @@ class CandleStickChartTabViewController: BaseViewController {
             $0.addTarget(self, action: #selector(intervalSelected(_:)), for: .touchUpInside)
         }
     }
-    
+}
+
+extension CandleStickChartTabViewController {
+    /// 버튼이 선택되었을 때 interval을 변경하고 새로운 데이터를 받아와 뷰에 적용 해준다.
     @objc func intervalSelected(_ sender: UIButton) {
         guard let intervalButton: IntervalButton = sender as? IntervalButton else {
             return
@@ -75,6 +83,8 @@ class CandleStickChartTabViewController: BaseViewController {
         self.refreshData()
     }
 
+    /// rest api로 데이터 받아오고, Core Data에 있는것과 연속되도록 합쳐주는 메소드.
+    /// 연속되지 않을 경우 rest api의 값만 사용함.
     private func fetchInitialData() async {
         // [최신~~과거]
         let fromAPI: [BTCandleStickResponse] = await self.btCandleStickApiService.requestCandleStick(
@@ -89,6 +99,8 @@ class CandleStickChartTabViewController: BaseViewController {
         combineData(coreData: fromCoreData, apiData: fromAPI)
     }
     
+    /// 새로운 데이터를 받아오는 메소드.
+    /// rest api로 새로운 데이터 받아온 뒤에 현재 쓰이고 있는 데이터와 합쳐준다.
     @objc private func refreshData() {
         Task {
             let fromAPI: [BTCandleStickResponse] = await self.btCandleStickApiService.requestCandleStick(
@@ -100,6 +112,8 @@ class CandleStickChartTabViewController: BaseViewController {
         }
     }
     
+    /// Core Data + rest api response를 연속되도록 합쳐주는 메소드.
+    /// 이것이 끝나고 차트에 데이터를 넣어준다.
     private func combineData(coreData: [BTCandleStick], apiData: [BTCandleStickResponse]) {
         // 코어데이터에 저장된게 있을 경우는 API와 코어데이터가 연속된 값인지 확인함
         guard let latestFromCoreData: BTCandleStick = coreData.last else {
@@ -124,6 +138,7 @@ class CandleStickChartTabViewController: BaseViewController {
         setCandleStickToChart(of: combined)
     }
     
+    /// api response -> Core Data entity model로 변환해주는 메소드
     private func transform(from apiData: [BTCandleStickResponse]) -> [BTCandleStick] {
         return apiData.map { candleStickResponse in
             guard let newObject = self.btCandleStickRepository.makeNewBTCandleStick() else {
@@ -134,6 +149,7 @@ class CandleStickChartTabViewController: BaseViewController {
         }
     }
     
+    /// 뷰에 데이터를 넣어주는 메소드
     private func setCandleStickToChart(of candleSticks: [BTCandleStick]) {
         self.candleSticks = candleSticks
         let transformed: [CandleStickChartView.CandleStick] = candleSticks.map { btCandleStick in
@@ -145,7 +161,7 @@ class CandleStickChartTabViewController: BaseViewController {
                 tradePrice: btCandleStick.tradePrice,
                 tradeVolume: btCandleStick.tradeVolume
             )
-        }.sorted { $0.date < $1.date } // 과거~최신순으로 뒤집어 줌
+        }.sorted { $0.date < $1.date } // 과거~최신순으로 정렬 해 줌
         self.candleStickChardView.updateCandleSticks(of: transformed)
     }
 }
