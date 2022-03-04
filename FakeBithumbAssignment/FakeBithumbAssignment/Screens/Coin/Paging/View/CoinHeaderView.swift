@@ -41,7 +41,7 @@ final class CoinHeaderView: UIView {
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     
@@ -82,9 +82,9 @@ final class CoinHeaderView: UIView {
     }
     
     func patchData(data: CoinHeaderModel) {
-        self.currentPriceLabel.text = "\(data.currentPrice)".insertComma(value: Double(data.currentPrice))
-        self.fluctateLabel.text = "\(data.fluctate)".insertComma(value: Double(data.fluctate))
+        self.currentPriceLabel.text = String.insertComma(value: Double(data.currentPrice))
+        self.fluctateLabel.text = String.insertComma(value: Double(data.fluctate))
         self.fluctateImageView.image = UIImage(named: data.fluctateUpDown)
-        self.fluctateRateLabel.text = "\(data.fluctateRate)".insertComma(value: Double(data.fluctateRate)) + "%"
+        self.fluctateRateLabel.text = String.insertComma(value: Double(data.fluctateRate)) + "%"
     }
 }
