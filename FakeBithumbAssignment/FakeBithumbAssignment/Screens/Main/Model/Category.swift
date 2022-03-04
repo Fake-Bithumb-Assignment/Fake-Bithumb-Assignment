@@ -7,10 +7,10 @@
 
 import Foundation
 
-enum Category {
-    case krw
-    case interest
-    case chart
-    case quote
-    case price
+enum Category: String {
+    case krw = "원화"
+    case interest = "관심"
+    case chart = "차트"
+    case quote = "호가"
+    case price = "시세"
 }
