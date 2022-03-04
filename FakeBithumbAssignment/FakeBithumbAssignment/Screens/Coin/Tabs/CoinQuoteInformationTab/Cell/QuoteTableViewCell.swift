@@ -68,8 +68,9 @@ class QuoteTableViewCell: BaseTableViewCell {
     
     // MARK: - custom funcs
     
-    func update() {
-        
+    func update(quote: Quote) {
+        self.priceLabel.text = quote.price
+        self.fluctateRateLabel.text = quote.quantity
     }
     
     func setContentViewToBlueColor() {

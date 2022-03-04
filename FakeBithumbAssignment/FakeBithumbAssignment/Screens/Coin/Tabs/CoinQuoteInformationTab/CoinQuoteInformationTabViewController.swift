@@ -16,6 +16,8 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     
     let orderbookAPIService: OrderbookAPIService = OrderbookAPIService(apiService: HttpService(),
                                                                     environment: .development)
+    var asks: [Quote] = []
+    var bids: [Quote] = []
     
     let sellGraphTableViewController = SellGraphTableViewController()
     let buyGraphTableViewController = BuyGraphTableViewController()
@@ -103,10 +105,14 @@ class CoinQuoteInformationTabViewController: BaseViewController {
                                                                                    paymentCurrency: paymentCurrency)
 
                 if let orderBookData = orderBookData {
-                    dump(orderBookData)
+                    self.asks = orderBookData.asks
+                    self.bids = orderBookData.bids
                 } else {
                    // TODO: 에러 처리 얼럿 띄우기
                 }
+                self.quoteTableViewController.setQuoteData(asks: asks,
+                                                           bids: bids)
+                self.quoteTableViewController.tableView.reloadData()
             } catch HttpServiceError.serverError {
                 print("serverError")
             } catch HttpServiceError.clientError(let message) {

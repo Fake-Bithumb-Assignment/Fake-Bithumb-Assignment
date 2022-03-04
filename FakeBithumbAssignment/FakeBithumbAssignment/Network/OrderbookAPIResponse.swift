@@ -11,8 +11,8 @@ struct OrderbookAPIResponse: Codable {
     let timestamp: String
     let paymentCurrency: String
     let orderCurrency: String
-    let bids: [Ask]
-    let asks: [Ask]
+    let bids: [Quote]
+    let asks: [Quote]
 
     enum CodingKeys: String, CodingKey {
         case timestamp
@@ -22,7 +22,7 @@ struct OrderbookAPIResponse: Codable {
     }
 }
 
-struct Ask: Codable {
+struct Quote: Codable {
     let price, quantity: String
 }
 
