@@ -51,6 +51,9 @@
 		43F60EC527C7666A0027699B /* ColumnNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F60EC427C7666A0027699B /* ColumnNameView.swift */; };
 		43F66EAD27D1C2B2004C9B06 /* SortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F66EAC27D1C2B2004C9B06 /* SortOption.swift */; };
 		43F66EAF27D1CD0F004C9B06 /* Notification.Name+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F66EAE27D1CD0F004C9B06 /* Notification.Name+Extension.swift */; };
+		43F66EB727D1E52D004C9B06 /* HTTPTickerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F66EB627D1E52D004C9B06 /* HTTPTickerResponse.swift */; };
+		43F66EB927D1E548004C9B06 /* HTTPOrderbookResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F66EB827D1E548004C9B06 /* HTTPOrderbookResponse.swift */; };
+		43F66EBB27D1E5FA004C9B06 /* HTTPTransactionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F66EBA27D1E5FA004C9B06 /* HTTPTransactionResponse.swift */; };
 		560F6282225D043E542509BC /* Pods_FakeBithumbAssignmentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C088A727AD09503EE5E4ACC /* Pods_FakeBithumbAssignmentTests.framework */; };
 		E8FE79FD3BAD0C02A5568BBB /* Pods_FakeBithumbAssignment.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D43C2E6B906412E3436BAB9 /* Pods_FakeBithumbAssignment.framework */; };
 		FA041BBC27C7FA5F0053C996 /* BTSocketAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA041BBB27C7FA5F0053C996 /* BTSocketAPIService.swift */; };
@@ -120,6 +123,9 @@
 		43F60EC427C7666A0027699B /* ColumnNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnNameView.swift; sourceTree = "<group>"; };
 		43F66EAC27D1C2B2004C9B06 /* SortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOption.swift; sourceTree = "<group>"; };
 		43F66EAE27D1CD0F004C9B06 /* Notification.Name+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+Extension.swift"; sourceTree = "<group>"; };
+		43F66EB627D1E52D004C9B06 /* HTTPTickerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPTickerResponse.swift; sourceTree = "<group>"; };
+		43F66EB827D1E548004C9B06 /* HTTPOrderbookResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPOrderbookResponse.swift; sourceTree = "<group>"; };
+		43F66EBA27D1E5FA004C9B06 /* HTTPTransactionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPTransactionResponse.swift; sourceTree = "<group>"; };
 		5C088A727AD09503EE5E4ACC /* Pods_FakeBithumbAssignmentTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FakeBithumbAssignmentTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D43C2E6B906412E3436BAB9 /* Pods_FakeBithumbAssignment.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FakeBithumbAssignment.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73B6FB0421C21C09E1FF0F1F /* Pods-FakeBithumbAssignment.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignment.release.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment.release.xcconfig"; sourceTree = "<group>"; };
@@ -187,6 +193,9 @@
 			children = (
 				FAC7F95A27C65A60001E11DA /* BTSocketAPIResponse.swift */,
 				FAC7F95C27C65AC0001E11DA /* BTSocketAPIRequest.swift */,
+				43F66EB627D1E52D004C9B06 /* HTTPTickerResponse.swift */,
+				43F66EB827D1E548004C9B06 /* HTTPOrderbookResponse.swift */,
+				43F66EBA27D1E5FA004C9B06 /* HTTPTransactionResponse.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -653,6 +662,7 @@
 				FAC7F95B27C65A60001E11DA /* BTSocketAPIResponse.swift in Sources */,
 				1504F6CC27C5F58900A5EC6C /* NSObject+Extension.swift in Sources */,
 				43BEFF7727C9B99800FFA217 /* CoinTableViewCell.swift in Sources */,
+				43F66EBB27D1E5FA004C9B06 /* HTTPTransactionResponse.swift in Sources */,
 				15ACAE9527C9B69900AB7EDC /* CoinNavigationTitleView.swift in Sources */,
 				15ACAE9727C9BEA200AB7EDC /* CoinMenuCollectionViewCell.swift in Sources */,
 				43F66EAF27D1CD0F004C9B06 /* Notification.Name+Extension.swift in Sources */,
@@ -672,8 +682,10 @@
 				FA041BBC27C7FA5F0053C996 /* BTSocketAPIService.swift in Sources */,
 				158731A327CB75790018E67B /* String+Extension.swift in Sources */,
 				158731A127CB715A0018E67B /* CoinHeaderModel.swift in Sources */,
+				43F66EB927D1E548004C9B06 /* HTTPOrderbookResponse.swift in Sources */,
 				1504F6D427C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift in Sources */,
 				15ACAE9E27CA061100AB7EDC /* CoinHeaderView.swift in Sources */,
+				43F66EB727D1E52D004C9B06 /* HTTPTickerResponse.swift in Sources */,
 				4320861527CE0473002CFDBF /* Category.swift in Sources */,
 				1504F6D227C5F66D00A5EC6C /* CoinGraphTabViewController.swift in Sources */,
 				43F60EC527C7666A0027699B /* ColumnNameView.swift in Sources */,

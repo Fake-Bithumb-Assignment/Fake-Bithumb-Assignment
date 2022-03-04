@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NetworkStatus: String {
+enum NetworkStatus: String, Decodable {
     case okay = "0000"
     case badRequest = "5100"
     case notAMember = "5200"
