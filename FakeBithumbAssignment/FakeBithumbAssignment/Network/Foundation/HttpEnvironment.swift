@@ -9,7 +9,7 @@ import Foundation
 
 enum HttpEnvironment: String, CaseIterable {
     case development
-    
+
     var baseUrl: String {
         return "https://api.bithumb.com/public"
     }
