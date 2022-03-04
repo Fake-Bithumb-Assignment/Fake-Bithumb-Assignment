@@ -26,16 +26,15 @@ final class MainViewController: BaseViewController {
 
     private var btsocketAPIService = BTSocketAPIService()
 
-    private let httpService = HttpService()
+    private let tickerAPIService = TickerAPIService(apiService: HttpService(), environment: .development)
 
     // MARK: - Life Cycle func
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureCoinData()
+        getTickerData(orderCurrency: "ALL", paymentCurrency: "KRW")
         configureUI()
         setUpViews()
-        fetchData()
     }
 
     // MARK: - custom func
@@ -155,31 +154,78 @@ final class MainViewController: BaseViewController {
         }
     }
 
-    private func configureCoinData() {
-        Coin.allCases.forEach {
-            if UserDefaults.standard.string(forKey: $0.rawValue) != nil {
-                self.totalCoinList.append(
-                    CoinData(
-                        coinName: $0,
-                        currentPrice: "",
-                        changeRate: "",
-                        tradeValue: "",
-                        isInterested: true
-                    ))
-            }
+    private func configureCoinData(coin: Coin, value: Item) {
+        if UserDefaults.standard.string(forKey: coin.rawValue) != nil {
+            guard let fluctateRate24H = Double(value.fluctateRate24H),
+                  let accTradeValue24H = Double(value.accTradeValue24H)
             else {
-                self.totalCoinList.append(
-                    CoinData(
-                        coinName: $0,
-                        currentPrice: "",
-                        changeRate: "",
-                        tradeValue: ""
-                    ))
+                return
+            }
+            
+            let tradeValue = Int(accTradeValue24H) / 1000000
+            let currentTradeValue = String.insertComma(value: Double(tradeValue)) + "백만"
+            let changeRate = String.insertComma(value: fluctateRate24H) + "%"
+            self.totalCoinList.append(CoinData(coinName: coin, currentPrice: value.fluctate24H, changeRate: changeRate, tradeValue: currentTradeValue, isInterested: true))
+        }
+        else {
+            guard let fluctateRate24H = Double(value.fluctateRate24H),
+                  let accTradeValue24H = Double(value.accTradeValue24H)
+            else {
+                return
+            }
+            
+            let tradeValue = Int(accTradeValue24H) / 1000000
+            let currentTradeValue = String(tradeValue) + "백만"
+            let changeRate = String(fluctateRate24H) + "%"
+//            let currentTradeValue = String.insertComma(value: Double(tradeValue)) + "백만"
+//            let changeRate = String.insertComma(value: fluctateRate24H) + "%"
+            self.totalCoinList.append(CoinData(coinName: coin, currentPrice: value.fluctate24H, changeRate: changeRate, tradeValue: currentTradeValue))
+        }
+    }
+    
+    private func setUpData() {
+        self.totalCoinList.sort {
+            let firstEndIndex = $0.tradeValue.index($0.tradeValue.endIndex, offsetBy: -2)
+            let secondEndIndex = $1.tradeValue.index($1.tradeValue.endIndex, offsetBy: -2)
+            
+            let firstValue = String($0.tradeValue[..<firstEndIndex])
+            let secondValue = String($1.tradeValue[..<secondEndIndex])
+            
+            guard let firstTradeValue = Int(firstValue),
+                  let secondTradeValue = Int(secondValue)
+            else {
+                return $0.tradeValue < $1.tradeValue
+            }
+
+            return firstTradeValue < secondTradeValue
+        }
+        totalCoinListView.totalCoinList = self.totalCoinList
+        updateInterestedCoinList()
+    }
+
+    private func getTickerData(orderCurrency: String, paymentCurrency: String) {
+        Task {
+            do {
+                let tickerData = try await tickerAPIService.getTickerData(orderCurrency: orderCurrency, paymentCurrency: paymentCurrency)
+                if let tickerData = tickerData {
+                    try tickerData.allProperties().forEach({
+                        if let coinName = Coin(rawValue: $0.key.uppercased()) {
+                            configureCoinData(coin: coinName, value: $0.value)
+                        }
+                    })
+                    setUpData()
+                    fetchData()
+                } else {
+                   // TODO: 에러 처리 얼럿 띄우기
+                }
+
+            } catch HttpServiceError.serverError {
+                print("serverError")
+            } catch HttpServiceError.clientError(let message) {
+                print("clientError:\(message)")
             }
         }
-        self.totalCoinList.sort { $0.tradeValue < $1.tradeValue }
-        updateInterestedCoinList()
-        totalCoinListView.totalCoinList = self.totalCoinList
+        
     }
 
     private func setUpViews() {
