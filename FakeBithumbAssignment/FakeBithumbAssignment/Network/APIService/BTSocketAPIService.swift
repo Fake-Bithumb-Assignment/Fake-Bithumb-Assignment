@@ -24,7 +24,7 @@ struct BTSocketAPIService {
     /// - Parameter tickTypes: tick 종류
     /// - Parameter responseHander: 응답으로 온 Ticket의 핸들러
     mutating func subscribeTicker(
-        orderCurrency: [String],
+        orderCurrency: [Coin],
         paymentCurrency: BTSocketAPIRequest.PaymentCurrency,
         tickTypes: [BTSocketAPIRequest.TickType]?,
         responseHandler: @escaping (BTSocketAPIResponse.TickerResponse) -> Void
@@ -52,7 +52,7 @@ struct BTSocketAPIService {
     /// - Parameter paymentCurrency: 결제 통화
     /// - Parameter responseHander: 응답으로 온 Transaction의 핸들러
     mutating func subscribeTransaction(
-        orderCurrency: [String],
+        orderCurrency: [Coin],
         paymentCurrency: BTSocketAPIRequest.PaymentCurrency,
         responseHandler: @escaping (BTSocketAPIResponse.TransactionResponse) -> Void
     ) {
@@ -78,7 +78,7 @@ struct BTSocketAPIService {
     /// - Parameter paymentCurrency: 결제 통화
     /// - Parameter responseHander: 응답으로 온 OrderBook의 핸들러
     mutating func subscribeOrderBook(
-        orderCurrency: [String],
+        orderCurrency: [Coin],
         paymentCurrency: BTSocketAPIRequest.PaymentCurrency,
         responseHandler: @escaping (BTSocketAPIResponse.OrderBookResponse) -> Void
     ) {
