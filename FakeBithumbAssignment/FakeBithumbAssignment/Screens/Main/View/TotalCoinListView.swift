@@ -83,7 +83,12 @@ final class TotalCoinListView: UIView {
     }
     
     private func configureNotificationCenter() {
-        NotificationCenter.default.addObserver(self, selector: #selector(sortTableView), name: .updateTableView, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(sortTableView),
+            name: .updateTableView,
+            object: nil
+        )
     }
     
     func updateSnapshot(of coin: CoinData) {
@@ -94,7 +99,9 @@ final class TotalCoinListView: UIView {
         snapshot.reconfigureItems([coin])
         self.dataSource?.apply(snapshot)
     }
-    
+
+    // MARK: - @objc
+
     @objc private func sortTableView() {
         configurediffableDataSource()
     }

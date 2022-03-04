@@ -42,7 +42,7 @@ final class ColumnNameView: UIView {
         $0.textAlignment = .right
     }
 
-    // MARK: - Life Cycle func
+    // MARK: - Initializer
 
     override init(frame: CGRect) {
         super.init(frame: frame)
