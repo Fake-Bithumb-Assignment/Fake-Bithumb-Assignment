@@ -35,20 +35,24 @@ final class CoinHeaderView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        render()
-        configUI()
+        self.render()
+        self.configUI()
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     
     // MARK: - custom func
     
-    func render() {
+    private func render() {
         self.addSubViews([currentPriceLabel, fluctateLabel, fluctateImageView, fluctateRateLabel])
+        
+        self.snp.makeConstraints { make in
+            make.height.equalTo(90)
+        }
         
         self.currentPriceLabel.snp.makeConstraints { make in
             make.top.equalTo(self).offset(20)
@@ -73,14 +77,14 @@ final class CoinHeaderView: UIView {
         }
     }
     
-    func configUI() {
+    private func configUI() {
         self.backgroundColor = .white
     }
     
     func patchData(data: CoinHeaderModel) {
-        self.currentPriceLabel.text = "\(data.currentPrice)".insertComma(value: Double(data.currentPrice))
-        self.fluctateLabel.text = "\(data.fluctate)".insertComma(value: Double(data.fluctate))
+        self.currentPriceLabel.text = String.insertComma(value: Double(data.currentPrice))
+        self.fluctateLabel.text = String.insertComma(value: Double(data.fluctate))
         self.fluctateImageView.image = UIImage(named: data.fluctateUpDown)
-        self.fluctateRateLabel.text = "\(data.fluctateRate)".insertComma(value: Double(data.fluctateRate)) + "%"
+        self.fluctateRateLabel.text = String.insertComma(value: Double(data.fluctateRate)) + "%"
     }
 }
