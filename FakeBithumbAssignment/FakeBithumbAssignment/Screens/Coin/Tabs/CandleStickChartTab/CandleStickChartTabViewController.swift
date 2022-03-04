@@ -7,15 +7,26 @@
 
 import UIKit
 
-class CandleStickChartTabViewController: UIViewController {
+class CandleStickChartTabViewController: BaseViewController {
     private let btCandleStickRepository: BTCandleStickRepository = BTCandleStickRepository()
     private let btCandleStickApiService: BTCandleStickAPIService = BTCandleStickAPIService()
     
     private let orderCurrency: String = "BTC"
     private var interval: BTCandleStickChartInterval = ._1m
+    private let intervalButtons: [IntervalButton] = [
+        IntervalButton(interval: ._1m).then { $0.titleLabel?.text = "1분" },
+        IntervalButton(interval: ._3m).then { $0.titleLabel?.text = "3분" },
+        IntervalButton(interval: ._5m).then { $0.titleLabel?.text = "5분" },
+        IntervalButton(interval: ._10m).then { $0.titleLabel?.text = "10분" },
+        IntervalButton(interval: ._30m).then { $0.titleLabel?.text = "30분" },
+        IntervalButton(interval: ._1h).then { $0.titleLabel?.text = "1시간" },
+        IntervalButton(interval: ._6h).then { $0.titleLabel?.text = "6시간" },
+        IntervalButton(interval: ._12h).then { $0.titleLabel?.text = "12시간" },
+        IntervalButton(interval: ._24h).then { $0.titleLabel?.text = "24시간" },
+    ]
     private var candleSticks: [BTCandleStick] = []
     
-    private let candleStickChardView: CandleStickChartView = CandleStickChartView(frame: .zero, with: [])
+    private let candleStickChardView: CandleStickChartView = CandleStickChartView(with: [])
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +37,29 @@ class CandleStickChartTabViewController: UIViewController {
         }
         Task { await self.fetchInitialData() }
         Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(refreshData), userInfo: nil, repeats: true)
+        configUI()
+    }
+    
+    override func configUI() {
+        let buttonStackView = UIStackView(arrangedSubviews: self.intervalButtons).then {
+            $0.axis = .horizontal
+            $0.alignment = .fill
+            $0.distribution = .fillEqually
+            $0.spacing = 3
+        }
+        buttonStackView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        let entireStackView = UIStackView(
+            arrangedSubviews: [buttonStackView, self.candleStickChardView]
+        ).then {
+            $0.axis = .vertical
+            $0.distribution = .fill
+            $0.alignment = .fill
+            $0.spacing = 3
+        }
+        self.view.addSubview(entireStackView)
+        entireStackView.snp.makeConstraints { make in
+            make.edges.equalTo(self.view.safeAreaInsets).inset(UIEdgeInsets(top: 100, left: 10, bottom: 10, right: 10))
+        }
     }
 
     private func fetchInitialData() async {
