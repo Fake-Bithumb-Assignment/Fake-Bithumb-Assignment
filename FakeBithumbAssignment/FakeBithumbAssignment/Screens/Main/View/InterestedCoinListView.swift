@@ -46,6 +46,7 @@ final class InterestedCoinListView: UIView {
         super.init(frame: frame)
         self.configureTotalCoinListTableView()
         self.configureNoInterestedCoinView()
+        self.configureNotificationCenter()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.configurediffableDataSource()
             self.setUpInterestedCoinListTableView()
@@ -108,6 +109,10 @@ final class InterestedCoinListView: UIView {
         self.dataSource?.apply(snapshot)
     }
     
+    private func configureNotificationCenter() {
+        NotificationCenter.default.addObserver(self, selector: #selector(sortTableView), name: .updateTableView, object: nil)
+    }
+    
     func updateSnapshot(of coin: CoinData) {
         guard var snapshot = self.dataSource?.snapshot() else {
             return
@@ -133,6 +138,10 @@ final class InterestedCoinListView: UIView {
 
         snapshot.deleteItems([coin])
         self.dataSource?.apply(snapshot)
+    }
+    
+    @objc private func sortTableView() {
+        configurediffableDataSource()
     }
 }
 

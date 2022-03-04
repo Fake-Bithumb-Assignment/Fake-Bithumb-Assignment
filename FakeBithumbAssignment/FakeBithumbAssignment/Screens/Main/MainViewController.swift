@@ -26,6 +26,8 @@ final class MainViewController: BaseViewController {
 
     private var btsocketAPIService = BTSocketAPIService()
 
+    private let httpService = HttpService()
+
     // MARK: - Life Cycle func
 
     override func viewDidLoad() {
@@ -191,6 +193,20 @@ final class MainViewController: BaseViewController {
 // MARK: - HeaderViewDelegate
 
 extension MainViewController: HeaderViewDelegate {
+    func sorted(by sortOption: SortOption) {
+        switch sortOption {
+        case .sortedBypopular:
+            self.totalCoinList.sort { $0.tradeValue > $1.tradeValue }
+        case .sortedByName:
+            self.totalCoinList.sort { $0.coinName.rawValue < $1.coinName.rawValue }
+        case .sortedByChangeRate:
+            self.totalCoinList.sort { $0.changeRate > $1.changeRate }
+        }
+        totalCoinListView.totalCoinList = self.totalCoinList
+        updateInterestedCoinList()
+        NotificationCenter.default.post(name: .updateTableView, object: nil)
+    }
+
     func selectCategory(_ category: Category) {
         switch category {
         case .krw:

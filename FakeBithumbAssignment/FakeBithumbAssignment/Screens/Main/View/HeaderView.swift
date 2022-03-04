@@ -14,6 +14,7 @@ import Then
 
 protocol HeaderViewDelegate: AnyObject {
     func selectCategory(_ category: Category)
+    func sorted(by sortOption: SortOption)
 }
 
 final class HeaderView: UIView {
@@ -129,6 +130,7 @@ final class HeaderView: UIView {
     private func configureAction(_ option: SortOption) -> UIAction {
         let action = UIAction(title: option.rawValue) { _ in
             self.settingButton.setTitle(option.rawValue, for: .normal)
+            self.delegate?.sorted(by: option)
         }
 
         return action

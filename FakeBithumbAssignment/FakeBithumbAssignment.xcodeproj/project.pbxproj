@@ -50,6 +50,7 @@
 		43F60EC327C6874A0027699B /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F60EC227C6874A0027699B /* HeaderView.swift */; };
 		43F60EC527C7666A0027699B /* ColumnNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F60EC427C7666A0027699B /* ColumnNameView.swift */; };
 		43F66EAD27D1C2B2004C9B06 /* SortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F66EAC27D1C2B2004C9B06 /* SortOption.swift */; };
+		43F66EAF27D1CD0F004C9B06 /* Notification.Name+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F66EAE27D1CD0F004C9B06 /* Notification.Name+Extension.swift */; };
 		560F6282225D043E542509BC /* Pods_FakeBithumbAssignmentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C088A727AD09503EE5E4ACC /* Pods_FakeBithumbAssignmentTests.framework */; };
 		E8FE79FD3BAD0C02A5568BBB /* Pods_FakeBithumbAssignment.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D43C2E6B906412E3436BAB9 /* Pods_FakeBithumbAssignment.framework */; };
 		FA041BBC27C7FA5F0053C996 /* BTSocketAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA041BBB27C7FA5F0053C996 /* BTSocketAPIService.swift */; };
@@ -118,6 +119,7 @@
 		43F60EC227C6874A0027699B /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		43F60EC427C7666A0027699B /* ColumnNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnNameView.swift; sourceTree = "<group>"; };
 		43F66EAC27D1C2B2004C9B06 /* SortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOption.swift; sourceTree = "<group>"; };
+		43F66EAE27D1CD0F004C9B06 /* Notification.Name+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+Extension.swift"; sourceTree = "<group>"; };
 		5C088A727AD09503EE5E4ACC /* Pods_FakeBithumbAssignmentTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FakeBithumbAssignmentTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D43C2E6B906412E3436BAB9 /* Pods_FakeBithumbAssignment.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FakeBithumbAssignment.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73B6FB0421C21C09E1FF0F1F /* Pods-FakeBithumbAssignment.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignment.release.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment.release.xcconfig"; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 				FAC7F96027C768B5001E11DA /* JSONDecoder+Extension.swift */,
 				15ACAE9827C9DEC900AB7EDC /* UICollectionView+Extension.swift */,
 				158731A227CB75790018E67B /* String+Extension.swift */,
+				43F66EAE27D1CD0F004C9B06 /* Notification.Name+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -652,6 +655,7 @@
 				43BEFF7727C9B99800FFA217 /* CoinTableViewCell.swift in Sources */,
 				15ACAE9527C9B69900AB7EDC /* CoinNavigationTitleView.swift in Sources */,
 				15ACAE9727C9BEA200AB7EDC /* CoinMenuCollectionViewCell.swift in Sources */,
+				43F66EAF27D1CD0F004C9B06 /* Notification.Name+Extension.swift in Sources */,
 				1504F73427C6339D00A5EC6C /* HttpService.swift in Sources */,
 				FA79223327C63F3700D1246A /* WebSocketService.swift in Sources */,
 				FAC7F96127C768B5001E11DA /* JSONDecoder+Extension.swift in Sources */,
