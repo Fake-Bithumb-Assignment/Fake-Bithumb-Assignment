@@ -1,5 +1,5 @@
 //
-//  HTTPTransactionResponse.swift
+//  TransactionResponse.swift
 //  FakeBithumbAssignment
 //
 //  Created by chihoooon on 2022/03/04.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HTTPTransactionResponse: Decodable {
+struct TransactionResponse: Decodable {
     let status: NetworkStatus
     let data: [TransactionData]
 }
