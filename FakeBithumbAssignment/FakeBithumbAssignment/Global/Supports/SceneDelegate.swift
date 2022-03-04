@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         mainViewController.title = "거래소"
         depositAndWithdrawalViewController.title = "입출금"
     
-        tabbarController.setViewControllers([mainViewController, depositAndWithdrawalViewController], animated: true)
+        tabbarController.setViewControllers([CoinQuoteInformationTabViewController(), depositAndWithdrawalViewController], animated: true)
         
         window.rootViewController = tabbarController
         window.makeKeyAndVisible()

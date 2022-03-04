@@ -14,6 +14,9 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     
     // MARK: - Instance Property
     
+    let orderbookAPIService: OrderbookAPIService = OrderbookAPIService(apiService: HttpService(),
+                                                                    environment: .development)
+    
     let sellGraphTableViewController = SellGraphTableViewController()
     let buyGraphTableViewController = BuyGraphTableViewController()
     let quoteTableViewController = QuoteTableViewController()
@@ -28,6 +31,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getOrderbookData(orderCurrency: "BTC", paymentCurrency: "KRW")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -45,6 +49,8 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     override func configUI() {
         configStackView()
     }
+    
+    // MARK: - custom funcs
     
     func configStackView() {
         let leftStackView = UIStackView(arrangedSubviews: [
@@ -87,6 +93,25 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         
         rightStackView.snp.makeConstraints { make in
             make.width.equalTo(wholeStackView).multipliedBy(0.33)
+        }
+    }
+    
+    func getOrderbookData(orderCurrency: String, paymentCurrency: String) {
+        Task {
+            do {
+                let orderBookData = try await orderbookAPIService.getOrderbookData(orderCurrency: orderCurrency,
+                                                                                   paymentCurrency: paymentCurrency)
+
+                if let orderBookData = orderBookData {
+                    dump(orderBookData)
+                } else {
+                   // TODO: 에러 처리 얼럿 띄우기
+                }
+            } catch HttpServiceError.serverError {
+                print("serverError")
+            } catch HttpServiceError.clientError(let message) {
+                print("clientError:\(message)")
+            }
         }
     }
 }
