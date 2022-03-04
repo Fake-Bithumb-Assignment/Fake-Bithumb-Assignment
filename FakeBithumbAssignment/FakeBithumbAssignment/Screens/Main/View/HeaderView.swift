@@ -43,7 +43,7 @@ final class HeaderView: UIView {
 
     private let columnNameView = ColumnNameView()
 
-    // MARK: - Life Cycle func
+    // MARK: - Initializer
 
     override init(frame: CGRect) {
         super.init(frame: frame)

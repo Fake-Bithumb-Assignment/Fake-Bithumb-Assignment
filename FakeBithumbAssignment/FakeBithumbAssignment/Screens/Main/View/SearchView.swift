@@ -10,7 +10,9 @@ import UIKit
 import SnapKit
 import Then
 
-class SearchView: UIView {
+final class SearchView: UIView {
+
+    // MARK: - Instance Property
 
     let searchfield = UITextField().then {
         let placeholder = NSMutableAttributedString(string: "코인명 또는 심볼 검색")
@@ -32,6 +34,8 @@ class SearchView: UIView {
 
     private let spaceForTopBottom: CGFloat = 8
 
+    // MARK: - Initializer
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
@@ -41,7 +45,9 @@ class SearchView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
+
+    // MARK: - custom func
+
     private func configureUI() {
         let stackView = UIStackView(arrangedSubviews: [
             self.searchfield,
