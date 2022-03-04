@@ -30,8 +30,8 @@ final class CoinNavigationTitleView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        render()
-        configUI()
+        self.render()
+        self.configUI()
     }
     
     @available(*, unavailable)
@@ -42,7 +42,7 @@ final class CoinNavigationTitleView: UIView {
     
     // MARK: - custom func
     
-    func render() {
+    private func render() {
         self.addSubViews([coinLabel, subCoinLabel])
         
         self.coinLabel.snp.makeConstraints { make in
@@ -55,7 +55,7 @@ final class CoinNavigationTitleView: UIView {
         }
     }
     
-    func configUI() {
+    private func configUI() {
         
     }
 }
