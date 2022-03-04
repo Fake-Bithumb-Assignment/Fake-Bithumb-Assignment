@@ -33,9 +33,9 @@ class CandleStickChartTabViewController: UIViewController {
         let fromAPI: [BTCandleStickResponse] = await self.btCandleStickApiService.requestCandleStick(
             of: orderCurrency, interval: interval
         )
-            .sorted { $0.date > $1.date }
+            .sorted { $0.date < $1.date }
         // [최신~~과거]
-        let fromCoreData: [BTCandleStick] = self.btCandleStickRepository.findAllBTCandleSticksOrderByDateDesc(
+        let fromCoreData: [BTCandleStick] = self.btCandleStickRepository.findAllBTCandleSticksOrderByDateAsc(
             orderCurrency: self.orderCurrency,
             chartIntervals: self.interval
         )

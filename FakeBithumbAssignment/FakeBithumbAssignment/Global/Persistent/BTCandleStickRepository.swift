@@ -25,14 +25,14 @@ struct BTCandleStickRepository {
         return BTCandleStick(context: context)
     }
     
-    func findAllBTCandleSticksOrderByDateDesc(
+    func findAllBTCandleSticksOrderByDateAsc(
         orderCurrency: String,
         chartIntervals: BTCandleStickChartInterval
     ) -> [BTCandleStick] {
         guard let context = self.context else {
             return []
         }
-        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true)
         let predicateOrderCurrency = NSPredicate(
             format: "orderCurrency == %@",
             NSString(string: orderCurrency)
