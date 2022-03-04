@@ -10,24 +10,23 @@ import UIKit
 import SnapKit
 import Then
 
+// MARK: - HeaderViewDelegateProtocol
+
+protocol HeaderViewDelegate: AnyObject {
+    func selectCategory(_ category: Category)
+}
+
 final class HeaderView: UIView {
 
     // MARK: - Instance Property
 
-    private let krwButton = UIButton().then {
-        $0.setTitle("원화", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-    }
+    weak var delegate: HeaderViewDelegate?
 
-    private let favoritesButton = UIButton().then {
-        $0.setTitle("관심", for: .normal)
-        $0.setTitleColor(.lightGray, for: .normal)
-    }
-    
-    private let searchBar = UISearchBar().then {
-        $0.placeholder = "코인명 또는 심볼 검색"
-        $0.barTintColor = .white
-    }
+    private let krwCoinListButton = UIButton()
+
+    private let InterestCoinListButton = UIButton()
+
+    private let searchView = SearchView()
 
     private let settingButton = UIButton().then {
         $0.setTitle("인기", for: .normal)
@@ -50,8 +49,9 @@ final class HeaderView: UIView {
         configUI()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
 
     // MARK: - custom func
@@ -67,7 +67,7 @@ final class HeaderView: UIView {
         let subStackview = configureSubStackView()
 
         let stackView = UIStackView(arrangedSubviews: [
-            self.searchBar,
+            self.searchView,
             subStackview,
             self.columnNameView
         ]).then {
@@ -81,8 +81,8 @@ final class HeaderView: UIView {
         }
 
         subStackview.snp.makeConstraints { make in
-            make.width.equalTo(self.krwButton).multipliedBy(4)
-            make.width.equalTo(self.favoritesButton).multipliedBy(4)
+            make.width.equalTo(self.krwCoinListButton).multipliedBy(4)
+            make.width.equalTo(self.InterestCoinListButton).multipliedBy(4)
         }
     }
 
@@ -90,16 +90,16 @@ final class HeaderView: UIView {
         let emptyView = UIView()
 
         let stackView = UIStackView(arrangedSubviews: [
-            self.krwButton,
-            self.favoritesButton,
+            self.krwCoinListButton,
+            self.InterestCoinListButton,
             emptyView,
             self.settingButton
         ]).then {
             $0.alignment = .center
         }
 
-        self.krwButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        self.favoritesButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        self.krwCoinListButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        self.InterestCoinListButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         self.settingButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         emptyView.setContentHuggingPriority(.defaultLow, for: .horizontal)
 
@@ -135,12 +135,18 @@ final class HeaderView: UIView {
     }
 
     private func configureKRWButon() {
-        self.krwButton.addTarget(self, action: #selector(tapKRWButton), for: .touchUpInside)
-        setBottomBorder(to: self.krwButton)
+        self.krwCoinListButton.configuration = setConfiguration(.tinted(), image: "won", title: "원화")
+        self.krwCoinListButton.addTarget(self, action: #selector(tapKRWButton), for: .touchUpInside)
+        setBottomBorder(to: self.krwCoinListButton)
     }
 
     private func configureFavoritesButton() {
-        self.favoritesButton.addTarget(self, action: #selector(tapFavoritesButton), for: .touchUpInside)
+        self.InterestCoinListButton.configuration = setConfiguration(.gray(), image: "star", title: "관심")
+        self.InterestCoinListButton.addTarget(
+            self,
+            action: #selector(tapFavoritesButton),
+            for: .touchUpInside
+        )
     }
     
     private func setBottomBorder(to button: UIButton) {
@@ -152,17 +158,34 @@ final class HeaderView: UIView {
         }
     }
 
+    private func setConfiguration(
+        _ config: UIButton.Configuration,
+        image: String,
+        title: String
+    ) -> UIButton.Configuration {
+        var config = config
+        config.image = UIImage(named: image)
+        config.title = title
+        config.imagePlacement = .trailing
+        config.imagePadding = 10
+        config.buttonSize = .small
+        config.cornerStyle = .small
+        return config
+    }
+
     // MARK: - @objc
 
     @objc private func tapKRWButton() {
-        self.krwButton.setTitleColor(.black, for: .normal)
-        self.favoritesButton.setTitleColor(.lightGray, for: .normal)
-        setBottomBorder(to: self.krwButton)
+        setBottomBorder(to: self.krwCoinListButton)
+        self.krwCoinListButton.configuration = setConfiguration(.tinted(), image: "won", title: "원화")
+        self.InterestCoinListButton.configuration = setConfiguration(.gray(), image: "star", title: "관심")
+        delegate?.selectCategory(.krw)
     }
-    
+
     @objc private func tapFavoritesButton() {
-        self.krwButton.setTitleColor(.lightGray, for: .normal)
-        self.favoritesButton.setTitleColor(.black, for: .normal)
-        setBottomBorder(to: self.favoritesButton)
+        self.krwCoinListButton.configuration = setConfiguration(.gray(), image: "won", title: "원화")
+        self.InterestCoinListButton.configuration = setConfiguration(.tinted(), image: "star", title: "관심")
+        setBottomBorder(to: self.InterestCoinListButton)
+        delegate?.selectCategory(.interest)
     }
 }

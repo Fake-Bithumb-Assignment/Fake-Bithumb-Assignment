@@ -45,11 +45,18 @@ class CoinTableViewCell: BaseTableViewCell {
     // MARK: - custom func
 
     override func configUI() {
-        self.backgroundColor = .white
+        self.backgroundColor = .clear
     }
     
     override func render() {
         configureStackView()
+    }
+
+    func configure(with model: CoinData?) {
+        coinName.text = model?.coinName
+        currentPrice.text = model?.currentPrice
+        fluctuationRate.text = model?.fluctuationRate
+        tradeValue.text = model?.tradeValue
     }
 
     private func configureStackView() {
