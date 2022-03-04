@@ -52,7 +52,7 @@ final class MainViewController: BaseViewController {
     private func fetchChangeRateAndValue() {
         btsocketAPIService.subscribeTicker(
             orderCurrency: Array(Coin.allCases),
-            paymentCurrency: .krw, tickTypes: [.mid]
+            paymentCurrency: .krw, tickTypes: [._24h]
         ) { response in
             guard let coin = self.parseSymbol(symbol: response.content.symbol) else {
                 return
@@ -75,8 +75,14 @@ final class MainViewController: BaseViewController {
         }
     }
 
-    private func updateCurrentChangeRateAndValue(coin: Coin, data: BTSocketAPIResponse.TickerResponse) {
-        guard let receivedCoinData = self.totalCoinList.first(where: { $0.coinName.rawValue == coin.rawValue }) else {
+    private func updateCurrentChangeRateAndValue(
+        coin: Coin,
+        data: BTSocketAPIResponse.TickerResponse
+    ) {
+        guard let receivedCoinData = self.totalCoinList.first(
+            where: { $0.coinName.rawValue == coin.rawValue }
+        )
+        else {
             return
         }
 
@@ -90,7 +96,10 @@ final class MainViewController: BaseViewController {
     }
 
     private func updateCurrentPrice(coin: Coin, data: BTSocketAPIResponse.TransactionResponse) {
-        guard let receivedCoinData = self.totalCoinList.first(where: { $0.coinName.rawValue == coin.rawValue }) else {
+        guard let receivedCoinData = self.totalCoinList.first(
+            where: { $0.coinName.rawValue == coin.rawValue }
+        )
+        else {
             return
         }
 
@@ -106,7 +115,6 @@ final class MainViewController: BaseViewController {
     private func updateSnapshot(_ updatedValue: CoinData) {
         totalCoinListView.updateSnapshot(of: updatedValue)
         if updatedValue.isInterested {
-            updateInterestedCoinList()
             interestedCoinListView.updateSnapshot(of: updatedValue)
         }
     }
@@ -228,13 +236,14 @@ extension MainViewController: CoinDelgate {
         let coinName = coin.coinName
         if coin.isInterested {
             interestedCoinListView.deleteInterestedCoin(coin)
+            interestedCoinListView.interestedCoinList.removeAll { $0 == coin }
         }
         else {
             interestedCoinListView.insertNewInterestedCoin(coin)
+            interestedCoinListView.interestedCoinList.append(coin)
         }
 
         coin.isInterested.toggle()
-        updateInterestedCoinList()
         setUserDefaults(coinName.rawValue)
     }
     
