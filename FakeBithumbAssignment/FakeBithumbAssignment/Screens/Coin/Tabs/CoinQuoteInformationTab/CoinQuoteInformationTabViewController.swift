@@ -113,6 +113,12 @@ class CoinQuoteInformationTabViewController: BaseViewController {
                 self.quoteTableViewController.setQuoteData(asks: asks.reversed(),
                                                            bids: bids)
                 self.quoteTableViewController.tableView.reloadData()
+                
+                self.sellGraphTableViewController.setQuoteData(asks: asks.reversed())
+                self.sellGraphTableViewController.tableView.reloadData()
+                
+                self.buyGraphTableViewController.setQuoteData(bids: bids)
+                self.buyGraphTableViewController.tableView.reloadData()
             } catch HttpServiceError.serverError {
                 print("serverError")
             } catch HttpServiceError.clientError(let message) {
