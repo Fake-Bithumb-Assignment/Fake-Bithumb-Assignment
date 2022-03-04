@@ -46,7 +46,7 @@ class CandleStickChartView: UIView {
     /// 기본 텍스트 크기
     private let defaultFontSize: CGFloat = 11.0
     /// 오른쪽 값 영역의 너비
-    private let valueWidth: CGFloat = 40.0
+    private let valueWidth: CGFloat = 50.0
     /// 오른쪽 값 영역에 표시될 값의 개수
     private let numbersOfValueInFrame: Int = 10
     /// 아래 날짜, 시간 영역의 높이
@@ -58,7 +58,7 @@ class CandleStickChartView: UIView {
     /// 수치 표시할 때 튀어나온 선 - 수치 텍스트 간격
     private let thornTextSpace: CGFloat = 5.0
     /// 날짜, 시간 레이블의 크기
-    private let defaultTextSize: CGSize = CGSize(width: 40.0, height: 20.0)
+    private let defaultTextSize: CGSize = CGSize(width: 50.0, height: 20.0)
     /// 캔들스틱 너비
     private var candleStickWidth: CGFloat = 5.0
     /// 캔들스틱 얇은 선 너비
@@ -75,7 +75,13 @@ class CandleStickChartView: UIView {
     }
     
     /// 캔들스틱 값들
-    private var candleSticks: [CandleStick] = []
+    private var candleSticks: [CandleStick] = [] {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.setNeedsLayout()
+            }
+        }
+    }
     
     // MARK: - Initializer
     
@@ -96,6 +102,10 @@ class CandleStickChartView: UIView {
     }
     
     // MARK: - custom func
+    
+    func updateCandleSticks(of candleSticks: [CandleStick]) {
+        self.candleSticks = candleSticks
+    }
     
     private func setupLayers() {
         // 스크롤에 포함될 전체 영역인 mainLayer

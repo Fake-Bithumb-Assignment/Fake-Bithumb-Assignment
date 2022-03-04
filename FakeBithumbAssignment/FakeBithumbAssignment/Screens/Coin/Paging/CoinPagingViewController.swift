@@ -19,7 +19,7 @@ final class CoinPagingViewController: UIPageViewController {
     // MARK: - Instance Property
     private var pages : [TabView: UIViewController] = [
         .quote: CoinQuoteInformationTabViewController(),
-        .graph: CoinGraphTabViewController(),
+        .graph: CandleStickChartTabViewController(),
         .contractDetails: CoinContractDetailsTabViewController()
     ]
 
