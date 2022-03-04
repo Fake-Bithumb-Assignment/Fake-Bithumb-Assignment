@@ -16,31 +16,134 @@ final class MainViewController: BaseViewController {
 
     private let headerView = HeaderView()
 
-    private var dataSource: UITableViewDiffableDataSource<Int, UUID>?
+    private var totalCoinList: [CoinData] = []
 
-    private let coinTableView = UITableView().then {
-        $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
+    private var interestedCoinList: [CoinData] = []
+
+    private lazy var totalCoinListView = TotalCoinListView()
+
+    private lazy var interestedCoinListView = InterestedCoinListView()
+
+    private var btsocketAPIService = BTSocketAPIService()
+
+    private let httpService = HttpService()
+
+    // MARK: - Life Cycle func
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureCoinData()
+        configureUI()
+        setUpViews()
+        fetchData()
     }
 
     // MARK: - custom func
 
-    override func render() {
-        configureUI()
-    }
-
-    override func configUI() {
-        super.configUI()
-        setDelegations()
-    }
-
     private func configureUI() {
+        configureStackView()
+    }
+
+    private func fetchData() {
+        fetchCurrentPrice()
+        fetchChangeRateAndValue()
+    }
+    
+    private func fetchChangeRateAndValue() {
+        btsocketAPIService.subscribeTicker(
+            orderCurrency: Array(Coin.allCases),
+            paymentCurrency: .krw, tickTypes: [._24h]
+        ) { response in
+            guard let coin = self.parseSymbol(symbol: response.content.symbol) else {
+                return
+            }
+
+            self.updateCurrentChangeRateAndValue(coin: coin, data: response)
+        }
+    }
+    
+    private func fetchCurrentPrice() {
+        btsocketAPIService.subscribeTransaction(
+            orderCurrency: Array(Coin.allCases),
+            paymentCurrency: .krw
+        ) { response in
+            guard let coin = self.parseSymbol(symbol: response.content.list.first?.symbol) else {
+                return
+            }
+
+            self.updateCurrentPrice(coin: coin, data: response)
+        }
+    }
+
+    private func updateCurrentChangeRateAndValue(
+        coin: Coin,
+        data: BTSocketAPIResponse.TickerResponse
+    ) {
+        guard let receivedCoinData = self.totalCoinList.first(
+            where: { $0.coinName.rawValue == coin.rawValue }
+        )
+        else {
+            return
+        }
+
+        let currentChangeRate = data.content.chgRate
+        receivedCoinData.changeRate = String.insertComma(value: currentChangeRate) + "%"
+
+        let currentTradeValue = Int(data.content.value) / 1000000
+        receivedCoinData.tradeValue = String.insertComma(value: Double(currentTradeValue)) + "백만"
+
+        updateSnapshot(receivedCoinData)
+    }
+
+    private func updateCurrentPrice(coin: Coin, data: BTSocketAPIResponse.TransactionResponse) {
+        guard let receivedCoinData = self.totalCoinList.first(
+            where: { $0.coinName.rawValue == coin.rawValue }
+        )
+        else {
+            return
+        }
+
+        guard let currentPrice = data.content.list.first?.contPrice else {
+            return
+        }
+
+        receivedCoinData.currentPrice = String(currentPrice)
+
+        updateSnapshot(receivedCoinData)
+    }
+    
+    private func updateSnapshot(_ updatedValue: CoinData) {
+        totalCoinListView.updateSnapshot(of: updatedValue)
+        if updatedValue.isInterested {
+            interestedCoinListView.updateSnapshot(of: updatedValue)
+        }
+    }
+    
+    private func updateInterestedCoinList() {
+        self.interestedCoinList = totalCoinList.filter { $0.isInterested }
+        interestedCoinListView.interestedCoinList = self.interestedCoinList
+    }
+
+    private func parseSymbol(symbol: String?) -> Coin? {
+        guard let symbol = symbol else {
+            return nil
+        }
+
+        let endIndex = symbol.index(symbol.endIndex, offsetBy: -4)
+        let parsedCoin = String(symbol[..<endIndex])
+        
+        return Coin(rawValue: parsedCoin)
+    }
+
+    private func configureStackView() {
         let stackView = UIStackView(arrangedSubviews: [
-            self.headerView, self.coinTableView
+            self.headerView, self.totalCoinListView, self.interestedCoinListView
         ]).then {
             $0.axis = .vertical
             $0.alignment = .fill
         }
 
+        self.totalCoinListView.totalCoinList = totalCoinList
         self.view.addSubview(stackView)
         self.headerView.snp.makeConstraints { make in
             make.height.lessThanOrEqualTo(200)
@@ -52,62 +155,100 @@ final class MainViewController: BaseViewController {
         }
     }
 
-    private func configurediffableDataSource() {
-        dataSource = UITableViewDiffableDataSource(tableView: coinTableView)
-        { tableView, indexPath, itemIdentifier in
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: CoinTableViewCell.className,
-                for: indexPath
-            )
-            return cell
+    private func configureCoinData() {
+        Coin.allCases.forEach {
+            if UserDefaults.standard.string(forKey: $0.rawValue) != nil {
+                self.totalCoinList.append(
+                    CoinData(
+                        coinName: $0,
+                        currentPrice: "",
+                        changeRate: "",
+                        tradeValue: "",
+                        isInterested: true
+                    ))
+            }
+            else {
+                self.totalCoinList.append(
+                    CoinData(
+                        coinName: $0,
+                        currentPrice: "",
+                        changeRate: "",
+                        tradeValue: ""
+                    ))
+            }
         }
-
-        var snapshot = NSDiffableDataSourceSnapshot<Int, UUID>()
-        snapshot.appendSections([0])
-
-        /// 디버깅 용 코드
-        var uuidArray: [UUID] = []
-        for _ in 0..<50 {
-            uuidArray.append(UUID())
-        }
-        ///
-        snapshot.appendItems(uuidArray)
-        self.dataSource?.apply(snapshot)
+        self.totalCoinList.sort { $0.tradeValue < $1.tradeValue }
+        updateInterestedCoinList()
+        totalCoinListView.totalCoinList = self.totalCoinList
     }
 
-    private func setDelegations() {
-        configurediffableDataSource()
-        coinTableView.dataSource = dataSource
-        coinTableView.delegate = self
+    private func setUpViews() {
+        headerView.delegate = self
+        totalCoinListView.delegate = self
+        interestedCoinListView.delegate = self
     }
 
-    private func updateInterestList() {
-        
+    private func setUserDefaults(_ coinName: String) {
+        if let alreadyInterestedCoin = UserDefaults.standard.string(forKey: coinName) {
+            UserDefaults.standard.removeObject(forKey: alreadyInterestedCoin)
+        }
+        else {
+            UserDefaults.standard.set(coinName, forKey: coinName)
+        }
     }
 }
 
-// MARK: - UITableViewDelegate
+// MARK: - HeaderViewDelegate
 
-extension MainViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let vc = CoinViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+extension MainViewController: HeaderViewDelegate {
+    func sorted(by sortOption: SortOption) {
+        switch sortOption {
+        case .sortedBypopular:
+            self.totalCoinList.sort { $0.tradeValue > $1.tradeValue }
+        case .sortedByName:
+            self.totalCoinList.sort { $0.coinName.rawValue < $1.coinName.rawValue }
+        case .sortedByChangeRate:
+            self.totalCoinList.sort { $0.changeRate > $1.changeRate }
+        }
+        totalCoinListView.totalCoinList = self.totalCoinList
+        updateInterestedCoinList()
+        NotificationCenter.default.post(name: .updateTableView, object: nil)
     }
 
-    func tableView(
-        _ tableView: UITableView,
-        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
-    ) -> UISwipeActionsConfiguration? {
-        let interest = UIContextualAction(
-            style: .normal,
-            title: nil
-        ) { [weak self] _, _, completion in
-            self?.updateInterestList()
-            completion(true)
+    func selectCategory(_ category: Category) {
+        switch category {
+        case .krw:
+            self.totalCoinListView.isHidden = false
+            self.interestedCoinListView.isHidden = true
+        case .interest:
+            self.totalCoinListView.isHidden = true
+            self.interestedCoinListView.isHidden = false
+        default:
+            break
         }
-        interest.image = UIImage(named: "Interest")
+    }
+}
 
-        return UISwipeActionsConfiguration(actions: [interest])
+// MARK: - CoinDelgate
+
+extension MainViewController: CoinDelgate {
+    func updateInterestList(coin: CoinData) {
+        let coinName = coin.coinName
+        if coin.isInterested {
+            interestedCoinListView.deleteInterestedCoin(coin)
+            interestedCoinListView.interestedCoinList.removeAll { $0 == coin }
+        }
+        else {
+            interestedCoinListView.insertNewInterestedCoin(coin)
+            interestedCoinListView.interestedCoinList.append(coin)
+        }
+
+        coin.isInterested.toggle()
+        setUserDefaults(coinName.rawValue)
+    }
+    
+    func showCoinInformation(coin: CoinData) {
+        let vc = CoinViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

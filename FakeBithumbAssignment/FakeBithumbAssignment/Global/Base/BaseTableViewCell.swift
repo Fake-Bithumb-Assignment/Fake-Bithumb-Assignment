@@ -14,9 +14,10 @@ class BaseTableViewCell: UITableViewCell {
         render()
         configUI()
     }
-    
+
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     func render() {
