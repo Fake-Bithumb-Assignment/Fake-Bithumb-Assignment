@@ -20,9 +20,11 @@ final class MainViewController: BaseViewController {
 
     private var interestedCoinList: [CoinData] = []
 
-    private let totalCoinListView = TotalCoinListView()
+    private lazy var totalCoinListView = TotalCoinListView()
 
-    private let interestedCoinListView = InterestedCoinListView()
+    private lazy var interestedCoinListView = InterestedCoinListView()
+
+    private var btsocketAPIService = BTSocketAPIService()
 
     // MARK: - Life Cycle func
 
@@ -31,12 +33,12 @@ final class MainViewController: BaseViewController {
         configureCoinData()
         configureUI()
         setUpViews()
+        fetchData()
     }
 
     // MARK: - custom func
 
     private func configureUI() {
-        configureNoInterestedCoinView()
         configureStackView()
     }
 
@@ -49,17 +51,12 @@ final class MainViewController: BaseViewController {
         btsocketAPIService.subscribeTicker(
             orderCurrency: Array(Coin.allCases),
             paymentCurrency: .krw, tickTypes: [.mid]
-        ) { [weak self] response in
-            guard let self = self else {
-                return
-            }
-            
+        ) { response in
             guard let coin = self.parseSymbol(symbol: response.content.symbol) else {
                 return
             }
 
             self.updateCurrentChangeRateAndValue(coin: coin, data: response)
-            self.updateSnapshot(accordingTo: self.selectedCategory)
         }
     }
     
@@ -67,34 +64,31 @@ final class MainViewController: BaseViewController {
         btsocketAPIService.subscribeTransaction(
             orderCurrency: Array(Coin.allCases),
             paymentCurrency: .krw
-        ) { [weak self] response in
-            guard let self = self else {
-                return
-            }
-
+        ) { response in
             guard let coin = self.parseSymbol(symbol: response.content.list.first?.symbol) else {
                 return
             }
 
             self.updateCurrentPrice(coin: coin, data: response)
-            self.updateSnapshot(accordingTo: self.selectedCategory)
         }
     }
 
     private func updateCurrentChangeRateAndValue(coin: Coin, data: BTSocketAPIResponse.TickerResponse) {
-        guard let receivedCoinData = self.coinData.first(where: { $0.coinName.rawValue == coin.rawValue }) else {
+        guard let receivedCoinData = self.totalCoinList.first(where: { $0.coinName.rawValue == coin.rawValue }) else {
             return
         }
 
         let currentChangeRate = data.content.chgRate
-        receivedCoinData.changeRate = "\(currentChangeRate)".insertComma(value: currentChangeRate) + "%"
+        receivedCoinData.changeRate = String.insertComma(value: currentChangeRate) + "%"
 
         let currentTradeValue = Int(data.content.value) / 1000000
-        receivedCoinData.tradeValue = "\(currentTradeValue)".insertComma(value: Double(currentTradeValue)) + "백만"
+        receivedCoinData.tradeValue = String.insertComma(value: Double(currentTradeValue)) + "백만"
+
+        updateSnapshot(receivedCoinData)
     }
 
     private func updateCurrentPrice(coin: Coin, data: BTSocketAPIResponse.TransactionResponse) {
-        guard let receivedCoinData = self.coinData.first(where: { $0.coinName.rawValue == coin.rawValue }) else {
+        guard let receivedCoinData = self.totalCoinList.first(where: { $0.coinName.rawValue == coin.rawValue }) else {
             return
         }
 
@@ -103,18 +97,21 @@ final class MainViewController: BaseViewController {
         }
 
         receivedCoinData.currentPrice = String(currentPrice)
+
+        updateSnapshot(receivedCoinData)
     }
     
-    private func updateSnapshot(accordingTo category: Category) {
-        switch category {
-        case .krw:
-            self.updateSnapshot(self.coinData)
-        case .interest:
-            let interestedCoin = self.coinData.filter { $0.isInterested }
-            self.updateSnapshot(interestedCoin)
-        default:
-            break
+    private func updateSnapshot(_ updatedValue: CoinData) {
+        totalCoinListView.updateSnapshot(of: updatedValue)
+        if updatedValue.isInterested {
+            updateInterestedCoinList()
+            interestedCoinListView.updateSnapshot(of: updatedValue)
         }
+    }
+    
+    private func updateInterestedCoinList() {
+        self.interestedCoinList = totalCoinList.filter { $0.isInterested }
+        interestedCoinListView.interestedCoinList = self.interestedCoinList
     }
 
     private func parseSymbol(symbol: String?) -> Coin? {
@@ -151,7 +148,7 @@ final class MainViewController: BaseViewController {
     private func configureCoinData() {
         Coin.allCases.forEach {
             if UserDefaults.standard.string(forKey: $0.rawValue) != nil {
-                totalCoinList.append(
+                self.totalCoinList.append(
                     CoinData(
                         coinName: $0,
                         currentPrice: "",
@@ -161,7 +158,7 @@ final class MainViewController: BaseViewController {
                     ))
             }
             else {
-                totalCoinList.append(
+                self.totalCoinList.append(
                     CoinData(
                         coinName: $0,
                         currentPrice: "",
@@ -170,9 +167,9 @@ final class MainViewController: BaseViewController {
                     ))
             }
         }
-        
-        self.interestedCoinList = totalCoinList.filter { $0.isInterested }
-        interestedCoinListView.interestedCoinList = self.interestedCoinList
+        self.totalCoinList.sort { $0.tradeValue < $1.tradeValue }
+        updateInterestedCoinList()
+        totalCoinListView.totalCoinList = self.totalCoinList
     }
 
     private func setUpViews() {
@@ -213,10 +210,16 @@ extension MainViewController: HeaderViewDelegate {
 extension MainViewController: CoinDelgate {
     func updateInterestList(coin: CoinData) {
         let coinName = coin.coinName
+        if coin.isInterested {
+            interestedCoinListView.deleteInterestedCoin(coin)
+        }
+        else {
+            interestedCoinListView.insertNewInterestedCoin(coin)
+        }
+
         coin.isInterested.toggle()
-        self.interestedCoinList = self.totalCoinList.filter { $0.isInterested }
-        interestedCoinListView.interestedCoinList = self.interestedCoinList
-        setUserDefaults(coinName)
+        updateInterestedCoinList()
+        setUserDefaults(coinName.rawValue)
     }
     
     func showCoinInformation(coin: CoinData) {

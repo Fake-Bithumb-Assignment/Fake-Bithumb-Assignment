@@ -16,8 +16,6 @@ final class InterestedCoinListView: UIView {
 
     private var dataSource: UITableViewDiffableDataSource<Section, CoinData>?
 
-    private var snapshot = NSDiffableDataSourceSnapshot<Section, CoinData>()
-
     weak var delegate: CoinDelgate?
 
     private let noInterestedCoinView = UIView().then {
@@ -34,7 +32,6 @@ final class InterestedCoinListView: UIView {
     var interestedCoinList: [CoinData] = [] {
         didSet {
             noInterestedCoinView.isHidden = !interestedCoinList.isEmpty
-            configureSnapshot()
         }
     }
 
@@ -47,10 +44,12 @@ final class InterestedCoinListView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureTotalCoinListTableView()
-        configurediffableDataSource()
-        configureNoInterestedCoinView()
-        setUpInterestedCoinListTableView()
+        self.configureTotalCoinListTableView()
+        self.configureNoInterestedCoinView()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.configurediffableDataSource()
+            self.setUpInterestedCoinListTableView()
+        }
     }
 
     @available(*, unavailable)
@@ -86,13 +85,13 @@ final class InterestedCoinListView: UIView {
 
     private func configurediffableDataSource() {
         dataSource = UITableViewDiffableDataSource(tableView: interestedCoinListTableView)
-        { tableView, indexPath, itemIdentifier in
+        { tableView, indexPath, coinList in
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: CoinTableViewCell.className,
                 for: indexPath
             ) as? CoinTableViewCell
             
-            cell?.configure(with: self.interestedCoinList[indexPath.row])
+            cell?.configure(with: coinList)
             return cell
         }
 
@@ -100,16 +99,50 @@ final class InterestedCoinListView: UIView {
     }
 
     private func configureSnapshot() {
-        self.snapshot.deleteAllItems()
-        self.snapshot.appendSections([.main])
-        self.snapshot.appendItems(interestedCoinList)
-        self.dataSource?.apply(self.snapshot)
+        guard var snapshot = self.dataSource?.snapshot() else {
+            return
+        }
+
+        snapshot.appendSections([.main])
+        snapshot.appendItems(interestedCoinList)
+        self.dataSource?.apply(snapshot)
+    }
+    
+    func updateSnapshot(of coin: CoinData) {
+        guard var snapshot = self.dataSource?.snapshot() else {
+            return
+        }
+
+        snapshot.reconfigureItems([coin])
+        self.dataSource?.apply(snapshot)
+    }
+    
+    func insertNewInterestedCoin(_ coin: CoinData) {
+        guard var snapshot = self.dataSource?.snapshot() else {
+            return
+        }
+
+        snapshot.appendItems([coin])
+        self.dataSource?.apply(snapshot)
+    }
+    
+    func deleteInterestedCoin(_ coin: CoinData) {
+        guard var snapshot = self.dataSource?.snapshot() else {
+            return
+        }
+
+        snapshot.deleteItems([coin])
+        self.dataSource?.apply(snapshot)
     }
 }
 
 // MARK: - UITableViewDelegate
 
 extension InterestedCoinListView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
+
     func tableView(
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
