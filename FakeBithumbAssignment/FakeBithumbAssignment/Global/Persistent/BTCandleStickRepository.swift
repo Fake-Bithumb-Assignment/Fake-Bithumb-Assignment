@@ -26,16 +26,16 @@ struct BTCandleStickRepository {
     }
     
     func findAllBTCandleSticksOrderByDateDesc(
-        orderPayment: String,
+        orderCurrency: String,
         chartIntervals: BTCandleStickChartInterval
     ) -> [BTCandleStick] {
         guard let context = self.context else {
             return []
         }
         let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
-        let predicateOrderPayment = NSPredicate(
-            format: "orderPayment == %@",
-            NSString(string: orderPayment)
+        let predicateOrderCurrency = NSPredicate(
+            format: "orderCurrency == %@",
+            NSString(string: orderCurrency)
         )
         let predicateChartIntervals = NSPredicate(
             format: "chartIntervals == %@",
@@ -43,7 +43,7 @@ struct BTCandleStickRepository {
         )
         let andPredicate = NSCompoundPredicate(
             type: .and,
-            subpredicates: [predicateOrderPayment, predicateChartIntervals]
+            subpredicates: [predicateOrderCurrency, predicateChartIntervals]
         )
         let fetchRequest = BTCandleStick.fetchRequest()
         fetchRequest.sortDescriptors = [sortDescriptor]

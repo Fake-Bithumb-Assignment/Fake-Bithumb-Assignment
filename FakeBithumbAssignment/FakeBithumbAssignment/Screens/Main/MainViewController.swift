@@ -21,8 +21,32 @@ final class MainViewController: BaseViewController {
     private let coinTableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
     }
+    
+    private let apiService = BTCandleStickAPIService()
 
     // MARK: - custom func
+    
+    private let repository = BTCandleStickRepository()
+    
+    override func viewDidLoad() {
+//        let saved = repository.findAllBTCandleSticks()
+        
+//        let queryed = repository.findAllBTCandleSticksOrderByDateDesc(orderPayment: "BTC_KRW", chartIntervals: "1m")
+//        print(saved)
+        let new = repository.makeNewBTCandleStick()
+        guard let new = new else {
+            return
+        }
+        new.orderCurrency = "BTC_KRW"
+        new.chartIntervals = "1m"
+        new.date = 1646252405
+        new.highPrice = 100.0
+        new.lowPrice = 100.0
+        new.openingPrice = 1000.0
+        new.tradePrice = 1.0
+        new.tradeVolume = 1.0
+        repository.saveContext()
+    }
 
     override func render() {
         configureUI()
