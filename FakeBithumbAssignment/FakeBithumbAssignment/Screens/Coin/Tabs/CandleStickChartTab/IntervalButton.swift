@@ -10,9 +10,12 @@ import UIKit
 class IntervalButton: UIButton {
     let interval: BTCandleStickChartInterval
     
-    init(interval: BTCandleStickChartInterval) {
+    init(title: String, interval: BTCandleStickChartInterval) {
         self.interval = interval
         super.init(frame: .zero)
+        super.setTitle(title, for: .normal)
+        super.setTitleColor(.black, for: .normal)
+        self.titleLabel?.font = .systemFont(ofSize: 10)
     }
     
     required init?(coder: NSCoder) {
