@@ -110,7 +110,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
                 } else {
                    // TODO: 에러 처리 얼럿 띄우기
                 }
-                self.quoteTableViewController.setQuoteData(asks: asks,
+                self.quoteTableViewController.setQuoteData(asks: asks.reversed(),
                                                            bids: bids)
                 self.quoteTableViewController.tableView.reloadData()
             } catch HttpServiceError.serverError {
