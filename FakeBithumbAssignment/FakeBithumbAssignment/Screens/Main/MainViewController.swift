@@ -20,9 +20,13 @@ final class MainViewController: BaseViewController {
 
     private var interestedCoinList: [CoinData] = []
 
-    private let totalCoinListView = TotalCoinListView()
+    private lazy var totalCoinListView = TotalCoinListView()
 
-    private let interestedCoinListView = InterestedCoinListView()
+    private lazy var interestedCoinListView = InterestedCoinListView()
+
+    private var btsocketAPIService = BTSocketAPIService()
+
+    private let httpService = HttpService()
 
     // MARK: - Life Cycle func
 
@@ -31,11 +35,99 @@ final class MainViewController: BaseViewController {
         configureCoinData()
         configureUI()
         setUpViews()
+        fetchData()
     }
 
     // MARK: - custom func
 
     private func configureUI() {
+        configureStackView()
+    }
+
+    private func fetchData() {
+        fetchCurrentPrice()
+        fetchChangeRateAndValue()
+    }
+    
+    private func fetchChangeRateAndValue() {
+        btsocketAPIService.subscribeTicker(
+            orderCurrency: Array(Coin.allCases),
+            paymentCurrency: .krw, tickTypes: [.mid]
+        ) { response in
+            guard let coin = self.parseSymbol(symbol: response.content.symbol) else {
+                return
+            }
+
+            self.updateCurrentChangeRateAndValue(coin: coin, data: response)
+        }
+    }
+    
+    private func fetchCurrentPrice() {
+        btsocketAPIService.subscribeTransaction(
+            orderCurrency: Array(Coin.allCases),
+            paymentCurrency: .krw
+        ) { response in
+            guard let coin = self.parseSymbol(symbol: response.content.list.first?.symbol) else {
+                return
+            }
+
+            self.updateCurrentPrice(coin: coin, data: response)
+        }
+    }
+
+    private func updateCurrentChangeRateAndValue(coin: Coin, data: BTSocketAPIResponse.TickerResponse) {
+        guard let receivedCoinData = self.totalCoinList.first(where: { $0.coinName.rawValue == coin.rawValue }) else {
+            return
+        }
+
+        let currentChangeRate = data.content.chgRate
+        receivedCoinData.changeRate = String.insertComma(value: currentChangeRate) + "%"
+
+        let currentTradeValue = Int(data.content.value) / 1000000
+        receivedCoinData.tradeValue = String.insertComma(value: Double(currentTradeValue)) + "백만"
+
+        updateSnapshot(receivedCoinData)
+    }
+
+    private func updateCurrentPrice(coin: Coin, data: BTSocketAPIResponse.TransactionResponse) {
+        guard let receivedCoinData = self.totalCoinList.first(where: { $0.coinName.rawValue == coin.rawValue }) else {
+            return
+        }
+
+        guard let currentPrice = data.content.list.first?.contPrice else {
+            return
+        }
+
+        receivedCoinData.currentPrice = String(currentPrice)
+
+        updateSnapshot(receivedCoinData)
+    }
+    
+    private func updateSnapshot(_ updatedValue: CoinData) {
+        totalCoinListView.updateSnapshot(of: updatedValue)
+        if updatedValue.isInterested {
+            updateInterestedCoinList()
+            interestedCoinListView.updateSnapshot(of: updatedValue)
+        }
+    }
+    
+    private func updateInterestedCoinList() {
+        self.interestedCoinList = totalCoinList.filter { $0.isInterested }
+        interestedCoinListView.interestedCoinList = self.interestedCoinList
+    }
+
+    private func parseSymbol(symbol: String?) -> Coin? {
+        guard let symbol = symbol else {
+            return nil
+        }
+
+        let endIndex = symbol.index(symbol.endIndex, offsetBy: -4)
+        let parsedCoin = String(symbol[..<endIndex])
+        
+        return Coin(rawValue: parsedCoin)
+    }
+
+    private func configureStackView() {
         let stackView = UIStackView(arrangedSubviews: [
             self.headerView, self.totalCoinListView, self.interestedCoinListView
         ]).then {
@@ -58,28 +150,28 @@ final class MainViewController: BaseViewController {
     private func configureCoinData() {
         Coin.allCases.forEach {
             if UserDefaults.standard.string(forKey: $0.rawValue) != nil {
-                totalCoinList.append(
+                self.totalCoinList.append(
                     CoinData(
-                        coinName: $0.rawValue,
-                        currentPrice: "43,926,000",
-                        fluctuationRate: "-23.46%",
-                        tradeValue: "256,880백만",
+                        coinName: $0,
+                        currentPrice: "",
+                        changeRate: "",
+                        tradeValue: "",
                         isInterested: true
                     ))
             }
             else {
-                totalCoinList.append(
+                self.totalCoinList.append(
                     CoinData(
-                        coinName: $0.rawValue,
-                        currentPrice: "43,926,000",
-                        fluctuationRate: "-23.46%",
-                        tradeValue: "256,880백만"
+                        coinName: $0,
+                        currentPrice: "",
+                        changeRate: "",
+                        tradeValue: ""
                     ))
             }
         }
-        
-        self.interestedCoinList = totalCoinList.filter { $0.isInterested }
-        interestedCoinListView.interestedCoinList = self.interestedCoinList
+        self.totalCoinList.sort { $0.tradeValue < $1.tradeValue }
+        updateInterestedCoinList()
+        totalCoinListView.totalCoinList = self.totalCoinList
     }
 
     private func setUpViews() {
@@ -101,6 +193,20 @@ final class MainViewController: BaseViewController {
 // MARK: - HeaderViewDelegate
 
 extension MainViewController: HeaderViewDelegate {
+    func sorted(by sortOption: SortOption) {
+        switch sortOption {
+        case .sortedBypopular:
+            self.totalCoinList.sort { $0.tradeValue > $1.tradeValue }
+        case .sortedByName:
+            self.totalCoinList.sort { $0.coinName.rawValue < $1.coinName.rawValue }
+        case .sortedByChangeRate:
+            self.totalCoinList.sort { $0.changeRate > $1.changeRate }
+        }
+        totalCoinListView.totalCoinList = self.totalCoinList
+        updateInterestedCoinList()
+        NotificationCenter.default.post(name: .updateTableView, object: nil)
+    }
+
     func selectCategory(_ category: Category) {
         switch category {
         case .krw:
@@ -120,10 +226,16 @@ extension MainViewController: HeaderViewDelegate {
 extension MainViewController: CoinDelgate {
     func updateInterestList(coin: CoinData) {
         let coinName = coin.coinName
+        if coin.isInterested {
+            interestedCoinListView.deleteInterestedCoin(coin)
+        }
+        else {
+            interestedCoinListView.insertNewInterestedCoin(coin)
+        }
+
         coin.isInterested.toggle()
-        self.interestedCoinList = self.totalCoinList.filter { $0.isInterested }
-        interestedCoinListView.interestedCoinList = self.interestedCoinList
-        setUserDefaults(coinName)
+        updateInterestedCoinList()
+        setUserDefaults(coinName.rawValue)
     }
     
     func showCoinInformation(coin: CoinData) {

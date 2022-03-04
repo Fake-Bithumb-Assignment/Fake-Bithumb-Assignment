@@ -16,15 +16,9 @@ final class TotalCoinListView: UIView {
 
     private var dataSource: UITableViewDiffableDataSource<Section, CoinData>?
 
-    private var snapshot = NSDiffableDataSourceSnapshot<Section, CoinData>()
-
     weak var delegate: CoinDelgate?
 
-    var totalCoinList: [CoinData] = [] {
-        didSet {
-            configureSnapshot()
-        }
-    }
+    var totalCoinList: [CoinData] = []
 
     private let totalCoinListTableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
@@ -35,8 +29,12 @@ final class TotalCoinListView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureTotalCoinListTableView()
-        configurediffableDataSource()
+        self.configureTotalCoinListTableView()
+        self.configureNotificationCenter()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.configurediffableDataSource()
+            self.setUpInterestedCoinListTableView()
+        }
     }
 
     @available(*, unavailable)
@@ -48,8 +46,6 @@ final class TotalCoinListView: UIView {
 
     private func configureTotalCoinListTableView() {
         self.addSubview(totalCoinListTableView)
-        totalCoinListTableView.delegate = self
-        totalCoinListTableView.dataSource = dataSource
         totalCoinListTableView.snp.makeConstraints { make in
             make.size.equalToSuperview()
         }
@@ -62,13 +58,13 @@ final class TotalCoinListView: UIView {
 
     private func configurediffableDataSource() {
         dataSource = UITableViewDiffableDataSource(tableView: totalCoinListTableView)
-        { tableView, indexPath, itemIdentifier in
+        { tableView, indexPath, coinList in
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: CoinTableViewCell.className,
                 for: indexPath
             ) as? CoinTableViewCell
             
-            cell?.configure(with: self.totalCoinList[indexPath.row])
+            cell?.configure(with: coinList)
             return cell
         }
 
@@ -76,16 +72,41 @@ final class TotalCoinListView: UIView {
     }
     
     private func configureSnapshot() {
-        self.snapshot.deleteAllItems()
-        self.snapshot.appendSections([.main])
-        self.snapshot.appendItems(totalCoinList)
-        self.dataSource?.apply(self.snapshot)
+        guard var snapshot = self.dataSource?.snapshot() else {
+            return
+        }
+
+        snapshot.deleteAllItems()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(totalCoinList)
+        self.dataSource?.apply(snapshot)
+    }
+    
+    private func configureNotificationCenter() {
+        NotificationCenter.default.addObserver(self, selector: #selector(sortTableView), name: .updateTableView, object: nil)
+    }
+    
+    func updateSnapshot(of coin: CoinData) {
+        guard var snapshot = self.dataSource?.snapshot() else {
+            return
+        }
+
+        snapshot.reconfigureItems([coin])
+        self.dataSource?.apply(snapshot)
+    }
+    
+    @objc private func sortTableView() {
+        configurediffableDataSource()
     }
 }
 
 // MARK: - UITableViewDelegate
 
 extension TotalCoinListView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         delegate?.showCoinInformation(coin: totalCoinList[indexPath.row])

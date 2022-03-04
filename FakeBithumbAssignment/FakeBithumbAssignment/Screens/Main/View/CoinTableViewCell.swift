@@ -28,7 +28,7 @@ class CoinTableViewCell: BaseTableViewCell {
         $0.numberOfLines = 0
     }
 
-    private let fluctuationRate = UILabel().then {
+    private let changeRate = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .body)
         $0.textAlignment = .center
         $0.textColor = .black
@@ -53,9 +53,9 @@ class CoinTableViewCell: BaseTableViewCell {
     }
 
     func configure(with model: CoinData?) {
-        coinName.text = model?.coinName
+        coinName.text = model?.coinName.rawValue
         currentPrice.text = model?.currentPrice
-        fluctuationRate.text = model?.fluctuationRate
+        changeRate.text = model?.changeRate
         tradeValue.text = model?.tradeValue
     }
 
@@ -63,7 +63,7 @@ class CoinTableViewCell: BaseTableViewCell {
         let stackView = UIStackView(arrangedSubviews: [
             self.coinName,
             self.currentPrice,
-            self.fluctuationRate,
+            self.changeRate,
             self.tradeValue
         ]).then {
             $0.spacing = 10
@@ -75,7 +75,7 @@ class CoinTableViewCell: BaseTableViewCell {
             make.edges.equalTo(self).inset(UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10))
             make.width.equalTo(self.coinName).multipliedBy(4)
             make.width.equalTo(self.currentPrice).multipliedBy(4)
-            make.width.equalTo(self.fluctuationRate).multipliedBy(5)
+            make.width.equalTo(self.changeRate).multipliedBy(5)
         }
     }
 }

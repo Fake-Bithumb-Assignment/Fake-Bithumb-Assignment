@@ -14,6 +14,7 @@ import Then
 
 protocol HeaderViewDelegate: AnyObject {
     func selectCategory(_ category: Category)
+    func sorted(by sortOption: SortOption)
 }
 
 final class HeaderView: UIView {
@@ -29,7 +30,7 @@ final class HeaderView: UIView {
     private let searchView = SearchView()
 
     private let settingButton = UIButton().then {
-        $0.setTitle("인기", for: .normal)
+        $0.setTitle(SortOption.sortedBypopular.rawValue, for: .normal)
         $0.setTitleColor(.darkGray, for: .normal)
         $0.setImage(UIImage(systemName: "chevron.down"), for: .normal)
         $0.tintColor = .darkGray
@@ -112,36 +113,45 @@ final class HeaderView: UIView {
     }
 
     private func addSettingItems() -> UIMenu {
-        let favorite = configureAction("인기")
-        let name = configureAction("이름")
-        let changeRate = configureAction("변동률")
-        favorite.state = .on
+        let popular = configureAction(.sortedBypopular)
+        let name = configureAction(.sortedByName)
+        let changeRate = configureAction(.sortedByChangeRate)
+        popular.state = .on
 
         let items = UIMenu(
             title: "",
             options: .singleSelection,
-            children: [favorite, name, changeRate]
+            children: [popular, name, changeRate]
         )
 
         return items
     }
 
-    private func configureAction(_ title: String) -> UIAction {
-        let action = UIAction(title: title) { [weak self] _ in
-            self?.settingButton.setTitle(title, for: .normal)
+    private func configureAction(_ option: SortOption) -> UIAction {
+        let action = UIAction(title: option.rawValue) { _ in
+            self.settingButton.setTitle(option.rawValue, for: .normal)
+            self.delegate?.sorted(by: option)
         }
 
         return action
     }
 
     private func configureKRWButon() {
-        self.krwCoinListButton.configuration = setConfiguration(.tinted(), image: "won", title: "원화")
+        self.krwCoinListButton.configuration = setConfiguration(
+            .tinted(),
+            image: "won",
+            title: Category.krw.rawValue
+        )
         self.krwCoinListButton.addTarget(self, action: #selector(tapKRWButton), for: .touchUpInside)
         setBottomBorder(to: self.krwCoinListButton)
     }
 
     private func configureFavoritesButton() {
-        self.InterestCoinListButton.configuration = setConfiguration(.gray(), image: "star", title: "관심")
+        self.InterestCoinListButton.configuration = setConfiguration(
+            .gray(),
+            image: "star",
+            title: Category.interest.rawValue
+        )
         self.InterestCoinListButton.addTarget(
             self,
             action: #selector(tapFavoritesButton),
@@ -177,14 +187,30 @@ final class HeaderView: UIView {
 
     @objc private func tapKRWButton() {
         setBottomBorder(to: self.krwCoinListButton)
-        self.krwCoinListButton.configuration = setConfiguration(.tinted(), image: "won", title: "원화")
-        self.InterestCoinListButton.configuration = setConfiguration(.gray(), image: "star", title: "관심")
+        self.krwCoinListButton.configuration = setConfiguration(
+            .tinted(),
+            image: "won",
+            title: Category.krw.rawValue
+        )
+        self.InterestCoinListButton.configuration = setConfiguration(
+            .gray(),
+            image: "star",
+            title: Category.interest.rawValue
+        )
         delegate?.selectCategory(.krw)
     }
 
     @objc private func tapFavoritesButton() {
-        self.krwCoinListButton.configuration = setConfiguration(.gray(), image: "won", title: "원화")
-        self.InterestCoinListButton.configuration = setConfiguration(.tinted(), image: "star", title: "관심")
+        self.krwCoinListButton.configuration = setConfiguration(
+            .gray(),
+            image: "won",
+            title: Category.krw.rawValue
+        )
+        self.InterestCoinListButton.configuration = setConfiguration(
+            .tinted(),
+            image: "star",
+            title: Category.interest.rawValue
+        )
         setBottomBorder(to: self.InterestCoinListButton)
         delegate?.selectCategory(.interest)
     }

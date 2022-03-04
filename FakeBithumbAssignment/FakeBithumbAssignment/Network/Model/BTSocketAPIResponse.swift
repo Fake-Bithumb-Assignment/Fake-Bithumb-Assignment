@@ -52,13 +52,13 @@ struct BTSocketAPIResponse {
             /// 시간
             let time: Int
             /// 시가
-            let openPrice: Int
+            let openPrice: Double
             /// 종가
-            let closePrice: Int
+            let closePrice: Double
             /// 저가
-            let lowPrice: Int
+            let lowPrice: Double
             /// 고가
-            let highPrice: Int
+            let highPrice: Double
             /// 누적거래금액
             let value: Double
             /// 누적거래량
@@ -68,11 +68,11 @@ struct BTSocketAPIResponse {
             /// 매수누적거래량
             let buyVolume: Double
             /// 전일종가
-            let prevClosePrice: Int
+            let prevClosePrice: Double
             /// 변동률
             let chgRate: Double
             /// 변동금액
-            let chgAmt: Int
+            let chgAmt: Double
             /// 체결강도
             let volumePower: Double
             
@@ -87,17 +87,17 @@ struct BTSocketAPIResponse {
                 self.tickType = try values.decode(TickType.self, forKey: .tickType)
                 guard let date = Int(try values.decode(String.self, forKey: .date)),
                       let time = Int(try values.decode(String.self, forKey: .time)),
-                      let openPrice = Int(try values.decode(String.self, forKey: .openPrice)),
-                      let closePrice = Int(try values.decode(String.self, forKey: .closePrice)),
-                      let lowPrice = Int(try values.decode(String.self, forKey: .lowPrice)),
-                      let highPrice = Int(try values.decode(String.self, forKey: .highPrice)),
+                      let openPrice = Double(try values.decode(String.self, forKey: .openPrice)),
+                      let closePrice = Double(try values.decode(String.self, forKey: .closePrice)),
+                      let lowPrice = Double(try values.decode(String.self, forKey: .lowPrice)),
+                      let highPrice = Double(try values.decode(String.self, forKey: .highPrice)),
                       let value = Double(try values.decode(String.self, forKey: .value)),
                       let volume = Double(try values.decode(String.self, forKey: .volume)),
                       let sellVolume = Double(try values.decode(String.self, forKey: .sellVolume)),
                       let buyVolume = Double(try values.decode(String.self, forKey: .buyVolume)),
-                      let prevClosePrice = Int(try values.decode(String.self, forKey: .prevClosePrice)),
+                      let prevClosePrice = Double(try values.decode(String.self, forKey: .prevClosePrice)),
                       let chgRate = Double(try values.decode(String.self, forKey: .chgRate)),
-                      let chgAmt = Int(try values.decode(String.self, forKey: .chgAmt)),
+                      let chgAmt = Double(try values.decode(String.self, forKey: .chgAmt)),
                       let volumePower = Double(try values.decode(String.self, forKey: .volumePower))
                 else {
                     throw BTSocketAPIResponseError.canNotParse
@@ -149,7 +149,7 @@ struct BTSocketAPIResponse {
                 /// 체결종류
                 let buySellGb: BuyCell
                 /// 체결가격
-                let contPrice: Int
+                let contPrice: Double
                 /// 체결수량
                 let contQty: Double
                 /// 체결금액
@@ -188,7 +188,7 @@ struct BTSocketAPIResponse {
                     self.symbol = try values.decode(String.self, forKey: .symbol)
                     self.buySellGb = try values.decode(BuyCell.self, forKey: .buySellGb)
                     self.updn = try values.decode(UpDown.self, forKey: .updn)
-                    guard let contPrice = Int(try values.decode(String.self, forKey: .contPrice)),
+                    guard let contPrice = Double(try values.decode(String.self, forKey: .contPrice)),
                           let contQty = Double(try values.decode(String.self, forKey: .contQty)),
                           let contAmt = Double(try values.decode(String.self, forKey: .contAmt)),
                           let contDtm = Transaction.dateFormatter.date(
@@ -246,7 +246,7 @@ struct BTSocketAPIResponse {
                 /// 주문 타입
                 let orderType: OrderType
                 /// 호가
-                let price: Int
+                let price: Double
                 /// 잔량
                 let quantity: Double
                 /// 건수
@@ -268,7 +268,7 @@ struct BTSocketAPIResponse {
                     let values = try decoder.container(keyedBy: CodingKeys.self)
                     self.symbol = try values.decode(String.self, forKey: .symbol)
                     self.orderType = try values.decode(OrderType.self, forKey: .orderType)
-                    guard let price = Int(try values.decode(String.self, forKey: .price)),
+                    guard let price = Double(try values.decode(String.self, forKey: .price)),
                           let quantity = Double(try values.decode(String.self, forKey: .quantity)),
                           let total = Int(try values.decode(String.self, forKey: .price))
                     else {
