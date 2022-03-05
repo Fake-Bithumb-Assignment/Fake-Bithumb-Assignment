@@ -32,7 +32,6 @@ enum OrderbookEndPoint {
         let baseUrl = environment.baseUrl
         switch self {
         case .getOrderbookData(let orderCurrency, let paymentCurrency):
-            print("\(baseUrl)/orderbook/\(orderCurrency)_\(paymentCurrency)")
             return "\(baseUrl)/orderbook/\(orderCurrency)_\(paymentCurrency)"
         }
     }

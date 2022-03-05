@@ -22,4 +22,11 @@ struct TickerAPIService {
             .createRequest(environment: environment)
         return try await self.apiService.request(request)
     }
+    
+    func getOneTickerData(orderCurrency: String, paymentCurrency: String) async throws -> Item? {
+        let request = TickerEndPoint
+            .getOneTickerData(orderCurrency: orderCurrency, paymentCurrency: paymentCurrency)
+            .createRequest(environment: environment)
+        return try await self.apiService.request(request)
+    }
 }

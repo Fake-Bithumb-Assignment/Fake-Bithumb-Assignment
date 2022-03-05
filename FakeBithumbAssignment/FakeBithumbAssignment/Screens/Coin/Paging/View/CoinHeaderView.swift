@@ -82,9 +82,9 @@ final class CoinHeaderView: UIView {
     }
     
     func patchData(data: CoinHeaderModel) {
-        self.currentPriceLabel.text = String.insertComma(value: Double(data.currentPrice))
-        self.fluctateLabel.text = String.insertComma(value: Double(data.fluctate))
+        self.currentPriceLabel.text = String.insertComma(value: Double(data.currentPrice)!)
+        self.fluctateLabel.text = String.insertComma(value: Double(data.fluctate)!)
         self.fluctateImageView.image = UIImage(named: data.fluctateUpDown)
-        self.fluctateRateLabel.text = String.insertComma(value: Double(data.fluctateRate)) + "%"
+        self.fluctateRateLabel.text = String.insertComma(value: Double(data.fluctateRate)!) + "%"
     }
 }

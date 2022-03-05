@@ -15,7 +15,8 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     // MARK: - Instance Property
     
     let orderbookAPIService: OrderbookAPIService = OrderbookAPIService(apiService: HttpService(),
-                                                                    environment: .development)
+                                                                       environment: .development)
+    
     var asks: [Quote] = []
     var bids: [Quote] = []
     
@@ -98,32 +99,36 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         }
     }
     
-    func getOrderbookData(orderCurrency: String, paymentCurrency: String) {
+    private func getOrderbookData(orderCurrency: String, paymentCurrency: String) {
         Task {
             do {
                 let orderBookData = try await orderbookAPIService.getOrderbookData(orderCurrency: orderCurrency,
                                                                                    paymentCurrency: paymentCurrency)
-
+                
                 if let orderBookData = orderBookData {
                     self.asks = orderBookData.asks
                     self.bids = orderBookData.bids
                 } else {
-                   // TODO: 에러 처리 얼럿 띄우기
+                    // TODO: 에러 처리 얼럿 띄우기
                 }
-                self.quoteTableViewController.setQuoteData(asks: asks.reversed(),
-                                                           bids: bids)
-                self.quoteTableViewController.tableView.reloadData()
-                
-                self.sellGraphTableViewController.setQuoteData(asks: asks.reversed())
-                self.sellGraphTableViewController.tableView.reloadData()
-                
-                self.buyGraphTableViewController.setQuoteData(bids: bids)
-                self.buyGraphTableViewController.tableView.reloadData()
+                self.patchOrderbookData()
             } catch HttpServiceError.serverError {
                 print("serverError")
             } catch HttpServiceError.clientError(let message) {
                 print("clientError:\(message)")
             }
         }
+    }
+    
+    private func patchOrderbookData() {
+        self.quoteTableViewController.setQuoteData(asks: asks.reversed(),
+                                                   bids: bids)
+        self.quoteTableViewController.tableView.reloadData()
+        
+        self.sellGraphTableViewController.setQuoteData(asks: asks.reversed())
+        self.sellGraphTableViewController.tableView.reloadData()
+        
+        self.buyGraphTableViewController.setQuoteData(bids: bids)
+        self.buyGraphTableViewController.tableView.reloadData()
     }
 }
