@@ -9,18 +9,23 @@ import UIKit
 
 class DepositAndWithdrawalViewController: BaseViewController {
     
+    // MARK: - Instance Property
+    
     private let btAssetsStatusAPIService: BTAssetsStatusAPIService = BTAssetsStatusAPIService()
     private let searchBar: UISearchBar = UISearchBar().then {
         $0.searchBarStyle = .minimal
     }
-    private let headerView: DepositAndWithWithdrawalTableHeaderView = DepositAndWithWithdrawalTableHeaderView()
+    private let headerView: DepositAndWithWithdrawalTableHeaderView =
+    DepositAndWithWithdrawalTableHeaderView()
     private let tableView: UITableView = UITableView().then {
         $0.register(
             DepositAndWithdrawalTableViewCell.self,
             forCellReuseIdentifier: DepositAndWithdrawalTableViewCell.className
         )
     }
-    lazy var dataSource: UITableViewDiffableDataSource<AssetsStatusSection, AssetsStatus> = configureDataSource()
+    private var assetStatuses: [AssetsStatus] = []
+    private lazy var dataSource: UITableViewDiffableDataSource<AssetsStatusSection, AssetsStatus> =
+    configureDataSource()
     
     // MARK: - Life Cycle func
     
@@ -68,6 +73,7 @@ class DepositAndWithdrawalViewController: BaseViewController {
     override func configUI() {
         self.view.backgroundColor = .white
         self.searchBar.placeholder = "검색"
+        self.searchBar.delegate = self
         self.tableView.rowHeight = 50
         self.tableView.delegate = self
         self.tableView.separatorInset = UIEdgeInsets()
@@ -90,7 +96,7 @@ extension DepositAndWithdrawalViewController {
         }
         var snapshot = NSDiffableDataSourceSnapshot<AssetsStatusSection, AssetsStatus>()
         snapshot.appendSections([.main])
-        snapshot.appendItems([], toSection: .main)
+        snapshot.appendItems(assetStatuses, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: false)
         return dataSource
     }
@@ -111,7 +117,7 @@ extension DepositAndWithdrawalViewController {
                     withdrawalStatus: withdrawalStatus
                 )
                 var currentSnapshot = self.dataSource.snapshot()
-                currentSnapshot.deleteItems([assetsStatus])
+                self.assetStatuses.append(assetsStatus)
                 currentSnapshot.appendItems([assetsStatus], toSection: .main)
                 await self.dataSource.apply(currentSnapshot)
             }
@@ -124,11 +130,29 @@ extension DepositAndWithdrawalViewController {
         currentSnapshot.appendSections([.main])
         self.dataSource.apply(currentSnapshot)
     }
+    
+    private func updateSnapshot(to: [AssetsStatus]) {
+        var currentSnapshot = self.dataSource.snapshot()
+        currentSnapshot.deleteAllItems()
+        currentSnapshot.appendSections([.main])
+        currentSnapshot.appendItems(to, toSection: .main)
+        self.dataSource.apply(currentSnapshot)
+    }
 }
 
 extension DepositAndWithdrawalViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return nil
+    }
+}
+
+extension DepositAndWithdrawalViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let filtered: [AssetsStatus] = self.assetStatuses.filter {
+            $0.coin.rawValue.contains(searchText) ||
+            String(describing: $0.coin).contains(searchText)
+        }
+        self.updateSnapshot(to: filtered)
     }
 }
 
