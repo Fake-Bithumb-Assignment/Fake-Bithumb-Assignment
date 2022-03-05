@@ -61,6 +61,10 @@ class CandleStickChartView: UIView {
     private let defaultTextSize: CGSize = CGSize(width: 50.0, height: 20.0)
     /// 캔들스틱 너비
     private var candleStickWidth: CGFloat = 5.0
+    /// 확대 후 최대 캔들스틱 너비
+    private var maxCandleStickWidth: CGFloat = 20.0
+    /// 축소 후 최소 캔들스틱 너비
+    private var minCandleStickWidth: CGFloat = 2.0
     /// 캔들스틱 얇은 선 너비
     private var candleStickLineWidth: CGFloat = 1.5
     /// 캔들스틱 간격
@@ -77,34 +81,73 @@ class CandleStickChartView: UIView {
     /// 캔들스틱 값들
     private var candleSticks: [CandleStick] = [] {
         didSet {
-            DispatchQueue.main.async { [weak self] in
-                self?.setNeedsLayout()
-            }
+            setNeedsLayout()
         }
     }
+    /// 현재 화면에 그려야 할 캔들스틱 인덱스 범위
+    private var drawingTargetIndex: ClosedRange<Int> = (0...0)
+    /// 현재 화면에 있는 캔들스틱 중 최고 가격
+    private var maxPrice: Double = 0.0
+    /// 현재 화면에 있는 캔들스틱 중 최저 가격
+    private var minPrice: Double = 0.0
+    /// 처음으로 그려지는 상태인지?
+    private var isInitialState: Bool = true
     
     // MARK: - Initializer
-    
-    init(frame: CGRect, with candleSticks: [CandleStick]) {
+        
+    init(with candleSticks: [CandleStick]) {
         self.candleSticks = candleSticks
-        super.init(frame: frame)
-        setupLayers()
-    }
-    
-    convenience init(with candleSticks: [CandleStick]) {
-        self.init(frame: CGRect.zero, with: candleSticks)
-        setupLayers()
+        super.init(frame: .zero)
+        self.scrollView.delegate = self
+        self.setupLayers()
+        self.setupPinchGesture()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setupLayers()
+        self.scrollView.delegate = self
+        self.setupLayers()
+        self.setupPinchGesture()
     }
     
     // MARK: - custom func
     
+    private func setupPinchGesture() {
+        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
+        self.addGestureRecognizer(pinchGestureRecognizer)
+    }
+    
     func updateCandleSticks(of candleSticks: [CandleStick]) {
-        self.candleSticks = candleSticks
+        DispatchQueue.main.async {
+            self.candleSticks = candleSticks
+        }
+    }
+    
+    private func updateDrawingTargetIndex() {
+        let contentOffset: CGPoint = self.scrollView.contentOffset
+        let currentXRange = (contentOffset.x...(contentOffset.x + self.scrollView.bounds.width))
+        let targetIndex = (0..<self.candleSticks.count).filter {
+            currentXRange.contains(self.getXCoord(indexOf: $0))
+        }
+        guard let min = targetIndex.min(), let max = targetIndex.max() else {
+            return
+        }
+        self.drawingTargetIndex = (min...max)
+    }
+    
+    private func updateMaxMinPrice() {
+        guard let maxIndex: Int = self.drawingTargetIndex.max(
+            by: { self.candleSticks[$0].highPrice < self.candleSticks[$1].highPrice }
+        ) else {
+            return
+        }
+        guard let minIndex: Int = self.drawingTargetIndex.min(
+            by: { self.candleSticks[$0].lowPrice < self.candleSticks[$1].lowPrice }
+        ) else {
+            return
+        }
+        self.maxPrice = self.candleSticks[maxIndex].highPrice
+        self.minPrice = self.candleSticks[minIndex].lowPrice
     }
     
     private func setupLayers() {
@@ -122,12 +165,34 @@ class CandleStickChartView: UIView {
     }
     
     override func layoutSubviews() {
-        setFrame()
-        cleanLayers()
-        drawDateTime()
-        drawDivivisionLine()
-        drawValue()
-        drawChart()
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0)
+        self.cleanLayers()
+        self.setFrame()
+        self.drawDivivisionLine()
+        guard !self.candleSticks.isEmpty else {
+            return
+        }
+        self.moveScrollIfInitialState()
+        self.updateDrawingTargetIndex()
+        self.updateMaxMinPrice()
+        self.drawDateTime()
+        self.drawValue()
+        self.drawChart()
+        CATransaction.commit()
+    }
+    
+    private func moveScrollIfInitialState() {
+        guard isInitialState && !self.candleSticks.isEmpty else {
+            return
+        }
+        self.scrollView.contentOffset = CGPoint(
+            x: self.scrollView.contentSize.width -
+            self.horizontalFrontRearSpace -
+            self.scrollView.bounds.width / 2.0,
+            y: 0
+        )
+        self.isInitialState = false
     }
     
     private func setFrame() {
@@ -195,7 +260,7 @@ class CandleStickChartView: UIView {
     }
     
     private func drawChart() {
-        self.candleSticks.indices.forEach { index in
+        self.drawingTargetIndex.forEach { index in
             let candleStick: CandleStick = candleSticks[index]
             let xCoord: CGFloat = getXCoord(indexOf: index)
             let color: CGColor = candleStick.type == .blue ? self.blueColor : self.redColor
@@ -236,16 +301,14 @@ class CandleStickChartView: UIView {
     }
     
     private func drawDateTime() {
+        // 몇개의 캔들스틱당 날짜 & 세로그리드를 그려 줘야 하는지?
         let drawPerCandleStickCount: Int = Int(
             (self.scrollView.bounds.size.width / CGFloat(self.numbersOfDateTimeInFrame)) / (self.candleStickWidth + self.candleStickSpace)
         )
-//        let dateFormatter = DateFormatter().then {
-//            $0.dateFormat = "yy.MM.dd"
-//        }
         let timeFormatter = DateFormatter().then {
             $0.dateFormat = "HH:mm"
         }
-        self.candleSticks.indices.forEach {
+        self.drawingTargetIndex.forEach {
             let index: Int = self.candleSticks.count - 1 - $0
             guard $0 % drawPerCandleStickCount == 0 else {
                 return
@@ -304,17 +367,9 @@ class CandleStickChartView: UIView {
     }
     
     private func drawValue() {
-        guard let maxPrice: Double = self.candleSticks.max(by: { $0.highPrice < $1.highPrice })?.highPrice
-        else {
-            return
-        }
-        guard let minPrice: Double = self.candleSticks.min(by: { $0.lowPrice < $1.lowPrice })?.lowPrice
-        else {
-            return
-        }
-        let valueGap: Double = (maxPrice - minPrice) / Double(self.numbersOfValueInFrame - 1)
+        let valueGap: Double = (self.maxPrice - self.minPrice) / Double(self.numbersOfValueInFrame - 1)
         (0..<self.numbersOfValueInFrame).forEach { valueCount in
-            let value: Double = maxPrice - valueGap * Double(valueCount)
+            let value: Double = self.maxPrice - valueGap * Double(valueCount)
             guard let yCoord: CGFloat = getYCoord(of: value) else {
                 return
             }
@@ -353,14 +408,8 @@ class CandleStickChartView: UIView {
     }
     
     private func getYCoord(of current: Double) -> CGFloat? {
-        guard let maxPrice: Double = self.candleSticks.max(by: { $0.highPrice < $1.highPrice })?.highPrice else {
-            return nil
-        }
-        guard let minPrice: Double = self.candleSticks.min(by: { $0.lowPrice < $1.lowPrice })?.lowPrice else {
-            return nil
-        }
         let chartContentHeight: CGFloat = self.bounds.size.height - self.dateTimeHeight
-        return ((maxPrice - current) / (maxPrice - minPrice)) *
+        return ((self.maxPrice - current) / (self.maxPrice - self.minPrice)) *
         (chartContentHeight * (1 - self.verticalFrontRearSpaceRate)) +
         (chartContentHeight * self.verticalFrontRearSpaceRate) / 2
     }
@@ -368,6 +417,27 @@ class CandleStickChartView: UIView {
     private func getXCoord(indexOf index: Int) -> CGFloat {
         return (self.horizontalFrontRearSpace + self.candleStickWidth / 2.0) +
         CGFloat(index - 1) * (self.candleStickWidth + self.candleStickSpace)
+    }
+    
+    @objc func handlePinch(_ pinch: UIPinchGestureRecognizer) {
+        let newCandleStickWidth = self.candleStickWidth * pinch.scale
+        if (newCandleStickWidth > self.maxCandleStickWidth ||
+            newCandleStickWidth < self.minCandleStickWidth) {
+            return
+        }
+        self.candleStickWidth *= pinch.scale
+        self.candleStickSpace *= pinch.scale
+        self.candleStickLineWidth *= pinch.scale
+        let newX = self.scrollView.contentOffset.x * pinch.scale
+        self.scrollView.contentOffset = CGPoint(x: newX, y: 0)
+        setNeedsLayout()
+        pinch.scale = 1
+    }
+}
+
+extension CandleStickChartView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        setNeedsLayout()
     }
 }
 
