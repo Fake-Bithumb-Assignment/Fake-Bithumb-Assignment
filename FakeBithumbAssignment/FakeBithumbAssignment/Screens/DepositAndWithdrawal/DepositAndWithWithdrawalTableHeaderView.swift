@@ -8,6 +8,9 @@
 import UIKit
 
 class DepositAndWithWithdrawalTableHeaderView: UIView {
+    
+    // MARK: - Instance Property
+    
     private let coinKoreanColumnLabel: UILabel = UILabel().then {
         $0.text = "자산"
         $0.textColor = .black
@@ -27,6 +30,8 @@ class DepositAndWithWithdrawalTableHeaderView: UIView {
         $0.textAlignment = .center
         $0.font = UIFont.preferredFont(forTextStyle: .body)
     }
+    
+    // MARK: - Life Cycle func
     
     override func layoutSubviews() {
         let stackView: UIStackView = UIStackView(
