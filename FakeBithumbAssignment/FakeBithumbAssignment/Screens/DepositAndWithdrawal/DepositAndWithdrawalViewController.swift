@@ -21,7 +21,6 @@ class DepositAndWithdrawalViewController: BaseViewController {
         )
     }
     lazy var dataSource: UITableViewDiffableDataSource<AssetsStatusSection, AssetsStatus> = configureDataSource()
-    private var assetsStatuses: [AssetsStatus] = []
     
     // MARK: - Life Cycle func
     
@@ -33,6 +32,11 @@ class DepositAndWithdrawalViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.fetchData()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.resetData()
     }
     
     // MARK: - custom func
@@ -86,7 +90,7 @@ extension DepositAndWithdrawalViewController {
         }
         var snapshot = NSDiffableDataSourceSnapshot<AssetsStatusSection, AssetsStatus>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(self.assetsStatuses, toSection: .main)
+        snapshot.appendItems([], toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: false)
         return dataSource
     }
@@ -106,13 +110,19 @@ extension DepositAndWithdrawalViewController {
                     depositStatus: depositStatus,
                     withdrawalStatus: withdrawalStatus
                 )
-                self.assetsStatuses.append(assetsStatus)
                 var currentSnapshot = self.dataSource.snapshot()
                 currentSnapshot.deleteItems([assetsStatus])
                 currentSnapshot.appendItems([assetsStatus], toSection: .main)
                 await self.dataSource.apply(currentSnapshot)
             }
         }
+    }
+    
+    private func resetData() {
+        var currentSnapshot = self.dataSource.snapshot()
+        currentSnapshot.deleteAllItems()
+        currentSnapshot.appendSections([.main])
+        self.dataSource.apply(currentSnapshot)
     }
 }
 
