@@ -42,6 +42,7 @@ class DepositAndWithdrawalViewController: BaseViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.resetData()
+        self.searchBar.text = ""
     }
     
     // MARK: - custom func
@@ -125,6 +126,7 @@ extension DepositAndWithdrawalViewController {
     }
     
     private func resetData() {
+        self.assetStatuses.removeAll()
         var currentSnapshot = self.dataSource.snapshot()
         currentSnapshot.deleteAllItems()
         currentSnapshot.appendSections([.main])
@@ -148,6 +150,10 @@ extension DepositAndWithdrawalViewController: UITableViewDelegate {
 
 extension DepositAndWithdrawalViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard !searchText.isEmpty else {
+            self.updateSnapshot(to: self.assetStatuses)
+            return
+        }
         let filtered: [AssetsStatus] = self.assetStatuses.filter {
             $0.coin.rawValue.contains(searchText) ||
             String(describing: $0.coin).contains(searchText)
