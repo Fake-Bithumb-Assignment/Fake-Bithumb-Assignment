@@ -27,8 +27,12 @@ class DepositAndWithdrawalViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.fetchInitialData()
         self.tableView.dataSource = self.dataSource
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.fetchData()
     }
     
     // MARK: - custom func
@@ -87,7 +91,7 @@ extension DepositAndWithdrawalViewController {
         return dataSource
     }
     
-    private func fetchInitialData() {
+    private func fetchData() {
         Coin.allCases.forEach { coin in
             Task {
                 guard let response: BTAssetsStatusResponse = await btAssetsStatusAPIService.requestAssetsStatus(
@@ -103,11 +107,10 @@ extension DepositAndWithdrawalViewController {
                     withdrawalStatus: withdrawalStatus
                 )
                 self.assetsStatuses.append(assetsStatus)
-                DispatchQueue.main.async {
-                    var currentSnapshot = self.dataSource.snapshot()
-                    currentSnapshot.appendItems([assetsStatus], toSection: .main)
-                    self.dataSource.apply(currentSnapshot)
-                }
+                var currentSnapshot = self.dataSource.snapshot()
+                currentSnapshot.deleteItems([assetsStatus])
+                currentSnapshot.appendItems([assetsStatus], toSection: .main)
+                await self.dataSource.apply(currentSnapshot)
             }
         }
     }
@@ -127,4 +130,11 @@ struct AssetsStatus: Hashable {
     let coin: Coin
     let depositStatus: Bool
     let withdrawalStatus: Bool
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(coin)
+    }
+    static func == (lhs: AssetsStatus, rhs: AssetsStatus) -> Bool {
+        return lhs.coin == rhs.coin
+    }
 }
