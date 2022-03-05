@@ -10,7 +10,10 @@ import UIKit
 class DepositAndWithdrawalViewController: BaseViewController {
     
     private let btAssetsStatusAPIService: BTAssetsStatusAPIService = BTAssetsStatusAPIService()
-    private let headerView: UIView = UIView()
+    private let searchBar: UISearchBar = UISearchBar().then {
+        $0.searchBarStyle = .minimal
+    }
+    private let headerView: DepositAndWithWithdrawalTableHeaderView = DepositAndWithWithdrawalTableHeaderView()
     private let tableView: UITableView = UITableView().then {
         $0.register(
             DepositAndWithdrawalTableViewCell.self,
@@ -31,14 +34,22 @@ class DepositAndWithdrawalViewController: BaseViewController {
     // MARK: - custom func
     
     override func render() {
-        let stackView: UIStackView = UIStackView(arrangedSubviews: [self.headerView, self.tableView]).then {
+        let lineView: UIView = UIView().then {
+            $0.backgroundColor = self.tableView.separatorColor
+            $0.snp.makeConstraints { make in
+                make.height.equalTo(1 / UIScreen.main.scale)
+            }
+        }
+        let stackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.searchBar, self.headerView, lineView, self.tableView]
+        ).then {
             $0.axis = .vertical
             $0.alignment = .fill
         }
-        self.view.addSubview(stackView)
         self.headerView.snp.makeConstraints { make in
-            make.height.equalTo(50)
+            make.height.equalTo(30)
         }
+        self.view.addSubview(stackView)
         stackView.snp.makeConstraints { make in
             make.edges.equalTo(self.view.safeAreaLayoutGuide).inset(
                 UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -48,13 +59,16 @@ class DepositAndWithdrawalViewController: BaseViewController {
     
     override func configUI() {
         self.view.backgroundColor = .white
-        headerView.backgroundColor = .red
+        self.searchBar.placeholder = "검색"
         self.tableView.rowHeight = 50
         self.tableView.delegate = self
         self.tableView.separatorInset = UIEdgeInsets()
     }
-    
-    
+}
+
+// MARK: - Table view
+
+extension DepositAndWithdrawalViewController {
     private func configureDataSource() -> UITableViewDiffableDataSource<AssetsStatusSection, AssetsStatus> {
         let dataSource = UITableViewDiffableDataSource<AssetsStatusSection, AssetsStatus>(
             tableView: self.tableView
@@ -100,9 +114,6 @@ class DepositAndWithdrawalViewController: BaseViewController {
 }
 
 extension DepositAndWithdrawalViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//    }
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return nil
     }

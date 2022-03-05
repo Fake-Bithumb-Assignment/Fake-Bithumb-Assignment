@@ -35,7 +35,7 @@ class DepositAndWithdrawalTableViewCell: BaseTableViewCell {
     }
     private let withdrawalStatus: UILabel = UILabel().then {
         $0.textColor = .black
-        $0.textAlignment = .right
+        $0.textAlignment = .center
         $0.font = UIFont.preferredFont(forTextStyle: .body)
     }
     private var depositStatusAttributedString: NSAttributedString? {
@@ -101,10 +101,10 @@ class DepositAndWithdrawalTableViewCell: BaseTableViewCell {
         self.addSubview(stackView)
         stackView.snp.makeConstraints { make in
             make.edges.equalTo(self)
-            make.width.equalTo(self.coinKoreanLabel).multipliedBy(13/4)
-            make.width.equalTo(self.coinEnglishLabel).multipliedBy(13/3)
-            make.width.equalTo(self.depositStatusLabel).multipliedBy(13/3)
-            make.width.equalTo(self.withdrawalStatus).multipliedBy(13/3)
+            make.width.equalTo(self.coinKoreanLabel).multipliedBy(11/3.5)
+            make.width.equalTo(self.coinEnglishLabel).multipliedBy(11/2.5)
+            make.width.equalTo(self.depositStatusLabel).multipliedBy(11/2.5)
+            make.width.equalTo(self.withdrawalStatus).multipliedBy(11/2.5)
         }
     }
     

@@ -85,6 +85,7 @@
 		FADFB52627D2B0810043AF0A /* BTAssetsStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52527D2B0810043AF0A /* BTAssetsStatusResponse.swift */; };
 		FADFB52827D2B14A0043AF0A /* BTAssetsStatusAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52727D2B14A0043AF0A /* BTAssetsStatusAPIService.swift */; };
 		FADFB52A27D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52927D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift */; };
+		FADFB52C27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52B27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -184,6 +185,7 @@
 		FADFB52527D2B0810043AF0A /* BTAssetsStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTAssetsStatusResponse.swift; sourceTree = "<group>"; };
 		FADFB52727D2B14A0043AF0A /* BTAssetsStatusAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTAssetsStatusAPIService.swift; sourceTree = "<group>"; };
 		FADFB52927D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositAndWithdrawalTableViewCell.swift; sourceTree = "<group>"; };
+		FADFB52B27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositAndWithWithdrawalTableHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -466,6 +468,7 @@
 			children = (
 				1504F6D527C5F68E00A5EC6C /* DepositAndWithdrawalViewController.swift */,
 				FADFB52927D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift */,
+				FADFB52B27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift */,
 			);
 			path = DepositAndWithdrawal;
 			sourceTree = "<group>";
@@ -769,6 +772,7 @@
 				FA79223327C63F3700D1246A /* WebSocketService.swift in Sources */,
 				FA4C65F027D2958A00786469 /* CandleStickChartView.swift in Sources */,
 				FAC7F96127C768B5001E11DA /* JSONDecoder+Extension.swift in Sources */,
+				FADFB52C27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift in Sources */,
 				1504F73427C6339D00A5EC6C /* HttpService.swift in Sources */,
 				43CACF7B27D26946005EB9B7 /* TickerEndPoint.swift in Sources */,
 				1504F6C427C5F26000A5EC6C /* BaseViewController.swift in Sources */,
