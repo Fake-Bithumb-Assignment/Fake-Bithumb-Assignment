@@ -83,10 +83,6 @@ class DepositAndWithdrawalTableViewCell: BaseTableViewCell {
     // MARK: - custom func
     
     override func render() {
-        self.coinKoreanLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        self.coinEnglishLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        self.depositStatusLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        self.withdrawalStatus.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         let stackView: UIStackView = UIStackView(
             arrangedSubviews: [
                 self.coinKoreanLabel,
