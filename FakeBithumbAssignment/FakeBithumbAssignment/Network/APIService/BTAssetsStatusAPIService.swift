@@ -12,7 +12,7 @@ struct BTAssetsStatusAPIService {
     
     func requestAssetsStatus(
         of orderCurrency: Coin
-    ) async -> [BTAssetsStatusResponse] {
+    ) async -> BTAssetsStatusResponse? {
         let url: String = "https://api.bithumb.com/public/assetsstatus/\(String(describing: orderCurrency))"
         let request: NetworkRequest = NetworkRequest(
             url: url,
@@ -22,12 +22,9 @@ struct BTAssetsStatusAPIService {
             httpMethod: .GET
         )
         do {
-            guard let response: [BTAssetsStatusResponse] = try await httpService.request(request) else {
-                return []
-            }
-            return response
+            return try await httpService.request(request)
         } catch {
-            return []
+            return nil
         }
     }
 }
