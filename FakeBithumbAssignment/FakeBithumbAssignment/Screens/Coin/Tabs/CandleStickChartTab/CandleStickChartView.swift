@@ -52,13 +52,13 @@ class CandleStickChartView: UIView {
     /// 아래 날짜, 시간 영역의 높이
     private let dateTimeHeight: CGFloat = 40.0
     /// 한 화면에 나올 날짜, 시간 레이블의 개수
-    private let numbersOfDateTimeInFrame: Int = 4
+    private let numbersOfDateTimeInFrame: Int = 3
     /// 수치 표시할 때 튀어나온 선 길이
     private let thornLength: CGFloat = 10.0
     /// 수치 표시할 때 튀어나온 선 - 수치 텍스트 간격
     private let thornTextSpace: CGFloat = 5.0
     /// 날짜, 시간 레이블의 크기
-    private let defaultTextSize: CGSize = CGSize(width: 50.0, height: 20.0)
+    private let defaultTextSize: CGSize = CGSize(width: 60.0, height: 20.0)
     /// 캔들스틱 너비
     private var candleStickWidth: CGFloat = 5.0
     /// 확대 후 최대 캔들스틱 너비
@@ -79,11 +79,7 @@ class CandleStickChartView: UIView {
     }
     
     /// 캔들스틱 값들
-    private var candleSticks: [CandleStick] = [] {
-        didSet {
-            setNeedsLayout()
-        }
-    }
+    private var candleSticks: [CandleStick] = []
     /// 현재 화면에 그려야 할 캔들스틱 인덱스 범위
     private var drawingTargetIndex: ClosedRange<Int> = (0...0)
     /// 현재 화면에 있는 캔들스틱 중 최고 가격
@@ -120,6 +116,7 @@ class CandleStickChartView: UIView {
     func updateCandleSticks(of candleSticks: [CandleStick]) {
         DispatchQueue.main.async {
             self.candleSticks = candleSticks
+            self.setNeedsLayout()
         }
     }
     
@@ -250,8 +247,6 @@ class CandleStickChartView: UIView {
     }
     
     private func cleanLayers() {
-        // TODO: 핀치 들어갈 때 수정해줄 것
-        // self.mainLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
         self.dataLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
         self.dateTimeLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
         self.valueLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
@@ -306,11 +301,10 @@ class CandleStickChartView: UIView {
             (self.scrollView.bounds.size.width / CGFloat(self.numbersOfDateTimeInFrame)) / (self.candleStickWidth + self.candleStickSpace)
         )
         let timeFormatter = DateFormatter().then {
-            $0.dateFormat = "HH:mm"
+            $0.dateFormat = "M/d HH:mm"
         }
-        self.drawingTargetIndex.forEach {
-            let index: Int = self.candleSticks.count - 1 - $0
-            guard $0 % drawPerCandleStickCount == 0 else {
+        self.drawingTargetIndex.forEach { index in
+            guard ((self.candleSticks.count-1) - index) % drawPerCandleStickCount == 0 else {
                 return
             }
             let xCoord: CGFloat = getXCoord(indexOf: index)
@@ -338,7 +332,6 @@ class CandleStickChartView: UIView {
             }
             self.dateTimeLayer.addSublayer(thornLineLayer)
             self.dateTimeLayer.addSublayer(textLayer)
-            
             let gridLayer: CAShapeLayer = CAShapeLayer.lineLayer(
                 from: CGPoint(x: xCoord, y: 0),
                 to: CGPoint(x: xCoord, y: self.bounds.height - self.dateTimeHeight),
@@ -419,6 +412,8 @@ class CandleStickChartView: UIView {
         CGFloat(index - 1) * (self.candleStickWidth + self.candleStickSpace)
     }
     
+    // MARK: - @objc
+
     @objc func handlePinch(_ pinch: UIPinchGestureRecognizer) {
         let newCandleStickWidth = self.candleStickWidth * pinch.scale
         if (newCandleStickWidth > self.maxCandleStickWidth ||
