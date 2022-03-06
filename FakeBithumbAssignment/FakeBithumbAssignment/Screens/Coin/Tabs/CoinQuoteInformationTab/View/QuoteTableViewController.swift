@@ -55,11 +55,14 @@ extension QuoteTableViewController {
         let cell = tableView.dequeueReusableCell(withType: QuoteTableViewCell.self, for: indexPath)
         
         if let asks = self.asks, let bids = self.bids {
-            if indexPath.row >= 30 {
-                cell.setContentViewToBlueColor()
-                cell.update(quote: bids[indexPath.row - 30])
-            } else {
+            if indexPath.row < 30 {
+                guard let color = UIColor(named: "sellView") else { return UITableViewCell() }
+                cell.setContentViewColor(to: color)
                 cell.update(quote: asks[indexPath.row])
+            } else {
+                guard let color = UIColor(named: "buyView") else { return UITableViewCell() }
+                cell.setContentViewColor(to: color)
+                cell.update(quote: bids[indexPath.row - 30])
             }
         }
         return cell

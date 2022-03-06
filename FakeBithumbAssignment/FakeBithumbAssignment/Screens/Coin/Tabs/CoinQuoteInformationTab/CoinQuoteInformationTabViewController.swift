@@ -127,17 +127,17 @@ class CoinQuoteInformationTabViewController: BaseViewController {
             orderCurrency: [Coin.BTC],
             paymentCurrency: .krw)
         { response in
-            dump(response)
             self.updateOrderbookData(coin: Coin.BTC, data: response)
+            self.patchOrderbookData()
         }
     }
     
     private func patchOrderbookData() {
-        self.quoteTableViewController.setQuoteData(asks: asks.reversed(),
+        self.quoteTableViewController.setQuoteData(asks: asks,
                                                    bids: bids)
         self.quoteTableViewController.tableView.reloadData()
         
-        self.sellGraphTableViewController.setQuoteData(asks: asks.reversed())
+        self.sellGraphTableViewController.setQuoteData(asks: asks)
         self.sellGraphTableViewController.tableView.reloadData()
         
         self.buyGraphTableViewController.setQuoteData(bids: bids)
@@ -145,6 +145,28 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     }
     
     private func updateOrderbookData(coin: Coin, data: BTSocketAPIResponse.OrderBookResponse) {
-        
+        for content in data.content.list {
+            let quote = Quote(price: content.price,
+                              quantity: content.quantity)
+            switch content.orderType {
+            case .ask:
+                self.asks.append(quote)
+                self.sortQuoteList(type: .ask)
+            case .bid:
+                self.bids.append(quote)
+                self.sortQuoteList(type: .bid)
+            }
+        }
+    }
+    
+    private func sortQuoteList(type: BTSocketAPIResponse.OrderBookResponse.Content.OrderBook.OrderType) {
+        switch type {
+        case .ask:
+            self.asks = asks.sorted(by: {$0.price > $1.price})
+            self.asks.remove(at: 0)
+        case .bid:
+            self.bids = bids.sorted(by: {$0.price > $1.price})
+            self.bids.remove(at: 30)
+        }
     }
 }

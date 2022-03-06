@@ -73,7 +73,7 @@ class QuoteTableViewCell: BaseTableViewCell {
         self.fluctateRateLabel.text = quote.quantity
     }
     
-    func setContentViewToBlueColor() {
-        self.contentView.backgroundColor = UIColor(named: "buyView")
+    func setContentViewColor(to color: UIColor) {
+        self.contentView.backgroundColor = color
     }
 }

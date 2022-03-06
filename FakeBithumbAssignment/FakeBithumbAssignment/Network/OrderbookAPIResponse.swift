@@ -24,5 +24,10 @@ struct OrderbookAPIResponse: Codable {
 
 struct Quote: Codable {
     let price, quantity: String
-}
+    
+    init(price: Double, quantity: Double) {
+        self.price = "\(price)"
+        self.quantity = "\(quantity)"
+    }
+ }
 
