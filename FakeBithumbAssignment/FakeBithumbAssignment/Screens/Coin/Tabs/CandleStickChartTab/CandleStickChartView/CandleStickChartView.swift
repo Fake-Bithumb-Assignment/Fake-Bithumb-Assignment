@@ -200,7 +200,7 @@ extension CandleStickChartView {
     @objc func handleTap(_ tap: UITapGestureRecognizer) {
         if self.isFocusMode {
             self.scrollView.isScrollEnabled = true
-            self.removeFocus()
+            self.removeFocus(with: nil)
         } else {
             self.scrollView.isScrollEnabled = false
             self.drawFocus(on: tap.location(in: self))
@@ -445,22 +445,42 @@ extension CandleStickChartView {
 // MARK: - drawing focus
 
 extension CandleStickChartView {
-    /// 선택 정보창의 레이어들을 모두 지워주는 메소드.
-    private func removeFocus() {
-        self.layers.focusInfoTextLayer.sublayers?.forEach{ sublayer in
-            sublayer.removeFromSuperlayer()
+    /// 현재 탭한 지점이 캔들스틱 구간 안에 속했는지 판단해주는 메소드.
+    private func isCandlestickInclude(point: CGPoint) -> Bool {
+        return self.getSelectedCandleStick(on: point) != nil
+    }
+    /// 현재 탭한 지점이 가르키는 캔들스틱을 반환해주는 메소드.
+    private func getSelectedCandleStick(on point: CGPoint) -> CandleStick? {
+        let xCoordInDataLayer: CGFloat = self.scrollView.contentOffset.x + point.x
+        guard let index = self.drawingTargetIndex.filter({ index in
+            return self.getXCoord(indexOf: index) - (self.setting.size.candleStickWidth / 2.0) <=
+            xCoordInDataLayer &&
+            xCoordInDataLayer <=
+            self.getXCoord(indexOf: index) + (self.setting.size.candleStickWidth / 2.0)
+        }).first else {
+            return nil
         }
-        self.layers.focusInfoTextLayer.removeFromSuperlayer()
+        return self.candleSticks[index]
+    }
+    
+    /// 선택 정보창의 레이어들을 모두 지워주는 메소드.
+    private func removeFocus(with point: CGPoint?) {
         self.layers.focusHorizontalLayer.removeFromSuperlayer()
         self.layers.focusVerticalLayer.removeFromSuperlayer()
-        self.layers.focusInfoLayer.removeFromSuperlayer()
+        if point == nil || self.isCandlestickInclude(point: point!) {
+            self.layers.focusInfoTextLayer.sublayers?.forEach{ sublayer in
+                sublayer.removeFromSuperlayer()
+            }
+            self.layers.focusInfoLayer.removeFromSuperlayer()
+            self.layers.focusInfoTextLayer.removeFromSuperlayer()
+        }
     }
     
     /// 선택 정보창을 그려주는 메소드.
     private func drawFocus(on point: CGPoint) {
         CATransaction.begin()
         CATransaction.setAnimationDuration(0)
-        self.removeFocus()
+        self.removeFocus(with: point)
         self.drawFocusLine(on: point)
         self.drawFocusInfo(from: point)
         CATransaction.commit()
@@ -486,11 +506,7 @@ extension CandleStickChartView {
     
     /// 선택 정보창의 정보창을 그려주는 메소드.
     private func drawFocusInfo(from point: CGPoint) {
-        let xCoordInDataLayer: CGFloat = self.scrollView.contentOffset.x + point.x
-        guard let selectedIndex = self.drawingTargetIndex.filter({ index in
-            return self.getXCoord(indexOf: index) - self.setting.size.candleStickWidth / 2 <= xCoordInDataLayer &&
-            xCoordInDataLayer <= self.getXCoord(indexOf: index) + self.setting.size.candleStickWidth / 2
-        }).first else {
+        guard let candleStick: CandleStick = self.getSelectedCandleStick(on: point) else {
             return
         }
         let infoFrame: CGRect = CGRect(
@@ -509,7 +525,6 @@ extension CandleStickChartView {
 
         let labelHeight: CGFloat = (self.setting.size.focusInfoSize.height - 2 * self.setting.size.focusInfoPadding.y) / 6
         let focusInfoInnerWidth: CGFloat = self.setting.size.focusInfoSize.width - 2 * self.setting.size.focusInfoPadding.x
-        let candleStick: CandleStick = self.candleSticks[selectedIndex]
         let _ = VerticalCenterCATextLayer().then {
             $0.string = self.setting.format.infoTimeFormatter.string(from: candleStick.date)
             $0.frame = CGRect(
