@@ -14,7 +14,7 @@ class CandleStickChartView: UIView {
     // MARK: - instance property
     
     /// 스크롤 뷰
-    private let scrollView: UIScrollView = UIScrollView().then {
+    private let scrollView: CandleStickScrollView = CandleStickScrollView().then {
         $0.backgroundColor = .clear
         $0.showsHorizontalScrollIndicator = false
     }
@@ -48,7 +48,7 @@ class CandleStickChartView: UIView {
     /// 오른쪽 값 영역의 너비
     private let valueWidth: CGFloat = 50.0
     /// 오른쪽 값 영역에 표시될 값의 개수
-    private let numbersOfValueInFrame: Int = 10
+    private let numbersOfValueInFrame: Int = 5
     /// 아래 날짜, 시간 영역의 높이
     private let dateTimeHeight: CGFloat = 40.0
     /// 한 화면에 나올 날짜, 시간 레이블의 개수
@@ -77,6 +77,9 @@ class CandleStickChartView: UIView {
             self.bounds.size.width / 3
         }
     }
+    private let defaultTimeFormatter = DateFormatter().then {
+        $0.dateFormat = "M/d HH:mm"
+    }
     
     /// 캔들스틱 값들
     private var candleSticks: [CandleStick] = []
@@ -95,29 +98,38 @@ class CandleStickChartView: UIView {
         self.candleSticks = candleSticks
         super.init(frame: .zero)
         self.scrollView.delegate = self
+        self.scrollView.touchEventDelegate = self
         self.setupLayers()
         self.setupPinchGesture()
+        self.setUpTapGesture()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.scrollView.delegate = self
+        self.scrollView.touchEventDelegate = self
         self.setupLayers()
         self.setupPinchGesture()
+        self.setUpTapGesture()
     }
     
     // MARK: - custom func
-    
-    private func setupPinchGesture() {
-        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
-        self.addGestureRecognizer(pinchGestureRecognizer)
-    }
     
     func updateCandleSticks(of candleSticks: [CandleStick]) {
         DispatchQueue.main.async {
             self.candleSticks = candleSticks
             self.setNeedsLayout()
         }
+    }
+    
+    private func setupPinchGesture() {
+        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
+        self.addGestureRecognizer(pinchGestureRecognizer)
+    }
+    
+    private func setUpTapGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        self.addGestureRecognizer(tapGestureRecognizer)
     }
     
     private func updateDrawingTargetIndex() {
@@ -300,9 +312,6 @@ class CandleStickChartView: UIView {
         let drawPerCandleStickCount: Int = Int(
             (self.scrollView.bounds.size.width / CGFloat(self.numbersOfDateTimeInFrame)) / (self.candleStickWidth + self.candleStickSpace)
         )
-        let timeFormatter = DateFormatter().then {
-            $0.dateFormat = "M/d HH:mm"
-        }
         self.drawingTargetIndex.forEach { index in
             guard ((self.candleSticks.count-1) - index) % drawPerCandleStickCount == 0 else {
                 return
@@ -328,7 +337,7 @@ class CandleStickChartView: UIView {
                 $0.contentsScale = UIScreen.main.scale
                 $0.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
                 $0.fontSize = self.defaultFontSize
-                $0.string = timeFormatter.string(from: date)
+                $0.string = self.defaultTimeFormatter.string(from: date)
             }
             self.dateTimeLayer.addSublayer(thornLineLayer)
             self.dateTimeLayer.addSublayer(textLayer)
@@ -415,6 +424,9 @@ class CandleStickChartView: UIView {
     // MARK: - @objc
 
     @objc func handlePinch(_ pinch: UIPinchGestureRecognizer) {
+        guard !self.isFocusMode else {
+            return
+        }
         let newCandleStickWidth = self.candleStickWidth * pinch.scale
         if (newCandleStickWidth > self.maxCandleStickWidth ||
             newCandleStickWidth < self.minCandleStickWidth) {
@@ -423,10 +435,210 @@ class CandleStickChartView: UIView {
         self.candleStickWidth *= pinch.scale
         self.candleStickSpace *= pinch.scale
         self.candleStickLineWidth *= pinch.scale
-        let newX = self.scrollView.contentOffset.x * pinch.scale
-        self.scrollView.contentOffset = CGPoint(x: newX, y: 0)
+        self.scrollView.contentOffset = CGPoint(
+            x: self.scrollView.contentOffset.x * pinch.scale,
+            y: 0
+        )
         setNeedsLayout()
         pinch.scale = 1
+    }
+    
+    @objc func handleTap(_ tap: UITapGestureRecognizer) {
+        if self.isFocusMode {
+            self.scrollView.isScrollEnabled = true
+            self.removeFocus()
+        } else {
+            self.scrollView.isScrollEnabled = false
+            self.drawFocus(on: tap.location(in: self))
+        }
+        self.isFocusMode = !self.isFocusMode
+    }
+    
+    private func removeFocus() {
+        self.focusInfoTextLayer.sublayers?.forEach{ sublayer in
+            sublayer.removeFromSuperlayer()
+        }
+        self.focusInfoTextLayer.removeFromSuperlayer()
+        self.focusHorizontalLayer.removeFromSuperlayer()
+        self.focusVerticalLayer.removeFromSuperlayer()
+        self.focusInfoLayer.removeFromSuperlayer()
+    }
+    
+    private func drawFocus(on point: CGPoint) {
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0)
+        self.removeFocus()
+        self.drawFocusLine(on: point)
+        self.drawFocusInfo(from: point)
+        CATransaction.commit()
+    }
+    
+    private func drawFocusLine(on point: CGPoint) {
+        self.focusHorizontalLayer = CAShapeLayer.lineLayer(
+            from: CGPoint(x: 0, y: point.y),
+            to: CGPoint(x: self.scrollView.bounds.width, y: point.y),
+            color: self.focusLineColor,
+            width: self.defaultLineWidth
+        )
+        self.focusVerticalLayer = CAShapeLayer.lineLayer(
+            from: CGPoint(x: point.x, y: 0),
+            to: CGPoint(x: point.x, y: self.dataLayer.bounds.height),
+            color: self.focusLineColor,
+            width: self.defaultLineWidth
+        )
+        self.layer.addSublayer(self.focusHorizontalLayer)
+        self.layer.addSublayer(self.focusVerticalLayer)
+    }
+    
+    private func drawFocusInfo(from point: CGPoint) {
+        let xCoordInDataLayer: CGFloat = self.scrollView.contentOffset.x + point.x
+        guard let selectedIndex = self.drawingTargetIndex.filter({ index in
+            return self.getXCoord(indexOf: index) - self.candleStickWidth / 2 <= xCoordInDataLayer &&
+            xCoordInDataLayer <= self.getXCoord(indexOf: index) + self.candleStickWidth / 2
+        }).first else {
+            return
+        }
+        let infoFrame: CGRect = CGRect(
+            x: point.x < self.scrollView.bounds.width / 2 ?
+            self.scrollView.bounds.width - self.focusInfoMargin.x - self.focusInfoSize.width :
+            self.focusInfoMargin.x,
+            y: point.x < self.scrollView.bounds.width / 2 ?
+            self.focusInfoMargin.y : self.focusInfoMargin.y,
+            width: self.focusInfoSize.width,
+            height: self.focusInfoSize.height
+        )
+        self.focusInfoLayer.frame = infoFrame
+        self.focusInfoTextLayer.frame = infoFrame
+        self.layer.addSublayer(self.focusInfoLayer)
+        self.layer.addSublayer(self.focusInfoTextLayer)
+
+        let labelHeight: CGFloat = (self.focusInfoSize.height - 2 * self.focusInfoPadding.y) / 6
+        let focusInfoInnerWidth: CGFloat = self.focusInfoSize.width - 2 * self.focusInfoPadding.x
+        let candleStick: CandleStick = self.candleSticks[selectedIndex]
+        let _ = VerticalCenterCATextLayer().then {
+            $0.string = self.infoTimeFormatter.string(from: candleStick.date)
+            $0.frame = CGRect(
+                x: self.focusInfoPadding.x,
+                y: self.focusInfoPadding.y,
+                width: focusInfoInnerWidth,
+                height: labelHeight
+            )
+            $0.foregroundColor = UIColor.white.cgColor
+            $0.backgroundColor = UIColor.clear.cgColor
+            $0.fontSize = self.defaultFontSize
+            self.focusInfoTextLayer.addSublayer($0)
+        }
+        func drawPriceLayer(row: Int, title: String, value: Double, defaultColor: CGColor) {
+            let _ = VerticalCenterCATextLayer().then {
+                $0.string = title
+                $0.frame = CGRect(
+                    x: self.focusInfoPadding.x,
+                    y: self.focusInfoPadding.y + labelHeight * CGFloat(row),
+                    width: focusInfoInnerWidth,
+                    height: labelHeight
+                )
+                $0.foregroundColor = defaultColor
+                $0.backgroundColor = UIColor.clear.cgColor
+                $0.fontSize = self.defaultFontSize
+                self.focusInfoTextLayer.addSublayer($0)
+            }
+            let _ = VerticalCenterCATextLayer().then {
+                $0.string = String(value)
+                $0.frame = CGRect(
+                    x: self.focusInfoPadding.x,
+                    y: self.focusInfoPadding.y + labelHeight * CGFloat(row),
+                    width: focusInfoInnerWidth,
+                    height: labelHeight
+                )
+                $0.foregroundColor = defaultColor
+                $0.backgroundColor = UIColor.clear.cgColor
+                $0.fontSize = self.defaultFontSize
+                $0.alignmentMode = .right
+                self.focusInfoTextLayer.addSublayer($0)
+            }
+        }
+        drawPriceLayer(row: 1, title: "시가", value: candleStick.openingPrice, defaultColor: UIColor.white.cgColor)
+        drawPriceLayer(row: 2, title: "고가", value: candleStick.highPrice, defaultColor: self.redColor)
+        drawPriceLayer(row: 3, title: "저가", value: candleStick.lowPrice, defaultColor: self.blueColor)
+        drawPriceLayer(row: 4, title: "종가", value: candleStick.tradePrice, defaultColor: UIColor.white.cgColor)
+        let _ = VerticalCenterCATextLayer().then {
+            $0.string = "거래량"
+            $0.frame = CGRect(
+                x: self.focusInfoPadding.x,
+                y: self.focusInfoPadding.y + labelHeight * 5.0,
+                width: focusInfoInnerWidth,
+                height: labelHeight
+            )
+            $0.foregroundColor = UIColor.white.cgColor
+            $0.backgroundColor = UIColor.clear.cgColor
+            $0.fontSize = self.defaultFontSize
+            self.focusInfoTextLayer.addSublayer($0)
+        }
+        let _ = VerticalCenterCATextLayer().then {
+            $0.string = String(candleStick.tradeVolume)
+            $0.frame = CGRect(
+                x: self.focusInfoPadding.x,
+                y: self.focusInfoPadding.y + labelHeight * 5.0,
+                width: focusInfoInnerWidth,
+                height: labelHeight
+            )
+            $0.foregroundColor = UIColor.white.cgColor
+            $0.backgroundColor = UIColor.clear.cgColor
+            $0.alignmentMode = .right
+            $0.fontSize = self.defaultFontSize
+            self.focusInfoTextLayer.addSublayer($0)
+        }
+    }
+    
+    /// 선택 선 색상
+    private let focusLineColor: CGColor = UIColor.black.cgColor
+    /// 선택 가로선 레이어
+    private var focusHorizontalLayer: CAShapeLayer = CAShapeLayer()
+    /// 선택 세로선 레이어
+    private var focusVerticalLayer: CAShapeLayer = CAShapeLayer()
+    /// 선택 정보창 레이어
+    private let focusInfoLayer: CALayer = CALayer().then {
+        $0.backgroundColor = UIColor.black.cgColor
+        $0.opacity = 0.8
+    }
+    /// 선택 정보창 텍스트 레이어
+    private let focusInfoTextLayer: CALayer = CALayer()
+    /// 선택 모드인지 아닌지
+    private var isFocusMode: Bool = false
+    /// 선택 정보창 사이즈
+    private let focusInfoSize: CGSize = CGSize(width: 120.0, height: 120.0)
+    /// 선택 정보창 바깥쪽 여백
+    private let focusInfoMargin: CGPoint = CGPoint(x: 10, y: 10)
+    /// 선택 정보착 안쪽 여백
+    private let focusInfoPadding: CGPoint = CGPoint(x: 4, y: 4)
+    /// 선택 정보창 날짜 포맷
+    private let infoTimeFormatter = DateFormatter().then {
+        $0.dateFormat = "yyyy/MM/dd HH:mm:ss"
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard isFocusMode else {
+            return
+        }
+        touches.forEach { touch in
+            guard CGRect(
+                x: 0,
+                y: 0,
+                width: self.scrollView.bounds.width,
+                height: self.dataLayer.bounds.height
+            ).contains(touch.location(in: self)) else {
+                return
+            }
+            self.drawFocus(on: touch.location(in: self))
+        }
+    }
+}
+
+class CandleStickScrollView: UIScrollView {
+    var touchEventDelegate: UIResponder? = nil
+        
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.touchEventDelegate?.touchesMoved(touches, with: event)
     }
 }
 
