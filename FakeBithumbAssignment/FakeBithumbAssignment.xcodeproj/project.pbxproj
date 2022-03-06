@@ -82,7 +82,7 @@
 		FAC7F95B27C65A60001E11DA /* BTSocketAPIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F95A27C65A60001E11DA /* BTSocketAPIResponse.swift */; };
 		FAC7F95D27C65AC0001E11DA /* BTSocketAPIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F95C27C65AC0001E11DA /* BTSocketAPIRequest.swift */; };
 		FAC7F96127C768B5001E11DA /* JSONDecoder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F96027C768B5001E11DA /* JSONDecoder+Extension.swift */; };
-		FADFB52F27D532120043AF0A /* CandleStickChartViewLayers.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52E27D532120043AF0A /* CandleStickChartViewLayers.swift */; };
+		FADFB52F27D532120043AF0A /* CandleStickChartViewLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52E27D532120043AF0A /* CandleStickChartViewLayer.swift */; };
 		FADFB53127D532280043AF0A /* CandleStickChartViewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB53027D532280043AF0A /* CandleStickChartViewSetting.swift */; };
 		FADFB53327D532450043AF0A /* VerticalCenterCATextLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB53227D532450043AF0A /* VerticalCenterCATextLayer.swift */; };
 		FADFB53527D532820043AF0A /* CandleStick.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB53427D532820043AF0A /* CandleStick.swift */; };
@@ -183,7 +183,7 @@
 		FAC7F95A27C65A60001E11DA /* BTSocketAPIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BTSocketAPIResponse.swift; path = FakeBithumbAssignment/Network/Model/BTSocketAPIResponse.swift; sourceTree = SOURCE_ROOT; };
 		FAC7F95C27C65AC0001E11DA /* BTSocketAPIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BTSocketAPIRequest.swift; path = FakeBithumbAssignment/Network/Model/BTSocketAPIRequest.swift; sourceTree = SOURCE_ROOT; };
 		FAC7F96027C768B5001E11DA /* JSONDecoder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+Extension.swift"; sourceTree = "<group>"; };
-		FADFB52E27D532120043AF0A /* CandleStickChartViewLayers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChartViewLayers.swift; sourceTree = "<group>"; };
+		FADFB52E27D532120043AF0A /* CandleStickChartViewLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChartViewLayer.swift; sourceTree = "<group>"; };
 		FADFB53027D532280043AF0A /* CandleStickChartViewSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChartViewSetting.swift; sourceTree = "<group>"; };
 		FADFB53227D532450043AF0A /* VerticalCenterCATextLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalCenterCATextLayer.swift; sourceTree = "<group>"; };
 		FADFB53427D532820043AF0A /* CandleStick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStick.swift; sourceTree = "<group>"; };
@@ -575,7 +575,7 @@
 			isa = PBXGroup;
 			children = (
 				FA4C65ED27D2958A00786469 /* CandleStickChartView.swift */,
-				FADFB52E27D532120043AF0A /* CandleStickChartViewLayers.swift */,
+				FADFB52E27D532120043AF0A /* CandleStickChartViewLayer.swift */,
 				FADFB53027D532280043AF0A /* CandleStickChartViewSetting.swift */,
 				FADFB53227D532450043AF0A /* VerticalCenterCATextLayer.swift */,
 				FADFB53427D532820043AF0A /* CandleStick.swift */,
@@ -804,7 +804,7 @@
 				FA041BBC27C7FA5F0053C996 /* BTSocketAPIService.swift in Sources */,
 				158731A327CB75790018E67B /* String+Extension.swift in Sources */,
 				158731A127CB715A0018E67B /* CoinHeaderModel.swift in Sources */,
-				FADFB52F27D532120043AF0A /* CandleStickChartViewLayers.swift in Sources */,
+				FADFB52F27D532120043AF0A /* CandleStickChartViewLayer.swift in Sources */,
 				1504F6D427C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift in Sources */,
 				15ACAE9E27CA061100AB7EDC /* CoinHeaderView.swift in Sources */,
 				FA4C65F127D2958A00786469 /* IntervalButton.swift in Sources */,

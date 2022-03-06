@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CandleStickChartViewLayers {
+class CandleStickChartViewLayer {
     /// 스크롤 뷰를 가득 채울 레이어
     let mainLayer: CALayer = CALayer()
     /// dateTimeLayer를 제외하고 실제 차트가 그려질 레이어 (스크롤에 포함)

@@ -19,7 +19,7 @@ class CandleStickChartView: UIView {
         $0.showsHorizontalScrollIndicator = false
     }
     /// 레이어들
-    private let layers: CandleStickChartViewLayers = CandleStickChartViewLayers()
+    private let layers: CandleStickChartViewLayer = CandleStickChartViewLayer()
     /// 설정값
     private let setting: CandleStickChartViewSetting = CandleStickChartViewSetting()
     
