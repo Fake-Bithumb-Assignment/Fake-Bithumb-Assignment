@@ -9,6 +9,32 @@ import UIKit
 
 import Then
 
+class CandleStickChartViewLayers {
+    /// 스크롤 뷰를 가득 채울 레이어
+    let mainLayer: CALayer = CALayer()
+    /// dateTimeLayer를 제외하고 실제 차트가 그려질 레이어 (스크롤에 포함)
+    let dataLayer: CALayer = CALayer()
+    /// 아래 날짜, 시간 영역을 그려 줄 레이어 (스크롤에 포함)
+    let dateTimeLayer: CALayer = CALayer()
+    /// 오른쪽 값 영역을 그려줄 레이어
+    let valueLayer: CALayer = CALayer()
+    /// 가로줄을 그려줄 레이어
+    let horizontalGridLayer: CALayer = CALayer()
+    /// 세로줄을 그려줄 레이어 (스크롤에 포함)
+    let verticalGridLayer: CALayer = CALayer()
+    /// 선택 가로선 레이어
+    var focusHorizontalLayer: CAShapeLayer = CAShapeLayer()
+    /// 선택 세로선 레이어
+    var focusVerticalLayer: CAShapeLayer = CAShapeLayer()
+    /// 선택 정보창 레이어
+    let focusInfoLayer: CALayer = CALayer().then {
+        $0.backgroundColor = UIColor.black.cgColor
+        $0.opacity = 0.8
+    }
+    /// 선택 정보창 텍스트 레이어
+    let focusInfoTextLayer: CALayer = CALayer()
+}
+
 class CandleStickChartView: UIView {
     
     // MARK: - instance property
@@ -18,27 +44,8 @@ class CandleStickChartView: UIView {
         $0.backgroundColor = .clear
         $0.showsHorizontalScrollIndicator = false
     }
-    /// 스크롤 뷰를 가득 채울 레이어
-    private let mainLayer: CALayer = CALayer()
-    /// dateTimeLayer를 제외하고 실제 차트가 그려질 레이어 (스크롤에 포함)
-    private let dataLayer: CALayer = CALayer()
-    /// 아래 날짜, 시간 영역을 그려 줄 레이어 (스크롤에 포함)
-    private let dateTimeLayer: CALayer = CALayer()
-    /// 오른쪽 값 영역을 그려줄 레이어
-    private let valueLayer: CALayer = CALayer()
-    /// 가로줄을 그려줄 레이어
-    private let horizontalGridLayer: CALayer = CALayer()
-    /// 세로줄을 그려줄 레이어 (스크롤에 포함)
-    private let verticalGridLayer: CALayer = CALayer()
-    /// 선택 가로선 레이어
-    private var focusHorizontalLayer: CAShapeLayer = CAShapeLayer()
-    /// 선택 세로선 레이어
-    private var focusVerticalLayer: CAShapeLayer = CAShapeLayer()
-    /// 선택 정보창 레이어
-    private let focusInfoLayer: CALayer = CALayer().then {
-        $0.backgroundColor = UIColor.black.cgColor
-        $0.opacity = 0.8
-    }
+    /// 레이어들
+    private let layers: CandleStickChartViewLayers = CandleStickChartViewLayers()
     
     /// 양봉 색상
     private let redColor: CGColor = CGColor(red: 194/255, green: 72/255, blue: 79/255, alpha: 1.0)
@@ -88,8 +95,6 @@ class CandleStickChartView: UIView {
     }
     /// 선택 선 색상
     private let focusLineColor: CGColor = UIColor.black.cgColor
-    /// 선택 정보창 텍스트 레이어
-    private let focusInfoTextLayer: CALayer = CALayer()
     /// 선택 정보창 사이즈
     private let focusInfoSize: CGSize = CGSize(width: 120.0, height: 120.0)
     /// 선택 정보창 바깥쪽 여백
@@ -188,13 +193,13 @@ class CandleStickChartView: UIView {
     
     private func setupLayers() {
         // 스크롤에 포함될 전체 영역인 mainLayer
-        self.mainLayer.addSublayer(self.verticalGridLayer)
-        self.mainLayer.addSublayer(self.dataLayer)
-        self.mainLayer.addSublayer(self.dateTimeLayer)
-        self.scrollView.layer.addSublayer(self.mainLayer)
+        self.layers.mainLayer.addSublayer(self.layers.verticalGridLayer)
+        self.layers.mainLayer.addSublayer(self.layers.dataLayer)
+        self.layers.mainLayer.addSublayer(self.layers.dateTimeLayer)
+        self.scrollView.layer.addSublayer(self.layers.mainLayer)
         // 가로줄, 값은 스크롤 되지 않음
-        self.layer.addSublayer(self.horizontalGridLayer)
-        self.layer.addSublayer(self.valueLayer)
+        self.layer.addSublayer(self.layers.horizontalGridLayer)
+        self.layer.addSublayer(self.layers.valueLayer)
         // subView로 추가
         self.addSubview(self.scrollView)
         self.backgroundColor = .clear
@@ -247,37 +252,37 @@ class CandleStickChartView: UIView {
             width: chartContentWidth,
             height: self.bounds.size.height
         )
-        self.mainLayer.frame = CGRect(
+        self.layers.mainLayer.frame = CGRect(
             x: 0,
             y: 0,
             width: chartContentWidth,
             height: self.bounds.size.height
         )
-        self.dataLayer.frame = CGRect(
+        self.layers.dataLayer.frame = CGRect(
             x: 0,
             y: 0,
             width: chartContentWidth,
             height: chartContentHeight
         )
-        self.dateTimeLayer.frame = CGRect(
+        self.layers.dateTimeLayer.frame = CGRect(
             x: 0,
             y: chartContentHeight,
             width: chartContentWidth,
             height: self.dateTimeHeight
         )
-        self.valueLayer.frame = CGRect(
+        self.layers.valueLayer.frame = CGRect(
             x: self.bounds.size.width - self.valueWidth,
             y: 0,
             width: self.valueWidth,
             height: chartContentHeight
         )
-        self.horizontalGridLayer.frame = CGRect(
+        self.layers.horizontalGridLayer.frame = CGRect(
             x: 0,
             y: 0,
             width: self.bounds.size.width - self.valueWidth,
             height: chartContentHeight
         )
-        self.verticalGridLayer.frame = CGRect(
+        self.layers.verticalGridLayer.frame = CGRect(
             x: 0,
             y: 0,
             width: chartContentWidth - self.valueWidth,
@@ -286,11 +291,11 @@ class CandleStickChartView: UIView {
     }
     
     private func cleanLayers() {
-        self.dataLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        self.dateTimeLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        self.valueLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        self.horizontalGridLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        self.verticalGridLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        self.layers.dataLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        self.layers.dateTimeLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        self.layers.valueLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        self.layers.horizontalGridLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        self.layers.verticalGridLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
     }
     
     private func drawChart() {
@@ -329,8 +334,8 @@ class CandleStickChartView: UIView {
                 )
                 $0.backgroundColor = color
             }
-            self.dataLayer.addSublayer(lineLayer)
-            self.dataLayer.addSublayer(rectLayer)
+            self.layers.dataLayer.addSublayer(lineLayer)
+            self.layers.dataLayer.addSublayer(rectLayer)
         }
     }
     
@@ -366,22 +371,22 @@ class CandleStickChartView: UIView {
                 $0.fontSize = self.defaultFontSize
                 $0.string = self.defaultTimeFormatter.string(from: date)
             }
-            self.dateTimeLayer.addSublayer(thornLineLayer)
-            self.dateTimeLayer.addSublayer(textLayer)
+            self.layers.dateTimeLayer.addSublayer(thornLineLayer)
+            self.layers.dateTimeLayer.addSublayer(textLayer)
             let gridLayer: CAShapeLayer = CAShapeLayer.lineLayer(
                 from: CGPoint(x: xCoord, y: 0),
                 to: CGPoint(x: xCoord, y: self.bounds.height - self.dateTimeHeight),
                 color: self.gridColor,
                 width: gridWidth
             )
-            self.verticalGridLayer.addSublayer(gridLayer)
+            self.layers.verticalGridLayer.addSublayer(gridLayer)
         }
     }
     
     private func drawDivivisionLine() {
         let horizontalLine: CAShapeLayer = CAShapeLayer.lineLayer(
-            from: CGPoint(x: -(2 * self.mainLayer.bounds.size.width), y: 0),
-            to: CGPoint(x: (2 * self.mainLayer.bounds.size.width), y: 0),
+            from: CGPoint(x: -(2 * self.layers.mainLayer.bounds.size.width), y: 0),
+            to: CGPoint(x: (2 * self.layers.mainLayer.bounds.size.width), y: 0),
             color: self.defaultColor,
             width: self.defaultLineWidth
         )
@@ -391,8 +396,8 @@ class CandleStickChartView: UIView {
             color: self.defaultColor,
             width: self.defaultLineWidth
         )
-        self.dateTimeLayer.addSublayer(horizontalLine)
-        self.valueLayer.addSublayer(verticalLine)
+        self.layers.dateTimeLayer.addSublayer(horizontalLine)
+        self.layers.valueLayer.addSublayer(verticalLine)
     }
     
     private func drawValue() {
@@ -423,16 +428,16 @@ class CandleStickChartView: UIView {
                 $0.fontSize = self.defaultFontSize
                 $0.string = String(Int(value))
             }
-            self.valueLayer.addSublayer(thornLineLayer)
-            self.valueLayer.addSublayer(textLayer)
+            self.layers.valueLayer.addSublayer(thornLineLayer)
+            self.layers.valueLayer.addSublayer(textLayer)
             
             let gridLayer: CAShapeLayer = CAShapeLayer.lineLayer(
                 from: CGPoint(x: 0, y: yCoord),
-                to: CGPoint(x: self.verticalGridLayer.bounds.width, y: yCoord),
+                to: CGPoint(x: self.layers.verticalGridLayer.bounds.width, y: yCoord),
                 color: self.gridColor,
                 width: gridWidth
             )
-            self.horizontalGridLayer.addSublayer(gridLayer)
+            self.layers.horizontalGridLayer.addSublayer(gridLayer)
         }
     }
     
@@ -449,13 +454,13 @@ class CandleStickChartView: UIView {
     }
     
     private func removeFocus() {
-        self.focusInfoTextLayer.sublayers?.forEach{ sublayer in
+        self.layers.focusInfoTextLayer.sublayers?.forEach{ sublayer in
             sublayer.removeFromSuperlayer()
         }
-        self.focusInfoTextLayer.removeFromSuperlayer()
-        self.focusHorizontalLayer.removeFromSuperlayer()
-        self.focusVerticalLayer.removeFromSuperlayer()
-        self.focusInfoLayer.removeFromSuperlayer()
+        self.layers.focusInfoTextLayer.removeFromSuperlayer()
+        self.layers.focusHorizontalLayer.removeFromSuperlayer()
+        self.layers.focusVerticalLayer.removeFromSuperlayer()
+        self.layers.focusInfoLayer.removeFromSuperlayer()
     }
     
     private func drawFocus(on point: CGPoint) {
@@ -468,20 +473,20 @@ class CandleStickChartView: UIView {
     }
     
     private func drawFocusLine(on point: CGPoint) {
-        self.focusHorizontalLayer = CAShapeLayer.lineLayer(
+        self.layers.focusHorizontalLayer = CAShapeLayer.lineLayer(
             from: CGPoint(x: 0, y: point.y),
             to: CGPoint(x: self.scrollView.bounds.width, y: point.y),
             color: self.focusLineColor,
             width: self.defaultLineWidth
         )
-        self.focusVerticalLayer = CAShapeLayer.lineLayer(
+        self.layers.focusVerticalLayer = CAShapeLayer.lineLayer(
             from: CGPoint(x: point.x, y: 0),
-            to: CGPoint(x: point.x, y: self.dataLayer.bounds.height),
+            to: CGPoint(x: point.x, y: self.layers.dataLayer.bounds.height),
             color: self.focusLineColor,
             width: self.defaultLineWidth
         )
-        self.layer.addSublayer(self.focusHorizontalLayer)
-        self.layer.addSublayer(self.focusVerticalLayer)
+        self.layer.addSublayer(self.layers.focusHorizontalLayer)
+        self.layer.addSublayer(self.layers.focusVerticalLayer)
     }
     
     private func drawFocusInfo(from point: CGPoint) {
@@ -501,10 +506,10 @@ class CandleStickChartView: UIView {
             width: self.focusInfoSize.width,
             height: self.focusInfoSize.height
         )
-        self.focusInfoLayer.frame = infoFrame
-        self.focusInfoTextLayer.frame = infoFrame
-        self.layer.addSublayer(self.focusInfoLayer)
-        self.layer.addSublayer(self.focusInfoTextLayer)
+        self.layers.focusInfoLayer.frame = infoFrame
+        self.layers.focusInfoTextLayer.frame = infoFrame
+        self.layer.addSublayer(self.layers.focusInfoLayer)
+        self.layer.addSublayer(self.layers.focusInfoTextLayer)
 
         let labelHeight: CGFloat = (self.focusInfoSize.height - 2 * self.focusInfoPadding.y) / 6
         let focusInfoInnerWidth: CGFloat = self.focusInfoSize.width - 2 * self.focusInfoPadding.x
@@ -520,7 +525,7 @@ class CandleStickChartView: UIView {
             $0.foregroundColor = UIColor.white.cgColor
             $0.backgroundColor = UIColor.clear.cgColor
             $0.fontSize = self.defaultFontSize
-            self.focusInfoTextLayer.addSublayer($0)
+            self.layers.focusInfoTextLayer.addSublayer($0)
         }
         func drawPriceLayer(row: Int, title: String, value: Double, defaultColor: CGColor) {
             let _ = VerticalCenterCATextLayer().then {
@@ -534,7 +539,7 @@ class CandleStickChartView: UIView {
                 $0.foregroundColor = defaultColor
                 $0.backgroundColor = UIColor.clear.cgColor
                 $0.fontSize = self.defaultFontSize
-                self.focusInfoTextLayer.addSublayer($0)
+                self.layers.focusInfoTextLayer.addSublayer($0)
             }
             let _ = VerticalCenterCATextLayer().then {
                 $0.string = String(value)
@@ -548,7 +553,7 @@ class CandleStickChartView: UIView {
                 $0.backgroundColor = UIColor.clear.cgColor
                 $0.fontSize = self.defaultFontSize
                 $0.alignmentMode = .right
-                self.focusInfoTextLayer.addSublayer($0)
+                self.layers.focusInfoTextLayer.addSublayer($0)
             }
         }
         drawPriceLayer(row: 1, title: "시가", value: candleStick.openingPrice, defaultColor: UIColor.white.cgColor)
@@ -566,7 +571,7 @@ class CandleStickChartView: UIView {
             $0.foregroundColor = UIColor.white.cgColor
             $0.backgroundColor = UIColor.clear.cgColor
             $0.fontSize = self.defaultFontSize
-            self.focusInfoTextLayer.addSublayer($0)
+            self.layers.focusInfoTextLayer.addSublayer($0)
         }
         let _ = VerticalCenterCATextLayer().then {
             $0.string = String(candleStick.tradeVolume)
@@ -580,7 +585,7 @@ class CandleStickChartView: UIView {
             $0.backgroundColor = UIColor.clear.cgColor
             $0.alignmentMode = .right
             $0.fontSize = self.defaultFontSize
-            self.focusInfoTextLayer.addSublayer($0)
+            self.layers.focusInfoTextLayer.addSublayer($0)
         }
     }
     
@@ -593,7 +598,7 @@ class CandleStickChartView: UIView {
                 x: 0,
                 y: 0,
                 width: self.scrollView.bounds.width,
-                height: self.dataLayer.bounds.height
+                height: self.layers.dataLayer.bounds.height
             ).contains(touch.location(in: self)) else {
                 return
             }
