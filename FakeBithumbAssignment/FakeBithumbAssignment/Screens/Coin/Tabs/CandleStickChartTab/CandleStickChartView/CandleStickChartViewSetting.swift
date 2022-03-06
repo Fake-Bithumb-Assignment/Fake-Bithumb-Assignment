@@ -57,9 +57,9 @@ class CandleStickChartViewSetting {
         /// 축소 후 최소 캔들스틱 너비
         var minCandleStickWidth: CGFloat = 2.0
         /// 캔들스틱 얇은 선 너비
-        var candleStickLineWidth: CGFloat = 1.5
+        var candleStickLineWidth: CGFloat = 1.0
         /// 캔들스틱 간격
-        var candleStickSpace: CGFloat = 2.0
+        var candleStickSpace: CGFloat = 1.0
         /// 캔들스틱 차트 영역 위, 빈 공간 비율
         let verticalFrontRearSpaceRate: CGFloat = 0.1
         /// 그래프 맨앞, 맨 뒤의 빈 공간
