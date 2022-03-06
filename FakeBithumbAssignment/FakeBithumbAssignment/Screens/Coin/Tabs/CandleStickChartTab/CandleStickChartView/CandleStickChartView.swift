@@ -279,7 +279,7 @@ extension CandleStickChartView {
         self.layers.verticalGridLayer.frame = CGRect(
             x: 0,
             y: 0,
-            width: chartContentWidth - self.setting.size.valueWidth,
+            width: self.scrollView.bounds.width,
             height: chartContentHeight
         )
     }
