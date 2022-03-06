@@ -161,25 +161,78 @@ class CandleStickChartView: UIView {
         self.setUpTapGesture()
     }
     
+    // MARK: - Life Cycle func
+    
+    override func layoutSubviews() {
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0)
+        self.cleanLayers()
+        self.setFrame()
+        self.drawDivivisionLine()
+        guard !self.candleSticks.isEmpty else {
+            return
+        }
+        self.moveScrollIfInitialState()
+        self.updateDrawingTargetIndex()
+        self.updateMaxMinPrice()
+        self.drawDateTime()
+        self.drawValue()
+        self.drawChart()
+        CATransaction.commit()
+    }
+
     // MARK: - custom func
     
+    private func setupLayers() {
+        // 스크롤에 포함될 전체 영역인 mainLayer
+        self.layers.mainLayer.addSublayer(self.layers.verticalGridLayer)
+        self.layers.mainLayer.addSublayer(self.layers.dataLayer)
+        self.layers.mainLayer.addSublayer(self.layers.dateTimeLayer)
+        self.scrollView.layer.addSublayer(self.layers.mainLayer)
+        // 가로줄, 값은 스크롤 되지 않음
+        self.layer.addSublayer(self.layers.horizontalGridLayer)
+        self.layer.addSublayer(self.layers.valueLayer)
+        // subView로 추가
+        self.addSubview(self.scrollView)
+        self.backgroundColor = .clear
+    }
+    
+    private func moveScrollIfInitialState() {
+        guard isInitialState && !self.candleSticks.isEmpty else {
+            return
+        }
+        self.scrollView.contentOffset = CGPoint(
+            x: self.scrollView.contentSize.width -
+            self.scrollView.bounds.width / self.setting.size.horizontalFrontRearSpaceRatio -
+            self.scrollView.bounds.width / 2.0,
+            y: 0
+        )
+        self.isInitialState = false
+    }
+    
+    private func getYCoord(of current: Double) -> CGFloat? {
+        let chartContentHeight: CGFloat = self.bounds.size.height - self.setting.size.dateTimeHeight
+        return ((self.maxPrice - current) / (self.maxPrice - self.minPrice)) *
+        (chartContentHeight * (1 - self.setting.size.verticalFrontRearSpaceRate)) +
+        (chartContentHeight * self.setting.size.verticalFrontRearSpaceRate) / 2
+    }
+    
+    private func getXCoord(indexOf index: Int) -> CGFloat {
+        return (self.scrollView.bounds.width / self.setting.size.horizontalFrontRearSpaceRatio + self.setting.size.candleStickWidth / 2.0) +
+        CGFloat(index - 1) * (self.setting.size.candleStickWidth + self.setting.size.candleStickSpace)
+    }
+}
+
+// MARK: - update candlestick
+
+extension CandleStickChartView {
     func updateCandleSticks(of candleSticks: [CandleStick]) {
         DispatchQueue.main.async {
             self.candleSticks = candleSticks
             self.setNeedsLayout()
         }
     }
-    
-    private func setupPinchGesture() {
-        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
-        self.addGestureRecognizer(pinchGestureRecognizer)
-    }
-    
-    private func setUpTapGesture() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        self.addGestureRecognizer(tapGestureRecognizer)
-    }
-    
+
     private func updateDrawingTargetIndex() {
         let contentOffset: CGPoint = self.scrollView.contentOffset
         let currentXRange = (contentOffset.x...(contentOffset.x + self.scrollView.bounds.width))
@@ -206,52 +259,87 @@ class CandleStickChartView: UIView {
         self.maxPrice = self.candleSticks[maxIndex].highPrice
         self.minPrice = self.candleSticks[minIndex].lowPrice
     }
-    
-    private func setupLayers() {
-        // 스크롤에 포함될 전체 영역인 mainLayer
-        self.layers.mainLayer.addSublayer(self.layers.verticalGridLayer)
-        self.layers.mainLayer.addSublayer(self.layers.dataLayer)
-        self.layers.mainLayer.addSublayer(self.layers.dateTimeLayer)
-        self.scrollView.layer.addSublayer(self.layers.mainLayer)
-        // 가로줄, 값은 스크롤 되지 않음
-        self.layer.addSublayer(self.layers.horizontalGridLayer)
-        self.layer.addSublayer(self.layers.valueLayer)
-        // subView로 추가
-        self.addSubview(self.scrollView)
-        self.backgroundColor = .clear
+}
+
+// MARK: - gesture
+
+extension CandleStickChartView {
+    private func setupPinchGesture() {
+        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
+        self.addGestureRecognizer(pinchGestureRecognizer)
     }
     
-    override func layoutSubviews() {
-        CATransaction.begin()
-        CATransaction.setAnimationDuration(0)
-        self.cleanLayers()
-        self.setFrame()
-        self.drawDivivisionLine()
-        guard !self.candleSticks.isEmpty else {
-            return
-        }
-        self.moveScrollIfInitialState()
-        self.updateDrawingTargetIndex()
-        self.updateMaxMinPrice()
-        self.drawDateTime()
-        self.drawValue()
-        self.drawChart()
-        CATransaction.commit()
+    private func setUpTapGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        self.addGestureRecognizer(tapGestureRecognizer)
     }
     
-    private func moveScrollIfInitialState() {
-        guard isInitialState && !self.candleSticks.isEmpty else {
+    @objc func handlePinch(_ pinch: UIPinchGestureRecognizer) {
+        guard !self.isFocusMode else {
             return
         }
+        let newCandleStickWidth = self.setting.size.candleStickWidth * pinch.scale
+        if (newCandleStickWidth > self.setting.size.maxCandleStickWidth ||
+            newCandleStickWidth < self.setting.size.minCandleStickWidth) {
+            return
+        }
+        self.setting.size.candleStickWidth *= pinch.scale
+        self.setting.size.candleStickSpace *= pinch.scale
+        self.setting.size.candleStickLineWidth *= pinch.scale
         self.scrollView.contentOffset = CGPoint(
-            x: self.scrollView.contentSize.width -
-            self.scrollView.bounds.width / self.setting.size.horizontalFrontRearSpaceRatio -
-            self.scrollView.bounds.width / 2.0,
+            x: self.scrollView.contentOffset.x * pinch.scale,
             y: 0
         )
-        self.isInitialState = false
+        setNeedsLayout()
+        pinch.scale = 1
     }
     
+    @objc func handleTap(_ tap: UITapGestureRecognizer) {
+        if self.isFocusMode {
+            self.scrollView.isScrollEnabled = true
+            self.removeFocus()
+        } else {
+            self.scrollView.isScrollEnabled = false
+            self.drawFocus(on: tap.location(in: self))
+        }
+        self.isFocusMode = !self.isFocusMode
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard isFocusMode else {
+            return
+        }
+        touches.forEach { touch in
+            guard CGRect(
+                x: 0,
+                y: 0,
+                width: self.scrollView.bounds.width,
+                height: self.layers.dataLayer.bounds.height
+            ).contains(touch.location(in: self)) else {
+                return
+            }
+            self.drawFocus(on: touch.location(in: self))
+        }
+    }
+}
+
+class CandleStickScrollView: UIScrollView {
+    var touchEventDelegate: UIResponder? = nil
+        
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.touchEventDelegate?.touchesMoved(touches, with: event)
+    }
+}
+
+extension CandleStickChartView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        setNeedsLayout()
+    }
+}
+
+// MARK: - drawing
+
+extension CandleStickChartView {
     private func setFrame() {
         let chartContentWidth: CGFloat = 2 * self.scrollView.bounds.width / self.setting.size.horizontalFrontRearSpaceRatio
         + CGFloat(self.candleSticks.count) * self.setting.size.candleStickWidth
@@ -457,19 +545,11 @@ class CandleStickChartView: UIView {
             self.layers.horizontalGridLayer.addSublayer(gridLayer)
         }
     }
-    
-    private func getYCoord(of current: Double) -> CGFloat? {
-        let chartContentHeight: CGFloat = self.bounds.size.height - self.setting.size.dateTimeHeight
-        return ((self.maxPrice - current) / (self.maxPrice - self.minPrice)) *
-        (chartContentHeight * (1 - self.setting.size.verticalFrontRearSpaceRate)) +
-        (chartContentHeight * self.setting.size.verticalFrontRearSpaceRate) / 2
-    }
-    
-    private func getXCoord(indexOf index: Int) -> CGFloat {
-        return (self.scrollView.bounds.width / self.setting.size.horizontalFrontRearSpaceRatio + self.setting.size.candleStickWidth / 2.0) +
-        CGFloat(index - 1) * (self.setting.size.candleStickWidth + self.setting.size.candleStickSpace)
-    }
-    
+}
+
+// MARK: - drawing focus
+
+extension CandleStickChartView {
     private func removeFocus() {
         self.layers.focusInfoTextLayer.sublayers?.forEach{ sublayer in
             sublayer.removeFromSuperlayer()
@@ -604,70 +684,6 @@ class CandleStickChartView: UIView {
             $0.fontSize = self.setting.size.defaultFontSize
             self.layers.focusInfoTextLayer.addSublayer($0)
         }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard isFocusMode else {
-            return
-        }
-        touches.forEach { touch in
-            guard CGRect(
-                x: 0,
-                y: 0,
-                width: self.scrollView.bounds.width,
-                height: self.layers.dataLayer.bounds.height
-            ).contains(touch.location(in: self)) else {
-                return
-            }
-            self.drawFocus(on: touch.location(in: self))
-        }
-    }
-    
-    // MARK: - @objc
-
-    @objc func handlePinch(_ pinch: UIPinchGestureRecognizer) {
-        guard !self.isFocusMode else {
-            return
-        }
-        let newCandleStickWidth = self.setting.size.candleStickWidth * pinch.scale
-        if (newCandleStickWidth > self.setting.size.maxCandleStickWidth ||
-            newCandleStickWidth < self.setting.size.minCandleStickWidth) {
-            return
-        }
-        self.setting.size.candleStickWidth *= pinch.scale
-        self.setting.size.candleStickSpace *= pinch.scale
-        self.setting.size.candleStickLineWidth *= pinch.scale
-        self.scrollView.contentOffset = CGPoint(
-            x: self.scrollView.contentOffset.x * pinch.scale,
-            y: 0
-        )
-        setNeedsLayout()
-        pinch.scale = 1
-    }
-    
-    @objc func handleTap(_ tap: UITapGestureRecognizer) {
-        if self.isFocusMode {
-            self.scrollView.isScrollEnabled = true
-            self.removeFocus()
-        } else {
-            self.scrollView.isScrollEnabled = false
-            self.drawFocus(on: tap.location(in: self))
-        }
-        self.isFocusMode = !self.isFocusMode
-    }
-}
-
-class CandleStickScrollView: UIScrollView {
-    var touchEventDelegate: UIResponder? = nil
-        
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.touchEventDelegate?.touchesMoved(touches, with: event)
-    }
-}
-
-extension CandleStickChartView: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        setNeedsLayout()
     }
 }
 
