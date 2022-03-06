@@ -16,6 +16,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     
     let orderbookAPIService: OrderbookAPIService = OrderbookAPIService(apiService: HttpService(),
                                                                        environment: .development)
+    var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
     
     var asks: [Quote] = []
     var bids: [Quote] = []
@@ -35,6 +36,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getOrderbookData(orderCurrency: "BTC", paymentCurrency: "KRW")
+        getWebSocketOrderbookData(orderCurrency: "BTC")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -120,6 +122,16 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         }
     }
     
+    private func getWebSocketOrderbookData(orderCurrency: String) {
+        btsocketAPIService.subscribeOrderBook(
+            orderCurrency: [Coin.BTC],
+            paymentCurrency: .krw)
+        { response in
+            dump(response)
+            self.updateOrderbookData(coin: Coin.BTC, data: response)
+        }
+    }
+    
     private func patchOrderbookData() {
         self.quoteTableViewController.setQuoteData(asks: asks.reversed(),
                                                    bids: bids)
@@ -130,5 +142,9 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         
         self.buyGraphTableViewController.setQuoteData(bids: bids)
         self.buyGraphTableViewController.tableView.reloadData()
+    }
+    
+    private func updateOrderbookData(coin: Coin, data: BTSocketAPIResponse.OrderBookResponse) {
+        
     }
 }

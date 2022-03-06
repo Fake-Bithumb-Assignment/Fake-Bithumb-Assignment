@@ -84,7 +84,20 @@ final class CoinHeaderView: UIView {
     func patchData(data: CoinHeaderModel) {
         self.currentPriceLabel.text = String.insertComma(value: Double(data.currentPrice)!)
         self.fluctateLabel.text = String.insertComma(value: Double(data.fluctate)!)
-        self.fluctateImageView.image = UIImage(named: data.fluctateUpDown)
         self.fluctateRateLabel.text = String.insertComma(value: Double(data.fluctateRate)!) + "%"
+        self.setLabelColor(data: data)
+    }
+    
+    private func setLabelColor(data: CoinHeaderModel) {
+        guard let fluctateRate = Int(data.fluctateRate) else { return }
+        if fluctateRate > 0 {
+            self.currentPriceLabel.textColor = UIColor(named: "up")
+            self.fluctateLabel.textColor = UIColor(named: "up")
+            self.fluctateRateLabel.textColor = UIColor(named: "up")
+        } else {
+            self.currentPriceLabel.textColor = UIColor(named: "down")
+            self.fluctateLabel.textColor = UIColor(named: "down")
+            self.fluctateRateLabel.textColor = UIColor(named: "down")
+        }
     }
 }

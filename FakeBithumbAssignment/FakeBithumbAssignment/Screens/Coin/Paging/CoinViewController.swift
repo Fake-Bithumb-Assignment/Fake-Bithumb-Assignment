@@ -137,6 +137,7 @@ final class CoinViewController: BaseViewController {
                                                                              paymentCurrency: paymentCurrency)
                 if let tickerData = tickerData {
                     self.tickerData = tickerData
+                    print(tickerData)
                 } else {
                     // TODO: 에러 처리 얼럿 띄우기
                 }
@@ -153,7 +154,6 @@ final class CoinViewController: BaseViewController {
         guard let tickerData = self.tickerData else { return }
         self.headerView.patchData(data: CoinHeaderModel(currentPrice: tickerData.closingPrice,
                                                         fluctate: tickerData.fluctate24H,
-                                                        fluctateUpDown: "up",
                                                         fluctateRate: tickerData.fluctateRate24H))
     }
     
