@@ -35,6 +35,67 @@ class CandleStickChartViewLayers {
     let focusInfoTextLayer: CALayer = CALayer()
 }
 
+class CandleStickChartViewSetting {
+    /// 양봉 색상
+    let redColor: CGColor = CGColor(red: 194/255, green: 72/255, blue: 79/255, alpha: 1.0)
+    /// 음봉 색상
+    let blueColor: CGColor = CGColor(red: 50/255, green: 93/255, blue: 202/255, alpha: 1.0)
+    /// 기본 선 색상
+    let defaultColor: CGColor = CGColor(red: 96/255, green: 96/255, blue: 96/255, alpha: 1.0)
+    /// 그리드 선 색상
+    let gridColor: CGColor = CGColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
+    /// 기본 선 너비
+    let defaultLineWidth: CGFloat = 1.0
+    /// 그리드 선 너비
+    let gridWidth: CGFloat = 0.5
+    /// 기본 텍스트 크기
+    let defaultFontSize: CGFloat = 11.0
+    /// 오른쪽 값 영역의 너비
+    let valueWidth: CGFloat = 50.0
+    /// 오른쪽 값 영역에 표시될 값의 개수
+    let numbersOfValueInFrame: Int = 5
+    /// 아래 날짜, 시간 영역의 높이
+    let dateTimeHeight: CGFloat = 40.0
+    /// 한 화면에 나올 날짜, 시간 레이블의 개수
+    let numbersOfDateTimeInFrame: Int = 3
+    /// 수치 표시할 때 튀어나온 선 길이
+    let thornLength: CGFloat = 10.0
+    /// 수치 표시할 때 튀어나온 선 - 수치 텍스트 간격
+    let thornTextSpace: CGFloat = 5.0
+    /// 날짜, 시간 레이블의 크기
+    let defaultTextSize: CGSize = CGSize(width: 60.0, height: 20.0)
+    /// 캔들스틱 너비
+    var candleStickWidth: CGFloat = 5.0
+    /// 확대 후 최대 캔들스틱 너비
+    var maxCandleStickWidth: CGFloat = 20.0
+    /// 축소 후 최소 캔들스틱 너비
+    var minCandleStickWidth: CGFloat = 2.0
+    /// 캔들스틱 얇은 선 너비
+    var candleStickLineWidth: CGFloat = 1.5
+    /// 캔들스틱 간격
+    var candleStickSpace: CGFloat = 2.0
+    /// 캔들스틱 차트 영역 위, 빈 공간 비율
+    let verticalFrontRearSpaceRate: CGFloat = 0.1
+    /// 그래프 맨앞, 맨 뒤의 빈 공간
+    var horizontalFrontRearSpaceRatio: CGFloat = 3.0
+    /// 선택 선 색상
+    let focusLineColor: CGColor = UIColor.black.cgColor
+    /// 선택 정보창 사이즈
+    let focusInfoSize: CGSize = CGSize(width: 120.0, height: 120.0)
+    /// 선택 정보창 바깥쪽 여백
+    let focusInfoMargin: CGPoint = CGPoint(x: 10, y: 10)
+    /// 선택 정보착 안쪽 여백
+    let focusInfoPadding: CGPoint = CGPoint(x: 4, y: 4)
+    /// 기본 날짜 포맷
+    let defaultTimeFormatter = DateFormatter().then {
+        $0.dateFormat = "M/d HH:mm"
+    }
+    /// 선택 정보창 날짜 포맷
+    let infoTimeFormatter = DateFormatter().then {
+        $0.dateFormat = "yyyy/MM/dd HH:mm:ss"
+    }
+}
+
 class CandleStickChartView: UIView {
     
     // MARK: - instance property
@@ -46,69 +107,8 @@ class CandleStickChartView: UIView {
     }
     /// 레이어들
     private let layers: CandleStickChartViewLayers = CandleStickChartViewLayers()
-    
-    /// 양봉 색상
-    private let redColor: CGColor = CGColor(red: 194/255, green: 72/255, blue: 79/255, alpha: 1.0)
-    /// 음봉 색상
-    private let blueColor: CGColor = CGColor(red: 50/255, green: 93/255, blue: 202/255, alpha: 1.0)
-    /// 기본 선 색상
-    private let defaultColor: CGColor = CGColor(red: 96/255, green: 96/255, blue: 96/255, alpha: 1.0)
-    /// 그리드 선 색상
-    private let gridColor: CGColor = CGColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
-    /// 기본 선 너비
-    private let defaultLineWidth: CGFloat = 1.0
-    /// 그리드 선 너비
-    private let gridWidth: CGFloat = 0.5
-    /// 기본 텍스트 크기
-    private let defaultFontSize: CGFloat = 11.0
-    /// 오른쪽 값 영역의 너비
-    private let valueWidth: CGFloat = 50.0
-    /// 오른쪽 값 영역에 표시될 값의 개수
-    private let numbersOfValueInFrame: Int = 5
-    /// 아래 날짜, 시간 영역의 높이
-    private let dateTimeHeight: CGFloat = 40.0
-    /// 한 화면에 나올 날짜, 시간 레이블의 개수
-    private let numbersOfDateTimeInFrame: Int = 3
-    /// 수치 표시할 때 튀어나온 선 길이
-    private let thornLength: CGFloat = 10.0
-    /// 수치 표시할 때 튀어나온 선 - 수치 텍스트 간격
-    private let thornTextSpace: CGFloat = 5.0
-    /// 날짜, 시간 레이블의 크기
-    private let defaultTextSize: CGSize = CGSize(width: 60.0, height: 20.0)
-    /// 캔들스틱 너비
-    private var candleStickWidth: CGFloat = 5.0
-    /// 확대 후 최대 캔들스틱 너비
-    private var maxCandleStickWidth: CGFloat = 20.0
-    /// 축소 후 최소 캔들스틱 너비
-    private var minCandleStickWidth: CGFloat = 2.0
-    /// 캔들스틱 얇은 선 너비
-    private var candleStickLineWidth: CGFloat = 1.5
-    /// 캔들스틱 간격
-    private var candleStickSpace: CGFloat = 2.0
-    /// 캔들스틱 차트 영역 위, 빈 공간 비율
-    private let verticalFrontRearSpaceRate: CGFloat = 0.1
-    /// 그래프 맨앞, 맨 뒤의 빈 공간
-    private var horizontalFrontRearSpace: CGFloat {
-        get {
-            self.bounds.size.width / 3
-        }
-    }
-    /// 선택 선 색상
-    private let focusLineColor: CGColor = UIColor.black.cgColor
-    /// 선택 정보창 사이즈
-    private let focusInfoSize: CGSize = CGSize(width: 120.0, height: 120.0)
-    /// 선택 정보창 바깥쪽 여백
-    private let focusInfoMargin: CGPoint = CGPoint(x: 10, y: 10)
-    /// 선택 정보착 안쪽 여백
-    private let focusInfoPadding: CGPoint = CGPoint(x: 4, y: 4)
-    /// 기본 날짜 포맷
-    private let defaultTimeFormatter = DateFormatter().then {
-        $0.dateFormat = "M/d HH:mm"
-    }
-    /// 선택 정보창 날짜 포맷
-    private let infoTimeFormatter = DateFormatter().then {
-        $0.dateFormat = "yyyy/MM/dd HH:mm:ss"
-    }
+    /// 설정값
+    private let setting: CandleStickChartViewSetting = CandleStickChartViewSetting()
     
     /// 캔들스틱 값들
     private var candleSticks: [CandleStick] = []
@@ -229,7 +229,7 @@ class CandleStickChartView: UIView {
         }
         self.scrollView.contentOffset = CGPoint(
             x: self.scrollView.contentSize.width -
-            self.horizontalFrontRearSpace -
+            self.scrollView.bounds.width / self.setting.horizontalFrontRearSpaceRatio -
             self.scrollView.bounds.width / 2.0,
             y: 0
         )
@@ -237,15 +237,15 @@ class CandleStickChartView: UIView {
     }
     
     private func setFrame() {
-        let chartContentWidth: CGFloat = 2 * self.horizontalFrontRearSpace
-        + CGFloat(self.candleSticks.count) * self.candleStickWidth
-        + (CGFloat(self.candleSticks.count) - 1) * self.candleStickSpace
-        let chartContentHeight: CGFloat = self.bounds.height - self.dateTimeHeight
+        let chartContentWidth: CGFloat = 2 * self.scrollView.bounds.width / self.setting.horizontalFrontRearSpaceRatio
+        + CGFloat(self.candleSticks.count) * self.setting.candleStickWidth
+        + (CGFloat(self.candleSticks.count) - 1) * self.setting.candleStickSpace
+        let chartContentHeight: CGFloat = self.bounds.height - self.setting.dateTimeHeight
         
         self.scrollView.frame = CGRect(
             x: 0,
             y: 0,
-            width: self.bounds.size.width - self.valueWidth,
+            width: self.bounds.size.width - self.setting.valueWidth,
             height: self.bounds.size.height
         )
         self.scrollView.contentSize = CGSize(
@@ -268,24 +268,24 @@ class CandleStickChartView: UIView {
             x: 0,
             y: chartContentHeight,
             width: chartContentWidth,
-            height: self.dateTimeHeight
+            height: self.setting.dateTimeHeight
         )
         self.layers.valueLayer.frame = CGRect(
-            x: self.bounds.size.width - self.valueWidth,
+            x: self.bounds.size.width - self.setting.valueWidth,
             y: 0,
-            width: self.valueWidth,
+            width: self.setting.valueWidth,
             height: chartContentHeight
         )
         self.layers.horizontalGridLayer.frame = CGRect(
             x: 0,
             y: 0,
-            width: self.bounds.size.width - self.valueWidth,
+            width: self.bounds.size.width - self.setting.valueWidth,
             height: chartContentHeight
         )
         self.layers.verticalGridLayer.frame = CGRect(
             x: 0,
             y: 0,
-            width: chartContentWidth - self.valueWidth,
+            width: chartContentWidth - self.setting.valueWidth,
             height: chartContentHeight
         )
     }
@@ -302,7 +302,7 @@ class CandleStickChartView: UIView {
         self.drawingTargetIndex.forEach { index in
             let candleStick: CandleStick = candleSticks[index]
             let xCoord: CGFloat = getXCoord(indexOf: index)
-            let color: CGColor = candleStick.type == .blue ? self.blueColor : self.redColor
+            let color: CGColor = candleStick.type == .blue ? self.setting.blueColor : self.setting.redColor
             guard let openingPriceYCoord: CGFloat = self.getYCoord(of: candleStick.openingPrice) else {
                 return
             }
@@ -317,18 +317,18 @@ class CandleStickChartView: UIView {
             }
             let lineLayer: CALayer = CALayer().then {
                 $0.frame = CGRect(
-                    x: xCoord - self.candleStickLineWidth / 2,
+                    x: xCoord - self.setting.candleStickLineWidth / 2,
                     y: highPriceYCoord,
-                    width: self.candleStickLineWidth,
+                    width: self.setting.candleStickLineWidth,
                     height: lowPriceYCoord - highPriceYCoord
                 )
                 $0.backgroundColor = color
             }
             let rectLayer: CALayer = CALayer().then {
                 $0.frame = CGRect(
-                    x: xCoord - self.candleStickWidth / 2,
+                    x: xCoord - self.setting.candleStickWidth / 2,
                     y: min(openingPriceYCoord, tradePriceYCoord),
-                    width: self.candleStickWidth,
+                    width: self.setting.candleStickWidth,
                     height: max(openingPriceYCoord, tradePriceYCoord) -
                     min(openingPriceYCoord, tradePriceYCoord)
                 )
@@ -342,7 +342,8 @@ class CandleStickChartView: UIView {
     private func drawDateTime() {
         // 몇개의 캔들스틱당 날짜 & 세로그리드를 그려 줘야 하는지?
         let drawPerCandleStickCount: Int = Int(
-            (self.scrollView.bounds.size.width / CGFloat(self.numbersOfDateTimeInFrame)) / (self.candleStickWidth + self.candleStickSpace)
+            (self.scrollView.bounds.size.width / CGFloat(self.setting.numbersOfDateTimeInFrame)) /
+            (self.setting.candleStickWidth + self.setting.candleStickSpace)
         )
         self.drawingTargetIndex.forEach { index in
             guard ((self.candleSticks.count-1) - index) % drawPerCandleStickCount == 0 else {
@@ -352,32 +353,32 @@ class CandleStickChartView: UIView {
             let date: Date = self.candleSticks[index].date
             let thornLineLayer: CAShapeLayer = CAShapeLayer.lineLayer(
                 from: CGPoint(x: xCoord, y: 0),
-                to: CGPoint(x: xCoord, y: self.thornLength),
-                color: self.defaultColor,
-                width: self.defaultLineWidth
+                to: CGPoint(x: xCoord, y: self.setting.thornLength),
+                color: self.setting.defaultColor,
+                width: self.setting.defaultLineWidth
             )
             let textLayer: CATextLayer = CATextLayer().then {
                 $0.frame = CGRect(
-                    x: xCoord - (self.defaultTextSize.width / 2),
-                    y: self.thornLength + self.thornTextSpace,
-                    width: self.defaultTextSize.width,
-                    height: self.defaultTextSize.height
+                    x: xCoord - (self.setting.defaultTextSize.width / 2),
+                    y: self.setting.thornLength + self.setting.thornTextSpace,
+                    width: self.setting.defaultTextSize.width,
+                    height: self.setting.defaultTextSize.height
                 )
-                $0.foregroundColor = self.defaultColor
+                $0.foregroundColor = self.setting.defaultColor
                 $0.backgroundColor = UIColor.clear.cgColor
                 $0.alignmentMode = CATextLayerAlignmentMode.center
                 $0.contentsScale = UIScreen.main.scale
                 $0.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
-                $0.fontSize = self.defaultFontSize
-                $0.string = self.defaultTimeFormatter.string(from: date)
+                $0.fontSize = self.setting.defaultFontSize
+                $0.string = self.setting.defaultTimeFormatter.string(from: date)
             }
             self.layers.dateTimeLayer.addSublayer(thornLineLayer)
             self.layers.dateTimeLayer.addSublayer(textLayer)
             let gridLayer: CAShapeLayer = CAShapeLayer.lineLayer(
                 from: CGPoint(x: xCoord, y: 0),
-                to: CGPoint(x: xCoord, y: self.bounds.height - self.dateTimeHeight),
-                color: self.gridColor,
-                width: gridWidth
+                to: CGPoint(x: xCoord, y: self.bounds.height - self.setting.dateTimeHeight),
+                color: self.setting.gridColor,
+                width: self.setting.gridWidth
             )
             self.layers.verticalGridLayer.addSublayer(gridLayer)
         }
@@ -387,45 +388,45 @@ class CandleStickChartView: UIView {
         let horizontalLine: CAShapeLayer = CAShapeLayer.lineLayer(
             from: CGPoint(x: -(2 * self.layers.mainLayer.bounds.size.width), y: 0),
             to: CGPoint(x: (2 * self.layers.mainLayer.bounds.size.width), y: 0),
-            color: self.defaultColor,
-            width: self.defaultLineWidth
+            color: self.setting.defaultColor,
+            width: self.setting.defaultLineWidth
         )
         let verticalLine: CAShapeLayer = CAShapeLayer.lineLayer(
             from: .zero,
-            to: CGPoint(x: 0, y: self.bounds.height - self.dateTimeHeight),
-            color: self.defaultColor,
-            width: self.defaultLineWidth
+            to: CGPoint(x: 0, y: self.bounds.height - self.setting.dateTimeHeight),
+            color: self.setting.defaultColor,
+            width: self.setting.defaultLineWidth
         )
         self.layers.dateTimeLayer.addSublayer(horizontalLine)
         self.layers.valueLayer.addSublayer(verticalLine)
     }
     
     private func drawValue() {
-        let valueGap: Double = (self.maxPrice - self.minPrice) / Double(self.numbersOfValueInFrame - 1)
-        (0..<self.numbersOfValueInFrame).forEach { valueCount in
+        let valueGap: Double = (self.maxPrice - self.minPrice) / Double(self.setting.numbersOfValueInFrame - 1)
+        (0..<self.setting.numbersOfValueInFrame).forEach { valueCount in
             let value: Double = self.maxPrice - valueGap * Double(valueCount)
             guard let yCoord: CGFloat = getYCoord(of: value) else {
                 return
             }
             let thornLineLayer: CAShapeLayer = CAShapeLayer.lineLayer(
                 from: CGPoint(x: 0, y: yCoord),
-                to: CGPoint(x: self.thornLength, y: yCoord),
-                color: self.defaultColor,
-                width: self.defaultLineWidth
+                to: CGPoint(x: self.setting.thornLength, y: yCoord),
+                color: self.setting.defaultColor,
+                width: self.setting.defaultLineWidth
             )
             let textLayer: CATextLayer = VerticalCenterCATextLayer().then {
                 $0.frame = CGRect(
-                    x: self.thornLength + self.thornTextSpace,
-                    y: yCoord - self.defaultTextSize.height / 2,
-                    width: self.defaultTextSize.width,
-                    height: self.defaultTextSize.height
+                    x: self.setting.thornLength + self.setting.thornTextSpace,
+                    y: yCoord - self.setting.defaultTextSize.height / 2,
+                    width: self.setting.defaultTextSize.width,
+                    height: self.setting.defaultTextSize.height
                 )
-                $0.foregroundColor = self.defaultColor
+                $0.foregroundColor = self.setting.defaultColor
                 $0.backgroundColor = UIColor.clear.cgColor
                 $0.alignmentMode = CATextLayerAlignmentMode.left
                 $0.contentsScale = UIScreen.main.scale
                 $0.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
-                $0.fontSize = self.defaultFontSize
+                $0.fontSize = self.setting.defaultFontSize
                 $0.string = String(Int(value))
             }
             self.layers.valueLayer.addSublayer(thornLineLayer)
@@ -434,23 +435,23 @@ class CandleStickChartView: UIView {
             let gridLayer: CAShapeLayer = CAShapeLayer.lineLayer(
                 from: CGPoint(x: 0, y: yCoord),
                 to: CGPoint(x: self.layers.verticalGridLayer.bounds.width, y: yCoord),
-                color: self.gridColor,
-                width: gridWidth
+                color: self.setting.gridColor,
+                width: self.setting.gridWidth
             )
             self.layers.horizontalGridLayer.addSublayer(gridLayer)
         }
     }
     
     private func getYCoord(of current: Double) -> CGFloat? {
-        let chartContentHeight: CGFloat = self.bounds.size.height - self.dateTimeHeight
+        let chartContentHeight: CGFloat = self.bounds.size.height - self.setting.dateTimeHeight
         return ((self.maxPrice - current) / (self.maxPrice - self.minPrice)) *
-        (chartContentHeight * (1 - self.verticalFrontRearSpaceRate)) +
-        (chartContentHeight * self.verticalFrontRearSpaceRate) / 2
+        (chartContentHeight * (1 - self.setting.verticalFrontRearSpaceRate)) +
+        (chartContentHeight * self.setting.verticalFrontRearSpaceRate) / 2
     }
     
     private func getXCoord(indexOf index: Int) -> CGFloat {
-        return (self.horizontalFrontRearSpace + self.candleStickWidth / 2.0) +
-        CGFloat(index - 1) * (self.candleStickWidth + self.candleStickSpace)
+        return (self.scrollView.bounds.width / self.setting.horizontalFrontRearSpaceRatio + self.setting.candleStickWidth / 2.0) +
+        CGFloat(index - 1) * (self.setting.candleStickWidth + self.setting.candleStickSpace)
     }
     
     private func removeFocus() {
@@ -476,14 +477,14 @@ class CandleStickChartView: UIView {
         self.layers.focusHorizontalLayer = CAShapeLayer.lineLayer(
             from: CGPoint(x: 0, y: point.y),
             to: CGPoint(x: self.scrollView.bounds.width, y: point.y),
-            color: self.focusLineColor,
-            width: self.defaultLineWidth
+            color: self.setting.focusLineColor,
+            width: self.setting.defaultLineWidth
         )
         self.layers.focusVerticalLayer = CAShapeLayer.lineLayer(
             from: CGPoint(x: point.x, y: 0),
             to: CGPoint(x: point.x, y: self.layers.dataLayer.bounds.height),
-            color: self.focusLineColor,
-            width: self.defaultLineWidth
+            color: self.setting.focusLineColor,
+            width: self.setting.defaultLineWidth
         )
         self.layer.addSublayer(self.layers.focusHorizontalLayer)
         self.layer.addSublayer(self.layers.focusVerticalLayer)
@@ -492,99 +493,99 @@ class CandleStickChartView: UIView {
     private func drawFocusInfo(from point: CGPoint) {
         let xCoordInDataLayer: CGFloat = self.scrollView.contentOffset.x + point.x
         guard let selectedIndex = self.drawingTargetIndex.filter({ index in
-            return self.getXCoord(indexOf: index) - self.candleStickWidth / 2 <= xCoordInDataLayer &&
-            xCoordInDataLayer <= self.getXCoord(indexOf: index) + self.candleStickWidth / 2
+            return self.getXCoord(indexOf: index) - self.setting.candleStickWidth / 2 <= xCoordInDataLayer &&
+            xCoordInDataLayer <= self.getXCoord(indexOf: index) + self.setting.candleStickWidth / 2
         }).first else {
             return
         }
         let infoFrame: CGRect = CGRect(
             x: point.x < self.scrollView.bounds.width / 2 ?
-            self.scrollView.bounds.width - self.focusInfoMargin.x - self.focusInfoSize.width :
-            self.focusInfoMargin.x,
+            self.scrollView.bounds.width - self.setting.focusInfoMargin.x - self.setting.focusInfoSize.width :
+            self.setting.focusInfoMargin.x,
             y: point.x < self.scrollView.bounds.width / 2 ?
-            self.focusInfoMargin.y : self.focusInfoMargin.y,
-            width: self.focusInfoSize.width,
-            height: self.focusInfoSize.height
+            self.setting.focusInfoMargin.y : self.setting.focusInfoMargin.y,
+            width: self.setting.focusInfoSize.width,
+            height: self.setting.focusInfoSize.height
         )
         self.layers.focusInfoLayer.frame = infoFrame
         self.layers.focusInfoTextLayer.frame = infoFrame
         self.layer.addSublayer(self.layers.focusInfoLayer)
         self.layer.addSublayer(self.layers.focusInfoTextLayer)
 
-        let labelHeight: CGFloat = (self.focusInfoSize.height - 2 * self.focusInfoPadding.y) / 6
-        let focusInfoInnerWidth: CGFloat = self.focusInfoSize.width - 2 * self.focusInfoPadding.x
+        let labelHeight: CGFloat = (self.setting.focusInfoSize.height - 2 * self.setting.focusInfoPadding.y) / 6
+        let focusInfoInnerWidth: CGFloat = self.setting.focusInfoSize.width - 2 * self.setting.focusInfoPadding.x
         let candleStick: CandleStick = self.candleSticks[selectedIndex]
         let _ = VerticalCenterCATextLayer().then {
-            $0.string = self.infoTimeFormatter.string(from: candleStick.date)
+            $0.string = self.setting.infoTimeFormatter.string(from: candleStick.date)
             $0.frame = CGRect(
-                x: self.focusInfoPadding.x,
-                y: self.focusInfoPadding.y,
+                x: self.setting.focusInfoPadding.x,
+                y: self.setting.focusInfoPadding.y,
                 width: focusInfoInnerWidth,
                 height: labelHeight
             )
             $0.foregroundColor = UIColor.white.cgColor
             $0.backgroundColor = UIColor.clear.cgColor
-            $0.fontSize = self.defaultFontSize
+            $0.fontSize = self.setting.defaultFontSize
             self.layers.focusInfoTextLayer.addSublayer($0)
         }
         func drawPriceLayer(row: Int, title: String, value: Double, defaultColor: CGColor) {
             let _ = VerticalCenterCATextLayer().then {
                 $0.string = title
                 $0.frame = CGRect(
-                    x: self.focusInfoPadding.x,
-                    y: self.focusInfoPadding.y + labelHeight * CGFloat(row),
+                    x: self.setting.focusInfoPadding.x,
+                    y: self.setting.focusInfoPadding.y + labelHeight * CGFloat(row),
                     width: focusInfoInnerWidth,
                     height: labelHeight
                 )
                 $0.foregroundColor = defaultColor
                 $0.backgroundColor = UIColor.clear.cgColor
-                $0.fontSize = self.defaultFontSize
+                $0.fontSize = self.setting.defaultFontSize
                 self.layers.focusInfoTextLayer.addSublayer($0)
             }
             let _ = VerticalCenterCATextLayer().then {
                 $0.string = String(value)
                 $0.frame = CGRect(
-                    x: self.focusInfoPadding.x,
-                    y: self.focusInfoPadding.y + labelHeight * CGFloat(row),
+                    x: self.setting.focusInfoPadding.x,
+                    y: self.setting.focusInfoPadding.y + labelHeight * CGFloat(row),
                     width: focusInfoInnerWidth,
                     height: labelHeight
                 )
                 $0.foregroundColor = defaultColor
                 $0.backgroundColor = UIColor.clear.cgColor
-                $0.fontSize = self.defaultFontSize
+                $0.fontSize = self.setting.defaultFontSize
                 $0.alignmentMode = .right
                 self.layers.focusInfoTextLayer.addSublayer($0)
             }
         }
         drawPriceLayer(row: 1, title: "시가", value: candleStick.openingPrice, defaultColor: UIColor.white.cgColor)
-        drawPriceLayer(row: 2, title: "고가", value: candleStick.highPrice, defaultColor: self.redColor)
-        drawPriceLayer(row: 3, title: "저가", value: candleStick.lowPrice, defaultColor: self.blueColor)
+        drawPriceLayer(row: 2, title: "고가", value: candleStick.highPrice, defaultColor: self.setting.redColor)
+        drawPriceLayer(row: 3, title: "저가", value: candleStick.lowPrice, defaultColor: self.setting.blueColor)
         drawPriceLayer(row: 4, title: "종가", value: candleStick.tradePrice, defaultColor: UIColor.white.cgColor)
         let _ = VerticalCenterCATextLayer().then {
             $0.string = "거래량"
             $0.frame = CGRect(
-                x: self.focusInfoPadding.x,
-                y: self.focusInfoPadding.y + labelHeight * 5.0,
+                x: self.setting.focusInfoPadding.x,
+                y: self.setting.focusInfoPadding.y + labelHeight * 5.0,
                 width: focusInfoInnerWidth,
                 height: labelHeight
             )
             $0.foregroundColor = UIColor.white.cgColor
             $0.backgroundColor = UIColor.clear.cgColor
-            $0.fontSize = self.defaultFontSize
+            $0.fontSize = self.setting.defaultFontSize
             self.layers.focusInfoTextLayer.addSublayer($0)
         }
         let _ = VerticalCenterCATextLayer().then {
             $0.string = String(candleStick.tradeVolume)
             $0.frame = CGRect(
-                x: self.focusInfoPadding.x,
-                y: self.focusInfoPadding.y + labelHeight * 5.0,
+                x: self.setting.focusInfoPadding.x,
+                y: self.setting.focusInfoPadding.y + labelHeight * 5.0,
                 width: focusInfoInnerWidth,
                 height: labelHeight
             )
             $0.foregroundColor = UIColor.white.cgColor
             $0.backgroundColor = UIColor.clear.cgColor
             $0.alignmentMode = .right
-            $0.fontSize = self.defaultFontSize
+            $0.fontSize = self.setting.defaultFontSize
             self.layers.focusInfoTextLayer.addSublayer($0)
         }
     }
@@ -612,14 +613,14 @@ class CandleStickChartView: UIView {
         guard !self.isFocusMode else {
             return
         }
-        let newCandleStickWidth = self.candleStickWidth * pinch.scale
-        if (newCandleStickWidth > self.maxCandleStickWidth ||
-            newCandleStickWidth < self.minCandleStickWidth) {
+        let newCandleStickWidth = self.setting.candleStickWidth * pinch.scale
+        if (newCandleStickWidth > self.setting.maxCandleStickWidth ||
+            newCandleStickWidth < self.setting.minCandleStickWidth) {
             return
         }
-        self.candleStickWidth *= pinch.scale
-        self.candleStickSpace *= pinch.scale
-        self.candleStickLineWidth *= pinch.scale
+        self.setting.candleStickWidth *= pinch.scale
+        self.setting.candleStickSpace *= pinch.scale
+        self.setting.candleStickLineWidth *= pinch.scale
         self.scrollView.contentOffset = CGPoint(
             x: self.scrollView.contentOffset.x * pinch.scale,
             y: 0
