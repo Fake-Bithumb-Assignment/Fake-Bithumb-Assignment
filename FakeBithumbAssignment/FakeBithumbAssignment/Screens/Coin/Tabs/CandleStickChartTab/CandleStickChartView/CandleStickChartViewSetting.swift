@@ -15,13 +15,13 @@ class CandleStickChartViewSetting {
     
     class Color {
         /// 양봉 색상
-        let redColor: CGColor = CGColor(red: 194/255, green: 72/255, blue: 79/255, alpha: 1.0)
+        let redColor: CGColor = (UIColor(named: "up") ?? UIColor.red).cgColor
         /// 음봉 색상
-        let blueColor: CGColor = CGColor(red: 50/255, green: 93/255, blue: 202/255, alpha: 1.0)
+        let blueColor: CGColor = (UIColor(named: "down") ?? UIColor.blue).cgColor
         /// 기본 선 색상
-        let defaultColor: CGColor = CGColor(red: 96/255, green: 96/255, blue: 96/255, alpha: 1.0)
+        let defaultColor: CGColor = (UIColor(named: "line") ?? UIColor.gray).cgColor
         /// 그리드 선 색상
-        let gridColor: CGColor = CGColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
+        let gridColor: CGColor = (UIColor(named: "grid") ?? UIColor.lightGray).cgColor
         /// 선택 선 색상
         let focusLineColor: CGColor = UIColor.black.cgColor
     }
