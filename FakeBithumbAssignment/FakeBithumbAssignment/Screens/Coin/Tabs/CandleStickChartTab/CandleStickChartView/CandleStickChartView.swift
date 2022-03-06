@@ -23,6 +23,11 @@ class CandleStickChartView: UIView {
     /// 설정값
     private let setting: CandleStickChartViewSetting = CandleStickChartViewSetting()
     
+    /// 선택 모드인지 아닌지
+    private var isFocusMode: Bool = false
+    /// 처음으로 그려지는 상태인지?
+    private var isInitialState: Bool = true
+    
     /// 캔들스틱 값들
     private var candleSticks: [CandleStick] = []
     /// 현재 화면에 그려야 할 캔들스틱 인덱스 범위
@@ -31,11 +36,6 @@ class CandleStickChartView: UIView {
     private var maxPrice: Double = 0.0
     /// 현재 화면에 있는 캔들스틱 중 최저 가격
     private var minPrice: Double = 0.0
-    
-    /// 선택 모드인지 아닌지
-    private var isFocusMode: Bool = false
-    /// 처음으로 그려지는 상태인지?
-    private var isInitialState: Bool = true
     
     // MARK: - Initializer
         
@@ -80,20 +80,21 @@ class CandleStickChartView: UIView {
 
     // MARK: - custom func
     
+    /// 레이어들간의 관계 설정하는 메소드.
     private func setupLayers() {
-        // 스크롤에 포함될 전체 영역인 mainLayer
         self.layers.mainLayer.addSublayer(self.layers.verticalGridLayer)
         self.layers.mainLayer.addSublayer(self.layers.dataLayer)
         self.layers.mainLayer.addSublayer(self.layers.dateTimeLayer)
         self.scrollView.layer.addSublayer(self.layers.mainLayer)
-        // 가로줄, 값은 스크롤 되지 않음
+
         self.layer.addSublayer(self.layers.horizontalGridLayer)
         self.layer.addSublayer(self.layers.valueLayer)
-        // subView로 추가
+
         self.addSubview(self.scrollView)
         self.backgroundColor = .clear
     }
     
+    /// 첫 진입 시 최신의 차트부터 보여주도록 스크롤을 이동시켜주는 메소드.
     private func moveScrollIfInitialState() {
         guard isInitialState && !self.candleSticks.isEmpty else {
             return
@@ -107,6 +108,7 @@ class CandleStickChartView: UIView {
         self.isInitialState = false
     }
     
+    /// 값 -> y좌표로 변환하는 메소드.
     private func getYCoord(of current: Double) -> CGFloat? {
         let chartContentHeight: CGFloat = self.bounds.size.height - self.setting.size.dateTimeHeight
         return ((self.maxPrice - current) / (self.maxPrice - self.minPrice)) *
@@ -114,6 +116,7 @@ class CandleStickChartView: UIView {
         (chartContentHeight * self.setting.size.verticalFrontRearSpaceRate) / 2
     }
     
+    /// 캔들스틱의 중심의 x좌표를 반환하는 메소드.
     private func getXCoord(indexOf index: Int) -> CGFloat {
         return (self.scrollView.bounds.width / self.setting.size.horizontalFrontRearSpaceRatio + self.setting.size.candleStickWidth / 2.0) +
         CGFloat(index - 1) * (self.setting.size.candleStickWidth + self.setting.size.candleStickSpace)
@@ -123,6 +126,7 @@ class CandleStickChartView: UIView {
 // MARK: - update candlestick
 
 extension CandleStickChartView {
+    /// 캔들스틱을 최신의 것으로 업데이트해주는 메소드.
     func updateCandleSticks(of candleSticks: [CandleStick]) {
         DispatchQueue.main.async {
             self.candleSticks = candleSticks
@@ -130,6 +134,7 @@ extension CandleStickChartView {
         }
     }
 
+    /// 스크롤뷰의 현재 표시될 캔들스틱 대상을 업데이트 해주는 메소드.
     private func updateDrawingTargetIndex() {
         let contentOffset: CGPoint = self.scrollView.contentOffset
         let currentXRange = (contentOffset.x...(contentOffset.x + self.scrollView.bounds.width))
@@ -142,6 +147,7 @@ extension CandleStickChartView {
         self.drawingTargetIndex = (min...max)
     }
     
+    /// 스크롤뷰의 현재 표시될 캔들스틱 전체의 최대값 최소값을 업데이트 해주는 메소드.
     private func updateMaxMinPrice() {
         guard let maxIndex: Int = self.drawingTargetIndex.max(
             by: { self.candleSticks[$0].highPrice < self.candleSticks[$1].highPrice }
@@ -223,6 +229,7 @@ extension CandleStickChartView {
 // MARK: - drawing
 
 extension CandleStickChartView {
+    /// 각 레이어들의 프레임 설정해주는 메소드.
     private func setFrame() {
         let chartContentWidth: CGFloat = 2 * self.scrollView.bounds.width / self.setting.size.horizontalFrontRearSpaceRatio
         + CGFloat(self.candleSticks.count) * self.setting.size.candleStickWidth
@@ -277,6 +284,7 @@ extension CandleStickChartView {
         )
     }
     
+    /// 모든 레이어의 요소들을 지워주는 메소드.
     private func cleanLayers() {
         self.layers.dataLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
         self.layers.dateTimeLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
@@ -285,6 +293,7 @@ extension CandleStickChartView {
         self.layers.verticalGridLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
     }
     
+    /// 캔들스틱 그려주는 메소드.
     private func drawChart() {
         self.drawingTargetIndex.forEach { index in
             let candleStick: CandleStick = candleSticks[index]
@@ -326,6 +335,7 @@ extension CandleStickChartView {
         }
     }
     
+    /// 아래의 날짜 시간을 그려주는 메소드.
     private func drawDateTime() {
         // 몇개의 캔들스틱당 날짜 & 세로그리드를 그려 줘야 하는지?
         let drawPerCandleStickCount: Int = Int(
@@ -371,6 +381,7 @@ extension CandleStickChartView {
         }
     }
     
+    /// 행열 구분선을 그려주는 메소드.
     private func drawDivivisionLine() {
         let horizontalLine: CAShapeLayer = CAShapeLayer.lineLayer(
             from: CGPoint(x: -(2 * self.layers.mainLayer.bounds.size.width), y: 0),
@@ -388,6 +399,7 @@ extension CandleStickChartView {
         self.layers.valueLayer.addSublayer(verticalLine)
     }
     
+    /// 오른쪽 값들을 그려주는 메소드.
     private func drawValue() {
         let valueGap: Double = (self.maxPrice - self.minPrice) / Double(self.setting.number.valueInFrame - 1)
         (0..<self.setting.number.valueInFrame).forEach { valueCount in
@@ -433,6 +445,7 @@ extension CandleStickChartView {
 // MARK: - drawing focus
 
 extension CandleStickChartView {
+    /// 선택 정보창의 레이어들을 모두 지워주는 메소드.
     private func removeFocus() {
         self.layers.focusInfoTextLayer.sublayers?.forEach{ sublayer in
             sublayer.removeFromSuperlayer()
@@ -443,6 +456,7 @@ extension CandleStickChartView {
         self.layers.focusInfoLayer.removeFromSuperlayer()
     }
     
+    /// 선택 정보창을 그려주는 메소드.
     private func drawFocus(on point: CGPoint) {
         CATransaction.begin()
         CATransaction.setAnimationDuration(0)
@@ -452,6 +466,7 @@ extension CandleStickChartView {
         CATransaction.commit()
     }
     
+    /// 선택 정보창의 가로 세로 선을 그려주는 메소드.
     private func drawFocusLine(on point: CGPoint) {
         self.layers.focusHorizontalLayer = CAShapeLayer.lineLayer(
             from: CGPoint(x: 0, y: point.y),
@@ -469,6 +484,7 @@ extension CandleStickChartView {
         self.layer.addSublayer(self.layers.focusVerticalLayer)
     }
     
+    /// 선택 정보창의 정보창을 그려주는 메소드.
     private func drawFocusInfo(from point: CGPoint) {
         let xCoordInDataLayer: CGFloat = self.scrollView.contentOffset.x + point.x
         guard let selectedIndex = self.drawingTargetIndex.filter({ index in

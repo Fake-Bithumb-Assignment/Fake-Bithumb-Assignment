@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// 세로 기준 중간정렬해주는 CATextLayer
 class VerticalCenterCATextLayer : CATextLayer {
     override func draw(in context: CGContext) {
         let height = self.bounds.size.height
