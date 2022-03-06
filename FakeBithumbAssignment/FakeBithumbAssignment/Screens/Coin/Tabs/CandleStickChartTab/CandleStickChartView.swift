@@ -30,6 +30,15 @@ class CandleStickChartView: UIView {
     private let horizontalGridLayer: CALayer = CALayer()
     /// 세로줄을 그려줄 레이어 (스크롤에 포함)
     private let verticalGridLayer: CALayer = CALayer()
+    /// 선택 가로선 레이어
+    private var focusHorizontalLayer: CAShapeLayer = CAShapeLayer()
+    /// 선택 세로선 레이어
+    private var focusVerticalLayer: CAShapeLayer = CAShapeLayer()
+    /// 선택 정보창 레이어
+    private let focusInfoLayer: CALayer = CALayer().then {
+        $0.backgroundColor = UIColor.black.cgColor
+        $0.opacity = 0.8
+    }
     
     /// 양봉 색상
     private let redColor: CGColor = CGColor(red: 194/255, green: 72/255, blue: 79/255, alpha: 1.0)
@@ -77,8 +86,23 @@ class CandleStickChartView: UIView {
             self.bounds.size.width / 3
         }
     }
+    /// 선택 선 색상
+    private let focusLineColor: CGColor = UIColor.black.cgColor
+    /// 선택 정보창 텍스트 레이어
+    private let focusInfoTextLayer: CALayer = CALayer()
+    /// 선택 정보창 사이즈
+    private let focusInfoSize: CGSize = CGSize(width: 120.0, height: 120.0)
+    /// 선택 정보창 바깥쪽 여백
+    private let focusInfoMargin: CGPoint = CGPoint(x: 10, y: 10)
+    /// 선택 정보착 안쪽 여백
+    private let focusInfoPadding: CGPoint = CGPoint(x: 4, y: 4)
+    /// 기본 날짜 포맷
     private let defaultTimeFormatter = DateFormatter().then {
         $0.dateFormat = "M/d HH:mm"
+    }
+    /// 선택 정보창 날짜 포맷
+    private let infoTimeFormatter = DateFormatter().then {
+        $0.dateFormat = "yyyy/MM/dd HH:mm:ss"
     }
     
     /// 캔들스틱 값들
@@ -89,6 +113,9 @@ class CandleStickChartView: UIView {
     private var maxPrice: Double = 0.0
     /// 현재 화면에 있는 캔들스틱 중 최저 가격
     private var minPrice: Double = 0.0
+    
+    /// 선택 모드인지 아닌지
+    private var isFocusMode: Bool = false
     /// 처음으로 그려지는 상태인지?
     private var isInitialState: Bool = true
     
@@ -421,39 +448,6 @@ class CandleStickChartView: UIView {
         CGFloat(index - 1) * (self.candleStickWidth + self.candleStickSpace)
     }
     
-    // MARK: - @objc
-
-    @objc func handlePinch(_ pinch: UIPinchGestureRecognizer) {
-        guard !self.isFocusMode else {
-            return
-        }
-        let newCandleStickWidth = self.candleStickWidth * pinch.scale
-        if (newCandleStickWidth > self.maxCandleStickWidth ||
-            newCandleStickWidth < self.minCandleStickWidth) {
-            return
-        }
-        self.candleStickWidth *= pinch.scale
-        self.candleStickSpace *= pinch.scale
-        self.candleStickLineWidth *= pinch.scale
-        self.scrollView.contentOffset = CGPoint(
-            x: self.scrollView.contentOffset.x * pinch.scale,
-            y: 0
-        )
-        setNeedsLayout()
-        pinch.scale = 1
-    }
-    
-    @objc func handleTap(_ tap: UITapGestureRecognizer) {
-        if self.isFocusMode {
-            self.scrollView.isScrollEnabled = true
-            self.removeFocus()
-        } else {
-            self.scrollView.isScrollEnabled = false
-            self.drawFocus(on: tap.location(in: self))
-        }
-        self.isFocusMode = !self.isFocusMode
-    }
-    
     private func removeFocus() {
         self.focusInfoTextLayer.sublayers?.forEach{ sublayer in
             sublayer.removeFromSuperlayer()
@@ -590,32 +584,6 @@ class CandleStickChartView: UIView {
         }
     }
     
-    /// 선택 선 색상
-    private let focusLineColor: CGColor = UIColor.black.cgColor
-    /// 선택 가로선 레이어
-    private var focusHorizontalLayer: CAShapeLayer = CAShapeLayer()
-    /// 선택 세로선 레이어
-    private var focusVerticalLayer: CAShapeLayer = CAShapeLayer()
-    /// 선택 정보창 레이어
-    private let focusInfoLayer: CALayer = CALayer().then {
-        $0.backgroundColor = UIColor.black.cgColor
-        $0.opacity = 0.8
-    }
-    /// 선택 정보창 텍스트 레이어
-    private let focusInfoTextLayer: CALayer = CALayer()
-    /// 선택 모드인지 아닌지
-    private var isFocusMode: Bool = false
-    /// 선택 정보창 사이즈
-    private let focusInfoSize: CGSize = CGSize(width: 120.0, height: 120.0)
-    /// 선택 정보창 바깥쪽 여백
-    private let focusInfoMargin: CGPoint = CGPoint(x: 10, y: 10)
-    /// 선택 정보착 안쪽 여백
-    private let focusInfoPadding: CGPoint = CGPoint(x: 4, y: 4)
-    /// 선택 정보창 날짜 포맷
-    private let infoTimeFormatter = DateFormatter().then {
-        $0.dateFormat = "yyyy/MM/dd HH:mm:ss"
-    }
-    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard isFocusMode else {
             return
@@ -631,6 +599,39 @@ class CandleStickChartView: UIView {
             }
             self.drawFocus(on: touch.location(in: self))
         }
+    }
+    
+    // MARK: - @objc
+
+    @objc func handlePinch(_ pinch: UIPinchGestureRecognizer) {
+        guard !self.isFocusMode else {
+            return
+        }
+        let newCandleStickWidth = self.candleStickWidth * pinch.scale
+        if (newCandleStickWidth > self.maxCandleStickWidth ||
+            newCandleStickWidth < self.minCandleStickWidth) {
+            return
+        }
+        self.candleStickWidth *= pinch.scale
+        self.candleStickSpace *= pinch.scale
+        self.candleStickLineWidth *= pinch.scale
+        self.scrollView.contentOffset = CGPoint(
+            x: self.scrollView.contentOffset.x * pinch.scale,
+            y: 0
+        )
+        setNeedsLayout()
+        pinch.scale = 1
+    }
+    
+    @objc func handleTap(_ tap: UITapGestureRecognizer) {
+        if self.isFocusMode {
+            self.scrollView.isScrollEnabled = true
+            self.removeFocus()
+        } else {
+            self.scrollView.isScrollEnabled = false
+            self.drawFocus(on: tap.location(in: self))
+        }
+        self.isFocusMode = !self.isFocusMode
     }
 }
 
