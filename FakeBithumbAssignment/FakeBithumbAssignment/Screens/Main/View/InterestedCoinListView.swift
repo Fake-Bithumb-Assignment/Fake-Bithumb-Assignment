@@ -50,8 +50,8 @@ final class InterestedCoinListView: UIView {
         self.configureNotificationCenter()
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.configurediffableDataSource()
             self.setUpInterestedCoinListTableView()
+            self.configurediffableDataSource()
         }
     }
 
@@ -83,7 +83,6 @@ final class InterestedCoinListView: UIView {
     
     private func setUpInterestedCoinListTableView() {
         interestedCoinListTableView.delegate = self
-        interestedCoinListTableView.dataSource = dataSource
     }
 
     private func configurediffableDataSource() {
@@ -98,6 +97,7 @@ final class InterestedCoinListView: UIView {
             return cell
         }
 
+        self.interestedCoinListTableView.dataSource = dataSource
         configureSnapshot()
     }
 

@@ -49,8 +49,8 @@ final class TotalCoinListView: UIView {
         self.configureNoInterestedCoinView()
         self.configureNotificationCenter()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.configurediffableDataSource()
             self.setUpInterestedCoinListTableView()
+            self.configurediffableDataSource()
         }
     }
 
@@ -82,7 +82,6 @@ final class TotalCoinListView: UIView {
 
     private func setUpInterestedCoinListTableView() {
         totalCoinListTableView.delegate = self
-        totalCoinListTableView.dataSource = dataSource
     }
 
     private func configurediffableDataSource() {
@@ -97,6 +96,7 @@ final class TotalCoinListView: UIView {
             return cell
         }
 
+        self.totalCoinListTableView.dataSource = dataSource
         configureSnapshot()
     }
     
