@@ -20,6 +20,7 @@ final class TotalCoinListView: UIView {
 
     var totalCoinList: [CoinData] = [] {
         didSet {
+            self.configurediffableDataSource()
             noInterestedCoinView.isHidden = !totalCoinList.isEmpty
         }
     }
@@ -28,6 +29,7 @@ final class TotalCoinListView: UIView {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
         $0.backgroundColor = .clear
         $0.keyboardDismissMode = .onDrag
+        $0.separatorInset = UIEdgeInsets()
     }
 
     private let noInterestedCoinLabel = UILabel().then {
@@ -48,10 +50,7 @@ final class TotalCoinListView: UIView {
         self.configureTotalCoinListTableView()
         self.configureNoInterestedCoinView()
         self.configureNotificationCenter()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.setUpInterestedCoinListTableView()
-            self.configurediffableDataSource()
-        }
+        self.setUpInterestedCoinListTableView()
     }
 
     @available(*, unavailable)

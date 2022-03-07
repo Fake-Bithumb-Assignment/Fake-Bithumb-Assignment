@@ -40,7 +40,6 @@ final class MainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getTickerData(orderCurrency: "ALL", paymentCurrency: "KRW")
-        configureUI()
         setUpViews()
         setUpNotification()
     }
@@ -52,10 +51,16 @@ final class MainViewController: BaseViewController {
     }
 
     private func fetchData() {
-        fetchCurrentPrice()
-        fetchChangeRateAndValue()
+        DispatchQueue.global().async {
+            self.fetchCurrentPrice()
+            self.fetchChangeRateAndValue()
+        }
     }
     
+    override func render() {
+        configureUI()
+    }
+
     private func configureUI() {
         configureStackViews()
         configureIndicator()
@@ -82,7 +87,9 @@ final class MainViewController: BaseViewController {
                 return
             }
 
-            self.updateCurrentChangeRateAndValue(coin: coin, data: response)
+            DispatchQueue.main.async {
+                self.updateCurrentChangeRateAndValue(coin: coin, data: response)
+            }
         }
     }
     
@@ -96,7 +103,9 @@ final class MainViewController: BaseViewController {
                 return
             }
 
-            self.updateCurrentPrice(coin: coin, data: response)
+            DispatchQueue.main.async {
+                self.updateCurrentPrice(coin: coin, data: response)
+            }
         }
     }
 
@@ -177,7 +186,6 @@ final class MainViewController: BaseViewController {
         }
 
         self.interestedCoinListView.isHidden = true
-        self.totalCoinListView.totalCoinList = totalCoinList
         self.view.addSubview(stackView)
         self.headerView.snp.makeConstraints { make in
             make.height.lessThanOrEqualTo(200)
