@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class CoinContractDetailsTabViewController: BaseViewController {
+final class CoinContractDetailsTabViewController: BaseViewController {
     
     // MARK: - Instance Property
     private let timeTableView = UITableView().then {
@@ -26,9 +26,13 @@ class CoinContractDetailsTabViewController: BaseViewController {
     }
     
     private let volumeTableView = UITableView().then {
-        $0.register(CoinTableViewCell.self,
-                    forCellReuseIdentifier: CoinTableViewCell.className)
+        $0.register(ContractPriceAndVolumeTableViewCell.self,
+                    forCellReuseIdentifier: ContractPriceAndVolumeTableViewCell.className)
         $0.backgroundColor = .clear
+    }
+    
+    let scrollView = UIScrollView().then { make in
+        make.backgroundColor = .white
     }
     
     
@@ -40,14 +44,18 @@ class CoinContractDetailsTabViewController: BaseViewController {
     }
     
     override func render() {
-        self.view.addSubViews([self.timeTableView,
-                               self.priceTableView,
-                               self.volumeTableView])
+        self.view.addSubview(self.scrollView)
+        
+        self.scrollView.snp.makeConstraints { make in
+            make.leading.top.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
+        }
     }
     
     override func configUI() {
         configStackView()
+        configTableView()
     }
+    
     
     // MARK: - custom funcs
     
@@ -58,6 +66,10 @@ class CoinContractDetailsTabViewController: BaseViewController {
         self.priceTableView.delegate = self
         self.volumeTableView.dataSource = self
         self.volumeTableView.delegate = self
+        
+        self.timeTableView.isUserInteractionEnabled = false
+        self.priceTableView.isUserInteractionEnabled = false
+        self.volumeTableView.isUserInteractionEnabled = false
     }
     
     func configStackView() {
@@ -71,10 +83,18 @@ class CoinContractDetailsTabViewController: BaseViewController {
             $0.spacing = 1
         }
         
-        self.view.addSubview(stackView)
+        self.scrollView.addSubview(stackView)
         stackView.snp.makeConstraints { make in
-            make.size.equalToSuperview()
+            make.top.leading.bottom.trailing.equalTo(self.scrollView)
+            make.width.equalTo(self.scrollView)
+            make.height.equalTo(2400)
         }
+    }
+    
+    func configTableView() {
+        self.timeTableView.isScrollEnabled = false
+        self.priceTableView.isScrollEnabled = false
+        self.volumeTableView.isScrollEnabled = false
     }
 }
 
@@ -101,5 +121,7 @@ extension CoinContractDetailsTabViewController: UITableViewDataSource {
 }
 
 extension CoinContractDetailsTabViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 30
+    }
 }

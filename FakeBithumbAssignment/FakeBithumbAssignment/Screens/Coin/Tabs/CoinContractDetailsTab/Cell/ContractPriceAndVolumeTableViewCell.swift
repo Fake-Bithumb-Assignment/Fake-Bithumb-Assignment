@@ -15,7 +15,7 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
     // MARK: - Instance Property
     
     private let contentLabel = UILabel().then {
-        $0.text = "19:20:20"
+        $0.text = "40,000,000"
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
         $0.textColor = .darkGray
     }
@@ -35,8 +35,7 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
         self.contentView.addSubView(self.contentLabel)
         
         self.contentLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(self.contentView)
-            make.trailing.equalTo(self.contentView.snp.trailing).inset(5)
+            make.center.equalTo(self.contentView)
         }
     }
     
