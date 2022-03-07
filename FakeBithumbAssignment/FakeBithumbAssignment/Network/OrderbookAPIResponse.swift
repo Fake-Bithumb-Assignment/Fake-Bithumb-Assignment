@@ -23,7 +23,7 @@ struct OrderbookAPIResponse: Codable {
 }
 
 struct Quote: Codable {
-    let price, quantity: String
+    var price, quantity: String
     
     init(price: Int, quantity: Double) {
         self.price = "\(price)"

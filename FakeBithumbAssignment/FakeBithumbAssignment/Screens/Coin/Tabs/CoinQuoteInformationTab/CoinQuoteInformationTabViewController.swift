@@ -35,6 +35,9 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         getOrderbookData(orderCurrency: "BTC", paymentCurrency: "KRW")
         getWebSocketOrderbookData(orderCurrency: "BTC")
         getWebsocketTransactionData(orderCurrency: "BTC")
@@ -45,9 +48,9 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-           btsocketAPIService.disconnectAll()
-           super.viewDidDisappear(animated)
-       }
+        btsocketAPIService.disconnectAll()
+        super.viewDidDisappear(animated)
+    }
     
     override func render() {
         self.view.addSubview(self.scrollView)
@@ -191,21 +194,28 @@ class CoinQuoteInformationTabViewController: BaseViewController {
                     var count = self.asksList.count
                     var index = 0
                     while(index < count) {
-                        if Double(self.asksList[index].price) == Double(transaction.contPrice)
-                            && Double(self.asksList[index].quantity)! - transaction.contQty == 0 {
-                            self.asksList.remove(at: index)
-                            count -= 1
+                        if Double(self.asksList[index].price) == Double(transaction.contPrice) {
+                            guard let quantity = Double(self.asksList[index].quantity) else { return }
+                            if quantity - transaction.contQty <= 0 {
+                                self.asksList.remove(at: index)
+                                count -= 1
+                            } else {
+                                self.asksList[index].quantity = "\(quantity - transaction.contQty)"
+                            }
                         }
                         index += 1
                     }
                 case .buy:
-                    var count = self.asksList.count
+                    var count = self.bidsList.count
                     var index = 0
                     while(index < count) {
                         if Double(self.bidsList[index].price) == Double(transaction.contPrice) {
-                            if Double(self.bidsList[index].quantity)! - transaction.contQty == 0 {
+                            guard let quantity = Double(self.bidsList[index].quantity) else { return }
+                            if Double(self.bidsList[index].quantity)! - transaction.contQty <= 0 {
                                 self.bidsList.remove(at: index)
                                 count -= 1
+                            } else {
+                                self.bidsList[index].quantity = "\(quantity - transaction.contQty)"
                             }
                         }
                         index += 1
