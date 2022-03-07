@@ -39,6 +39,10 @@ final class MainViewController: BaseViewController {
 
     // MARK: - custom func
 
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+          self.view.endEditing(true)
+    }
+
     private func configureUI() {
         configureStackView()
     }
@@ -225,13 +229,13 @@ final class MainViewController: BaseViewController {
                 print("clientError:\(message)")
             }
         }
-        
     }
 
     private func setUpViews() {
         headerView.delegate = self
         totalCoinListView.delegate = self
         interestedCoinListView.delegate = self
+        headerView.searchView.searchfield.delegate = self
     }
 
     private func setUserDefaults(_ coinName: String) {
@@ -294,7 +298,15 @@ extension MainViewController: CoinDelgate {
     }
     
     func showCoinInformation(coin: CoinData) {
+        self.view.endEditing(true)
         let vc = CoinViewController()
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension MainViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true
     }
 }

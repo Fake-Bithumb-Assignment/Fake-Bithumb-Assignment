@@ -27,7 +27,7 @@ final class HeaderView: UIView {
 
     private let InterestCoinListButton = UIButton()
 
-    private let searchView = SearchView()
+    let searchView = SearchView()
 
     private let settingButton = UIButton().then {
         $0.setTitle(SortOption.sortedBypopular.rawValue, for: .normal)
