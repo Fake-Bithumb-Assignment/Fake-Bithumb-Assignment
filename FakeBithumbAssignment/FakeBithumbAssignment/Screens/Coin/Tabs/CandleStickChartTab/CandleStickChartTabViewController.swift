@@ -36,7 +36,13 @@ class CandleStickChartTabViewController: BaseViewController {
         self.configUI()
         self.configButtonTarget()
         Task { await self.fetchInitialData() }
-        Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(refreshData), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(
+            timeInterval: 1.0,
+            target: self,
+            selector: #selector(refreshData),
+            userInfo: nil,
+            repeats: true
+        )
     }
     
     // MARK: - custom func
