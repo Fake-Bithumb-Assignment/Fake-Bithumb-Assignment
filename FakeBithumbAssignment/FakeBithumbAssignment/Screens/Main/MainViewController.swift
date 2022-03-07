@@ -121,10 +121,10 @@ final class MainViewController: BaseViewController {
         }
 
         let currentChangeRate = data.content.chgRate
-        receivedCoinData.changeRate = String.insertComma(value: currentChangeRate) + "%"
+        receivedCoinData.changeRate = String.insertComma(value: currentChangeRate)
 
         let currentTradeValue = Int(data.content.value) / 1000000
-        receivedCoinData.tradeValue = String.insertComma(value: Double(currentTradeValue)) + "백만"
+        receivedCoinData.tradeValue = String.insertComma(value: Double(currentTradeValue))
 
         updateSnapshot(receivedCoinData)
     }
@@ -204,8 +204,8 @@ final class MainViewController: BaseViewController {
             return
         }
         let tradeValue = Int(accTradeValue24H) / 1000000
-        let currentTradeValue = String.insertComma(value: Double(tradeValue)) + "백만"
-        let changeRate = String.insertComma(value: fluctateRate24H) + "%"
+        let currentTradeValue = String.insertComma(value: Double(tradeValue))
+        let changeRate = String.insertComma(value: fluctateRate24H)
 
         if UserDefaults.standard.string(forKey: coin.rawValue) != nil {
             self.totalCoinList.append(CoinData(
@@ -228,13 +228,8 @@ final class MainViewController: BaseViewController {
     
     private func sortByPopular() {
         self.totalCoinList.sort {
-            let firstEndIndex = $0.tradeValue.index($0.tradeValue.endIndex, offsetBy: -2)
-            let secondEndIndex = $1.tradeValue.index($1.tradeValue.endIndex, offsetBy: -2)
-            
-            let firstValue = String($0.tradeValue[..<firstEndIndex])
-                .replacingOccurrences(of: ",", with: "")
-            let secondValue = String($1.tradeValue[..<secondEndIndex])
-                .replacingOccurrences(of: ",", with: "")
+            let firstValue = $0.tradeValue.replacingOccurrences(of: ",", with: "")
+            let secondValue = $1.tradeValue.replacingOccurrences(of: ",", with: "")
             
             guard let firstTradeValue = Int(firstValue),
                   let secondTradeValue = Int(secondValue)
@@ -255,9 +250,11 @@ final class MainViewController: BaseViewController {
     
     private func sortByChangeRate() {
         self.totalCoinList.sort {
-            let firstValue = $0.changeRate.replacingOccurrences(of: "%", with: "")
-            let secondValue = $1.changeRate.replacingOccurrences(of: "%", with: "")
-            
+            var firstValue = $0.changeRate
+            var secondValue = $1.changeRate
+            firstValue.removeLast()
+            secondValue.removeLast()
+
             guard let firstChangeRate = Double(firstValue),
                   let secondChangeRate = Double(secondValue)
             else {

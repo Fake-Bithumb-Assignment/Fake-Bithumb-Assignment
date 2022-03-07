@@ -38,4 +38,13 @@ extension UIView {
         self.layer.shadowColor = color.cgColor
         self.layer.shadowOffset = offset
     }
+
+    func animateBorderColor(toColor: UIColor, duration: Double) {
+        let animation = CABasicAnimation(keyPath: "borderColor")
+        animation.fromValue = UIColor.clear.cgColor
+        animation.toValue = toColor.cgColor
+        animation.duration = duration
+        layer.add(animation, forKey: "borderColor")
+        layer.borderColor = UIColor.clear.cgColor
+    }
 }
