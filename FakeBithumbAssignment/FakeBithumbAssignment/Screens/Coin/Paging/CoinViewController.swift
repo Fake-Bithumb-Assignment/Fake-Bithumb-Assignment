@@ -14,6 +14,11 @@ final class CoinViewController: BaseViewController {
     
     // MARK: - Instance Property
     
+    private let tickerAPIService = TickerAPIService(apiService: HttpService(),
+                                                    environment: .development)
+    
+    private var tickerData: Item?
+    
     let sectionInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     
     private let headerView = CoinHeaderView()
@@ -48,10 +53,11 @@ final class CoinViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        render()
-        configUI()
-        setPageView()
-        patchHeaderViewData()
+        self.render()
+        self.configUI()
+        self.setPageView()
+        self.getTickerData(orderCurrency: "BTC", paymentCurrency: "KRW")
+        self.patchHeaderViewData()
     }
     
     override func render() {
@@ -124,11 +130,31 @@ final class CoinViewController: BaseViewController {
         }
     }
     
+    private func getTickerData(orderCurrency: String, paymentCurrency: String) {
+        Task {
+            do {
+                let tickerData = try await tickerAPIService.getOneTickerData(orderCurrency: orderCurrency,
+                                                                             paymentCurrency: paymentCurrency)
+                if let tickerData = tickerData {
+                    self.tickerData = tickerData
+                    print(tickerData)
+                } else {
+                    // TODO: 에러 처리 얼럿 띄우기
+                }
+                self.patchHeaderViewData()
+            } catch HttpServiceError.serverError {
+                print("serverError")
+            } catch HttpServiceError.clientError(let message) {
+                print("clientError:\(message)")
+            }
+        }
+    }
+    
     private func patchHeaderViewData() {
-        self.headerView.patchData(data: CoinHeaderModel(currentPrice: 4559400,
-                                                        fluctate: -1578000,
-                                                        fluctateUpDown: "up",
-                                                        fluctateRate: 3.35))
+        guard let tickerData = self.tickerData else { return }
+        self.headerView.patchData(data: CoinHeaderModel(currentPrice: tickerData.closingPrice,
+                                                        fluctate: tickerData.fluctate24H,
+                                                        fluctateRate: tickerData.fluctateRate24H))
     }
     
     

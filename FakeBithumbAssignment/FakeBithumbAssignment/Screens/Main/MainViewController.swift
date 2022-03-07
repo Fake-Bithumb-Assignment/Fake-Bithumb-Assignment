@@ -24,9 +24,14 @@ final class MainViewController: BaseViewController {
 
     private lazy var interestedCoinListView = InterestedCoinListView()
 
+    private lazy var searchedCoin: [CoinData] = []
+
     private var btsocketAPIService = BTSocketAPIService()
 
-    private let tickerAPIService = TickerAPIService(apiService: HttpService(), environment: .development)
+    private let tickerAPIService = TickerAPIService(
+        apiService: HttpService(),
+        environment: .development
+    )
 
     // MARK: - Life Cycle func
 
@@ -35,12 +40,13 @@ final class MainViewController: BaseViewController {
         getTickerData(orderCurrency: "ALL", paymentCurrency: "KRW")
         configureUI()
         setUpViews()
+        setUpNotification()
     }
 
     // MARK: - custom func
 
-    private func configureUI() {
-        configureStackView()
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.headerView.searchController.dismiss(animated: true, completion: nil)
     }
 
     private func fetchData() {
@@ -66,7 +72,8 @@ final class MainViewController: BaseViewController {
             orderCurrency: Array(Coin.allCases),
             paymentCurrency: .krw
         ) { response in
-            guard let coin = self.parseSymbol(symbol: response.content.list.first?.symbol) else {
+            guard let coin = self.parseSymbol(symbol: response.content.list.first?.symbol)
+            else {
                 return
             }
 
@@ -106,15 +113,23 @@ final class MainViewController: BaseViewController {
             return
         }
 
-        receivedCoinData.currentPrice = String(currentPrice)
+        if floor(currentPrice) == currentPrice {
+            let price = Int(currentPrice)
+            receivedCoinData.currentPrice = String.insertComma(value: price)
+        }
+        else {
+            receivedCoinData.currentPrice = String(currentPrice)
+        }
 
         updateSnapshot(receivedCoinData)
     }
     
     private func updateSnapshot(_ updatedValue: CoinData) {
-        totalCoinListView.updateSnapshot(of: updatedValue)
-        if updatedValue.isInterested {
-            interestedCoinListView.updateSnapshot(of: updatedValue)
+        if totalCoinListView.totalCoinList.contains(updatedValue) {
+            totalCoinListView.updateSnapshot(of: updatedValue)
+            if updatedValue.isInterested {
+                interestedCoinListView.updateSnapshot(of: updatedValue)
+            }
         }
     }
     
@@ -134,7 +149,7 @@ final class MainViewController: BaseViewController {
         return Coin(rawValue: parsedCoin)
     }
 
-    private func configureStackView() {
+    private func configureUI() {
         let stackView = UIStackView(arrangedSubviews: [
             self.headerView, self.totalCoinListView, self.interestedCoinListView
         ]).then {
@@ -142,6 +157,7 @@ final class MainViewController: BaseViewController {
             $0.alignment = .fill
         }
 
+        self.interestedCoinListView.isHidden = true
         self.totalCoinListView.totalCoinList = totalCoinList
         self.view.addSubview(stackView)
         self.headerView.snp.makeConstraints { make in
@@ -155,65 +171,90 @@ final class MainViewController: BaseViewController {
     }
 
     private func configureCoinData(coin: Coin, value: Item) {
+        guard let fluctateRate24H = Double(value.fluctateRate24H),
+              let accTradeValue24H = Double(value.accTradeValue24H)
+        else {
+            return
+        }
+        let tradeValue = Int(accTradeValue24H) / 1000000
+        let currentTradeValue = String.insertComma(value: Double(tradeValue)) + "백만"
+        let changeRate = String.insertComma(value: fluctateRate24H) + "%"
+
         if UserDefaults.standard.string(forKey: coin.rawValue) != nil {
-            guard let fluctateRate24H = Double(value.fluctateRate24H),
-                  let accTradeValue24H = Double(value.accTradeValue24H)
-            else {
-                return
-            }
-            
-            let tradeValue = Int(accTradeValue24H) / 1000000
-            let currentTradeValue = String.insertComma(value: Double(tradeValue)) + "백만"
-            let changeRate = String.insertComma(value: fluctateRate24H) + "%"
-            self.totalCoinList.append(CoinData(coinName: coin, currentPrice: value.fluctate24H, changeRate: changeRate, tradeValue: currentTradeValue, isInterested: true))
+            self.totalCoinList.append(CoinData(
+                coinName: coin,
+                currentPrice: "아직 없음",
+                changeRate: changeRate,
+                tradeValue: currentTradeValue,
+                isInterested: true
+            ))
         }
         else {
-            guard let fluctateRate24H = Double(value.fluctateRate24H),
-                  let accTradeValue24H = Double(value.accTradeValue24H)
-            else {
-                return
-            }
-            
-            let tradeValue = Int(accTradeValue24H) / 1000000
-            let currentTradeValue = String(tradeValue) + "백만"
-            let changeRate = String(fluctateRate24H) + "%"
-//            let currentTradeValue = String.insertComma(value: Double(tradeValue)) + "백만"
-//            let changeRate = String.insertComma(value: fluctateRate24H) + "%"
-            self.totalCoinList.append(CoinData(coinName: coin, currentPrice: value.fluctate24H, changeRate: changeRate, tradeValue: currentTradeValue))
+            self.totalCoinList.append(CoinData(
+                coinName: coin,
+                currentPrice: "아직 없음",
+                changeRate: changeRate,
+                tradeValue: currentTradeValue
+            ))
         }
     }
     
-    private func setUpData() {
+    private func sortByPopular() {
         self.totalCoinList.sort {
             let firstEndIndex = $0.tradeValue.index($0.tradeValue.endIndex, offsetBy: -2)
             let secondEndIndex = $1.tradeValue.index($1.tradeValue.endIndex, offsetBy: -2)
             
             let firstValue = String($0.tradeValue[..<firstEndIndex])
+                .replacingOccurrences(of: ",", with: "")
             let secondValue = String($1.tradeValue[..<secondEndIndex])
+                .replacingOccurrences(of: ",", with: "")
             
             guard let firstTradeValue = Int(firstValue),
                   let secondTradeValue = Int(secondValue)
             else {
-                return $0.tradeValue < $1.tradeValue
+                return $0.tradeValue > $1.tradeValue
             }
 
-            return firstTradeValue < secondTradeValue
+            return firstTradeValue > secondTradeValue
         }
+
         totalCoinListView.totalCoinList = self.totalCoinList
         updateInterestedCoinList()
+    }
+    
+    private func sortByName() {
+        self.totalCoinList.sort { $0.coinName.rawValue < $1.coinName.rawValue }
+    }
+    
+    private func sortByChangeRate() {
+        self.totalCoinList.sort {
+            let firstValue = $0.changeRate.replacingOccurrences(of: "%", with: "")
+            let secondValue = $1.changeRate.replacingOccurrences(of: "%", with: "")
+            
+            guard let firstChangeRate = Double(firstValue),
+                  let secondChangeRate = Double(secondValue)
+            else {
+                return $0.changeRate > $1.changeRate
+            }
+
+            return firstChangeRate > secondChangeRate
+        }
     }
 
     private func getTickerData(orderCurrency: String, paymentCurrency: String) {
         Task {
             do {
-                let tickerData = try await tickerAPIService.getTickerData(orderCurrency: orderCurrency, paymentCurrency: paymentCurrency)
+                let tickerData = try await tickerAPIService.getTickerData(
+                    orderCurrency: orderCurrency,
+                    paymentCurrency: paymentCurrency
+                )
                 if let tickerData = tickerData {
                     try tickerData.allProperties().forEach({
                         if let coinName = Coin(rawValue: $0.key.uppercased()) {
                             configureCoinData(coin: coinName, value: $0.value)
                         }
                     })
-                    setUpData()
+                    sortByPopular()
                     fetchData()
                 } else {
                    // TODO: 에러 처리 얼럿 띄우기
@@ -222,16 +263,17 @@ final class MainViewController: BaseViewController {
             } catch HttpServiceError.serverError {
                 print("serverError")
             } catch HttpServiceError.clientError(let message) {
-                print("clientError:\(message)")
+                print("clientError:\(String(describing: message))")
             }
         }
-        
     }
 
     private func setUpViews() {
         headerView.delegate = self
         totalCoinListView.delegate = self
         interestedCoinListView.delegate = self
+        headerView.searchController.searchResultsUpdater = self
+        self.navigationItem.searchController = headerView.searchController
     }
 
     private func setUserDefaults(_ coinName: String) {
@@ -242,6 +284,21 @@ final class MainViewController: BaseViewController {
             UserDefaults.standard.set(coinName, forKey: coinName)
         }
     }
+
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+
+    // MARK: - @objc
+
+    @objc private func keyboardWillHide() {
+        self.headerView.searchController.dismiss(animated: true, completion: nil)
+    }
 }
 
 // MARK: - HeaderViewDelegate
@@ -250,11 +307,11 @@ extension MainViewController: HeaderViewDelegate {
     func sorted(by sortOption: SortOption) {
         switch sortOption {
         case .sortedBypopular:
-            self.totalCoinList.sort { $0.tradeValue > $1.tradeValue }
+            self.sortByPopular()
         case .sortedByName:
-            self.totalCoinList.sort { $0.coinName.rawValue < $1.coinName.rawValue }
+            self.sortByName()
         case .sortedByChangeRate:
-            self.totalCoinList.sort { $0.changeRate > $1.changeRate }
+            self.sortByChangeRate()
         }
         totalCoinListView.totalCoinList = self.totalCoinList
         updateInterestedCoinList()
@@ -262,6 +319,7 @@ extension MainViewController: HeaderViewDelegate {
     }
 
     func selectCategory(_ category: Category) {
+        self.headerView.searchController.dismiss(animated: true, completion: nil)
         switch category {
         case .krw:
             self.totalCoinListView.isHidden = false
@@ -290,11 +348,29 @@ extension MainViewController: CoinDelgate {
         }
 
         coin.isInterested.toggle()
+        self.interestedCoinList = interestedCoinListView.interestedCoinList
         setUserDefaults(coinName.rawValue)
     }
     
     func showCoinInformation(coin: CoinData) {
-        let vc = CoinViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.headerView.searchController.dismiss(animated: false) {
+            let vc = CoinViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+}
+
+// MARK: - UISearchResultsUpdating
+
+extension MainViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        totalCoinListView.totalCoinList = self.totalCoinList.filter {
+            $0.coinName.rawValue.hasPrefix(searchController.searchBar.text ?? "")
+        }
+        totalCoinListView.configureSnapshot()
+
+        interestedCoinListView.interestedCoinList = self.interestedCoinList.filter { $0.coinName.rawValue.hasPrefix(searchController.searchBar.text ?? "")
+        }
+        interestedCoinListView.configureSnapshot()
     }
 }

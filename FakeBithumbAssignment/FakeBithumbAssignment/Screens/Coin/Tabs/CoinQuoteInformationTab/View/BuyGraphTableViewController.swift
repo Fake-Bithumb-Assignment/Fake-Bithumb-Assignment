@@ -13,7 +13,7 @@ import Then
 final class BuyGraphTableViewController: UITableViewController {
     
     // MARK: - Instance Property
-    
+    var bids: [Quote]?
     
     // MARK: - Life Cycle func
     
@@ -38,6 +38,10 @@ final class BuyGraphTableViewController: UITableViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
     }
+    
+    func setQuoteData(bids: [Quote]) {
+        self.bids = bids
+    }
 }
 
 extension BuyGraphTableViewController {
@@ -47,6 +51,9 @@ extension BuyGraphTableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withType: BuyGraphTableViewCell.self, for: indexPath)
+        if let bids = self.bids {
+            cell.update(quote: bids[indexPath.row])
+        }
         return cell
     }
     

@@ -38,18 +38,20 @@ final class InterestedCoinListView: UIView {
     private let interestedCoinListTableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
         $0.backgroundColor = .clear
+        $0.keyboardDismissMode = .onDrag
     }
 
     // MARK: - Initializer
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.configureTotalCoinListTableView()
+        self.configureInterestedCoinListTableView()
         self.configureNoInterestedCoinView()
         self.configureNotificationCenter()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.configurediffableDataSource()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.setUpInterestedCoinListTableView()
+            self.configurediffableDataSource()
         }
     }
 
@@ -72,7 +74,7 @@ final class InterestedCoinListView: UIView {
         }
     }
     
-    private func configureTotalCoinListTableView() {
+    private func configureInterestedCoinListTableView() {
         self.addSubview(interestedCoinListTableView)
         interestedCoinListTableView.snp.makeConstraints { make in
             make.size.equalToSuperview()
@@ -81,7 +83,6 @@ final class InterestedCoinListView: UIView {
     
     private func setUpInterestedCoinListTableView() {
         interestedCoinListTableView.delegate = self
-        interestedCoinListTableView.dataSource = dataSource
     }
 
     private func configurediffableDataSource() {
@@ -96,14 +97,16 @@ final class InterestedCoinListView: UIView {
             return cell
         }
 
+        self.interestedCoinListTableView.dataSource = dataSource
         configureSnapshot()
     }
 
-    private func configureSnapshot() {
+    func configureSnapshot() {
         guard var snapshot = self.dataSource?.snapshot() else {
             return
         }
 
+        snapshot.deleteAllItems()
         snapshot.appendSections([.main])
         snapshot.appendItems(interestedCoinList)
         self.dataSource?.apply(snapshot)

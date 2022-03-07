@@ -8,15 +8,13 @@
 import Foundation
 
 struct CoinHeaderModel {
-    let currentPrice: Int
-    let fluctate: Int
-    let fluctateUpDown: String
-    let fluctateRate: Double
+    let currentPrice: String
+    let fluctate: String
+    let fluctateRate: String
     
-    init(currentPrice: Int, fluctate: Int, fluctateUpDown: String, fluctateRate: Double){
+    init(currentPrice: String, fluctate: String, fluctateRate: String){
         self.currentPrice = currentPrice
         self.fluctate = fluctate
-        self.fluctateUpDown = fluctateUpDown
         self.fluctateRate = fluctateRate
     }
 }

@@ -14,7 +14,7 @@ class BuyGraphTableViewCell: BaseTableViewCell {
     
     // MARK: - Instance Property
     
-    private let buyPriceLabel = UILabel().then {
+    private let buyQuantityLabel = UILabel().then {
         $0.text = "0.0750"
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
         $0.textColor = .darkGray
@@ -46,7 +46,7 @@ class BuyGraphTableViewCell: BaseTableViewCell {
     }
     
     override func render() {
-        self.contentView.addSubViews([self.buyGraphView, self.buyPriceLabel])
+        self.contentView.addSubViews([self.buyGraphView, self.buyQuantityLabel])
         
         self.buyGraphView.snp.makeConstraints { make in
             make.leading.equalTo(self.contentView.snp.leading)
@@ -55,7 +55,7 @@ class BuyGraphTableViewCell: BaseTableViewCell {
             make.width.equalTo(50)
         }
         
-        self.buyPriceLabel.snp.makeConstraints { make in
+        self.buyQuantityLabel.snp.makeConstraints { make in
             make.leading.equalTo(self.contentView.snp.leading)
             make.centerY.equalTo(self.contentView)
         }
@@ -68,8 +68,8 @@ class BuyGraphTableViewCell: BaseTableViewCell {
     
     // MARK: - custom funcs
     
-    func update() {
-        
+    func update(quote: Quote) {
+        self.buyQuantityLabel.text = quote.quantity
     }
 }
 
