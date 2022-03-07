@@ -27,7 +27,7 @@ class CandleStickChartTabViewController: BaseViewController {
         IntervalButton(title: "24시간",interval: ._24h)
     ]
     private var candleSticks: [BTCandleStick] = []
-    private let candleStickChardView: CandleStickChartView = CandleStickChartView(with: [])
+    private let candleStickChartView: CandleStickChartView = CandleStickChartView(with: [])
     
     // MARK: - Life Cycle func
 
@@ -57,7 +57,7 @@ class CandleStickChartTabViewController: BaseViewController {
         }
         buttonStackView.setContentHuggingPriority(.defaultHigh, for: .vertical)
         let entireStackView = UIStackView(
-            arrangedSubviews: [buttonStackView, self.candleStickChardView]
+            arrangedSubviews: [buttonStackView, self.candleStickChartView]
         ).then {
             $0.axis = .vertical
             $0.distribution = .fill
@@ -168,6 +168,6 @@ extension CandleStickChartTabViewController {
                 tradeVolume: btCandleStick.tradeVolume
             )
         }.sorted { $0.date < $1.date } // 과거~최신순으로 정렬 해 줌
-        self.candleStickChardView.updateCandleSticks(of: transformed)
+        self.candleStickChartView.updateCandleSticks(of: transformed)
     }
 }
