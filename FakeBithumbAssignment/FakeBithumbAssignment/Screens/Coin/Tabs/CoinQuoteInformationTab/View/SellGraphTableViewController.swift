@@ -40,7 +40,7 @@ final class SellGraphTableViewController: UITableViewController {
     }
     
     func setQuoteData(asks: [Quote]) {
-        self.asks = asks
+        self.asks = Array(asks[(asks.count - 30)...])
     }
 }
 

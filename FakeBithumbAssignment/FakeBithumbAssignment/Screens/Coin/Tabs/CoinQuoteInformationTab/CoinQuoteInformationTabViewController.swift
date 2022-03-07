@@ -155,7 +155,6 @@ class CoinQuoteInformationTabViewController: BaseViewController {
                     if !self.replaceQuote(type: .bid, data: quote) {
                         self.bidsList.append(quote)
                     }
-                    self.bidsList.append(quote)
                     self.sortQuoteList(type: .bid)
                 }
             }
@@ -220,8 +219,8 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         case .bid:
             let count = self.bidsList.count
             for index in 0..<count {
-                if self.bidsList[index].price == data.price {
-                    self.bidsList.remove(at: index)
+                if Int(self.bidsList[index].price) == Int(data.price) {
+                    self.bidsList[index] = data
                     return true
                 }
             }
