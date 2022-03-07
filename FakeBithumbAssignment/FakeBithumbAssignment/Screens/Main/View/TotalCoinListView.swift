@@ -31,7 +31,7 @@ final class TotalCoinListView: UIView {
         super.init(frame: frame)
         self.configureTotalCoinListTableView()
         self.configureNotificationCenter()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.configurediffableDataSource()
             self.setUpInterestedCoinListTableView()
         }
