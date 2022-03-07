@@ -32,6 +32,8 @@ final class MainViewController: BaseViewController {
         apiService: HttpService(),
         environment: .development
     )
+    
+    private let loadingAlert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
 
     // MARK: - Life Cycle func
 
@@ -54,6 +56,23 @@ final class MainViewController: BaseViewController {
         fetchChangeRateAndValue()
     }
     
+    private func configureUI() {
+        configureStackViews()
+        configureIndicator()
+    }
+
+    private func configureIndicator() {
+        let loadingIndicator = UIActivityIndicatorView(style: .large)
+        loadingIndicator.startAnimating()
+        
+        self.loadingAlert.view.addSubview(loadingIndicator)
+        self.loadingAlert.view.tintColor = .black
+
+        loadingIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+    }
+
     private func fetchChangeRateAndValue() {
         btsocketAPIService.subscribeTicker(
             orderCurrency: Array(Coin.allCases),
@@ -149,7 +168,7 @@ final class MainViewController: BaseViewController {
         return Coin(rawValue: parsedCoin)
     }
 
-    private func configureUI() {
+    private func configureStackViews() {
         let stackView = UIStackView(arrangedSubviews: [
             self.headerView, self.totalCoinListView, self.interestedCoinListView
         ]).then {
@@ -242,6 +261,8 @@ final class MainViewController: BaseViewController {
     }
 
     private func getTickerData(orderCurrency: String, paymentCurrency: String) {
+        self.present(self.loadingAlert, animated: true, completion: nil)
+
         Task {
             do {
                 let tickerData = try await tickerAPIService.getTickerData(
@@ -254,8 +275,10 @@ final class MainViewController: BaseViewController {
                             configureCoinData(coin: coinName, value: $0.value)
                         }
                     })
-                    sortByPopular()
-                    fetchData()
+                    self.loadingAlert.dismiss(animated: true) {
+                        self.sortByPopular()
+                        self.fetchData()
+                    }
                 } else {
                    // TODO: 에러 처리 얼럿 띄우기
                 }
