@@ -41,8 +41,8 @@ final class QuoteTableViewController: UITableViewController {
     }
     
     func setQuoteData(asks: [Quote], bids: [Quote]) {
-        self.asks = asks
-        self.bids = bids
+        self.asks = Array(asks[(asks.count - 30)...])
+        self.bids = Array(bids[0..<30])
     }
 }
 
@@ -53,7 +53,6 @@ extension QuoteTableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withType: QuoteTableViewCell.self, for: indexPath)
-        
         if let asks = self.asks, let bids = self.bids {
             if indexPath.row < 30 {
                 guard let color = UIColor(named: "sellView") else { return UITableViewCell() }

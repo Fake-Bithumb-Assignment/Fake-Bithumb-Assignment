@@ -18,8 +18,8 @@ class CoinQuoteInformationTabViewController: BaseViewController {
                                                                        environment: .development)
     var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
     
-    var asks: [Quote] = []
-    var bids: [Quote] = []
+    var asksList: [Quote] = []
+    var bidsList: [Quote] = []
     
     let sellGraphTableViewController = SellGraphTableViewController()
     let buyGraphTableViewController = BuyGraphTableViewController()
@@ -108,8 +108,8 @@ class CoinQuoteInformationTabViewController: BaseViewController {
                                                                                    paymentCurrency: paymentCurrency)
                 
                 if let orderBookData = orderBookData {
-                    self.asks = orderBookData.asks
-                    self.bids = orderBookData.bids
+                    self.asksList = orderBookData.asks
+                    self.bidsList = orderBookData.bids
                 } else {
                     // TODO: 에러 처리 얼럿 띄우기
                 }
@@ -128,45 +128,116 @@ class CoinQuoteInformationTabViewController: BaseViewController {
             paymentCurrency: .krw)
         { response in
             self.updateOrderbookData(coin: Coin.BTC, data: response)
-            self.patchOrderbookData()
         }
-    }
-    
-    private func patchOrderbookData() {
-        self.quoteTableViewController.setQuoteData(asks: asks,
-                                                   bids: bids)
-        self.quoteTableViewController.tableView.reloadData()
-        
-        self.sellGraphTableViewController.setQuoteData(asks: asks)
-        self.sellGraphTableViewController.tableView.reloadData()
-        
-        self.buyGraphTableViewController.setQuoteData(bids: bids)
-        self.buyGraphTableViewController.tableView.reloadData()
     }
     
     private func updateOrderbookData(coin: Coin, data: BTSocketAPIResponse.OrderBookResponse) {
-        for content in data.content.list {
-            let quote = Quote(price: content.price,
-                              quantity: content.quantity)
-            switch content.orderType {
-            case .ask:
-                self.asks.append(quote)
-                self.sortQuoteList(type: .ask)
-            case .bid:
-                self.bids.append(quote)
-                self.sortQuoteList(type: .bid)
+        let semaphore = DispatchSemaphore(value: 0)
+        DispatchQueue.global(qos: .background).async {
+            for content in data.content.list {
+                let quote = Quote(price: Int(content.price),
+                                  quantity: content.quantity)
+                switch content.orderType {
+                case .ask:
+                    if Double(quote.quantity) == 0 {
+                        self.removeQuantityIsZero(type: .ask, data: quote)
+                        continue
+                    }
+                    if !self.replaceQuote(type: .ask, data: quote) {
+                        self.asksList.append(quote)
+                    }
+                    self.sortQuoteList(type: .ask)
+                case .bid:
+                    if Double(quote.quantity) == 0 {
+                        self.removeQuantityIsZero(type: .bid, data: quote)
+                        continue
+                    }
+                    if !self.replaceQuote(type: .bid, data: quote) {
+                        self.bidsList.append(quote)
+                    }
+                    self.bidsList.append(quote)
+                    self.sortQuoteList(type: .bid)
+                }
             }
+            DispatchQueue.main.async {
+                self.patchOrderbookData()
+            }
+            semaphore.signal()
         }
+        semaphore.wait()
     }
     
     private func sortQuoteList(type: BTSocketAPIResponse.OrderBookResponse.Content.OrderBook.OrderType) {
         switch type {
         case .ask:
-            self.asks = asks.sorted(by: {$0.price > $1.price})
-            self.asks.remove(at: 0)
+            self.asksList = asksList.sorted(by: {$0.price > $1.price})
         case .bid:
-            self.bids = bids.sorted(by: {$0.price > $1.price})
-            self.bids.remove(at: 30)
+            self.bidsList = bidsList.sorted(by: {$0.price > $1.price})
         }
+    }
+    
+    private func removeQuantityIsZero(type: BTSocketAPIResponse.OrderBookResponse.Content.OrderBook.OrderType,
+                                      data: Quote) {
+        switch type {
+        case .ask:
+            var count = self.asksList.count
+            var index = 0
+            dump(self.asksList)
+            while(index < count) {
+                if Int(asksList[index].price) == Int(data.price) {
+                    print("remove: \(asksList[index].price)")
+                    self.asksList.remove(at: index)
+                    count -= 1
+                }
+                index += 1
+            }
+        case .bid:
+            var count = self.bidsList.count
+            var index = 0
+            while(index < count) {
+                if Int(bidsList[index].price) == Int(data.price) {
+                    self.bidsList.remove(at: index)
+                    count -= 1
+                }
+                index += 1
+            }
+        }
+    }
+    
+    private func replaceQuote(type: BTSocketAPIResponse.OrderBookResponse.Content.OrderBook.OrderType,
+                              data: Quote) -> Bool {
+        switch type {
+        case .ask:
+            let count = self.asksList.count
+            var index = 0
+            while(index < count) {
+                if Int(asksList[index].price) == Int(data.price) {
+                    self.asksList[index] = data
+                    return true
+                }
+                index += 1
+            }
+        case .bid:
+            let count = self.bidsList.count
+            for index in 0..<count {
+                if self.bidsList[index].price == data.price {
+                    self.bidsList.remove(at: index)
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    private func patchOrderbookData() {
+        self.quoteTableViewController.setQuoteData(asks: self.asksList,
+                                                   bids: self.bidsList)
+        self.quoteTableViewController.tableView.reloadData()
+        
+        self.sellGraphTableViewController.setQuoteData(asks: self.asksList)
+        self.sellGraphTableViewController.tableView.reloadData()
+        
+        self.buyGraphTableViewController.setQuoteData(bids: self.bidsList)
+        self.buyGraphTableViewController.tableView.reloadData()
     }
 }
