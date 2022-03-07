@@ -179,7 +179,7 @@ final class MainViewController: BaseViewController {
         }
     }
     
-    private func setUpData() {
+    private func sortByPopular() {
         self.totalCoinList.sort {
             let firstEndIndex = $0.tradeValue.index($0.tradeValue.endIndex, offsetBy: -2)
             let secondEndIndex = $1.tradeValue.index($1.tradeValue.endIndex, offsetBy: -2)
@@ -192,8 +192,34 @@ final class MainViewController: BaseViewController {
             else {
                 return $0.tradeValue > $1.tradeValue
             }
+
             return firstTradeValue > secondTradeValue
         }
+
+        totalCoinListView.totalCoinList = self.totalCoinList
+        updateInterestedCoinList()
+    }
+    
+    private func sortByName() {
+        self.totalCoinList.sort { $0.coinName.rawValue < $1.coinName.rawValue }
+        totalCoinListView.totalCoinList = self.totalCoinList
+        updateInterestedCoinList()
+    }
+    
+    private func sortByChangeRate() {
+        self.totalCoinList.sort {
+            let firstValue = $0.changeRate.replacingOccurrences(of: "%", with: "")
+            let secondValue = $1.changeRate.replacingOccurrences(of: "%", with: "")
+            
+            guard let firstChangeRate = Double(firstValue),
+                  let secondChangeRate = Double(secondValue)
+            else {
+                return $0.changeRate > $1.changeRate
+            }
+
+            return firstChangeRate > secondChangeRate
+        }
+
         totalCoinListView.totalCoinList = self.totalCoinList
         updateInterestedCoinList()
     }
@@ -208,7 +234,7 @@ final class MainViewController: BaseViewController {
                             configureCoinData(coin: coinName, value: $0.value)
                         }
                     })
-                    setUpData()
+                    sortByPopular()
                     fetchData()
                 } else {
                    // TODO: 에러 처리 얼럿 띄우기
@@ -245,11 +271,11 @@ extension MainViewController: HeaderViewDelegate {
     func sorted(by sortOption: SortOption) {
         switch sortOption {
         case .sortedBypopular:
-            self.totalCoinList.sort { $0.tradeValue > $1.tradeValue }
+            self.sortByPopular()
         case .sortedByName:
-            self.totalCoinList.sort { $0.coinName.rawValue < $1.coinName.rawValue }
+            self.sortByName()
         case .sortedByChangeRate:
-            self.totalCoinList.sort { $0.changeRate > $1.changeRate }
+            self.sortByChangeRate()
         }
         totalCoinListView.totalCoinList = self.totalCoinList
         updateInterestedCoinList()
