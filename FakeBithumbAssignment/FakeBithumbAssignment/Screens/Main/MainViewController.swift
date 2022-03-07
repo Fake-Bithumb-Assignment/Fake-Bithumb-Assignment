@@ -110,7 +110,13 @@ final class MainViewController: BaseViewController {
             return
         }
 
-        receivedCoinData.currentPrice = String(currentPrice)
+        if floor(currentPrice) == currentPrice {
+            let price = Int(currentPrice)
+            receivedCoinData.currentPrice = String.insertComma(value: price)
+        }
+        else {
+            receivedCoinData.currentPrice = String(currentPrice)
+        }
 
         updateSnapshot(receivedCoinData)
     }
