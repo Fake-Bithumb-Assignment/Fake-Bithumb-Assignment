@@ -44,6 +44,11 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         self.scrollView.scrollToCenter()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+           btsocketAPIService.disconnectAll()
+           super.viewDidDisappear(animated)
+       }
+    
     override func render() {
         self.view.addSubview(self.scrollView)
         
@@ -191,6 +196,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
                             self.asksList.remove(at: index)
                             count -= 1
                         }
+                        index += 1
                     }
                 case .buy:
                     var count = self.asksList.count
@@ -202,6 +208,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
                                 count -= 1
                             }
                         }
+                        index += 1
                     }
                 }
             }
