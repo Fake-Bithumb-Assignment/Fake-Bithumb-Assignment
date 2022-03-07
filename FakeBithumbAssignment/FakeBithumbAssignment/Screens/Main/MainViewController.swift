@@ -24,6 +24,8 @@ final class MainViewController: BaseViewController {
 
     private lazy var interestedCoinListView = InterestedCoinListView()
 
+    private lazy var searchedCoin: [CoinData] = []
+
     private var btsocketAPIService = BTSocketAPIService()
 
     private let tickerAPIService = TickerAPIService(apiService: HttpService(), environment: .development)
@@ -35,12 +37,13 @@ final class MainViewController: BaseViewController {
         getTickerData(orderCurrency: "ALL", paymentCurrency: "KRW")
         configureUI()
         setUpViews()
+        setUpNotification()
     }
 
     // MARK: - custom func
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
-          self.view.endEditing(true)
+        self.headerView.searchController.dismiss(animated: true, completion: nil)
     }
 
     private func fetchData() {
@@ -118,9 +121,11 @@ final class MainViewController: BaseViewController {
     }
     
     private func updateSnapshot(_ updatedValue: CoinData) {
-        totalCoinListView.updateSnapshot(of: updatedValue)
-        if updatedValue.isInterested {
-            interestedCoinListView.updateSnapshot(of: updatedValue)
+        if totalCoinListView.totalCoinList.contains(updatedValue) {
+            totalCoinListView.updateSnapshot(of: updatedValue)
+            if updatedValue.isInterested {
+                interestedCoinListView.updateSnapshot(of: updatedValue)
+            }
         }
     }
     
@@ -202,8 +207,6 @@ final class MainViewController: BaseViewController {
     
     private func sortByName() {
         self.totalCoinList.sort { $0.coinName.rawValue < $1.coinName.rawValue }
-        totalCoinListView.totalCoinList = self.totalCoinList
-        updateInterestedCoinList()
     }
     
     private func sortByChangeRate() {
@@ -219,9 +222,6 @@ final class MainViewController: BaseViewController {
 
             return firstChangeRate > secondChangeRate
         }
-
-        totalCoinListView.totalCoinList = self.totalCoinList
-        updateInterestedCoinList()
     }
 
     private func getTickerData(orderCurrency: String, paymentCurrency: String) {
@@ -243,7 +243,7 @@ final class MainViewController: BaseViewController {
             } catch HttpServiceError.serverError {
                 print("serverError")
             } catch HttpServiceError.clientError(let message) {
-                print("clientError:\(message)")
+                print("clientError:\(String(describing: message))")
             }
         }
     }
@@ -252,7 +252,8 @@ final class MainViewController: BaseViewController {
         headerView.delegate = self
         totalCoinListView.delegate = self
         interestedCoinListView.delegate = self
-        headerView.searchView.searchfield.delegate = self
+        headerView.searchController.searchResultsUpdater = self
+        self.navigationItem.searchController = headerView.searchController
     }
 
     private func setUserDefaults(_ coinName: String) {
@@ -262,6 +263,14 @@ final class MainViewController: BaseViewController {
         else {
             UserDefaults.standard.set(coinName, forKey: coinName)
         }
+    }
+
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    @objc private func keyboardWillHide() {
+        self.headerView.searchController.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -283,6 +292,7 @@ extension MainViewController: HeaderViewDelegate {
     }
 
     func selectCategory(_ category: Category) {
+        self.headerView.searchController.dismiss(animated: true, completion: nil)
         switch category {
         case .krw:
             self.totalCoinListView.isHidden = false
@@ -311,19 +321,26 @@ extension MainViewController: CoinDelgate {
         }
 
         coin.isInterested.toggle()
+        self.interestedCoinList = interestedCoinListView.interestedCoinList
         setUserDefaults(coinName.rawValue)
     }
     
     func showCoinInformation(coin: CoinData) {
-        self.view.endEditing(true)
-        let vc = CoinViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.headerView.searchController.dismiss(animated: false) {
+            let vc = CoinViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 
-extension MainViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-        return true
+// MARK: - UISearchResultsUpdating
+
+extension MainViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        totalCoinListView.totalCoinList = self.totalCoinList.filter { $0.coinName.rawValue.hasPrefix(searchController.searchBar.text ?? "") }
+        totalCoinListView.configureSnapshot()
+        
+        interestedCoinListView.interestedCoinList = self.interestedCoinList.filter { $0.coinName.rawValue.hasPrefix(searchController.searchBar.text ?? "") }
+        interestedCoinListView.configureSnapshot()
     }
 }
