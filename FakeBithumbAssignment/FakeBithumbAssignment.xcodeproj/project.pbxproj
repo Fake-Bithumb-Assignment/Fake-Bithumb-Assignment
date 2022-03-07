@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		150363C127D6125F008CCE01 /* ContractTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150363C027D6125F008CCE01 /* ContractTimeTableViewCell.swift */; };
 		150363C327D612E0008CCE01 /* ContractPriceAndVolumeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150363C227D612E0008CCE01 /* ContractPriceAndVolumeTableViewCell.swift */; };
+		150363C527D63847008CCE01 /* ContractTableHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150363C427D63847008CCE01 /* ContractTableHeaderViewCell.swift */; };
 		1504F6C427C5F26000A5EC6C /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6C327C5F26000A5EC6C /* BaseViewController.swift */; };
 		1504F6C627C5F3D900A5EC6C /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6C527C5F3D900A5EC6C /* BaseCollectionViewCell.swift */; };
 		1504F6C827C5F40300A5EC6C /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6C727C5F40300A5EC6C /* BaseTableViewCell.swift */; };
@@ -107,6 +108,7 @@
 		0E13792AB3CEE8B3BD774108 /* Pods-FakeBithumbAssignmentTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignmentTests.debug.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignmentTests/Pods-FakeBithumbAssignmentTests.debug.xcconfig"; sourceTree = "<group>"; };
 		150363C027D6125F008CCE01 /* ContractTimeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractTimeTableViewCell.swift; sourceTree = "<group>"; };
 		150363C227D612E0008CCE01 /* ContractPriceAndVolumeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractPriceAndVolumeTableViewCell.swift; sourceTree = "<group>"; };
+		150363C427D63847008CCE01 /* ContractTableHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractTableHeaderViewCell.swift; sourceTree = "<group>"; };
 		1504F6C327C5F26000A5EC6C /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		1504F6C527C5F3D900A5EC6C /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		1504F6C727C5F40300A5EC6C /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 			children = (
 				150363C027D6125F008CCE01 /* ContractTimeTableViewCell.swift */,
 				150363C227D612E0008CCE01 /* ContractPriceAndVolumeTableViewCell.swift */,
+				150363C427D63847008CCE01 /* ContractTableHeaderViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -823,6 +826,7 @@
 				FADFB52627D2B0810043AF0A /* BTAssetsStatusResponse.swift in Sources */,
 				15ACAE9E27CA061100AB7EDC /* CoinHeaderView.swift in Sources */,
 				FA4C65F127D2958A00786469 /* IntervalButton.swift in Sources */,
+				150363C527D63847008CCE01 /* ContractTableHeaderViewCell.swift in Sources */,
 				43F66EB727D1E52D004C9B06 /* AllTickerResponse.swift in Sources */,
 				43CACF7927D268EC005EB9B7 /* TickerAPIService.swift in Sources */,
 				4320861527CE0473002CFDBF /* Category.swift in Sources */,

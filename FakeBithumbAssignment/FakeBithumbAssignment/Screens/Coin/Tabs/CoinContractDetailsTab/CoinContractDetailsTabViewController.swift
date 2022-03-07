@@ -10,24 +10,33 @@ import UIKit
 import SnapKit
 import Then
 
+enum ContractHeader {
+    case time, price, volume
+}
+
 final class CoinContractDetailsTabViewController: BaseViewController {
     
     // MARK: - Instance Property
     private let timeTableView = UITableView().then {
         $0.register(ContractTimeTableViewCell.self,
                     forCellReuseIdentifier: ContractTimeTableViewCell.className)
+        $0.register(ContractTableHeaderViewCell.self, forHeaderFooterViewReuseIdentifier: ContractTableHeaderViewCell.className)
         $0.backgroundColor = .clear
     }
     
     private let priceTableView = UITableView().then {
         $0.register(ContractPriceAndVolumeTableViewCell.self,
                     forCellReuseIdentifier: ContractPriceAndVolumeTableViewCell.className)
+        $0.register(ContractTableHeaderViewCell.self,
+                    forHeaderFooterViewReuseIdentifier: ContractTableHeaderViewCell.className)
         $0.backgroundColor = .clear
     }
     
     private let volumeTableView = UITableView().then {
         $0.register(ContractPriceAndVolumeTableViewCell.self,
                     forCellReuseIdentifier: ContractPriceAndVolumeTableViewCell.className)
+        $0.register(ContractTableHeaderViewCell.self,
+                    forHeaderFooterViewReuseIdentifier: ContractTableHeaderViewCell.className)
         $0.backgroundColor = .clear
     }
     
@@ -99,8 +108,27 @@ final class CoinContractDetailsTabViewController: BaseViewController {
 }
 
 extension CoinContractDetailsTabViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 80
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: ContractTableHeaderViewCell.className) as? ContractTableHeaderViewCell else { return UITableViewCell() }
+        switch tableView {
+        case self.timeTableView:
+            header.setHeaderViewTitle(to: ContractHeader.time)
+        case self.priceTableView:
+            header.setHeaderViewTitle(to: ContractHeader.price)
+        case self.volumeTableView:
+            header.setHeaderViewTitle(to: ContractHeader.volume)
+        default:
+            return UITableViewCell()
+        }
+        return header
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -122,6 +150,10 @@ extension CoinContractDetailsTabViewController: UITableViewDataSource {
 
 extension CoinContractDetailsTabViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 30
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 30
     }
 }
