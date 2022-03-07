@@ -624,6 +624,7 @@ extension CandleStickChartView {
             )
             $0.foregroundColor = UIColor.white.cgColor
             $0.backgroundColor = UIColor.clear.cgColor
+            $0.contentsScale = UIScreen.main.scale
             $0.fontSize = self.setting.size.defaultFontSize
             self.layers.focusInfoTextLayer.addSublayer($0)
         }
@@ -638,6 +639,7 @@ extension CandleStickChartView {
                 )
                 $0.foregroundColor = defaultColor
                 $0.backgroundColor = UIColor.clear.cgColor
+                $0.contentsScale = UIScreen.main.scale
                 $0.fontSize = self.setting.size.defaultFontSize
                 self.layers.focusInfoTextLayer.addSublayer($0)
             }
@@ -651,6 +653,7 @@ extension CandleStickChartView {
                 )
                 $0.foregroundColor = defaultColor
                 $0.backgroundColor = UIColor.clear.cgColor
+                $0.contentsScale = UIScreen.main.scale
                 $0.fontSize = self.setting.size.defaultFontSize
                 $0.alignmentMode = .right
                 self.layers.focusInfoTextLayer.addSublayer($0)
@@ -670,6 +673,7 @@ extension CandleStickChartView {
             )
             $0.foregroundColor = UIColor.white.cgColor
             $0.backgroundColor = UIColor.clear.cgColor
+            $0.contentsScale = UIScreen.main.scale
             $0.fontSize = self.setting.size.defaultFontSize
             self.layers.focusInfoTextLayer.addSublayer($0)
         }
@@ -683,6 +687,7 @@ extension CandleStickChartView {
             )
             $0.foregroundColor = UIColor.white.cgColor
             $0.backgroundColor = UIColor.clear.cgColor
+            $0.contentsScale = UIScreen.main.scale
             $0.alignmentMode = .right
             $0.fontSize = self.setting.size.defaultFontSize
             self.layers.focusInfoTextLayer.addSublayer($0)
