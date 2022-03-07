@@ -159,31 +159,20 @@ final class MainViewController: BaseViewController {
     }
 
     private func configureCoinData(coin: Coin, value: Item) {
+        guard let fluctateRate24H = Double(value.fluctateRate24H),
+              let accTradeValue24H = Double(value.accTradeValue24H)
+        else {
+            return
+        }
+        let tradeValue = Int(accTradeValue24H) / 1000000
+        let currentTradeValue = String.insertComma(value: Double(tradeValue)) + "백만"
+        let changeRate = String.insertComma(value: fluctateRate24H) + "%"
+
         if UserDefaults.standard.string(forKey: coin.rawValue) != nil {
-            guard let fluctateRate24H = Double(value.fluctateRate24H),
-                  let accTradeValue24H = Double(value.accTradeValue24H)
-            else {
-                return
-            }
-            
-            let tradeValue = Int(accTradeValue24H) / 1000000
-            let currentTradeValue = String.insertComma(value: Double(tradeValue)) + "백만"
-            let changeRate = String.insertComma(value: fluctateRate24H) + "%"
-            self.totalCoinList.append(CoinData(coinName: coin, currentPrice: value.fluctate24H, changeRate: changeRate, tradeValue: currentTradeValue, isInterested: true))
+            self.totalCoinList.append(CoinData(coinName: coin, currentPrice: "아직 없음", changeRate: changeRate, tradeValue: currentTradeValue, isInterested: true))
         }
         else {
-            guard let fluctateRate24H = Double(value.fluctateRate24H),
-                  let accTradeValue24H = Double(value.accTradeValue24H)
-            else {
-                return
-            }
-            
-            let tradeValue = Int(accTradeValue24H) / 1000000
-            let currentTradeValue = String(tradeValue) + "백만"
-            let changeRate = String(fluctateRate24H) + "%"
-//            let currentTradeValue = String.insertComma(value: Double(tradeValue)) + "백만"
-//            let changeRate = String.insertComma(value: fluctateRate24H) + "%"
-            self.totalCoinList.append(CoinData(coinName: coin, currentPrice: value.fluctate24H, changeRate: changeRate, tradeValue: currentTradeValue))
+            self.totalCoinList.append(CoinData(coinName: coin, currentPrice: "아직 없음", changeRate: changeRate, tradeValue: currentTradeValue))
         }
     }
     
@@ -192,16 +181,15 @@ final class MainViewController: BaseViewController {
             let firstEndIndex = $0.tradeValue.index($0.tradeValue.endIndex, offsetBy: -2)
             let secondEndIndex = $1.tradeValue.index($1.tradeValue.endIndex, offsetBy: -2)
             
-            let firstValue = String($0.tradeValue[..<firstEndIndex])
-            let secondValue = String($1.tradeValue[..<secondEndIndex])
+            let firstValue = String($0.tradeValue[..<firstEndIndex]).replacingOccurrences(of: ",", with: "")
+            let secondValue = String($1.tradeValue[..<secondEndIndex]).replacingOccurrences(of: ",", with: "")
             
             guard let firstTradeValue = Int(firstValue),
                   let secondTradeValue = Int(secondValue)
             else {
-                return $0.tradeValue < $1.tradeValue
+                return $0.tradeValue > $1.tradeValue
             }
-
-            return firstTradeValue < secondTradeValue
+            return firstTradeValue > secondTradeValue
         }
         totalCoinListView.totalCoinList = self.totalCoinList
         updateInterestedCoinList()
