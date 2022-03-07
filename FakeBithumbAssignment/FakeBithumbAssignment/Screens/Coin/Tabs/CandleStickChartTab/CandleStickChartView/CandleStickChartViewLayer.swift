@@ -31,4 +31,8 @@ class CandleStickChartViewLayer {
     }
     /// 선택 정보창 텍스트 레이어
     let focusInfoTextLayer: CALayer = CALayer()
+    /// 선택 시간을 그려줄 레이어
+    let focusDateTimeLayer: CALayer = CALayer()
+    /// 선택 값을 그려줄 레이어
+    let focusValueLayer: CALayer = CALayer()
 }

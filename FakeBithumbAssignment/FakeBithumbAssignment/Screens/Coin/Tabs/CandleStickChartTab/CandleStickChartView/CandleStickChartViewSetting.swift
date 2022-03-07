@@ -22,6 +22,8 @@ class CandleStickChartViewSetting {
         let defaultColor: CGColor = (UIColor(named: "line") ?? UIColor.gray).cgColor
         /// 그리드 선 색상
         let gridColor: CGColor = (UIColor(named: "grid") ?? UIColor.lightGray).cgColor
+        /// 선택 시간 값 색상
+        let focusDateTimeColor: CGColor = (UIColor(named: "date") ?? UIColor.green).cgColor
         /// 선택 선 색상
         let focusLineColor: CGColor = UIColor.black.cgColor
     }
@@ -49,7 +51,7 @@ class CandleStickChartViewSetting {
         /// 수치 표시할 때 튀어나온 선 - 수치 텍스트 간격
         let thornTextSpace: CGFloat = 5.0
         /// 날짜, 시간 레이블의 크기
-        let defaultTextSize: CGSize = CGSize(width: 60.0, height: 20.0)
+        let defaultTextSize: CGSize = CGSize(width: 50.0, height: 15.0)
         /// 캔들스틱 너비
         var candleStickWidth: CGFloat = 5.0
         /// 확대 후 최대 캔들스틱 너비

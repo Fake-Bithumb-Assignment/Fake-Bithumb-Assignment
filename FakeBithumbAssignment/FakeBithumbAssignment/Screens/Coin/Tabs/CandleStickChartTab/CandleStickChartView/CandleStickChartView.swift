@@ -38,7 +38,7 @@ class CandleStickChartView: UIView {
     private var minPrice: Double = 0.0
     
     // MARK: - Initializer
-        
+    
     init(with candleSticks: [CandleStick]) {
         self.candleSticks = candleSticks
         super.init(frame: .zero)
@@ -77,7 +77,7 @@ class CandleStickChartView: UIView {
         self.drawChart()
         CATransaction.commit()
     }
-
+    
     // MARK: - custom func
     
     /// 레이어들간의 관계 설정하는 메소드.
@@ -86,11 +86,11 @@ class CandleStickChartView: UIView {
         self.layers.mainLayer.addSublayer(self.layers.dataLayer)
         self.layers.mainLayer.addSublayer(self.layers.dateTimeLayer)
         self.scrollView.layer.addSublayer(self.layers.mainLayer)
-
         self.layer.addSublayer(self.layers.horizontalGridLayer)
         self.layer.addSublayer(self.layers.valueLayer)
-
         self.addSubview(self.scrollView)
+        self.layer.addSublayer(self.layers.focusDateTimeLayer)
+        self.layer.addSublayer(self.layers.focusValueLayer)
         self.backgroundColor = .clear
     }
     
@@ -121,6 +121,13 @@ class CandleStickChartView: UIView {
         return (self.scrollView.bounds.width / self.setting.size.horizontalFrontRearSpaceRatio + self.setting.size.candleStickWidth / 2.0) +
         CGFloat(index - 1) * (self.setting.size.candleStickWidth + self.setting.size.candleStickSpace)
     }
+    
+    /// y좌표 -> 값으로 변환하는 메소드
+    private func getValue(from yCoord: CGFloat) -> Double? {
+        let chartContentHeight: CGFloat = self.bounds.size.height - self.setting.size.dateTimeHeight
+        return self.maxPrice - (yCoord - (chartContentHeight * self.setting.size.verticalFrontRearSpaceRate) / 2) *
+        ((self.maxPrice - self.minPrice) / (chartContentHeight * (1 - self.setting.size.verticalFrontRearSpaceRate)))
+    }
 }
 
 // MARK: - update candlestick
@@ -133,7 +140,7 @@ extension CandleStickChartView {
             self.setNeedsLayout()
         }
     }
-
+    
     /// 스크롤뷰의 현재 표시될 캔들스틱 대상을 업데이트 해주는 메소드.
     private func updateDrawingTargetIndex() {
         let contentOffset: CGPoint = self.scrollView.contentOffset
@@ -200,7 +207,10 @@ extension CandleStickChartView {
     @objc func handleTap(_ tap: UITapGestureRecognizer) {
         if self.isFocusMode {
             self.scrollView.isScrollEnabled = true
+            CATransaction.begin()
+            CATransaction.setAnimationDuration(0)
             self.removeFocus(with: nil)
+            CATransaction.commit()
         } else {
             self.scrollView.isScrollEnabled = false
             self.drawFocus(on: tap.location(in: self))
@@ -280,6 +290,18 @@ extension CandleStickChartView {
             x: 0,
             y: 0,
             width: self.scrollView.bounds.width,
+            height: chartContentHeight
+        )
+        self.layers.focusDateTimeLayer.frame = CGRect(
+            x: 0,
+            y: chartContentHeight,
+            width: self.scrollView.bounds.width,
+            height: self.setting.size.dateTimeHeight
+        )
+        self.layers.focusValueLayer.frame = CGRect(
+            x: self.bounds.size.width - self.setting.size.valueWidth,
+            y: 0,
+            width: self.setting.size.valueWidth,
             height: chartContentHeight
         )
     }
@@ -467,10 +489,10 @@ extension CandleStickChartView {
     private func removeFocus(with point: CGPoint?) {
         self.layers.focusHorizontalLayer.removeFromSuperlayer()
         self.layers.focusVerticalLayer.removeFromSuperlayer()
+        self.layers.focusDateTimeLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        self.layers.focusValueLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
         if point == nil || self.isCandlestickInclude(point: point!) {
-            self.layers.focusInfoTextLayer.sublayers?.forEach{ sublayer in
-                sublayer.removeFromSuperlayer()
-            }
+            self.layers.focusInfoTextLayer.sublayers?.forEach{ $0.removeFromSuperlayer() }
             self.layers.focusInfoLayer.removeFromSuperlayer()
             self.layers.focusInfoTextLayer.removeFromSuperlayer()
         }
@@ -483,7 +505,74 @@ extension CandleStickChartView {
         self.removeFocus(with: point)
         self.drawFocusLine(on: point)
         self.drawFocusInfo(from: point)
+        self.drawFocusDateTime(on: point)
+        self.drawFocusValue(on: point)
         CATransaction.commit()
+    }
+    
+    /// 선택 시간을 그려주는 메소드
+    private func drawFocusDateTime(on point: CGPoint) {
+        guard let candleStick: CandleStick = self.getSelectedCandleStick(on: point) ??
+                self.getSelectedCandleStick(on: CGPoint(x: point.x + self.setting.size.candleStickSpace, y: point.y))
+        else {
+            return
+        }
+        let _: CAShapeLayer = CAShapeLayer.lineLayer(
+            from: CGPoint(x: point.x, y: 0),
+            to: CGPoint(x: point.x, y: self.setting.size.thornLength),
+            color: self.setting.color.focusLineColor,
+            width: self.setting.size.defaultLineWidth
+        ).then {
+            self.layers.focusDateTimeLayer.addSublayer($0)
+        }
+        let textXFrame: CGFloat = point.x - self.setting.size.defaultTextSize.width / 2
+        let _: CATextLayer = CATextLayer().then {
+            $0.frame = CGRect(
+                x: textXFrame > 0.0 ? textXFrame : 0.0,
+                y: self.setting.size.thornLength + self.setting.size.thornTextSpace,
+                width: self.setting.size.defaultTextSize.width,
+                height: self.setting.size.defaultTextSize.height
+            )
+            $0.foregroundColor = UIColor.white.cgColor
+            $0.backgroundColor = self.setting.color.focusDateTimeColor
+            $0.alignmentMode = CATextLayerAlignmentMode.center
+            $0.contentsScale = UIScreen.main.scale
+            $0.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
+            $0.fontSize = self.setting.size.defaultFontSize
+            $0.string = self.setting.format.defaultTimeFormatter.string(from: candleStick.date)
+            self.layers.focusDateTimeLayer.addSublayer($0)
+        }
+    }
+    
+    /// 선택 값을 그려주는 메소드
+    private func drawFocusValue(on point: CGPoint) {
+        guard let yCoord: Double = self.getValue(from: point.y) else {
+            return
+        }
+        let _: CAShapeLayer = CAShapeLayer.lineLayer(
+            from: CGPoint(x: 0, y: point.y),
+            to: CGPoint(x: self.setting.size.thornLength, y: point.y),
+            color: self.setting.color.focusLineColor,
+            width: self.setting.size.defaultLineWidth
+        ).then {
+            self.layers.focusValueLayer.addSublayer($0)
+        }
+        let _: CATextLayer = VerticalCenterCATextLayer().then {
+            $0.frame = CGRect(
+                x: self.setting.size.thornLength + self.setting.size.thornTextSpace,
+                y: point.y - self.setting.size.defaultTextSize.height / 2,
+                width: self.setting.size.defaultTextSize.width,
+                height: self.setting.size.defaultTextSize.height
+            )
+            $0.foregroundColor = UIColor.white.cgColor
+            $0.backgroundColor = self.setting.color.focusDateTimeColor
+            $0.alignmentMode = CATextLayerAlignmentMode.left
+            $0.contentsScale = UIScreen.main.scale
+            $0.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
+            $0.fontSize = self.setting.size.defaultFontSize
+            $0.string = String(Int(yCoord))
+            self.layers.focusValueLayer.addSublayer($0)
+        }
     }
     
     /// 선택 정보창의 가로 세로 선을 그려주는 메소드.
