@@ -57,6 +57,24 @@ class CoinTableViewCell: BaseTableViewCell {
         currentPrice.text = model?.currentPrice
         changeRate.text = model?.changeRate
         tradeValue.text = model?.tradeValue
+        
+        if let changeRateString = model?.changeRate.replacingOccurrences(of: "%", with: ""),
+        let changeRate = Double(changeRateString) {
+            if changeRate < 0.0 {
+                configureTextColor(UIColor(named: "down") ?? .systemBlue)
+            }
+            else if changeRate > 0.0 {
+                configureTextColor(UIColor(named: "up") ?? .systemRed)
+            }
+            else {
+                configureTextColor(.black)
+            }
+        }
+    }
+    
+    private func configureTextColor(_ color: UIColor) {
+        currentPrice.textColor = color
+        changeRate.textColor = color
     }
 
     private func configureStackView() {

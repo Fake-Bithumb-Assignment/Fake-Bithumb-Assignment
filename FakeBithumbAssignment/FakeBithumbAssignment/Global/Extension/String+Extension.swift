@@ -14,4 +14,11 @@ extension String {
         guard let formattedString = numberFormatter.string(from: NSNumber(value: value)) else { return "0" }
         return formattedString
     }
+
+    static func insertComma(value: Int) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        guard let formattedString = numberFormatter.string(from: NSNumber(value: value)) else { return "0" }
+        return formattedString
+    }
 }

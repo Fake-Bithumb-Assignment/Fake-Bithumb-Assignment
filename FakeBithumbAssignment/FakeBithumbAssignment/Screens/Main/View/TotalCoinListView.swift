@@ -18,11 +18,27 @@ final class TotalCoinListView: UIView {
 
     weak var delegate: CoinDelgate?
 
-    var totalCoinList: [CoinData] = []
+    var totalCoinList: [CoinData] = [] {
+        didSet {
+            noInterestedCoinView.isHidden = !totalCoinList.isEmpty
+        }
+    }
 
     private let totalCoinListTableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
         $0.backgroundColor = .clear
+        $0.keyboardDismissMode = .onDrag
+    }
+
+    private let noInterestedCoinLabel = UILabel().then {
+        $0.text = "등록된 관심 가상자산이 없습니다."
+        $0.font = .preferredFont(forTextStyle: .headline)
+        $0.textColor = .darkGray
+    }
+
+    private let noInterestedCoinView = UIView().then {
+        $0.backgroundColor = .clear
+        $0.isHidden = true
     }
 
     // MARK: - Initializer
@@ -30,10 +46,11 @@ final class TotalCoinListView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.configureTotalCoinListTableView()
+        self.configureNoInterestedCoinView()
         self.configureNotificationCenter()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.configurediffableDataSource()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.setUpInterestedCoinListTableView()
+            self.configurediffableDataSource()
         }
     }
 
@@ -44,6 +61,18 @@ final class TotalCoinListView: UIView {
 
     // MARK: - custom func
 
+    private func configureNoInterestedCoinView() {
+        noInterestedCoinView.addSubview(noInterestedCoinLabel)
+        noInterestedCoinLabel.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        
+        self.addSubview(noInterestedCoinView)
+        noInterestedCoinView.snp.makeConstraints { make in
+            make.size.equalToSuperview()
+        }
+    }
+
     private func configureTotalCoinListTableView() {
         self.addSubview(totalCoinListTableView)
         totalCoinListTableView.snp.makeConstraints { make in
@@ -53,7 +82,6 @@ final class TotalCoinListView: UIView {
 
     private func setUpInterestedCoinListTableView() {
         totalCoinListTableView.delegate = self
-        totalCoinListTableView.dataSource = dataSource
     }
 
     private func configurediffableDataSource() {
@@ -68,10 +96,11 @@ final class TotalCoinListView: UIView {
             return cell
         }
 
+        self.totalCoinListTableView.dataSource = dataSource
         configureSnapshot()
     }
     
-    private func configureSnapshot() {
+    func configureSnapshot() {
         guard var snapshot = self.dataSource?.snapshot() else {
             return
         }

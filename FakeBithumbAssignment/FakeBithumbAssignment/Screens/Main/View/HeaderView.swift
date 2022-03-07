@@ -27,7 +27,9 @@ final class HeaderView: UIView {
 
     private let InterestCoinListButton = UIButton()
 
-    private let searchView = SearchView()
+    let searchController = UISearchController(searchResultsController: nil).then {
+        $0.searchBar.placeholder = "코인명 또는 심볼 검색"
+    }
 
     private let settingButton = UIButton().then {
         $0.setTitle(SortOption.sortedBypopular.rawValue, for: .normal)
@@ -68,7 +70,6 @@ final class HeaderView: UIView {
         let subStackview = configureSubStackView()
 
         let stackView = UIStackView(arrangedSubviews: [
-            self.searchView,
             subStackview,
             self.columnNameView
         ]).then {
@@ -142,7 +143,11 @@ final class HeaderView: UIView {
             image: "won",
             title: Category.krw.rawValue
         )
-        self.krwCoinListButton.addTarget(self, action: #selector(tapKRWButton), for: .touchUpInside)
+        self.krwCoinListButton.addTarget(
+            self,
+            action: #selector(tapKRWButton),
+            for: .touchUpInside
+        )
         setBottomBorder(to: self.krwCoinListButton)
     }
 
