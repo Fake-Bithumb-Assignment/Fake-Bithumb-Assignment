@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		150363C127D6125F008CCE01 /* ContractTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150363C027D6125F008CCE01 /* ContractTimeTableViewCell.swift */; };
+		150363C327D612E0008CCE01 /* ContractPriceAndVolumeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150363C227D612E0008CCE01 /* ContractPriceAndVolumeTableViewCell.swift */; };
 		1504F6C427C5F26000A5EC6C /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6C327C5F26000A5EC6C /* BaseViewController.swift */; };
 		1504F6C627C5F3D900A5EC6C /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6C527C5F3D900A5EC6C /* BaseCollectionViewCell.swift */; };
 		1504F6C827C5F40300A5EC6C /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6C727C5F40300A5EC6C /* BaseTableViewCell.swift */; };
@@ -103,6 +105,8 @@
 
 /* Begin PBXFileReference section */
 		0E13792AB3CEE8B3BD774108 /* Pods-FakeBithumbAssignmentTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignmentTests.debug.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignmentTests/Pods-FakeBithumbAssignmentTests.debug.xcconfig"; sourceTree = "<group>"; };
+		150363C027D6125F008CCE01 /* ContractTimeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractTimeTableViewCell.swift; sourceTree = "<group>"; };
+		150363C227D612E0008CCE01 /* ContractPriceAndVolumeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractPriceAndVolumeTableViewCell.swift; sourceTree = "<group>"; };
 		1504F6C327C5F26000A5EC6C /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		1504F6C527C5F3D900A5EC6C /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		1504F6C727C5F40300A5EC6C /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
@@ -214,6 +218,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		150363BF27D6123E008CCE01 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				150363C027D6125F008CCE01 /* ContractTimeTableViewCell.swift */,
+				150363C227D612E0008CCE01 /* ContractPriceAndVolumeTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		1504F71F27C630CF00A5EC6C /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
@@ -506,6 +519,7 @@
 			isa = PBXGroup;
 			children = (
 				1504F6D327C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift */,
+				150363BF27D6123E008CCE01 /* Cell */,
 			);
 			path = CoinContractDetailsTab;
 			sourceTree = "<group>";
@@ -775,6 +789,7 @@
 				15ACAEA227CA26F300AB7EDC /* CoinPagingViewController.swift in Sources */,
 				15564DBD27CF0D9000BF9314 /* UITableView+Extension.swift in Sources */,
 				15564DBB27CF0AC400BF9314 /* SellGraphTableViewCell.swift in Sources */,
+				150363C127D6125F008CCE01 /* ContractTimeTableViewCell.swift in Sources */,
 				15564DB627CEFBB200BF9314 /* BuyGraphTableViewController.swift in Sources */,
 				43F66EAF27D1CD0F004C9B06 /* Notification.Name+Extension.swift in Sources */,
 				1504F73427C6339D00A5EC6C /* HttpService.swift in Sources */,
@@ -813,9 +828,9 @@
 				4320861527CE0473002CFDBF /* Category.swift in Sources */,
 				FA4C65F727D295A900786469 /* BTCandleStick+CoreDataClass.swift in Sources */,
 				1535B48D27D1E59100413927 /* OrderbookAPIResponse.swift in Sources */,
-				1504F6D227C5F66D00A5EC6C /* CoinGraphTabViewController.swift in Sources */,
 				43F60EC527C7666A0027699B /* ColumnNameView.swift in Sources */,
 				1504F6D827C5F70B00A5EC6C /* CoinViewController.swift in Sources */,
+				150363C327D612E0008CCE01 /* ContractPriceAndVolumeTableViewCell.swift in Sources */,
 				1504F6C827C5F40300A5EC6C /* BaseTableViewCell.swift in Sources */,
 				1504F72927C631C100A5EC6C /* HttpEnvironment.swift in Sources */,
 				1504F72F27C6324600A5EC6C /* NetworkRequest.swift in Sources */,

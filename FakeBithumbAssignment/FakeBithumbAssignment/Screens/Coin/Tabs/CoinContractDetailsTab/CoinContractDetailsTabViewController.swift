@@ -7,24 +7,32 @@
 
 import UIKit
 
+import SnapKit
+import Then
+
 class CoinContractDetailsTabViewController: UIViewController {
+    
+    // MARK: - Instance Property
+    private let tiemeTableView = UITableView().then {
+        $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
+        $0.backgroundColor = .clear
+    }
+    
+    private let priceTableView = UITableView().then {
+        $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
+        $0.backgroundColor = .clear
+    }
+    
+    private let volumeTableView = UITableView().then {
+        $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
+        $0.backgroundColor = .clear
+    }
+    
+    
+    // MARK: - Life Cycle func
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        view.backgroundColor = .red
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
