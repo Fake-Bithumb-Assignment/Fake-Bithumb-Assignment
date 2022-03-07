@@ -1,18 +1,13 @@
 //
-//  TransactionResponse.swift
+//  TransactionAPIResponse.swift
 //  FakeBithumbAssignment
 //
-//  Created by chihoooon on 2022/03/04.
+//  Created by 박예빈 on 2022/03/08.
 //
 
 import Foundation
 
-struct TransactionResponse: Decodable {
-    let status: NetworkStatus
-    let data: [TransactionData]
-}
-
-struct TransactionData: Decodable {
+struct TransactionAPIResponse: Decodable {
     let transactionDate: String
     let type: String
     let unitsTraded: String
@@ -27,3 +22,4 @@ struct TransactionData: Decodable {
         case total
     }
 }
+

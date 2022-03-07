@@ -17,6 +17,10 @@ enum ContractHeader {
 final class CoinContractDetailsTabViewController: BaseViewController {
     
     // MARK: - Instance Property
+    
+    let transactionAPIService: TransactionAPIService = TransactionAPIService(apiService: HttpService(),
+                                                                             environment: .development)
+        
     private let timeTableView = UITableView().then {
         $0.register(ContractTimeTableViewCell.self,
                     forCellReuseIdentifier: ContractTimeTableViewCell.className)
@@ -50,6 +54,7 @@ final class CoinContractDetailsTabViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setDelegates()
+        self.getTransactionData(orderCurrency: "BTC", paymentCurrency: "KRW")
     }
     
     override func render() {
@@ -104,6 +109,25 @@ final class CoinContractDetailsTabViewController: BaseViewController {
         self.timeTableView.isScrollEnabled = false
         self.priceTableView.isScrollEnabled = false
         self.volumeTableView.isScrollEnabled = false
+    }
+    
+    private func getTransactionData(orderCurrency: String, paymentCurrency: String) {
+        Task {
+            do {
+                let transactionData = try await transactionAPIService.getTransactionData(orderCurrency: orderCurrency,
+                                                                                         paymentCurrency: paymentCurrency)
+                
+                if let transactionData = transactionData {
+                    print(transactionData)
+                } else {
+                    // TODO: 에러 처리 얼럿 띄우기
+                }
+            } catch HttpServiceError.serverError {
+                print("serverError")
+            } catch HttpServiceError.clientError(let message) {
+                print("clientError:\(message)")
+            }
+        }
     }
 }
 
