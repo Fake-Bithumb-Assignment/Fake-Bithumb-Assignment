@@ -43,10 +43,6 @@ final class MainViewController: BaseViewController {
           self.view.endEditing(true)
     }
 
-    private func configureUI() {
-        configureStackView()
-    }
-
     private func fetchData() {
         fetchCurrentPrice()
         fetchChangeRateAndValue()
@@ -144,7 +140,7 @@ final class MainViewController: BaseViewController {
         return Coin(rawValue: parsedCoin)
     }
 
-    private func configureStackView() {
+    private func configureUI() {
         let stackView = UIStackView(arrangedSubviews: [
             self.headerView, self.totalCoinListView, self.interestedCoinListView
         ]).then {
@@ -152,6 +148,7 @@ final class MainViewController: BaseViewController {
             $0.alignment = .fill
         }
 
+        self.interestedCoinListView.isHidden = true
         self.totalCoinListView.totalCoinList = totalCoinList
         self.view.addSubview(stackView)
         self.headerView.snp.makeConstraints { make in
