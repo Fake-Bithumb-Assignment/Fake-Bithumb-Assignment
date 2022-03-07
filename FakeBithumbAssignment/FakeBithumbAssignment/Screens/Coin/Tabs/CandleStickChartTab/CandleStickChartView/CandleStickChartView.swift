@@ -378,10 +378,10 @@ extension CandleStickChartView {
             )
             let textLayer: CATextLayer = CATextLayer().then {
                 $0.frame = CGRect(
-                    x: xCoord - (self.setting.size.defaultTextSize.width / 2),
+                    x: xCoord - (self.setting.size.dateTimeTextSize.width / 2),
                     y: self.setting.size.thornLength + self.setting.size.thornTextSpace,
-                    width: self.setting.size.defaultTextSize.width,
-                    height: self.setting.size.defaultTextSize.height
+                    width: self.setting.size.dateTimeTextSize.width,
+                    height: self.setting.size.dateTimeTextSize.height
                 )
                 $0.foregroundColor = self.setting.color.defaultColor
                 $0.backgroundColor = UIColor.clear.cgColor
@@ -438,9 +438,9 @@ extension CandleStickChartView {
             let textLayer: CATextLayer = VerticalCenterCATextLayer().then {
                 $0.frame = CGRect(
                     x: self.setting.size.thornLength + self.setting.size.thornTextSpace,
-                    y: yCoord - self.setting.size.defaultTextSize.height / 2,
-                    width: self.setting.size.defaultTextSize.width,
-                    height: self.setting.size.defaultTextSize.height
+                    y: yCoord - self.setting.size.valueTextSize.height / 2,
+                    width: self.setting.size.valueTextSize.width,
+                    height: self.setting.size.valueTextSize.height
                 )
                 $0.foregroundColor = self.setting.color.defaultColor
                 $0.backgroundColor = UIColor.clear.cgColor
@@ -448,7 +448,7 @@ extension CandleStickChartView {
                 $0.contentsScale = UIScreen.main.scale
                 $0.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
                 $0.fontSize = self.setting.size.defaultFontSize
-                $0.string = String(Int(value))
+                $0.string = self.valueToString(of: value)
             }
             self.layers.valueLayer.addSublayer(thornLineLayer)
             self.layers.valueLayer.addSublayer(textLayer)
@@ -461,6 +461,11 @@ extension CandleStickChartView {
             )
             self.layers.horizontalGridLayer.addSublayer(gridLayer)
         }
+    }
+    
+    /// 값을 스트링으로 바꿔주는 메소드
+    private func valueToString(of value: Double) -> String {
+        return String(Int(value))
     }
 }
 
@@ -525,13 +530,12 @@ extension CandleStickChartView {
         ).then {
             self.layers.focusDateTimeLayer.addSublayer($0)
         }
-        let textXFrame: CGFloat = point.x - self.setting.size.defaultTextSize.width / 2
         let _: CATextLayer = CATextLayer().then {
             $0.frame = CGRect(
-                x: textXFrame > 0.0 ? textXFrame : 0.0,
+                x: max(point.x - self.setting.size.dateTimeTextSize.width / 2, 0.0),
                 y: self.setting.size.thornLength + self.setting.size.thornTextSpace,
-                width: self.setting.size.defaultTextSize.width,
-                height: self.setting.size.defaultTextSize.height
+                width: self.setting.size.dateTimeTextSize.width,
+                height: self.setting.size.dateTimeTextSize.height
             )
             $0.foregroundColor = UIColor.white.cgColor
             $0.backgroundColor = self.setting.color.focusDateTimeColor
@@ -546,7 +550,7 @@ extension CandleStickChartView {
     
     /// 선택 값을 그려주는 메소드
     private func drawFocusValue(on point: CGPoint) {
-        guard let yCoord: Double = self.getValue(from: point.y) else {
+        guard let value: Double = self.getValue(from: point.y) else {
             return
         }
         let _: CAShapeLayer = CAShapeLayer.lineLayer(
@@ -560,9 +564,9 @@ extension CandleStickChartView {
         let _: CATextLayer = VerticalCenterCATextLayer().then {
             $0.frame = CGRect(
                 x: self.setting.size.thornLength + self.setting.size.thornTextSpace,
-                y: point.y - self.setting.size.defaultTextSize.height / 2,
-                width: self.setting.size.defaultTextSize.width,
-                height: self.setting.size.defaultTextSize.height
+                y: point.y - self.setting.size.valueTextSize.height / 2,
+                width: self.setting.size.valueTextSize.width,
+                height: self.setting.size.valueTextSize.height
             )
             $0.foregroundColor = UIColor.white.cgColor
             $0.backgroundColor = self.setting.color.focusDateTimeColor
@@ -570,7 +574,7 @@ extension CandleStickChartView {
             $0.contentsScale = UIScreen.main.scale
             $0.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
             $0.fontSize = self.setting.size.defaultFontSize
-            $0.string = String(Int(yCoord))
+            $0.string = self.valueToString(of: value)
             self.layers.focusValueLayer.addSublayer($0)
         }
     }

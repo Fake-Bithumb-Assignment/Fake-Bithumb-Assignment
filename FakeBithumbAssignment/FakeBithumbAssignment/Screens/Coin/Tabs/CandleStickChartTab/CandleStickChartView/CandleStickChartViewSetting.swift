@@ -51,7 +51,9 @@ class CandleStickChartViewSetting {
         /// 수치 표시할 때 튀어나온 선 - 수치 텍스트 간격
         let thornTextSpace: CGFloat = 5.0
         /// 날짜, 시간 레이블의 크기
-        let defaultTextSize: CGSize = CGSize(width: 50.0, height: 15.0)
+        let valueTextSize: CGSize = CGSize(width: 55.0, height: 15.0)
+        /// 날짜, 시간 레이블의 크기
+        let dateTimeTextSize: CGSize = CGSize(width: 65.0, height: 15.0)
         /// 캔들스틱 너비
         var candleStickWidth: CGFloat = 5.0
         /// 확대 후 최대 캔들스틱 너비
