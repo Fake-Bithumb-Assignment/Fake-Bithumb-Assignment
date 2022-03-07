@@ -1,15 +1,14 @@
 //
-//  TickerEndPoint.swift
+//  OrderbookEndPoint.swift
 //  FakeBithumbAssignment
 //
-//  Created by chihoooon on 2022/03/05.
+//  Created by 박예빈 on 2022/03/04.
 //
 
 import Foundation
 
-enum TickerEndPoint {
-    case getTickerData(orderCurrency: String, paymentCurrency: String)
-    case getOneTickerData(orderCurrency: String, paymentCurrency: String)
+enum OrderbookEndPoint {
+    case getOrderbookData(orderCurrency: String, paymentCurrency: String)
     
     var requestTimeOut: Float {
         return 20
@@ -17,18 +16,14 @@ enum TickerEndPoint {
     
     var httpMethod: HttpMethod {
         switch self {
-        case .getTickerData:
-            return .GET
-        case .getOneTickerData:
+        case .getOrderbookData:
             return .GET
         }
     }
     
     var requestBody: Data? {
         switch self {
-        case .getTickerData:
-            return nil
-        case .getOneTickerData:
+        case .getOrderbookData:
             return nil
         }
     }
@@ -36,10 +31,8 @@ enum TickerEndPoint {
     func getURL(from environment: HttpEnvironment) -> String {
         let baseUrl = environment.baseUrl
         switch self {
-        case .getTickerData(let orderCurrency, let paymentCurrency):
-            return "\(baseUrl)/ticker/\(orderCurrency)_\(paymentCurrency)"
-        case .getOneTickerData(let orderCurrency, let paymentCurrency):
-            return "\(baseUrl)/ticker/\(orderCurrency)_\(paymentCurrency)"
+        case .getOrderbookData(let orderCurrency, let paymentCurrency):
+            return "\(baseUrl)/orderbook/\(orderCurrency)_\(paymentCurrency)"
         }
     }
     

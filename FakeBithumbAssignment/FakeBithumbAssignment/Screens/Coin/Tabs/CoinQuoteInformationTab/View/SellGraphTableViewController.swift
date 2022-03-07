@@ -13,7 +13,7 @@ import Then
 final class SellGraphTableViewController: UITableViewController {
     
     // MARK: - Instance Property
-    
+    var asks: [Quote]?
     
     // MARK: - Life Cycle func
     
@@ -38,6 +38,10 @@ final class SellGraphTableViewController: UITableViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
     }
+    
+    func setQuoteData(asks: [Quote]) {
+        self.asks = Array(asks[(asks.count - 30)...])
+    }
 }
 
 extension SellGraphTableViewController {
@@ -47,6 +51,9 @@ extension SellGraphTableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withType: SellGraphTableViewCell.self, for: indexPath)
+        if let asks = self.asks {
+            cell.update(quote: asks[indexPath.row])
+        }
         return cell
     }
     

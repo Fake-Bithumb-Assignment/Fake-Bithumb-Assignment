@@ -13,7 +13,8 @@ import Then
 final class QuoteTableViewController: UITableViewController {
     
     // MARK: - Instance Property
-    
+    var asks: [Quote]?
+    var bids: [Quote]?
     
     // MARK: - Life Cycle func
     
@@ -38,6 +39,11 @@ final class QuoteTableViewController: UITableViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
     }
+    
+    func setQuoteData(asks: [Quote], bids: [Quote]) {
+        self.asks = Array(asks[(asks.count - 30)...])
+        self.bids = Array(bids[0..<30])
+    }
 }
 
 extension QuoteTableViewController {
@@ -47,8 +53,16 @@ extension QuoteTableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withType: QuoteTableViewCell.self, for: indexPath)
-        if indexPath.row >= 30 {
-            cell.setContentViewToBlueColor()
+        if let asks = self.asks, let bids = self.bids {
+            if indexPath.row < 30 {
+                guard let color = UIColor(named: "sellView") else { return UITableViewCell() }
+                cell.setContentViewColor(to: color)
+                cell.update(quote: asks[indexPath.row])
+            } else {
+                guard let color = UIColor(named: "buyView") else { return UITableViewCell() }
+                cell.setContentViewColor(to: color)
+                cell.update(quote: bids[indexPath.row - 30])
+            }
         }
         return cell
     }
