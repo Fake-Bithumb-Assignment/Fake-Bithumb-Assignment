@@ -37,6 +37,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         super.viewDidLoad()
         getOrderbookData(orderCurrency: "BTC", paymentCurrency: "KRW")
         getWebSocketOrderbookData(orderCurrency: "BTC")
+        getWebsocketTransactionData(orderCurrency: "BTC")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -131,6 +132,15 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         }
     }
     
+    private func getWebsocketTransactionData(orderCurrency: String) {
+        btsocketAPIService.subscribeTransaction(
+            orderCurrency: [Coin.BTC],
+            paymentCurrency: .krw
+        ) { response in
+            self.updateTransactionData(coin: Coin.BTC, data: response)
+        }
+    }
+    
     private func updateOrderbookData(coin: Coin, data: BTSocketAPIResponse.OrderBookResponse) {
         let semaphore = DispatchSemaphore(value: 0)
         DispatchQueue.global(qos: .background).async {
@@ -166,6 +176,43 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         semaphore.wait()
     }
     
+    private func updateTransactionData(coin: Coin,
+                                       data: BTSocketAPIResponse.TransactionResponse) {
+        let semaphore = DispatchSemaphore(value: 0)
+        DispatchQueue.global(qos: .background).async {
+            for transaction in data.content.list {
+                switch transaction.buySellGb {
+                case .sell:
+                    var count = self.asksList.count
+                    var index = 0
+                    while(index < count) {
+                        if Double(self.asksList[index].price) == Double(transaction.contPrice)
+                            && Double(self.asksList[index].quantity)! - transaction.contQty == 0 {
+                            self.asksList.remove(at: index)
+                            count -= 1
+                        }
+                    }
+                case .buy:
+                    var count = self.asksList.count
+                    var index = 0
+                    while(index < count) {
+                        if Double(self.bidsList[index].price) == Double(transaction.contPrice) {
+                            if Double(self.bidsList[index].quantity)! - transaction.contQty == 0 {
+                                self.bidsList.remove(at: index)
+                                count -= 1
+                            }
+                        }
+                    }
+                }
+            }
+            DispatchQueue.main.async {
+                self.patchOrderbookData()
+            }
+            semaphore.signal()
+        }
+        semaphore.wait()
+    }
+    
     private func sortQuoteList(type: BTSocketAPIResponse.OrderBookResponse.Content.OrderBook.OrderType) {
         switch type {
         case .ask:
@@ -181,10 +228,8 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         case .ask:
             var count = self.asksList.count
             var index = 0
-            dump(self.asksList)
             while(index < count) {
                 if Int(asksList[index].price) == Int(data.price) {
-                    print("remove: \(asksList[index].price)")
                     self.asksList.remove(at: index)
                     count -= 1
                 }
