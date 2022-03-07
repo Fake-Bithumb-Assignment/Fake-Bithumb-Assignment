@@ -143,7 +143,11 @@ final class HeaderView: UIView {
             image: "won",
             title: Category.krw.rawValue
         )
-        self.krwCoinListButton.addTarget(self, action: #selector(tapKRWButton), for: .touchUpInside)
+        self.krwCoinListButton.addTarget(
+            self,
+            action: #selector(tapKRWButton),
+            for: .touchUpInside
+        )
         setBottomBorder(to: self.krwCoinListButton)
     }
 

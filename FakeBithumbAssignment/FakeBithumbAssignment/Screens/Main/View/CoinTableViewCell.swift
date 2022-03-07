@@ -61,10 +61,10 @@ class CoinTableViewCell: BaseTableViewCell {
         if let changeRateString = model?.changeRate.replacingOccurrences(of: "%", with: ""),
         let changeRate = Double(changeRateString) {
             if changeRate < 0.0 {
-                configureTextColor(.systemBlue)
+                configureTextColor(UIColor(named: "down") ?? .systemBlue)
             }
             else if changeRate > 0.0 {
-                configureTextColor(.systemRed)
+                configureTextColor(UIColor(named: "up") ?? .systemRed)
             }
             else {
                 configureTextColor(.black)

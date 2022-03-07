@@ -28,7 +28,10 @@ final class MainViewController: BaseViewController {
 
     private var btsocketAPIService = BTSocketAPIService()
 
-    private let tickerAPIService = TickerAPIService(apiService: HttpService(), environment: .development)
+    private let tickerAPIService = TickerAPIService(
+        apiService: HttpService(),
+        environment: .development
+    )
 
     // MARK: - Life Cycle func
 
@@ -69,7 +72,8 @@ final class MainViewController: BaseViewController {
             orderCurrency: Array(Coin.allCases),
             paymentCurrency: .krw
         ) { response in
-            guard let coin = self.parseSymbol(symbol: response.content.list.first?.symbol) else {
+            guard let coin = self.parseSymbol(symbol: response.content.list.first?.symbol)
+            else {
                 return
             }
 
@@ -177,10 +181,21 @@ final class MainViewController: BaseViewController {
         let changeRate = String.insertComma(value: fluctateRate24H) + "%"
 
         if UserDefaults.standard.string(forKey: coin.rawValue) != nil {
-            self.totalCoinList.append(CoinData(coinName: coin, currentPrice: "아직 없음", changeRate: changeRate, tradeValue: currentTradeValue, isInterested: true))
+            self.totalCoinList.append(CoinData(
+                coinName: coin,
+                currentPrice: "아직 없음",
+                changeRate: changeRate,
+                tradeValue: currentTradeValue,
+                isInterested: true
+            ))
         }
         else {
-            self.totalCoinList.append(CoinData(coinName: coin, currentPrice: "아직 없음", changeRate: changeRate, tradeValue: currentTradeValue))
+            self.totalCoinList.append(CoinData(
+                coinName: coin,
+                currentPrice: "아직 없음",
+                changeRate: changeRate,
+                tradeValue: currentTradeValue
+            ))
         }
     }
     
@@ -189,8 +204,10 @@ final class MainViewController: BaseViewController {
             let firstEndIndex = $0.tradeValue.index($0.tradeValue.endIndex, offsetBy: -2)
             let secondEndIndex = $1.tradeValue.index($1.tradeValue.endIndex, offsetBy: -2)
             
-            let firstValue = String($0.tradeValue[..<firstEndIndex]).replacingOccurrences(of: ",", with: "")
-            let secondValue = String($1.tradeValue[..<secondEndIndex]).replacingOccurrences(of: ",", with: "")
+            let firstValue = String($0.tradeValue[..<firstEndIndex])
+                .replacingOccurrences(of: ",", with: "")
+            let secondValue = String($1.tradeValue[..<secondEndIndex])
+                .replacingOccurrences(of: ",", with: "")
             
             guard let firstTradeValue = Int(firstValue),
                   let secondTradeValue = Int(secondValue)
@@ -227,7 +244,10 @@ final class MainViewController: BaseViewController {
     private func getTickerData(orderCurrency: String, paymentCurrency: String) {
         Task {
             do {
-                let tickerData = try await tickerAPIService.getTickerData(orderCurrency: orderCurrency, paymentCurrency: paymentCurrency)
+                let tickerData = try await tickerAPIService.getTickerData(
+                    orderCurrency: orderCurrency,
+                    paymentCurrency: paymentCurrency
+                )
                 if let tickerData = tickerData {
                     try tickerData.allProperties().forEach({
                         if let coinName = Coin(rawValue: $0.key.uppercased()) {
@@ -266,8 +286,15 @@ final class MainViewController: BaseViewController {
     }
 
     private func setUpNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
+
+    // MARK: - @objc
 
     @objc private func keyboardWillHide() {
         self.headerView.searchController.dismiss(animated: true, completion: nil)
@@ -337,10 +364,13 @@ extension MainViewController: CoinDelgate {
 
 extension MainViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        totalCoinListView.totalCoinList = self.totalCoinList.filter { $0.coinName.rawValue.hasPrefix(searchController.searchBar.text ?? "") }
+        totalCoinListView.totalCoinList = self.totalCoinList.filter {
+            $0.coinName.rawValue.hasPrefix(searchController.searchBar.text ?? "")
+        }
         totalCoinListView.configureSnapshot()
-        
-        interestedCoinListView.interestedCoinList = self.interestedCoinList.filter { $0.coinName.rawValue.hasPrefix(searchController.searchBar.text ?? "") }
+
+        interestedCoinListView.interestedCoinList = self.interestedCoinList.filter { $0.coinName.rawValue.hasPrefix(searchController.searchBar.text ?? "")
+        }
         interestedCoinListView.configureSnapshot()
     }
 }
