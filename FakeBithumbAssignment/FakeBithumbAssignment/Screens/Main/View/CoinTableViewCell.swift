@@ -128,11 +128,12 @@ class CoinTableViewCell: BaseTableViewCell {
         ]).then {
             $0.spacing = 10
             $0.axis = .horizontal
+            $0.alignment = .center
         }
 
         self.addSubview(stackView)
         stackView.snp.makeConstraints { make in
-            make.edges.equalTo(self).inset(UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10))
+            make.edges.equalTo(self).inset(UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10))
             make.width.equalTo(self.coinName).multipliedBy(4)
             make.width.equalTo(self.currentPrice).multipliedBy(4)
             make.width.equalTo(self.changeRate).multipliedBy(5)

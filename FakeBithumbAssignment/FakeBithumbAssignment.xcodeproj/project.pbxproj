@@ -86,15 +86,15 @@
 		FAC7F95B27C65A60001E11DA /* BTSocketAPIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F95A27C65A60001E11DA /* BTSocketAPIResponse.swift */; };
 		FAC7F95D27C65AC0001E11DA /* BTSocketAPIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F95C27C65AC0001E11DA /* BTSocketAPIRequest.swift */; };
 		FAC7F96127C768B5001E11DA /* JSONDecoder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7F96027C768B5001E11DA /* JSONDecoder+Extension.swift */; };
+		FADFB52627D2B0810043AF0A /* BTAssetsStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52527D2B0810043AF0A /* BTAssetsStatusResponse.swift */; };
+		FADFB52827D2B14A0043AF0A /* BTAssetsStatusAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52727D2B14A0043AF0A /* BTAssetsStatusAPIService.swift */; };
+		FADFB52A27D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52927D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift */; };
+		FADFB52C27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52B27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift */; };
 		FADFB52F27D532120043AF0A /* CandleStickChartViewLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52E27D532120043AF0A /* CandleStickChartViewLayer.swift */; };
 		FADFB53127D532280043AF0A /* CandleStickChartViewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB53027D532280043AF0A /* CandleStickChartViewSetting.swift */; };
 		FADFB53327D532450043AF0A /* VerticalCenterCATextLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB53227D532450043AF0A /* VerticalCenterCATextLayer.swift */; };
 		FADFB53527D532820043AF0A /* CandleStick.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB53427D532820043AF0A /* CandleStick.swift */; };
 		FADFB53727D532C40043AF0A /* CandleStickScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB53627D532C40043AF0A /* CandleStickScrollView.swift */; };
-		FADFB52627D2B0810043AF0A /* BTAssetsStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52527D2B0810043AF0A /* BTAssetsStatusResponse.swift */; };
-		FADFB52827D2B14A0043AF0A /* BTAssetsStatusAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52727D2B14A0043AF0A /* BTAssetsStatusAPIService.swift */; };
-		FADFB52A27D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52927D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift */; };
-		FADFB52C27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52B27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -194,15 +194,15 @@
 		FAC7F95A27C65A60001E11DA /* BTSocketAPIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BTSocketAPIResponse.swift; path = FakeBithumbAssignment/Network/Model/BTSocketAPIResponse.swift; sourceTree = SOURCE_ROOT; };
 		FAC7F95C27C65AC0001E11DA /* BTSocketAPIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BTSocketAPIRequest.swift; path = FakeBithumbAssignment/Network/Model/BTSocketAPIRequest.swift; sourceTree = SOURCE_ROOT; };
 		FAC7F96027C768B5001E11DA /* JSONDecoder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+Extension.swift"; sourceTree = "<group>"; };
+		FADFB52527D2B0810043AF0A /* BTAssetsStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTAssetsStatusResponse.swift; sourceTree = "<group>"; };
+		FADFB52727D2B14A0043AF0A /* BTAssetsStatusAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTAssetsStatusAPIService.swift; sourceTree = "<group>"; };
+		FADFB52927D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositAndWithdrawalTableViewCell.swift; sourceTree = "<group>"; };
+		FADFB52B27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositAndWithWithdrawalTableHeaderView.swift; sourceTree = "<group>"; };
 		FADFB52E27D532120043AF0A /* CandleStickChartViewLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChartViewLayer.swift; sourceTree = "<group>"; };
 		FADFB53027D532280043AF0A /* CandleStickChartViewSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChartViewSetting.swift; sourceTree = "<group>"; };
 		FADFB53227D532450043AF0A /* VerticalCenterCATextLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalCenterCATextLayer.swift; sourceTree = "<group>"; };
 		FADFB53427D532820043AF0A /* CandleStick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStick.swift; sourceTree = "<group>"; };
 		FADFB53627D532C40043AF0A /* CandleStickScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickScrollView.swift; sourceTree = "<group>"; };
-		FADFB52527D2B0810043AF0A /* BTAssetsStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTAssetsStatusResponse.swift; sourceTree = "<group>"; };
-		FADFB52727D2B14A0043AF0A /* BTAssetsStatusAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTAssetsStatusAPIService.swift; sourceTree = "<group>"; };
-		FADFB52927D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositAndWithdrawalTableViewCell.swift; sourceTree = "<group>"; };
-		FADFB52B27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositAndWithWithdrawalTableHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

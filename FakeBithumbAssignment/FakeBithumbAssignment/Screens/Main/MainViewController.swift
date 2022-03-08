@@ -382,8 +382,9 @@ extension MainViewController: CoinDelgate {
     
     func showCoinInformation(coin: CoinData) {
         self.headerView.searchController.dismiss(animated: false) {
-            let vc = CoinViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
+            let coinViewController = CoinViewController()
+            coinViewController.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(coinViewController, animated: true)
         }
     }
 }
