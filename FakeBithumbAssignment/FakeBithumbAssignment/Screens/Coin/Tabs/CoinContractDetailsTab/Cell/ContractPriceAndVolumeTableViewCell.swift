@@ -51,7 +51,7 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
         case .price:
             self.contentLabel.text = to.price
         case .volume:
-            self.contentLabel.text = to.total
+            self.contentLabel.text = to.unitsTraded
         }
     }
 }

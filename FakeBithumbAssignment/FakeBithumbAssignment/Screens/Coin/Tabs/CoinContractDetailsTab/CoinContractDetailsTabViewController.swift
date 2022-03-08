@@ -20,8 +20,9 @@ final class CoinContractDetailsTabViewController: BaseViewController {
     
     let transactionAPIService: TransactionAPIService = TransactionAPIService(apiService: HttpService(),
                                                                              environment: .development)
+    var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
     
-    var transactionData: [TransactionAPIResponse]?
+    var transactionData: [TransactionAPIResponse] = []
         
     private let timeTableView = UITableView().then {
         $0.register(ContractTimeTableViewCell.self,
@@ -57,6 +58,7 @@ final class CoinContractDetailsTabViewController: BaseViewController {
         super.viewDidLoad()
         self.setDelegates()
         self.getTransactionData(orderCurrency: "BTC", paymentCurrency: "KRW")
+        self.getWebsocketTransactionData(orderCurrency: "BTC")
     }
     
     override func render() {
@@ -120,19 +122,45 @@ final class CoinContractDetailsTabViewController: BaseViewController {
                                                                                          paymentCurrency: paymentCurrency)
                 
                 if let transactionData = transactionData {
-                    self.transactionData = transactionData
+                    self.transactionData = transactionData.reversed()
                 } else {
                     // TODO: 에러 처리 얼럿 띄우기
                 }
-                self.timeTableView.reloadData()
-                self.priceTableView.reloadData()
-                self.volumeTableView.reloadData()
+                self.reloadTableViews()
             } catch HttpServiceError.serverError {
                 print("serverError")
             } catch HttpServiceError.clientError(let message) {
                 print("clientError:\(message)")
             }
         }
+    }
+    
+    private func getWebsocketTransactionData(orderCurrency: String) {
+        btsocketAPIService.subscribeTransaction(
+            orderCurrency: [Coin.BTC],
+            paymentCurrency: .krw
+        ) { response in
+            self.updateTransactionData(coin: Coin.BTC, data: response)
+        }
+    }
+    
+    private func updateTransactionData(coin: Coin,
+                                       data: BTSocketAPIResponse.TransactionResponse) {
+        for transaction in data.content.list {
+            let transactionResponse = TransactionAPIResponse(transactionDate: "\(transaction.contDtm)",
+                                                             unitsTraded: "\(transaction.contQty)",
+                                                             price: "\(transaction.contPrice)",
+                                                             upDn: "\(transaction.updn)")
+            self.transactionData.insert(transactionResponse, at: 0)
+            self.transactionData.popLast()
+        }
+        self.reloadTableViews()
+    }
+    
+    private func reloadTableViews() {
+        self.timeTableView.reloadData()
+        self.priceTableView.reloadData()
+        self.volumeTableView.reloadData()
     }
 }
 
@@ -164,20 +192,20 @@ extension CoinContractDetailsTabViewController: UITableViewDataSource {
         switch tableView {
         case self.timeTableView:
             let cell = tableView.dequeueReusableCell(withType: ContractTimeTableViewCell.self, for: indexPath)
-            if let data = self.transactionData {
-                cell.update(to: data[indexPath.row])
+            if self.transactionData.count != 0 {
+                cell.update(to: self.transactionData[indexPath.row])
             }
             return cell
         case self.priceTableView:
             let cell = tableView.dequeueReusableCell(withType: ContractPriceAndVolumeTableViewCell.self, for: indexPath)
-            if let data = self.transactionData {
-                cell.update(to: data[indexPath.row], type: .price)
+            if self.transactionData.count != 0 {
+                cell.update(to: self.transactionData[indexPath.row], type: .price)
             }
             return cell
         case self.volumeTableView:
             let cell = tableView.dequeueReusableCell(withType: ContractPriceAndVolumeTableViewCell.self, for: indexPath)
-            if let data = self.transactionData {
-                cell.update(to: data[indexPath.row], type: .volume)
+            if self.transactionData.count != 0 {
+                cell.update(to: self.transactionData[indexPath.row], type: .volume)
             }
             return cell
         default:

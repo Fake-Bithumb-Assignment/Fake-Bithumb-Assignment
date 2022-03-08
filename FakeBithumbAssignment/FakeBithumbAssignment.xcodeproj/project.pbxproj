@@ -39,6 +39,7 @@
 		153D784E27C3F07100C940AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 153D784C27C3F07100C940AB /* LaunchScreen.storyboard */; };
 		153D786927C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153D786827C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift */; };
 		1543A67027D6645000B233D7 /* TransactionAPIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1543A66F27D6645000B233D7 /* TransactionAPIResponse.swift */; };
+		1543A67327D7464B00B233D7 /* ContractTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1543A67227D7464B00B233D7 /* ContractTransaction.swift */; };
 		15564DAC27CEFA5100BF9314 /* SellGraphTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DAB27CEFA5100BF9314 /* SellGraphTableViewController.swift */; };
 		15564DAF27CEFB2800BF9314 /* ConclusionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DAE27CEFB2800BF9314 /* ConclusionTableViewController.swift */; };
 		15564DB127CEFB4400BF9314 /* QuoteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DB027CEFB4400BF9314 /* QuoteTableViewController.swift */; };
@@ -144,6 +145,7 @@
 		153D786627C4CFFC00C940AB /* FakeBithumbAssignmentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FakeBithumbAssignmentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		153D786827C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeBithumbAssignmentTests.swift; sourceTree = "<group>"; };
 		1543A66F27D6645000B233D7 /* TransactionAPIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionAPIResponse.swift; sourceTree = "<group>"; };
+		1543A67227D7464B00B233D7 /* ContractTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractTransaction.swift; sourceTree = "<group>"; };
 		15564DAB27CEFA5100BF9314 /* SellGraphTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellGraphTableViewController.swift; sourceTree = "<group>"; };
 		15564DAE27CEFB2800BF9314 /* ConclusionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConclusionTableViewController.swift; sourceTree = "<group>"; };
 		15564DB027CEFB4400BF9314 /* QuoteTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteTableViewController.swift; sourceTree = "<group>"; };
@@ -325,6 +327,14 @@
 				153D786827C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift */,
 			);
 			path = FakeBithumbAssignmentTests;
+			sourceTree = "<group>";
+		};
+		1543A67127D7463800B233D7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1543A67227D7464B00B233D7 /* ContractTransaction.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		15564DAD27CEFB0200BF9314 /* View */ = {
@@ -529,6 +539,7 @@
 			isa = PBXGroup;
 			children = (
 				1504F6D327C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift */,
+				1543A67127D7463800B233D7 /* Model */,
 				150363BF27D6123E008CCE01 /* Cell */,
 			);
 			path = CoinContractDetailsTab;
@@ -831,6 +842,7 @@
 				1535B49127D1E65000413927 /* OrderbookEndPoint.swift in Sources */,
 				158731A327CB75790018E67B /* String+Extension.swift in Sources */,
 				158731A127CB715A0018E67B /* CoinHeaderModel.swift in Sources */,
+				1543A67327D7464B00B233D7 /* ContractTransaction.swift in Sources */,
 				1504F6D427C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift in Sources */,
 				FADFB52627D2B0810043AF0A /* BTAssetsStatusResponse.swift in Sources */,
 				15ACAE9E27CA061100AB7EDC /* CoinHeaderView.swift in Sources */,
