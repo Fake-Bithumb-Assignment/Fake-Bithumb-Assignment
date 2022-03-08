@@ -85,7 +85,7 @@ extension CandleStickChartTabViewController {
         guard let intervalButton: IntervalButton = sender as? IntervalButton else {
             return
         }
-        print(intervalButton)
+        self.candleStickChartView.reset()
         self.candleSticks = []
         self.interval = intervalButton.interval
         self.refreshData()

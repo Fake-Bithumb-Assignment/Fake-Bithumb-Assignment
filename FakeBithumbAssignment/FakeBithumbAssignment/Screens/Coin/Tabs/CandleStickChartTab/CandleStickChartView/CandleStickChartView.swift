@@ -141,6 +141,18 @@ extension CandleStickChartView {
         }
     }
     
+    /// 뷰를 초기화 해주는 메소드
+    func reset() {
+        DispatchQueue.main.async {
+            self.candleSticks = []
+            self.isInitialState = true
+            self.isFocusMode = false
+            self.scrollView.isScrollEnabled = true
+            self.removeFocus(with: nil)
+            self.setNeedsLayout()
+        }
+    }
+    
     /// 스크롤뷰의 현재 표시될 캔들스틱 대상을 업데이트 해주는 메소드.
     private func updateDrawingTargetIndex() {
         let contentOffset: CGPoint = self.scrollView.contentOffset
