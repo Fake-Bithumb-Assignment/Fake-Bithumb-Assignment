@@ -14,7 +14,7 @@ class CandleStickChartTabViewController: BaseViewController {
     private let btCandleStickRepository: BTCandleStickRepository = BTCandleStickRepository()
     private let btCandleStickApiService: BTCandleStickAPIService = BTCandleStickAPIService()
     private var orderCurrency: String? = "BTC"
-    private var interval: BTCandleStickChartInterval = ._1m
+    private var selectedIntervalButton: IntervalButton?
     private let intervalButtons: [IntervalButton] = [
         IntervalButton(title: "1분", interval: ._1m),
         IntervalButton(title: "3분",interval: ._3m),
@@ -53,6 +53,11 @@ class CandleStickChartTabViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard !self.intervalButtons.isEmpty else {
+            return
+        }
+        self.selectedIntervalButton = self.intervalButtons[0]
+        self.selectedIntervalButton?.select()
         self.configUI()
         self.configButtonTarget()
         Task { await self.fetchInitialData() }
@@ -100,12 +105,14 @@ class CandleStickChartTabViewController: BaseViewController {
 extension CandleStickChartTabViewController {
     /// 버튼이 선택되었을 때 interval을 변경하고 새로운 데이터를 받아와 뷰에 적용 해준다.
     @objc func intervalSelected(_ sender: UIButton) {
-        guard let intervalButton: IntervalButton = sender as? IntervalButton else {
+        guard let selectedButton: IntervalButton = sender as? IntervalButton else {
             return
         }
         self.candleStickChartView.reset()
         self.candleSticks = []
-        self.interval = intervalButton.interval
+        self.selectedIntervalButton = selectedButton
+        self.intervalButtons.forEach { $0.deselect() }
+        selectedButton.select()
         self.refreshData()
     }
 
@@ -115,12 +122,15 @@ extension CandleStickChartTabViewController {
         guard let orderCurrency: String = self.orderCurrency else {
             return
         }
+        guard let selectedIntervalButton = self.selectedIntervalButton else {
+            return
+        }
         let fromAPI: [BTCandleStickResponse] = await self.btCandleStickApiService.requestCandleStick(
-            of: orderCurrency, interval: interval
+            of: orderCurrency, interval: selectedIntervalButton.interval
         )
         let fromCoreData: [BTCandleStick] = self.btCandleStickRepository.findAllBTCandleSticksOrderByDateAsc(
             orderCurrency: orderCurrency,
-            chartIntervals: self.interval
+            chartIntervals: selectedIntervalButton.interval
         )
         combineData(coreData: fromCoreData, apiData: fromAPI)
     }
@@ -131,10 +141,13 @@ extension CandleStickChartTabViewController {
         guard let orderCurrency: String = self.orderCurrency else {
             return
         }
+        guard let selectedIntervalButton = self.selectedIntervalButton else {
+            return
+        }
         Task {
             let fromAPI: [BTCandleStickResponse] = await self.btCandleStickApiService.requestCandleStick(
                 of: orderCurrency,
-                interval: self.interval
+                interval: selectedIntervalButton.interval
             )
             combineData(coreData: self.candleSticks, apiData: fromAPI)
         }
@@ -182,6 +195,9 @@ extension CandleStickChartTabViewController {
         guard let orderCurrency: String = self.orderCurrency else {
             return []
         }
+        guard let selectedIntervalButton = self.selectedIntervalButton else {
+            return []
+        }
         return apiData.map { candleStickResponse in
             guard let newObject = self.btCandleStickRepository.makeNewBTCandleStick() else {
                 return BTCandleStick()
@@ -189,7 +205,7 @@ extension CandleStickChartTabViewController {
             candleStickResponse.copy(
                 to: newObject,
                 orderCurrency: orderCurrency,
-                chartIntervals: self.interval.rawValue
+                chartIntervals: selectedIntervalButton.interval.rawValue
             )
             return newObject
         }

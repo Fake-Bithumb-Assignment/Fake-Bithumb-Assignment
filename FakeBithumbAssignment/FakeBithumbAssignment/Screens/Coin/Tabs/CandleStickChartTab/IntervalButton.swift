@@ -15,11 +15,21 @@ class IntervalButton: UIButton {
         super.init(frame: .zero)
         super.setTitle(title, for: .normal)
         super.setTitleColor(.black, for: .normal)
-        self.titleLabel?.font = .systemFont(ofSize: 10)
+        super.backgroundColor = UIColor.white
+        super.titleLabel?.font = .systemFont(ofSize: 10)
+        super.layer.cornerRadius = 3.0
     }
     
     required init?(coder: NSCoder) {
         self.interval = ._1m
         super.init(coder: coder)
+    }
+    
+    func select() {
+        super.backgroundColor = UIColor(named: "buttonSelected")
+    }
+    
+    func deselect() {
+        super.backgroundColor = UIColor.white
     }
 }
