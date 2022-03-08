@@ -32,6 +32,10 @@ class CandleStickChartTabViewController: BaseViewController {
     private let candleStickChartView: CandleStickChartView = CandleStickChartView(with: [])
     
     // MARK: - Life Cycle func
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.btCandleStickRepository.saveContext()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
