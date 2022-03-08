@@ -10,6 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
+enum ContractTableLabelType {
+    case price, volume
+}
+
 class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
     
     // MARK: - Instance Property
@@ -42,8 +46,13 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
     
     // MARK: - custom funcs
     
-    func update(to: Quote) {
-        self.contentLabel.text = to.quantity
+    func update(to: TransactionAPIResponse, type: ContractTableLabelType) {
+        switch type {
+        case .price:
+            self.contentLabel.text = to.price
+        case .volume:
+            self.contentLabel.text = to.total
+        }
     }
 }
 

@@ -32,7 +32,7 @@ enum TransactionEndPoint {
         let baseUrl = environment.baseUrl
         switch self {
         case .getTransactionData(let orderCurrency, let paymentCurrency):
-            return "\(baseUrl)/transaction_history/\(orderCurrency)_\(paymentCurrency)"
+            return "\(baseUrl)/transaction_history/\(orderCurrency)_\(paymentCurrency)?count=80"
         }
     }
     

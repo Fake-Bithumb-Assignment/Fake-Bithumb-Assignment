@@ -42,6 +42,7 @@ final class QuoteTableViewController: UITableViewController {
     
     func setQuoteData(asks: [Quote], bids: [Quote]) {
         self.asks = Array(asks[(asks.count - 30)...])
+        print("QuoteTable - bids.count: \(bids.count), bids: \(bids)")
         self.bids = Array(bids[0..<30])
     }
 }

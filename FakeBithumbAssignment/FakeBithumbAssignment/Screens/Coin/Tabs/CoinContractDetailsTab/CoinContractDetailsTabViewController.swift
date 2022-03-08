@@ -20,6 +20,8 @@ final class CoinContractDetailsTabViewController: BaseViewController {
     
     let transactionAPIService: TransactionAPIService = TransactionAPIService(apiService: HttpService(),
                                                                              environment: .development)
+    
+    var transactionData: [TransactionAPIResponse]?
         
     private let timeTableView = UITableView().then {
         $0.register(ContractTimeTableViewCell.self,
@@ -118,10 +120,13 @@ final class CoinContractDetailsTabViewController: BaseViewController {
                                                                                          paymentCurrency: paymentCurrency)
                 
                 if let transactionData = transactionData {
-                    print(transactionData)
+                    self.transactionData = transactionData
                 } else {
                     // TODO: 에러 처리 얼럿 띄우기
                 }
+                self.timeTableView.reloadData()
+                self.priceTableView.reloadData()
+                self.volumeTableView.reloadData()
             } catch HttpServiceError.serverError {
                 print("serverError")
             } catch HttpServiceError.clientError(let message) {
@@ -158,13 +163,22 @@ extension CoinContractDetailsTabViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch tableView {
         case self.timeTableView:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ContractTimeTableViewCell.className) else { return UITableViewCell()}
+            let cell = tableView.dequeueReusableCell(withType: ContractTimeTableViewCell.self, for: indexPath)
+            if let data = self.transactionData {
+                cell.update(to: data[indexPath.row])
+            }
             return cell
         case self.priceTableView:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ContractPriceAndVolumeTableViewCell.className) else { return UITableViewCell()}
+            let cell = tableView.dequeueReusableCell(withType: ContractPriceAndVolumeTableViewCell.self, for: indexPath)
+            if let data = self.transactionData {
+                cell.update(to: data[indexPath.row], type: .price)
+            }
             return cell
         case self.volumeTableView:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ContractPriceAndVolumeTableViewCell.className) else { return UITableViewCell()}
+            let cell = tableView.dequeueReusableCell(withType: ContractPriceAndVolumeTableViewCell.self, for: indexPath)
+            if let data = self.transactionData {
+                cell.update(to: data[indexPath.row], type: .volume)
+            }
             return cell
         default:
             return UITableViewCell()
