@@ -30,7 +30,7 @@ class CandleStickChartViewSetting {
     
     class Number {
         /// 오른쪽 값 영역에 표시될 값의 개수
-        let valueInFrame: Int = 5
+        let valueInFrame: Int = 8
         /// 한 화면에 나올 날짜, 시간 레이블의 개수
         let dateTimeInFrame: Int = 3
     }
