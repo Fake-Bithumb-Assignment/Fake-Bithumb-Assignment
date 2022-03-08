@@ -43,6 +43,14 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
         }
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.contentView.frame = self.contentView.frame.inset(by: UIEdgeInsets(top: 0.5,
+                                                                               left: 0.5,
+                                                                               bottom: 0.5,
+                                                                               right: 0.5))
+    }
+    
     
     // MARK: - custom funcs
     

@@ -31,6 +31,11 @@ class ContractTimeTableViewCell: BaseTableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+       
+    }
+    
     override func render() {
         self.contentView.addSubView(timeLabel)
         
@@ -40,7 +45,7 @@ class ContractTimeTableViewCell: BaseTableViewCell {
     }
     
     override func configUI() {
-        self.contentView.backgroundColor = UIColor(named: "sellView")
+        self.timeLabel.textColor = .darkGray
     }
     
     
