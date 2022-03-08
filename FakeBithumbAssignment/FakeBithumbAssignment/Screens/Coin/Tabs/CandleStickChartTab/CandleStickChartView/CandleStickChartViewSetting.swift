@@ -43,7 +43,7 @@ class CandleStickChartViewSetting {
         /// 기본 텍스트 크기
         let defaultFontSize: CGFloat = 11.0
         /// 오른쪽 값 영역의 너비
-        let valueWidth: CGFloat = 50.0
+        let valueWidth: CGFloat = 70.0
         /// 아래 날짜, 시간 영역의 높이
         let dateTimeHeight: CGFloat = 40.0
         /// 수치 표시할 때 튀어나온 선 길이
