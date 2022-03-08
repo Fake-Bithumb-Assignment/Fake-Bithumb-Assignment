@@ -13,7 +13,7 @@ class CandleStickChartTabViewController: BaseViewController {
 
     private let btCandleStickRepository: BTCandleStickRepository = BTCandleStickRepository()
     private let btCandleStickApiService: BTCandleStickAPIService = BTCandleStickAPIService()
-    private let orderCurrency: String = "ETH"
+    private let orderCurrency: String? = "BTC"
     private var interval: BTCandleStickChartInterval = ._1m
     private let intervalButtons: [IntervalButton] = [
         IntervalButton(title: "1분", interval: ._1m),
@@ -94,11 +94,14 @@ extension CandleStickChartTabViewController {
     /// rest api로 데이터 받아오고, Core Data에 있는것과 연속되도록 합쳐주는 메소드.
     /// 연속되지 않을 경우 rest api의 값만 사용함.
     private func fetchInitialData() async {
+        guard let orderCurrency: String = self.orderCurrency else {
+            return
+        }
         let fromAPI: [BTCandleStickResponse] = await self.btCandleStickApiService.requestCandleStick(
             of: orderCurrency, interval: interval
         )
         let fromCoreData: [BTCandleStick] = self.btCandleStickRepository.findAllBTCandleSticksOrderByDateAsc(
-            orderCurrency: self.orderCurrency,
+            orderCurrency: orderCurrency,
             chartIntervals: self.interval
         )
         combineData(coreData: fromCoreData, apiData: fromAPI)
@@ -107,9 +110,12 @@ extension CandleStickChartTabViewController {
     /// 새로운 데이터를 받아오는 메소드.
     /// rest api로 새로운 데이터 받아온 뒤에 현재 쓰이고 있는 데이터와 합쳐준다.
     @objc private func refreshData() {
+        guard let orderCurrency: String = self.orderCurrency else {
+            return
+        }
         Task {
             let fromAPI: [BTCandleStickResponse] = await self.btCandleStickApiService.requestCandleStick(
-                of: self.orderCurrency,
+                of: orderCurrency,
                 interval: self.interval
             )
             combineData(coreData: self.candleSticks, apiData: fromAPI)
@@ -155,13 +161,16 @@ extension CandleStickChartTabViewController {
     
     /// api response -> Core Data entity model로 변환해주는 메소드
     private func transform(from apiData: [BTCandleStickResponse]) -> [BTCandleStick] {
+        guard let orderCurrency: String = self.orderCurrency else {
+            return []
+        }
         return apiData.map { candleStickResponse in
             guard let newObject = self.btCandleStickRepository.makeNewBTCandleStick() else {
                 return BTCandleStick()
             }
             candleStickResponse.copy(
                 to: newObject,
-                orderCurrency: self.orderCurrency,
+                orderCurrency: orderCurrency,
                 chartIntervals: self.interval.rawValue
             )
             return newObject

@@ -490,6 +490,9 @@ extension CandleStickChartView {
     }
     /// 현재 탭한 지점이 가르키는 캔들스틱을 반환해주는 메소드.
     private func getSelectedCandleStick(on point: CGPoint) -> CandleStick? {
+        guard !self.candleSticks.isEmpty else {
+            return nil
+        }
         let xCoordInDataLayer: CGFloat = self.scrollView.contentOffset.x + point.x
         guard let index = self.drawingTargetIndex.filter({ index in
             return self.getXCoord(indexOf: index) - (self.setting.size.candleStickWidth / 2.0) <=
