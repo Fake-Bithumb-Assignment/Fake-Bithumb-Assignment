@@ -18,19 +18,21 @@ protocol HeaderViewDelegate: AnyObject {
 }
 
 final class HeaderView: UIView {
-
+    
     // MARK: - Instance Property
-
+    
     weak var delegate: HeaderViewDelegate?
-
+    
     private let krwCoinListButton = UIButton()
-
+    
     private let InterestCoinListButton = UIButton()
-
+    
+    private var searchBarBorderLayer: CALayer?
+    
     let searchController = UISearchController(searchResultsController: nil).then {
         $0.searchBar.placeholder = "코인명 또는 심볼 검색"
     }
-
+    
     private let settingButton = UIButton().then {
         $0.setTitle(SortOption.sortedBypopular.rawValue, for: .normal)
         $0.setTitleColor(.darkGray, for: .normal)
@@ -42,33 +44,38 @@ final class HeaderView: UIView {
     private let indicatorView = UIView().then {
         $0.backgroundColor = .black
     }
-
+    
     private let columnNameView = ColumnNameView()
-
+    
     // MARK: - Initializer
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configUI()
     }
-
+    
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-
+    
+    override func layoutSubviews() {
+        configureSearchBar()
+    }
+    
+    
     // MARK: - custom func
-
+    
     private func configUI() {
         configureSettingButton()
         configureStackViews()
         configureKRWButon()
         configureFavoritesButton()
     }
-
+    
     private func configureStackViews() {
         let subStackview = configureSubStackView()
-
+        
         let stackView = UIStackView(arrangedSubviews: [
             subStackview,
             self.columnNameView
@@ -76,21 +83,21 @@ final class HeaderView: UIView {
             $0.axis = .vertical
             $0.spacing = 10
         }
-
+        
         self.addSubview(stackView)
         stackView.snp.makeConstraints { make in
             make.size.equalToSuperview()
         }
-
+        
         subStackview.snp.makeConstraints { make in
             make.width.equalTo(self.krwCoinListButton).multipliedBy(4)
             make.width.equalTo(self.InterestCoinListButton).multipliedBy(4)
         }
     }
-
+    
     private func configureSubStackView() -> UIStackView {
         let emptyView = UIView()
-
+        
         let stackView = UIStackView(arrangedSubviews: [
             self.krwCoinListButton,
             self.InterestCoinListButton,
@@ -99,44 +106,62 @@ final class HeaderView: UIView {
         ]).then {
             $0.alignment = .center
         }
-
+        
         self.krwCoinListButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         self.InterestCoinListButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         self.settingButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         emptyView.setContentHuggingPriority(.defaultLow, for: .horizontal)
-
+        
         return stackView
     }
-
+    
     private func configureSettingButton() {
         settingButton.showsMenuAsPrimaryAction = true
         settingButton.menu = addSettingItems()
     }
-
+    
+    private func configureSearchBar() {
+        if let textField = self.searchController.searchBar.value(forKey: "searchField") as? UITextField {
+            textField.backgroundColor = .clear
+            textField.borderStyle = .none
+            let attributedString = NSAttributedString(string: "코인명 또는 심볼 검색",
+                                                      attributes: [.foregroundColor : UIColor.gray,
+                                                                   .font : UIFont.systemFont(ofSize: 15)])
+            textField.attributedPlaceholder = attributedString
+            
+            if let border = searchBarBorderLayer {
+                border.frame = CGRect(x: 0, y: textField.frame.size.height, width: textField.frame.width, height: 1)
+                border.backgroundColor = UIColor.darkGray.cgColor
+                border.masksToBounds = true
+                textField.layer.addSublayer(border)
+            }
+        }
+    }
+    
     private func addSettingItems() -> UIMenu {
         let popular = configureAction(.sortedBypopular)
         let name = configureAction(.sortedByName)
         let changeRate = configureAction(.sortedByChangeRate)
         popular.state = .on
-
+        
         let items = UIMenu(
             title: "",
             options: .singleSelection,
             children: [popular, name, changeRate]
         )
-
+        
         return items
     }
-
+    
     private func configureAction(_ option: SortOption) -> UIAction {
         let action = UIAction(title: option.rawValue) { _ in
             self.settingButton.setTitle(option.rawValue, for: .normal)
             self.delegate?.sorted(by: option)
         }
-
+        
         return action
     }
-
+    
     private func configureKRWButon() {
         self.krwCoinListButton.configuration = setConfiguration(
             .tinted(),
@@ -150,7 +175,7 @@ final class HeaderView: UIView {
         )
         setBottomBorder(to: self.krwCoinListButton)
     }
-
+    
     private func configureFavoritesButton() {
         self.InterestCoinListButton.configuration = setConfiguration(
             .gray(),
@@ -172,7 +197,7 @@ final class HeaderView: UIView {
             make.height.equalTo(3)
         }
     }
-
+    
     private func setConfiguration(
         _ config: UIButton.Configuration,
         image: String,
@@ -187,9 +212,9 @@ final class HeaderView: UIView {
         config.cornerStyle = .small
         return config
     }
-
+    
     // MARK: - @objc
-
+    
     @objc private func tapKRWButton() {
         setBottomBorder(to: self.krwCoinListButton)
         self.krwCoinListButton.configuration = setConfiguration(
@@ -204,7 +229,7 @@ final class HeaderView: UIView {
         )
         delegate?.selectCategory(.krw)
     }
-
+    
     @objc private func tapFavoritesButton() {
         self.krwCoinListButton.configuration = setConfiguration(
             .gray(),
