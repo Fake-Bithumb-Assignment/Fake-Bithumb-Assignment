@@ -13,7 +13,7 @@ class CandleStickChartTabViewController: BaseViewController {
 
     private let btCandleStickRepository: BTCandleStickRepository = BTCandleStickRepository()
     private let btCandleStickApiService: BTCandleStickAPIService = BTCandleStickAPIService()
-    private let orderCurrency: String? = "BTC"
+    private var orderCurrency: String? = "BTC"
     private var interval: BTCandleStickChartInterval = ._1m
     private let intervalButtons: [IntervalButton] = [
         IntervalButton(title: "1분", interval: ._1m),
@@ -48,6 +48,13 @@ class CandleStickChartTabViewController: BaseViewController {
     }
     
     // MARK: - custom func
+    
+    func setOrderCurrency(of orderCurrency: String) {
+        self.orderCurrency = orderCurrency
+        self.candleSticks = []
+        self.candleStickChartView.reset()
+        Task { await self.fetchInitialData() }
+    }
     
     override func configUI() {
         self.view.backgroundColor = UIColor.white
