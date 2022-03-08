@@ -10,6 +10,7 @@ import Foundation
 struct BTCandleStickAPIService {
     private let httpService: HttpService = HttpService()
     
+    /// 빗썸 캔들스틱 api로 요청을 보내는 API. 응답의 인덱스 0이 최신의 데이터임.
     func requestCandleStick(
         of orderCurrency: String,
         interval: BTCandleStickChartInterval
@@ -43,6 +44,7 @@ struct BTCandleStickAPIService {
                     tradeVolume: tradeVolume
                 )
             }
+                .sorted { $0.date > $1.date }
             return result
         } catch {
             return []

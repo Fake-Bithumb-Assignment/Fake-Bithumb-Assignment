@@ -13,7 +13,7 @@ class CandleStickChartTabViewController: BaseViewController {
 
     private let btCandleStickRepository: BTCandleStickRepository = BTCandleStickRepository()
     private let btCandleStickApiService: BTCandleStickAPIService = BTCandleStickAPIService()
-    private let orderCurrency: String = "BTC"
+    private let orderCurrency: String = "ETH"
     private var interval: BTCandleStickChartInterval = ._1m
     private let intervalButtons: [IntervalButton] = [
         IntervalButton(title: "1분", interval: ._1m),
@@ -26,6 +26,8 @@ class CandleStickChartTabViewController: BaseViewController {
         IntervalButton(title: "12시간",interval: ._12h),
         IntervalButton(title: "24시간",interval: ._24h)
     ]
+    /// 현재 화면에 표시 될 candleStick들을 전부 가지고 있어야 함. Core Data와 동기화 되어야 함
+    /// 인덱스 0이 최신의 것임
     private var candleSticks: [BTCandleStick] = []
     private let candleStickChartView: CandleStickChartView = CandleStickChartView(with: [])
     
@@ -92,12 +94,9 @@ extension CandleStickChartTabViewController {
     /// rest api로 데이터 받아오고, Core Data에 있는것과 연속되도록 합쳐주는 메소드.
     /// 연속되지 않을 경우 rest api의 값만 사용함.
     private func fetchInitialData() async {
-        // [최신~~과거]
         let fromAPI: [BTCandleStickResponse] = await self.btCandleStickApiService.requestCandleStick(
             of: orderCurrency, interval: interval
         )
-            .sorted { $0.date < $1.date }
-        // [최신~~과거]
         let fromCoreData: [BTCandleStick] = self.btCandleStickRepository.findAllBTCandleSticksOrderByDateAsc(
             orderCurrency: self.orderCurrency,
             chartIntervals: self.interval
@@ -113,7 +112,6 @@ extension CandleStickChartTabViewController {
                 of: self.orderCurrency,
                 interval: self.interval
             )
-                .sorted { $0.date > $1.date }
             combineData(coreData: self.candleSticks, apiData: fromAPI)
         }
     }
@@ -121,27 +119,38 @@ extension CandleStickChartTabViewController {
     /// Core Data + rest api response를 연속되도록 합쳐주는 메소드.
     /// 이것이 끝나고 차트에 데이터를 넣어준다.
     private func combineData(coreData: [BTCandleStick], apiData: [BTCandleStickResponse]) {
-        // 코어데이터에 저장된게 있을 경우는 API와 코어데이터가 연속된 값인지 확인함
-        guard let latestFromCoreData: BTCandleStick = coreData.last else {
-            // 코어데이터에 저장된게 없을 경우에는 api데이터만 사용
+        guard !apiData.isEmpty else {
+            self.setCandleStickToChart(of: coreData)
+            return
+        }
+        guard !coreData.isEmpty else {
             self.setCandleStickToChart(of: self.transform(from: apiData))
             return
         }
-        let recentDataFilteredFromApi: [BTCandleStickResponse] = apiData.filter {
-            $0.date >= latestFromCoreData.date
-        }
-        // 다 최신값이면 DB 다 지워주고 새걸로 채워놓아줌
-        if recentDataFilteredFromApi.count == apiData.count {
-            coreData.forEach { self.btCandleStickRepository.delete(of: $0) }
-            let transformed: [BTCandleStick] = self.transform(from: apiData)
-            self.setCandleStickToChart(of: transformed)
+        guard let latestFromCoreData: BTCandleStick = coreData.first else { return }
+        guard let latestFromApIData: BTCandleStickResponse = apiData.first else { return }
+        guard let oldFromAPI: BTCandleStickResponse = apiData.last else { return }
+        
+        // api의 제일 최신값이 더 최신값이여야 함
+        guard latestFromCoreData.date <= latestFromApIData.date else {
+            self.setCandleStickToChart(of: coreData)
             return
         }
-        // 아니라면 코어데이터 최신값 하나 지워주고 필터링된걸로 다 새로 넣어줌
-        self.btCandleStickRepository.delete(of: latestFromCoreData)
-        let transformed: [BTCandleStick] = self.transform(from: recentDataFilteredFromApi)
-        let combined: [BTCandleStick] = coreData[0..<coreData.count-1] + transformed
-        setCandleStickToChart(of: combined)
+        // 연속되지 않는다면 코어데이터 다 삭제 후 api만 사용
+        if oldFromAPI.date > latestFromCoreData.date {
+            coreData.forEach { self.btCandleStickRepository.delete(of: $0) }
+            self.setCandleStickToChart(of: self.transform(from: apiData))
+            return
+        }
+        // 연속된다면 겹치는부분은 api가 우선
+        coreData.filter {
+            $0.date >= oldFromAPI.date
+        }.forEach {
+            self.btCandleStickRepository.delete(of: $0)
+        }
+        let combinedResult: [BTCandleStick] = self.transform(from: apiData) +
+        coreData.filter { $0.date < oldFromAPI.date }
+        self.setCandleStickToChart(of: combinedResult)
     }
     
     /// api response -> Core Data entity model로 변환해주는 메소드
@@ -150,7 +159,11 @@ extension CandleStickChartTabViewController {
             guard let newObject = self.btCandleStickRepository.makeNewBTCandleStick() else {
                 return BTCandleStick()
             }
-            candleStickResponse.copy(to: newObject, orderCurrency: self.orderCurrency, chartIntervals: self.interval.rawValue)
+            candleStickResponse.copy(
+                to: newObject,
+                orderCurrency: self.orderCurrency,
+                chartIntervals: self.interval.rawValue
+            )
             return newObject
         }
     }
@@ -167,7 +180,7 @@ extension CandleStickChartTabViewController {
                 tradePrice: btCandleStick.tradePrice,
                 tradeVolume: btCandleStick.tradeVolume
             )
-        }.sorted { $0.date < $1.date } // 과거~최신순으로 정렬 해 줌
+        }.sorted { $0.date < $1.date }
         self.candleStickChartView.updateCandleSticks(of: transformed)
     }
 }
