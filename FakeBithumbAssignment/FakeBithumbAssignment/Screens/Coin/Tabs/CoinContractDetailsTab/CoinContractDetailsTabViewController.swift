@@ -107,19 +107,19 @@ final class CoinContractDetailsTabViewController: BaseViewController {
             make.width.equalTo(self.scrollView)
             make.height.equalTo(2400)
         }
-        
+
         timeTableView.snp.makeConstraints { make in
             make.width.equalTo(stackView).multipliedBy(0.2)
         }
-        
+
         priceTableView.snp.makeConstraints { make in
             make.width.equalTo(stackView).multipliedBy(0.4)
         }
-        
+
         volumeTableView.snp.makeConstraints { make in
             make.width.equalTo(stackView).multipliedBy(0.395)
         }
-        
+
         stackView.backgroundColor = .systemGray5
     }
     
@@ -131,6 +131,10 @@ final class CoinContractDetailsTabViewController: BaseViewController {
         self.timeTableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.priceTableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.volumeTableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
+        self.timeTableView.sectionHeaderTopPadding = 0
+        self.priceTableView.sectionHeaderTopPadding = 0
+        self.volumeTableView.sectionHeaderTopPadding = 0
     }
     
     private func getTransactionData(orderCurrency: String, paymentCurrency: String) {
