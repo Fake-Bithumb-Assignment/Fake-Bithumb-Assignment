@@ -697,7 +697,7 @@ extension CandleStickChartView {
             self.layers.focusInfoTextLayer.addSublayer($0)
         }
         let _ = VerticalCenterCATextLayer().then {
-            $0.string = String(candleStick.tradeVolume)
+            $0.string = String(format: "%.2f", candleStick.tradeVolume)
             $0.frame = CGRect(
                 x: self.setting.size.focusInfoPadding.x,
                 y: self.setting.size.focusInfoPadding.y + labelHeight * 5.0,
