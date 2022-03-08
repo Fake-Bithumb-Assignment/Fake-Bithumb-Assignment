@@ -33,12 +33,15 @@ final class MainViewController: BaseViewController {
         environment: .development
     )
 
+    private let transactionAPIService = TransactionAPIService()
+
+    private let loadingAlert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
+
     // MARK: - Life Cycle func
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        getTickerData(orderCurrency: "ALL", paymentCurrency: "KRW")
-        configureUI()
+        fetchInitialData()
         setUpViews()
         setUpNotification()
     }
@@ -49,11 +52,39 @@ final class MainViewController: BaseViewController {
         self.headerView.searchController.dismiss(animated: true, completion: nil)
     }
 
+    private func fetchInitialData() {
+        getTickerData(orderCurrency: "ALL", paymentCurrency: "KRW")
+        getTransactionData()
+    }
+
     private func fetchData() {
-        fetchCurrentPrice()
-        fetchChangeRateAndValue()
+        DispatchQueue.global().async {
+            self.fetchCurrentPrice()
+            self.fetchChangeRateAndValue()
+        }
     }
     
+    override func render() {
+        configureUI()
+    }
+
+    private func configureUI() {
+        configureStackViews()
+        configureIndicator()
+    }
+
+    private func configureIndicator() {
+        let loadingIndicator = UIActivityIndicatorView(style: .large)
+        loadingIndicator.startAnimating()
+        
+        self.loadingAlert.view.addSubview(loadingIndicator)
+        self.loadingAlert.view.tintColor = .black
+
+        loadingIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+    }
+
     private func fetchChangeRateAndValue() {
         btsocketAPIService.subscribeTicker(
             orderCurrency: Array(Coin.allCases),
@@ -63,7 +94,9 @@ final class MainViewController: BaseViewController {
                 return
             }
 
-            self.updateCurrentChangeRateAndValue(coin: coin, data: response)
+            DispatchQueue.main.async {
+                self.updateCurrentChangeRateAndValue(coin: coin, data: response)
+            }
         }
     }
     
@@ -77,7 +110,9 @@ final class MainViewController: BaseViewController {
                 return
             }
 
-            self.updateCurrentPrice(coin: coin, data: response)
+            DispatchQueue.main.async {
+                self.updateCurrentPrice(coin: coin, data: response)
+            }
         }
     }
 
@@ -93,10 +128,10 @@ final class MainViewController: BaseViewController {
         }
 
         let currentChangeRate = data.content.chgRate
-        receivedCoinData.changeRate = String.insertComma(value: currentChangeRate) + "%"
+        receivedCoinData.changeRate = String.insertComma(value: currentChangeRate)
 
         let currentTradeValue = Int(data.content.value) / 1000000
-        receivedCoinData.tradeValue = String.insertComma(value: Double(currentTradeValue)) + "백만"
+        receivedCoinData.tradeValue = String.insertComma(value: Double(currentTradeValue))
 
         updateSnapshot(receivedCoinData)
     }
@@ -149,7 +184,7 @@ final class MainViewController: BaseViewController {
         return Coin(rawValue: parsedCoin)
     }
 
-    private func configureUI() {
+    private func configureStackViews() {
         let stackView = UIStackView(arrangedSubviews: [
             self.headerView, self.totalCoinListView, self.interestedCoinListView
         ]).then {
@@ -158,7 +193,6 @@ final class MainViewController: BaseViewController {
         }
 
         self.interestedCoinListView.isHidden = true
-        self.totalCoinListView.totalCoinList = totalCoinList
         self.view.addSubview(stackView)
         self.headerView.snp.makeConstraints { make in
             make.height.lessThanOrEqualTo(200)
@@ -177,13 +211,13 @@ final class MainViewController: BaseViewController {
             return
         }
         let tradeValue = Int(accTradeValue24H) / 1000000
-        let currentTradeValue = String.insertComma(value: Double(tradeValue)) + "백만"
-        let changeRate = String.insertComma(value: fluctateRate24H) + "%"
+        let currentTradeValue = String.insertComma(value: Double(tradeValue))
+        let changeRate = String.insertComma(value: fluctateRate24H)
 
         if UserDefaults.standard.string(forKey: coin.rawValue) != nil {
             self.totalCoinList.append(CoinData(
                 coinName: coin,
-                currentPrice: "아직 없음",
+                currentPrice: "",
                 changeRate: changeRate,
                 tradeValue: currentTradeValue,
                 isInterested: true
@@ -192,7 +226,7 @@ final class MainViewController: BaseViewController {
         else {
             self.totalCoinList.append(CoinData(
                 coinName: coin,
-                currentPrice: "아직 없음",
+                currentPrice: "",
                 changeRate: changeRate,
                 tradeValue: currentTradeValue
             ))
@@ -201,13 +235,8 @@ final class MainViewController: BaseViewController {
     
     private func sortByPopular() {
         self.totalCoinList.sort {
-            let firstEndIndex = $0.tradeValue.index($0.tradeValue.endIndex, offsetBy: -2)
-            let secondEndIndex = $1.tradeValue.index($1.tradeValue.endIndex, offsetBy: -2)
-            
-            let firstValue = String($0.tradeValue[..<firstEndIndex])
-                .replacingOccurrences(of: ",", with: "")
-            let secondValue = String($1.tradeValue[..<secondEndIndex])
-                .replacingOccurrences(of: ",", with: "")
+            let firstValue = $0.tradeValue.replacingOccurrences(of: ",", with: "")
+            let secondValue = $1.tradeValue.replacingOccurrences(of: ",", with: "")
             
             guard let firstTradeValue = Int(firstValue),
                   let secondTradeValue = Int(secondValue)
@@ -228,9 +257,9 @@ final class MainViewController: BaseViewController {
     
     private func sortByChangeRate() {
         self.totalCoinList.sort {
-            let firstValue = $0.changeRate.replacingOccurrences(of: "%", with: "")
-            let secondValue = $1.changeRate.replacingOccurrences(of: "%", with: "")
-            
+            let firstValue = $0.changeRate
+            let secondValue = $1.changeRate
+
             guard let firstChangeRate = Double(firstValue),
                   let secondChangeRate = Double(secondValue)
             else {
@@ -242,6 +271,8 @@ final class MainViewController: BaseViewController {
     }
 
     private func getTickerData(orderCurrency: String, paymentCurrency: String) {
+        self.present(self.loadingAlert, animated: true, completion: nil)
+
         Task {
             do {
                 let tickerData = try await tickerAPIService.getTickerData(
@@ -254,8 +285,6 @@ final class MainViewController: BaseViewController {
                             configureCoinData(coin: coinName, value: $0.value)
                         }
                     })
-                    sortByPopular()
-                    fetchData()
                 } else {
                    // TODO: 에러 처리 얼럿 띄우기
                 }
@@ -265,6 +294,27 @@ final class MainViewController: BaseViewController {
             } catch HttpServiceError.clientError(let message) {
                 print("clientError:\(String(describing: message))")
             }
+        }
+    }
+    
+    private func getTransactionData() {
+        Coin.allCases.forEach { coin in
+            Task {
+                guard let response = await transactionAPIService.requestTransactionHistory(
+                    of: coin
+                ) else {
+                    return
+                }
+                
+                if let findedCoin = self.totalCoinList.first(where: { $0.coinName == coin }) {
+                    findedCoin.currentPrice = response.first?.price ?? ""
+                }
+            }
+        }
+
+        self.loadingAlert.dismiss(animated: true) {
+            self.sortByPopular()
+            self.fetchData()
         }
     }
 
@@ -354,8 +404,9 @@ extension MainViewController: CoinDelgate {
     
     func showCoinInformation(coin: CoinData) {
         self.headerView.searchController.dismiss(animated: false) {
-            let vc = CoinViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
+            let coinViewController = CoinViewController()
+            coinViewController.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(coinViewController, animated: true)
         }
     }
 }

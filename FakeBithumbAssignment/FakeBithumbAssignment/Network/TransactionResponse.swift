@@ -8,22 +8,24 @@
 import Foundation
 
 struct TransactionResponse: Decodable {
-    let status: NetworkStatus
-    let data: [TransactionData]
-}
-
-struct TransactionData: Decodable {
     let transactionDate: String
     let type: String
     let unitsTraded: String
     let price: String
     let total: String
-    
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        transactionDate = try container.decode(String.self, forKey: .transactionDate)
+        type = try container.decode(String.self, forKey: .type)
+        unitsTraded = try container.decode(String.self, forKey: .unitsTraded)
+        price = try container.decode(String.self, forKey: .price)
+        total = try container.decode(String.self, forKey: .total)
+    }
+
     enum CodingKeys: String, CodingKey {
         case transactionDate = "transaction_date"
-        case type
         case unitsTraded = "units_traded"
-        case price
-        case total
+        case type, price, total
     }
 }

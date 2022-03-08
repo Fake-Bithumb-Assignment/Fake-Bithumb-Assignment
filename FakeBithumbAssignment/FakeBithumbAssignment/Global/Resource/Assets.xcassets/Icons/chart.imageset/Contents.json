@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "uil_exchange-alt@1x.png",
+      "filename" : "cil_chart-line@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "uil_exchange-alt@2x.png",
+      "filename" : "cil_chart-line@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "uil_exchange-alt@3x.png",
+      "filename" : "cil_chart-line@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

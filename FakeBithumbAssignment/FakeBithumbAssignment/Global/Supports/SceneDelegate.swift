@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         
-        let tabbarController = UITabBarController()
+        let tabbarController = MainTabBarViewController()
         let mainViewController = MainViewController()
         let depositAndWithdrawalViewController = DepositAndWithdrawalViewController()
         
@@ -35,6 +35,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             [mainNavigationController, depositAndWithdrawalNavigationController],
             animated: true
         )
+        
+        mainViewController.tabBarItem = UITabBarItem(title: "거래소", image: UIImage(named: "chart"), tag: 1)
+        depositAndWithdrawalViewController.tabBarItem = UITabBarItem(title: "입출금", image: UIImage(named: "trade"), tag: 2)
 
         window.rootViewController = tabbarController
         window.makeKeyAndVisible()

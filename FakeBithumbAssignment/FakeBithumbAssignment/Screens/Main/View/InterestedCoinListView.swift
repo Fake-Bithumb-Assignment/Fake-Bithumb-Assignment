@@ -31,6 +31,7 @@ final class InterestedCoinListView: UIView {
     
     var interestedCoinList: [CoinData] = [] {
         didSet {
+            self.configurediffableDataSource()
             noInterestedCoinView.isHidden = !interestedCoinList.isEmpty
         }
     }
@@ -39,6 +40,7 @@ final class InterestedCoinListView: UIView {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
         $0.backgroundColor = .clear
         $0.keyboardDismissMode = .onDrag
+        $0.separatorInset = UIEdgeInsets()
     }
 
     // MARK: - Initializer
@@ -48,11 +50,7 @@ final class InterestedCoinListView: UIView {
         self.configureInterestedCoinListTableView()
         self.configureNoInterestedCoinView()
         self.configureNotificationCenter()
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.setUpInterestedCoinListTableView()
-            self.configurediffableDataSource()
-        }
+        self.setUpInterestedCoinListTableView()
     }
 
     @available(*, unavailable)
