@@ -30,11 +30,25 @@ class CandleStickChartTabViewController: BaseViewController {
     /// 인덱스 0이 최신의 것임
     private var candleSticks: [BTCandleStick] = []
     private let candleStickChartView: CandleStickChartView = CandleStickChartView(with: [])
+    private var refershTimer: Timer? = nil
     
     // MARK: - Life Cycle func
     
     override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.refershTimer?.invalidate()
         self.btCandleStickRepository.saveContext()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.refershTimer = Timer.scheduledTimer(
+            timeInterval: 1.0,
+            target: self,
+            selector: #selector(refreshData),
+            userInfo: nil,
+            repeats: true
+        )
     }
 
     override func viewDidLoad() {
@@ -42,13 +56,6 @@ class CandleStickChartTabViewController: BaseViewController {
         self.configUI()
         self.configButtonTarget()
         Task { await self.fetchInitialData() }
-        Timer.scheduledTimer(
-            timeInterval: 1.0,
-            target: self,
-            selector: #selector(refreshData),
-            userInfo: nil,
-            repeats: true
-        )
     }
     
     // MARK: - custom func
