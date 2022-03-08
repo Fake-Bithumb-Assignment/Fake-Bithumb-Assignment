@@ -25,7 +25,7 @@ extension CandleStickChartView {
         /// 양봉 or 음봉
         var type: CandleType {
             get {
-                return self.openingPrice < self.tradePrice ? .red : .blue
+                return self.openingPrice <= self.tradePrice ? .red : .blue
             }
         }
         
