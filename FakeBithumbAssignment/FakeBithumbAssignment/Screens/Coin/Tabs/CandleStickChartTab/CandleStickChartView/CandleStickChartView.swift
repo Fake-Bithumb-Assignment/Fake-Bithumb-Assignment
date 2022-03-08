@@ -141,6 +141,18 @@ extension CandleStickChartView {
         }
     }
     
+    /// 뷰를 초기화 해주는 메소드
+    func reset() {
+        DispatchQueue.main.async {
+            self.candleSticks = []
+            self.isInitialState = true
+            self.isFocusMode = false
+            self.scrollView.isScrollEnabled = true
+            self.removeFocus(with: nil)
+            self.setNeedsLayout()
+        }
+    }
+    
     /// 스크롤뷰의 현재 표시될 캔들스틱 대상을 업데이트 해주는 메소드.
     private func updateDrawingTargetIndex() {
         let contentOffset: CGPoint = self.scrollView.contentOffset
@@ -478,6 +490,9 @@ extension CandleStickChartView {
     }
     /// 현재 탭한 지점이 가르키는 캔들스틱을 반환해주는 메소드.
     private func getSelectedCandleStick(on point: CGPoint) -> CandleStick? {
+        guard !self.candleSticks.isEmpty else {
+            return nil
+        }
         let xCoordInDataLayer: CGFloat = self.scrollView.contentOffset.x + point.x
         guard let index = self.drawingTargetIndex.filter({ index in
             return self.getXCoord(indexOf: index) - (self.setting.size.candleStickWidth / 2.0) <=
@@ -682,7 +697,7 @@ extension CandleStickChartView {
             self.layers.focusInfoTextLayer.addSublayer($0)
         }
         let _ = VerticalCenterCATextLayer().then {
-            $0.string = String(candleStick.tradeVolume)
+            $0.string = String(format: "%.2f", candleStick.tradeVolume)
             $0.frame = CGRect(
                 x: self.setting.size.focusInfoPadding.x,
                 y: self.setting.size.focusInfoPadding.y + labelHeight * 5.0,
