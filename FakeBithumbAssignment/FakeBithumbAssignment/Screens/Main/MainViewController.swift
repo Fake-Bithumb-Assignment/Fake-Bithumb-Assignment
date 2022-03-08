@@ -32,14 +32,16 @@ final class MainViewController: BaseViewController {
         apiService: HttpService(),
         environment: .development
     )
-    
+
+    private let transactionAPIService = TransactionAPIService()
+
     private let loadingAlert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
 
     // MARK: - Life Cycle func
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        getTickerData(orderCurrency: "ALL", paymentCurrency: "KRW")
+        fetchInitialData()
         setUpViews()
         setUpNotification()
     }
@@ -48,6 +50,11 @@ final class MainViewController: BaseViewController {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.headerView.searchController.dismiss(animated: true, completion: nil)
+    }
+
+    private func fetchInitialData() {
+        getTickerData(orderCurrency: "ALL", paymentCurrency: "KRW")
+        getTransactionData()
     }
 
     private func fetchData() {
@@ -210,7 +217,7 @@ final class MainViewController: BaseViewController {
         if UserDefaults.standard.string(forKey: coin.rawValue) != nil {
             self.totalCoinList.append(CoinData(
                 coinName: coin,
-                currentPrice: "아직 없음",
+                currentPrice: "",
                 changeRate: changeRate,
                 tradeValue: currentTradeValue,
                 isInterested: true
@@ -219,7 +226,7 @@ final class MainViewController: BaseViewController {
         else {
             self.totalCoinList.append(CoinData(
                 coinName: coin,
-                currentPrice: "아직 없음",
+                currentPrice: "",
                 changeRate: changeRate,
                 tradeValue: currentTradeValue
             ))
@@ -250,10 +257,8 @@ final class MainViewController: BaseViewController {
     
     private func sortByChangeRate() {
         self.totalCoinList.sort {
-            var firstValue = $0.changeRate
-            var secondValue = $1.changeRate
-            firstValue.removeLast()
-            secondValue.removeLast()
+            let firstValue = $0.changeRate
+            let secondValue = $1.changeRate
 
             guard let firstChangeRate = Double(firstValue),
                   let secondChangeRate = Double(secondValue)
@@ -280,10 +285,6 @@ final class MainViewController: BaseViewController {
                             configureCoinData(coin: coinName, value: $0.value)
                         }
                     })
-                    self.loadingAlert.dismiss(animated: true) {
-                        self.sortByPopular()
-                        self.fetchData()
-                    }
                 } else {
                    // TODO: 에러 처리 얼럿 띄우기
                 }
@@ -293,6 +294,27 @@ final class MainViewController: BaseViewController {
             } catch HttpServiceError.clientError(let message) {
                 print("clientError:\(String(describing: message))")
             }
+        }
+    }
+    
+    private func getTransactionData() {
+        Coin.allCases.forEach { coin in
+            Task {
+                guard let response = await transactionAPIService.requestTransactionHistory(
+                    of: coin
+                ) else {
+                    return
+                }
+                
+                if let findedCoin = self.totalCoinList.first(where: { $0.coinName == coin }) {
+                    findedCoin.currentPrice = response.first?.price ?? ""
+                }
+            }
+        }
+
+        self.loadingAlert.dismiss(animated: true) {
+            self.sortByPopular()
+            self.fetchData()
         }
     }
 

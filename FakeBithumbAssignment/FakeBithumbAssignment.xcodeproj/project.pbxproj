@@ -58,6 +58,7 @@
 		4345B76627D28AFA007FA9F7 /* Loopable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345B76527D28AFA007FA9F7 /* Loopable.swift */; };
 		43B3271B27D5C0CF00B7243D /* TransactionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B3271A27D5C0CF00B7243D /* TransactionResponse.swift */; };
 		43B3271F27D71C7C00B7243D /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B3271E27D71C7C00B7243D /* MainTabBarViewController.swift */; };
+		43B3272527D72CE100B7243D /* TransactionAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B3272427D72CE100B7243D /* TransactionAPIService.swift */; };
 		43BEFF7727C9B99800FFA217 /* CoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEFF7627C9B99800FFA217 /* CoinTableViewCell.swift */; };
 		43CACF7927D268EC005EB9B7 /* TickerAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CACF7827D268EC005EB9B7 /* TickerAPIService.swift */; };
 		43CACF7B27D26946005EB9B7 /* TickerEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CACF7A27D26946005EB9B7 /* TickerEndPoint.swift */; };
@@ -164,6 +165,7 @@
 		4345B76527D28AFA007FA9F7 /* Loopable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loopable.swift; sourceTree = "<group>"; };
 		43B3271A27D5C0CF00B7243D /* TransactionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResponse.swift; sourceTree = "<group>"; };
 		43B3271E27D71C7C00B7243D /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
+		43B3272427D72CE100B7243D /* TransactionAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionAPIService.swift; sourceTree = "<group>"; };
 		43BEFF7627C9B99800FFA217 /* CoinTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTableViewCell.swift; sourceTree = "<group>"; };
 		43CACF7827D268EC005EB9B7 /* TickerAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickerAPIService.swift; sourceTree = "<group>"; };
 		43CACF7A27D26946005EB9B7 /* TickerEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickerEndPoint.swift; sourceTree = "<group>"; };
@@ -255,9 +257,10 @@
 			children = (
 				FA4C65FA27D295B400786469 /* BTCandleStickAPIService.swift */,
 				FA041BBB27C7FA5F0053C996 /* BTSocketAPIService.swift */,
+				FADFB52727D2B14A0043AF0A /* BTAssetsStatusAPIService.swift */,
 				43CACF7827D268EC005EB9B7 /* TickerAPIService.swift */,
 				1535B48E27D1E5E100413927 /* OrderbookAPIService.swift */,
-				FADFB52727D2B14A0043AF0A /* BTAssetsStatusAPIService.swift */,
+				43B3272427D72CE100B7243D /* TransactionAPIService.swift */,
 			);
 			path = APIService;
 			sourceTree = "<group>";
@@ -811,6 +814,7 @@
 				1504F73427C6339D00A5EC6C /* HttpService.swift in Sources */,
 				43CACF7B27D26946005EB9B7 /* TickerEndPoint.swift in Sources */,
 				1504F6C427C5F26000A5EC6C /* BaseViewController.swift in Sources */,
+				43B3272527D72CE100B7243D /* TransactionAPIService.swift in Sources */,
 				FAC7F95D27C65AC0001E11DA /* BTSocketAPIRequest.swift in Sources */,
 				15564DC527CFC2C600BF9314 /* UIScrollView+Extension.swift in Sources */,
 				1504F6D027C5F66200A5EC6C /* CoinQuoteInformationTabViewController.swift in Sources */,
