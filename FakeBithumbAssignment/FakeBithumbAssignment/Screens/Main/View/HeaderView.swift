@@ -149,6 +149,8 @@ final class HeaderView: UIView {
                 textField.layer.addSublayer(border)
             }
         }
+        
+        self.searchController.searchBar.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
     private func addSettingItems() -> UIMenu {
