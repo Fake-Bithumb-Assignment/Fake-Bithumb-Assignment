@@ -12,31 +12,31 @@ import Then
 class DepositAndWithdrawalTableViewCell: BaseTableViewCell {
     
     // MARK: - Instance Property
-
+    
     var assetsStatus: AssetsStatus? {
         didSet {
             self.configUI()
         }
     }
     private let coinKoreanLabel: UILabel = UILabel().then {
-        $0.textColor = .black
+        $0.textColor = UIColor(named: "primaryBlack")
         $0.textAlignment = .left
-        $0.font = UIFont.preferredFont(forTextStyle: .body)
+        $0.font = UIFont.preferredFont(forTextStyle: .subheadline)
     }
     private let coinEnglishLabel: UILabel = UILabel().then {
-        $0.textColor = .black
+        $0.textColor = .gray
         $0.textAlignment = .center
-        $0.font = UIFont.preferredFont(forTextStyle: .body)
+        $0.font = UIFont.preferredFont(forTextStyle: .footnote)
     }
     private let depositStatusLabel: UILabel = UILabel().then {
-        $0.textColor = .black
+        $0.textColor = UIColor(named: "primaryBlack")
         $0.textAlignment = .center
-        $0.font = UIFont.preferredFont(forTextStyle: .body)
+        $0.font = UIFont.preferredFont(forTextStyle: .subheadline)
     }
     private let withdrawalStatus: UILabel = UILabel().then {
-        $0.textColor = .black
+        $0.textColor = UIColor(named: "primaryBlack")
         $0.textAlignment = .center
-        $0.font = UIFont.preferredFont(forTextStyle: .body)
+        $0.font = UIFont.preferredFont(forTextStyle: .subheadline)
     }
     private var depositStatusAttributedString: NSAttributedString? {
         get {
@@ -79,7 +79,7 @@ class DepositAndWithdrawalTableViewCell: BaseTableViewCell {
     private let normalColor: UIColor = .blue
     private let abnormalColor: UIColor = .red
     private let spaceAttributedString: NSAttributedString = NSAttributedString(string: " ")
-
+    
     // MARK: - custom func
     
     override func render() {
@@ -125,7 +125,7 @@ class DepositAndWithdrawalTableViewCell: BaseTableViewCell {
         withdrawalStatusString.append(NSAttributedString(string: self.withdrawalStatusLabelText))
         withdrawalStatus.attributedText = withdrawalStatusString
     }
-        
+    
     private func getCircleAttatchment(of color: UIColor) -> NSAttributedString? {
         guard let image: UIImage = UIImage(systemName: "circle.fill")?.withTintColor(color)
         else {
