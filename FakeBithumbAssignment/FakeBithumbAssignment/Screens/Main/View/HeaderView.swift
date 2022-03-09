@@ -57,6 +57,10 @@ final class HeaderView: UIView {
     
     private let columnNameView = ColumnNameView()
     
+    private let bottomBorderView = UIView().then {
+        $0.backgroundColor = .systemGray5
+    }
+    
     // MARK: - Initializer
     
     override init(frame: CGRect) {
@@ -88,7 +92,8 @@ final class HeaderView: UIView {
         
         let stackView = UIStackView(arrangedSubviews: [
             subStackview,
-            self.columnNameView
+            self.columnNameView,
+            self.bottomBorderView
         ]).then {
             $0.axis = .vertical
             $0.spacing = 10
@@ -103,10 +108,15 @@ final class HeaderView: UIView {
             make.width.equalTo(self.krwCoinListButton).multipliedBy(4)
             make.width.equalTo(self.interestCoinListButton).multipliedBy(4)
         }
+        
+        self.bottomBorderView.snp.makeConstraints { make in
+            make.height.equalTo(1)
+        }
     }
     
     private func configureSubStackView() -> UIStackView {
         let emptyView = UIView()
+        emptyView.backgroundColor = .red
         
         let stackView = UIStackView(arrangedSubviews: [
             self.krwCoinListButton,
