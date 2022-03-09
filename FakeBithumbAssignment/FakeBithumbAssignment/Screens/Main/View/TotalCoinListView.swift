@@ -143,6 +143,7 @@ extension TotalCoinListView: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("didSelectRowAt")
         tableView.deselectRow(at: indexPath, animated: true)
         delegate?.showCoinInformation(coin: totalCoinList[indexPath.row])
     }
@@ -154,8 +155,18 @@ extension TotalCoinListView: UITableViewDelegate {
         let interest = UIContextualAction(
             style: .normal,
             title: nil
-        ) { _, _, completion in
+        ) { _, view, completion in
             self.delegate?.updateInterestList(coin: self.totalCoinList[indexPath.row])
+
+            let star = self.totalCoinList[indexPath.row].isInterested ? "Interested" : "Interest"
+            let closingImageView = UIImageView(image: UIImage(named: star))
+
+            view.addSubView(closingImageView) {
+                $0.snp.makeConstraints { make in
+                    make.center.equalToSuperview()
+                }
+            }
+
             completion(true)
         }
         
