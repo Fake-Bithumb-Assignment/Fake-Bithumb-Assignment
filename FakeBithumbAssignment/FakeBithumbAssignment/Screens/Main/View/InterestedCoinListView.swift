@@ -90,7 +90,11 @@ final class InterestedCoinListView: UIView {
                 withIdentifier: CoinTableViewCell.className,
                 for: indexPath
             ) as? CoinTableViewCell
-            
+
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = .white
+            cell?.selectedBackgroundView = backgroundView
+
             cell?.configure(with: coinList)
             return cell
         }

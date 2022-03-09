@@ -90,7 +90,11 @@ final class TotalCoinListView: UIView {
                 withIdentifier: CoinTableViewCell.className,
                 for: indexPath
             ) as? CoinTableViewCell
-            
+
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = .white
+            cell?.selectedBackgroundView = backgroundView
+
             cell?.configure(with: coinList)
             return cell
         }
@@ -143,7 +147,6 @@ extension TotalCoinListView: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("didSelectRowAt")
         tableView.deselectRow(at: indexPath, animated: true)
         delegate?.showCoinInformation(coin: totalCoinList[indexPath.row])
     }
