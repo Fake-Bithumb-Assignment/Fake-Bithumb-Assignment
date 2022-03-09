@@ -34,11 +34,21 @@ final class HeaderView: UIView {
     }
     
     private let settingButton = UIButton().then {
-        $0.setTitle(SortOption.sortedBypopular.rawValue, for: .normal)
-        $0.setTitleColor(.darkGray, for: .normal)
-        $0.setImage(UIImage(systemName: "chevron.down"), for: .normal)
-        $0.tintColor = .darkGray
-        $0.semanticContentAttribute = .forceRightToLeft
+        var configuration  = UIButton.Configuration.plain()
+        configuration.buttonSize = .small
+        configuration.image = UIImage(systemName: "chevron.down")
+        configuration.imagePlacement = .trailing
+        configuration.baseForegroundColor = .gray
+        configuration.imagePadding = 5
+        
+        var attributes = AttributeContainer()
+        attributes.foregroundColor = UIColor.darkGray
+        var attributedText = AttributedString.init(SortOption.sortedBypopular.rawValue, attributes: attributes)
+        attributedText.font = .preferredFont(forTextStyle: .subheadline)
+        configuration.attributedTitle = attributedText
+        
+        $0.configuration = configuration
+        $0.setTitleColor(UIColor.darkGray, for: .normal)
     }
     
     private let indicatorView = UIView().then {
