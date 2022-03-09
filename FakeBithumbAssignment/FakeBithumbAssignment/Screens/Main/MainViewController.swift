@@ -44,6 +44,7 @@ final class MainViewController: BaseViewController {
         fetchInitialData()
         setUpViews()
         setUpNotification()
+        setUpSearchClearButton()
     }
 
     // MARK: - custom func
@@ -381,10 +382,29 @@ final class MainViewController: BaseViewController {
         )
     }
 
+    private func setUpSearchClearButton() {
+        if let searchTextField = self.headerView.searchController.searchBar.value(
+            forKey: "searchField"
+        ) as? UITextField,
+           let clearButton = searchTextField.value(forKey: "_clearButton")as? UIButton {
+            clearButton.addTarget(
+                self,
+                action: #selector(clearButtonClicked),
+                for: .touchUpInside
+            )
+        }
+    }
+
     // MARK: - @objc
 
     @objc private func keyboardWillHide() {
         self.headerView.searchController.dismiss(animated: true, completion: nil)
+    }
+
+    @objc private func clearButtonClicked() {
+        totalCoinListView.totalCoinList = self.totalCoinList
+        updateInterestedCoinList()
+        keyboardWillHide()
     }
 }
 
@@ -458,10 +478,7 @@ extension MainViewController: UISearchResultsUpdating {
         totalCoinListView.configureSnapshot()
 
         interestedCoinListView.interestedCoinList = self.interestedCoinList.filter {
-            $0.coinName.rawValue.hasPrefix(
-                searchController.searchBar.text ?? ""
-            )
+            $0.coinName.rawValue.hasPrefix(searchController.searchBar.text ?? "")
         }
-        interestedCoinListView.configureSnapshot()
     }
 }
