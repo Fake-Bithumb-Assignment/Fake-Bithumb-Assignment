@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum TransactionEndPoint {
-    case getTransactionData(orderCurrency: String, paymentCurrency: String)
+enum TransEndPoint {
+    case getTransData(orderCurrency: String, paymentCurrency: String)
     
     var requestTimeOut: Float {
         return 20
@@ -16,14 +16,14 @@ enum TransactionEndPoint {
     
     var httpMethod: HttpMethod {
         switch self {
-        case .getTransactionData:
+        case .getTransData:
             return .GET
         }
     }
     
     var requestBody: Data? {
         switch self {
-        case .getTransactionData:
+        case .getTransData:
             return nil
         }
     }
@@ -31,7 +31,7 @@ enum TransactionEndPoint {
     func getURL(from environment: HttpEnvironment) -> String {
         let baseUrl = environment.baseUrl
         switch self {
-        case .getTransactionData(let orderCurrency, let paymentCurrency):
+        case .getTransData(let orderCurrency, let paymentCurrency):
             return "\(baseUrl)/transaction_history/\(orderCurrency)_\(paymentCurrency)?count=80"
         }
     }

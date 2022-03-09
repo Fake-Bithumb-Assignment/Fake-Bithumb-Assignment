@@ -51,7 +51,7 @@ class ContractTimeTableViewCell: BaseTableViewCell {
     
     // MARK: - custom funcs
     
-    func update(to: TransactionAPIResponse) {
+    func update(to: TransAPIResponse) {
         self.timeLabel.text = to.transactionDate
     }
 }

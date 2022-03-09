@@ -54,7 +54,7 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
     
     // MARK: - custom funcs
     
-    func update(to: TransactionAPIResponse, type: ContractTableLabelType) {
+    func update(to: TransAPIResponse, type: ContractTableLabelType) {
         switch type {
         case .price:
             self.contentLabel.text = to.price

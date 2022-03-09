@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TransactionAPIService {
+struct TransAPIService {
     private let apiService: Requestable
     private let environment: HttpEnvironment
 
@@ -16,9 +16,9 @@ struct TransactionAPIService {
         self.environment = environment
     }
     
-    func getTransactionData(orderCurrency: String, paymentCurrency: String) async throws -> [TransactionAPIResponse]? {
-        let request = TransactionEndPoint
-            .getTransactionData(orderCurrency: orderCurrency, paymentCurrency: paymentCurrency)
+    func getTransData(orderCurrency: String, paymentCurrency: String) async throws -> [TransAPIResponse]? {
+        let request = TransEndPoint
+            .getTransData(orderCurrency: orderCurrency, paymentCurrency: paymentCurrency)
             .createRequest(environment: environment)
         return try await self.apiService.request(request)
     }

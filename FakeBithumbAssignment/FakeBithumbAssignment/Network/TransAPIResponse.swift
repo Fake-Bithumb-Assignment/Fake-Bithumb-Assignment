@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TransactionAPIResponse: Codable {
+struct TransAPIResponse: Codable {
     var transactionDate: String
     var type: String?
     var unitsTraded: String

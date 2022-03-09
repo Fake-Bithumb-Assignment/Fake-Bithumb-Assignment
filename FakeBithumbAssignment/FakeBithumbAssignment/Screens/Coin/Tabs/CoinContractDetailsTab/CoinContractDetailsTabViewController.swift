@@ -18,11 +18,11 @@ final class CoinContractDetailsTabViewController: BaseViewController {
     
     // MARK: - Instance Property
     
-    let transactionAPIService: TransactionAPIService = TransactionAPIService(apiService: HttpService(),
+    let transactionAPIService: TransAPIService = TransAPIService(apiService: HttpService(),
                                                                              environment: .development)
     var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
     
-    var transactionData: [TransactionAPIResponse] = []
+    var transactionData: [TransAPIResponse] = []
         
     private let timeTableView = UITableView().then {
         $0.register(ContractTimeTableViewCell.self,
@@ -140,7 +140,7 @@ final class CoinContractDetailsTabViewController: BaseViewController {
     private func getTransactionData(orderCurrency: String, paymentCurrency: String) {
         Task {
             do {
-                let transactionData = try await transactionAPIService.getTransactionData(orderCurrency: orderCurrency,
+                let transactionData = try await transactionAPIService.getTransData(orderCurrency: orderCurrency,
                                                                                          paymentCurrency: paymentCurrency)
                 
                 if let transactionData = transactionData {
@@ -169,7 +169,7 @@ final class CoinContractDetailsTabViewController: BaseViewController {
     private func updateTransactionData(coin: Coin,
                                        data: BTSocketAPIResponse.TransactionResponse) {
         for transaction in data.content.list {
-            let transactionResponse = TransactionAPIResponse(transactionDate: "\(transaction.contDtm)",
+            let transactionResponse = TransAPIResponse(transactionDate: "\(transaction.contDtm)",
                                                              unitsTraded: "\(transaction.contQty)",
                                                              price: "\(transaction.contPrice)",
                                                              upDn: "\(transaction.updn)")
