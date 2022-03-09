@@ -44,7 +44,7 @@ final class HeaderView: UIView {
         var attributes = AttributeContainer()
         attributes.foregroundColor = UIColor.darkGray
         var attributedText = AttributedString.init(SortOption.sortedBypopular.rawValue, attributes: attributes)
-        attributedText.font = .preferredFont(forTextStyle: .subheadline)
+        attributedText.font = .preferredFont(forTextStyle: .footnote)
         configuration.attributedTitle = attributedText
         
         $0.configuration = configuration
@@ -175,7 +175,22 @@ final class HeaderView: UIView {
     
     private func configureAction(_ option: SortOption) -> UIAction {
         let action = UIAction(title: option.rawValue) { _ in
-            self.settingButton.setTitle(option.rawValue, for: .normal)
+            var configuration  = UIButton.Configuration.plain()
+            configuration.buttonSize = .small
+            configuration.image = UIImage(systemName: "chevron.down")
+            configuration.imagePlacement = .trailing
+            configuration.baseForegroundColor = .gray
+            configuration.imagePadding = 5
+            
+            var attributes = AttributeContainer()
+            attributes.foregroundColor = UIColor.darkGray
+            var attributedText = AttributedString.init(option.rawValue, attributes: attributes)
+            attributedText.font = .preferredFont(forTextStyle: .footnote)
+            configuration.attributedTitle = attributedText
+            
+            self.settingButton.configuration = configuration
+            self.settingButton.setTitleColor(UIColor.darkGray, for: .normal)
+
             self.delegate?.sorted(by: option)
         }
         
@@ -286,3 +301,4 @@ final class HeaderView: UIView {
         delegate?.selectCategory(.interest)
     }
 }
+

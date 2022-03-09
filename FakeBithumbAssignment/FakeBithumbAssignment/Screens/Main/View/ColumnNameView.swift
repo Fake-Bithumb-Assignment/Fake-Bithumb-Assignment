@@ -15,30 +15,30 @@ final class ColumnNameView: UIView {
     // MARK: - Instance Property
 
     private let coinNameLabel = UILabel().then {
-        $0.font = .preferredFont(forTextStyle: .subheadline)
+        $0.font = .preferredFont(forTextStyle: .footnote)
         $0.text = "가상자산명"
-        $0.textColor = .lightGray
+        $0.textColor = .gray
         $0.textAlignment = .left
     }
 
     private let currentPriceLabel = UILabel().then {
-        $0.font = .preferredFont(forTextStyle: .subheadline)
+        $0.font = .preferredFont(forTextStyle: .footnote)
         $0.text = "현재가"
-        $0.textColor = .lightGray
+        $0.textColor = .gray
         $0.textAlignment = .right
     }
 
     private let changeRateLabel = UILabel().then {
-        $0.font = .preferredFont(forTextStyle: .subheadline)
+        $0.font = .preferredFont(forTextStyle: .footnote)
         $0.text = "변동률"
-        $0.textColor = .lightGray
+        $0.textColor = .gray
         $0.textAlignment = .center
     }
 
     private let tradeValueLabel = UILabel().then {
-        $0.font = .preferredFont(forTextStyle: .subheadline)
+        $0.font = .preferredFont(forTextStyle: .footnote)
         $0.text = "거래금액"
-        $0.textColor = .lightGray
+        $0.textColor = .gray
         $0.textAlignment = .right
     }
 

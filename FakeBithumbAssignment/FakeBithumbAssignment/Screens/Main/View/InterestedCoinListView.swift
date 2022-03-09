@@ -157,7 +157,7 @@ final class InterestedCoinListView: UIView {
 
 extension InterestedCoinListView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 55
     }
 
     func tableView(

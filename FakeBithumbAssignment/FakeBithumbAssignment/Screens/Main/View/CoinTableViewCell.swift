@@ -15,14 +15,14 @@ class CoinTableViewCell: BaseTableViewCell {
     // MARK: - Instance Property
 
     private let coinName = UILabel().then {
-        $0.font = .preferredFont(forTextStyle: .body)
+        $0.font = .preferredFont(forTextStyle: .subheadline)
         $0.textAlignment = .left
         $0.textColor = .black
         $0.numberOfLines = 0
     }
 
     private let currentPrice = UILabel().then {
-        $0.font = .preferredFont(forTextStyle: .body)
+        $0.font = .preferredFont(forTextStyle: .subheadline)
         $0.textAlignment = .right
         $0.textColor = .black
         $0.numberOfLines = 0
@@ -31,7 +31,7 @@ class CoinTableViewCell: BaseTableViewCell {
     }
 
     private let changeRate = UILabel().then {
-        $0.font = .preferredFont(forTextStyle: .body)
+        $0.font = .preferredFont(forTextStyle: .subheadline)
         $0.textAlignment = .center
         $0.textColor = .black
         $0.numberOfLines = 0
@@ -40,7 +40,7 @@ class CoinTableViewCell: BaseTableViewCell {
     }
 
     private let tradeValue = UILabel().then {
-        $0.font = .preferredFont(forTextStyle: .body)
+        $0.font = .preferredFont(forTextStyle: .subheadline)
         $0.textAlignment = .right
         $0.textColor = .black
         $0.numberOfLines = 0
