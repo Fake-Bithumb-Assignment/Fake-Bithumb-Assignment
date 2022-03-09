@@ -11,9 +11,9 @@ class GraphTableViewCell: BaseTableViewCell {
     
     // MARK: - Instance Property
     
-    var type: OrderType = .ask
-    var quote: Quote?
-    var maxQuantity: Double?
+    private var type: OrderType = .ask
+    private var quote: Quote?
+    private var maxQuantity: Double?
     private let valueView: UIView = UIView()
     private let valuePriceLabel: UILabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
@@ -79,7 +79,7 @@ class GraphTableViewCell: BaseTableViewCell {
                     top: 0,
                     left: 10,
                     bottom: 0,
-                    right: 0
+                    right: 2
                 )
             )
         }
@@ -140,6 +140,7 @@ class GraphTableViewCell: BaseTableViewCell {
         self.graphStickLayer.backgroundColor = self.graphColor.cgColor
         self.valuePriceLabel.text = quote.price
         self.graphQuantityLabel.text = quote.quantity
+        self.setValuePercentage()
         let graphWidth: CGFloat = self.graphView.bounds.width * (quote.quantityNumber / maxQuantity)
         self.graphStickLayer.frame = CGRect(
             x: type == .ask ? self.graphView.bounds.width - graphWidth : 0,
@@ -149,7 +150,7 @@ class GraphTableViewCell: BaseTableViewCell {
         )
         CATransaction.commit()
     }
-    
+        
     // MARK: - custom funcs
     
     func update(type: OrderType, quote: Quote, maxQuantity: Double) {
@@ -159,4 +160,27 @@ class GraphTableViewCell: BaseTableViewCell {
         self.layoutIfNeeded()
     }
     
+    private func setValuePercentage() {
+        guard let quote = quote,
+              let prevClosePrice = quote.prevClosePrice
+        else {
+            return
+        }
+        let percentage: Double = ((quote.priceNumer - prevClosePrice) / prevClosePrice) * 100
+        let percentageString: String = String(format: "%.2f", percentage)
+        if percentageString == "0.00" {
+            self.valuePercentabeLabel.text = "\(percentageString)%"
+            self.valuePercentabeLabel.textColor = .black
+            self.valuePriceLabel.textColor = .black
+        } else if percentage >= 0.0 {
+            self.valuePercentabeLabel.text = "+\(percentageString)%"
+            self.valuePercentabeLabel.textColor = UIColor(named: "up") ?? .red
+            self.valuePriceLabel.textColor = UIColor(named: "up") ?? .red
+        } else {
+            self.valuePercentabeLabel.text = "\(percentageString)%"
+            self.valuePercentabeLabel.textColor = UIColor(named: "down") ?? .blue
+            self.valuePriceLabel.textColor = UIColor(named: "down") ?? .blue
+        }
+    }
+
 }

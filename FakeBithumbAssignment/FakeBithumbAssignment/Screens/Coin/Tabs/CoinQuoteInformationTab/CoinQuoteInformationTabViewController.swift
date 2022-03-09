@@ -15,39 +15,46 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     // MARK: - Instance Property
     
     let orderCurrenty: Coin = .BTC
-    let orderbookAPIService: OrderbookAPIService = OrderbookAPIService(
+    private let orderbookAPIService: OrderbookAPIService = OrderbookAPIService(
         apiService: HttpService(),
         environment: .development
     )
-    var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
-    var askQuotes: [String: Quote] = [:] {
+    private var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
+    private let tickerAPIService: TickerAPIService = TickerAPIService(
+        apiService: HttpService(),
+        environment: .development
+    )
+    private var askQuotes: [String: Quote] = [:] {
         didSet {
-            self.askTableView.updatedQuotes(
-                to: Array(askQuotes.values).filter { $0.quantityNumber >= 0.0001 }
-            )
+            self.updateAsk()
         }
     }
-    var bidQuotes: [String: Quote] = [:] {
+    private var bidQuotes: [String: Quote] = [:] {
         didSet {
-            self.bidTableView.updatedQuotes(
-                to: Array(bidQuotes.values).filter { $0.quantityNumber >= 0.0001 }
-            )
+            self.updateBid()
         }
     }
-    let askTableView: GraphTableView = GraphTableView().then {
+    private var prevClosePrice: Double? = nil {
+        didSet {
+            self.updateAsk()
+            self.updateBid()
+        }
+    }
+    private let askTableView: GraphTableView = GraphTableView().then {
         $0.type = .ask
     }
-    let bidTableView: GraphTableView = GraphTableView().then {
+    private let bidTableView: GraphTableView = GraphTableView().then {
         $0.type = .bid
     }
-    let coinFirstInformationView = CoinFirstInformationView()
-    let coinSecondInformationView = CoinSecondInformationView()
-    let scrollView = UIScrollView().then { make in
+    private let coinFirstInformationView = CoinFirstInformationView()
+    private let coinSecondInformationView = CoinSecondInformationView()
+    private let scrollView = UIScrollView().then { make in
         make.backgroundColor = .white
     }
+    private let minimumDouble: Double = 0.00001
     
     // MARK: - Life Cycle func
-            
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -55,6 +62,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.fetchFromAPI()
         self.fetchFromSocket()
+        self.fetchTicker()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -68,10 +76,36 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     }
     
     // MARK: - custom funcs
-
+    
     private func reset() {
         self.bidQuotes.removeAll()
         self.askQuotes.removeAll()
+    }
+    
+    private func updateAsk() {
+        let askQuotes: [Quote] = Array(askQuotes.values).filter {
+            $0.quantityNumber >= self.minimumDouble
+        }.map {
+            var quote = $0
+            quote.prevClosePrice = self.prevClosePrice
+            return quote
+        }
+        self.askTableView.updatedQuotes(
+            to: askQuotes
+        )
+    }
+    
+    private func updateBid() {
+        let bidQuotes: [Quote] = Array(bidQuotes.values).filter {
+            $0.quantityNumber >= self.minimumDouble
+        }.map {
+            var quote = $0
+            quote.prevClosePrice = self.prevClosePrice
+            return quote
+        }
+        self.bidTableView.updatedQuotes(
+            to: bidQuotes
+        )
     }
     
     override func configUI() {
@@ -109,7 +143,7 @@ class CoinQuoteInformationTabViewController: BaseViewController {
             make.height.equalTo(2100)
         }
     }
-
+    
     private func fetchFromAPI() {
         Task {
             do {
@@ -156,5 +190,29 @@ class CoinQuoteInformationTabViewController: BaseViewController {
                 }
             }
     }
-
+    
+    private func fetchTicker() {
+        Task {
+            do {
+                guard let ticker: Item = try await self.tickerAPIService.getOneTickerData(
+                    orderCurrency: String(describing: self.orderCurrenty),
+                    paymentCurrency: "krw"
+                ) else {
+                    return
+                }
+                self.prevClosePrice = Double(ticker.prevClosingPrice)
+            } catch {
+                //TODO: do something
+                print(error)
+            }
+        }
+        self.btsocketAPIService.subscribeTicker(
+            orderCurrency: [self.orderCurrenty],
+            paymentCurrency: .krw,
+            tickTypes: [.mid]
+        ) { ticker in
+            self.prevClosePrice = ticker.content.prevClosePrice
+        }
+    }
+    
 }
