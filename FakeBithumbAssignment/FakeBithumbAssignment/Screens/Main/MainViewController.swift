@@ -288,6 +288,7 @@ final class MainViewController: BaseViewController {
                     })
                 } else {
                    // TODO: 에러 처리 얼럿 띄우기
+                    print("tickerData is nil")
                 }
 
             } catch HttpServiceError.serverError {
@@ -307,15 +308,17 @@ final class MainViewController: BaseViewController {
                     return
                 }
                 
-                if let findedCoin = self.totalCoinList.first(where: { $0.coinName == coin }) {
+                if let findedCoin = self.totalCoinList.first(where: { $0.coinName == coin }),
+                   let latestTransactions = response.last?.transactionDate.components(separatedBy: " "),
+                   let oldestTransactions = response.first?.transactionDate.components(separatedBy: " ")
+                {
                     findedCoin.currentPrice = response.first?.price ?? ""
-
-                    if let latestTransactionArray = response.last?.transactionDate.components(separatedBy: " "),
-                       let oldestTransactionArray = response.first?.transactionDate.components(separatedBy: " ") {
-                        let latestTransaction = latestTransactionArray[1]
-                        let oldestTransaction = oldestTransactionArray[1]
-                        findedCoin.popularity = self.calculatePopularity(latestTransaction: latestTransaction, oldestTransaction: oldestTransaction)
-                    }
+                    let latestTransaction = latestTransactions[1]
+                    let oldestTransaction = oldestTransactions[1]
+                    findedCoin.popularity = self.calculatePopularity(
+                        latestTransaction: latestTransaction,
+                        oldestTransaction: oldestTransaction
+                    )
                 }
             }
         }
@@ -449,7 +452,10 @@ extension MainViewController: UISearchResultsUpdating {
         }
         totalCoinListView.configureSnapshot()
 
-        interestedCoinListView.interestedCoinList = self.interestedCoinList.filter { $0.coinName.rawValue.hasPrefix(searchController.searchBar.text ?? "")
+        interestedCoinListView.interestedCoinList = self.interestedCoinList.filter {
+            $0.coinName.rawValue.hasPrefix(
+                searchController.searchBar.text ?? ""
+            )
         }
         interestedCoinListView.configureSnapshot()
     }

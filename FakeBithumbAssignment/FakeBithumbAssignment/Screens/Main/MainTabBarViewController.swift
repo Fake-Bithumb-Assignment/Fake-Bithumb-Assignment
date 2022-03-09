@@ -16,8 +16,6 @@ class MainTabBarViewController: UITabBarController {
 
     private func configureUI() {
         self.tabBar.tintColor = .black
-        self.tabBar.barTintColor = .red
-        self.tabBarItem.badgeColor = .yellow
         self.tabBar.backgroundColor = .white
         configureTabBarShadow()
     }
