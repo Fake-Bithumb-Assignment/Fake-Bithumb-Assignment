@@ -12,31 +12,31 @@ import Then
 class DepositAndWithdrawalTableViewCell: BaseTableViewCell {
     
     // MARK: - Instance Property
-
+    
     var assetsStatus: AssetsStatus? {
         didSet {
             self.configUI()
         }
     }
     private let coinKoreanLabel: UILabel = UILabel().then {
-        $0.textColor = .black
+        $0.textColor = UIColor(named: "primaryBlack")
         $0.textAlignment = .left
-        $0.font = UIFont.preferredFont(forTextStyle: .body)
+        $0.font = UIFont.preferredFont(forTextStyle: .subheadline)
     }
     private let coinEnglishLabel: UILabel = UILabel().then {
-        $0.textColor = .black
+        $0.textColor = .gray
         $0.textAlignment = .center
-        $0.font = UIFont.preferredFont(forTextStyle: .body)
+        $0.font = UIFont.preferredFont(forTextStyle: .footnote)
     }
     private let depositStatusLabel: UILabel = UILabel().then {
-        $0.textColor = .black
+        $0.textColor = UIColor(named: "primaryBlack")
         $0.textAlignment = .center
-        $0.font = UIFont.preferredFont(forTextStyle: .body)
+        $0.font = UIFont.preferredFont(forTextStyle: .subheadline)
     }
     private let withdrawalStatus: UILabel = UILabel().then {
-        $0.textColor = .black
+        $0.textColor = UIColor(named: "primaryBlack")
         $0.textAlignment = .center
-        $0.font = UIFont.preferredFont(forTextStyle: .body)
+        $0.font = UIFont.preferredFont(forTextStyle: .subheadline)
     }
     private var depositStatusAttributedString: NSAttributedString? {
         get {
@@ -76,10 +76,10 @@ class DepositAndWithdrawalTableViewCell: BaseTableViewCell {
     }
     private let normalText: String = "정상"
     private let abnormalText: String = "비정상"
-    private let normalColor: UIColor = .blue
-    private let abnormalColor: UIColor = .red
+    private let normalColor: UIColor = UIColor(named: "normal") ?? .blue
+    private let abnormalColor: UIColor = UIColor(named: "abnormal") ?? .red
     private let spaceAttributedString: NSAttributedString = NSAttributedString(string: " ")
-
+    
     // MARK: - custom func
     
     override func render() {
@@ -125,14 +125,20 @@ class DepositAndWithdrawalTableViewCell: BaseTableViewCell {
         withdrawalStatusString.append(NSAttributedString(string: self.withdrawalStatusLabelText))
         withdrawalStatus.attributedText = withdrawalStatusString
     }
-        
+    
     private func getCircleAttatchment(of color: UIColor) -> NSAttributedString? {
         guard let image: UIImage = UIImage(systemName: "circle.fill")?.withTintColor(color)
         else {
             return nil
         }
+        let scaledImageSize = CGSize(width: 10, height: 10)
+        
+        let renderer = UIGraphicsImageRenderer(size:scaledImageSize)
+        let scaledImage = renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: scaledImageSize))
+        }
         let attatchment: NSTextAttachment = NSTextAttachment().then {
-            $0.image = image
+            $0.image = scaledImage
         }
         return NSAttributedString(attachment: attatchment)
     }
