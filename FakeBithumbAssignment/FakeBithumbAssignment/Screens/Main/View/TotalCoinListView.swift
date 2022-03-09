@@ -25,7 +25,7 @@ final class TotalCoinListView: UIView {
         }
     }
 
-    private let totalCoinListTableView = UITableView().then {
+    let totalCoinListTableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
         $0.backgroundColor = .clear
         $0.keyboardDismissMode = .onDrag
@@ -90,7 +90,11 @@ final class TotalCoinListView: UIView {
                 withIdentifier: CoinTableViewCell.className,
                 for: indexPath
             ) as? CoinTableViewCell
-            
+
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = .white
+            cell?.selectedBackgroundView = backgroundView
+
             cell?.configure(with: coinList)
             return cell
         }
@@ -154,8 +158,18 @@ extension TotalCoinListView: UITableViewDelegate {
         let interest = UIContextualAction(
             style: .normal,
             title: nil
-        ) { _, _, completion in
+        ) { _, view, completion in
             self.delegate?.updateInterestList(coin: self.totalCoinList[indexPath.row])
+
+            let star = self.totalCoinList[indexPath.row].isInterested ? "Interested" : "Interest"
+            let closingImageView = UIImageView(image: UIImage(named: star))
+
+            view.addSubView(closingImageView) {
+                $0.snp.makeConstraints { make in
+                    make.center.equalToSuperview()
+                }
+            }
+
             completion(true)
         }
         

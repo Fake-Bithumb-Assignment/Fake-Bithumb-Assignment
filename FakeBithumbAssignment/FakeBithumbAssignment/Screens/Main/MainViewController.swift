@@ -20,9 +20,9 @@ final class MainViewController: BaseViewController {
 
     private var interestedCoinList: [CoinData] = []
 
-    private lazy var totalCoinListView = TotalCoinListView()
+    lazy var totalCoinListView = TotalCoinListView()
 
-    private lazy var interestedCoinListView = InterestedCoinListView()
+    lazy var interestedCoinListView = InterestedCoinListView()
 
     private lazy var searchedCoin: [CoinData] = []
 
@@ -55,6 +55,10 @@ final class MainViewController: BaseViewController {
     private func fetchInitialData() {
         getTickerData(orderCurrency: "ALL", paymentCurrency: "KRW")
         getTransactionData()
+        self.loadingAlert.dismiss(animated: true) {
+            self.sortByDefaultOption()
+            self.fetchData()
+        }
     }
 
     private func fetchData() {
@@ -225,7 +229,8 @@ final class MainViewController: BaseViewController {
                 currentPrice: "",
                 changeRate: changeRate,
                 tradeValue: currentTradeValue,
-                isInterested: true
+                isInterested: true,
+                popularity: 172800
             ))
         }
         else {
@@ -233,29 +238,25 @@ final class MainViewController: BaseViewController {
                 coinName: coin,
                 currentPrice: "",
                 changeRate: changeRate,
-                tradeValue: currentTradeValue
+                tradeValue: currentTradeValue,
+                popularity: 172800
             ))
         }
     }
-    
-    private func sortByPopular() {
-        self.totalCoinList.sort {
-            let firstValue = $0.tradeValue.replacingOccurrences(of: ",", with: "")
-            let secondValue = $1.tradeValue.replacingOccurrences(of: ",", with: "")
-            
-            guard let firstTradeValue = Int(firstValue),
-                  let secondTradeValue = Int(secondValue)
-            else {
-                return $0.tradeValue > $1.tradeValue
-            }
 
-            return firstTradeValue > secondTradeValue
-        }
-
-        totalCoinListView.totalCoinList = self.totalCoinList
-        updateInterestedCoinList()
+    private func sortByDefaultOption() {
+        self.totalCoinList.sort { $0.popularity < $1.popularity }
+        self.totalCoinListView.totalCoinList = self.totalCoinList
+        self.updateInterestedCoinList()
     }
-    
+
+    private func sortByPopularity() {
+        self.present(self.loadingAlert, animated: true, completion: nil)
+        self.getTransactionData()
+        self.totalCoinList.sort { $0.popularity < $1.popularity }
+        self.loadingAlert.dismiss(animated: true, completion: nil)
+    }
+
     private func sortByName() {
         self.totalCoinList.sort { $0.coinName.rawValue < $1.coinName.rawValue }
     }
@@ -292,6 +293,7 @@ final class MainViewController: BaseViewController {
                     })
                 } else {
                    // TODO: 에러 처리 얼럿 띄우기
+                    print("tickerData is nil")
                 }
 
             } catch HttpServiceError.serverError {
@@ -311,16 +313,46 @@ final class MainViewController: BaseViewController {
                     return
                 }
                 
-                if let findedCoin = self.totalCoinList.first(where: { $0.coinName == coin }) {
+                if let findedCoin = self.totalCoinList.first(where: { $0.coinName == coin }),
+                   let latestTransactions = response.last?.transactionDate.components(separatedBy: " "),
+                   let oldestTransactions = response.first?.transactionDate.components(separatedBy: " ")
+                {
                     findedCoin.currentPrice = response.first?.price ?? ""
+                    let latestTransaction = latestTransactions[1]
+                    let oldestTransaction = oldestTransactions[1]
+                    findedCoin.popularity = self.calculatePopularity(
+                        latestTransaction: latestTransaction,
+                        oldestTransaction: oldestTransaction
+                    )
                 }
             }
         }
+    }
+    
+    private func calculatePopularity(latestTransaction: String, oldestTransaction: String) -> Int {
+        let latest = latestTransaction.components(separatedBy: ":")
+        let oldest = oldestTransaction.components(separatedBy: ":")
+        var seconds = 3600
+        var latestValue = 86400
+        var oldestValue = 86400
 
-        self.loadingAlert.dismiss(animated: true) {
-            self.sortByPopular()
-            self.fetchData()
+        latest.forEach {
+            if let time = Int($0) {
+                latestValue += time * seconds
+                seconds /= 60
+            }
         }
+        
+        seconds = 3600
+
+        oldest.forEach {
+            if let time = Int($0) {
+                oldestValue += time * seconds
+                seconds /= 60
+            }
+        }
+
+        return latestValue - oldestValue
     }
 
     private func setUpViews() {
@@ -362,7 +394,7 @@ extension MainViewController: HeaderViewDelegate {
     func sorted(by sortOption: SortOption) {
         switch sortOption {
         case .sortedBypopular:
-            self.sortByPopular()
+            self.sortByPopularity()
         case .sortedByName:
             self.sortByName()
         case .sortedByChangeRate:
@@ -425,7 +457,10 @@ extension MainViewController: UISearchResultsUpdating {
         }
         totalCoinListView.configureSnapshot()
 
-        interestedCoinListView.interestedCoinList = self.interestedCoinList.filter { $0.coinName.rawValue.hasPrefix(searchController.searchBar.text ?? "")
+        interestedCoinListView.interestedCoinList = self.interestedCoinList.filter {
+            $0.coinName.rawValue.hasPrefix(
+                searchController.searchBar.text ?? ""
+            )
         }
         interestedCoinListView.configureSnapshot()
     }
