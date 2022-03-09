@@ -10,9 +10,24 @@ import UIKit
 class GraphTableViewCell: BaseTableViewCell {
     
     // MARK: - Instance Property
+    
     var type: OrderType = .ask
     var quote: Quote?
     var maxQuantity: Double?
+    private let valueView: UIView = UIView()
+    private let valuePriceLabel: UILabel = UILabel().then {
+        $0.font = UIFont.preferredFont(forTextStyle: .caption1)
+    }
+    private let valuePercentabeLabel: UILabel = UILabel().then {
+        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
+    }
+    private let graphView: UIView = UIView()
+    private let graphQuantityLabel: UILabel = UILabel().then {
+        $0.font = UIFont.preferredFont(forTextStyle: .caption1)
+        $0.textColor = .darkGray
+    }
+    private let graphStickLayer: CALayer = CALayer()
+    private var wholeStackView: UIStackView? = nil
     private var cellColor: UIColor {
         get {
             switch self.type {
@@ -43,21 +58,6 @@ class GraphTableViewCell: BaseTableViewCell {
             }
         }
     }
-    private let valueView: UIView = UIView()
-    private let valuePriceLabel: UILabel = UILabel().then {
-        $0.font = UIFont.preferredFont(forTextStyle: .caption1)
-    }
-    private let valuePercentabeLabel: UILabel = UILabel().then {
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-    }
-    private let graphView: UIView = UIView()
-    private let graphQuantityLabel: UILabel = UILabel().then {
-        $0.font = UIFont.preferredFont(forTextStyle: .caption1)
-        $0.textColor = .darkGray
-    }
-    private let graphStickLayer: CALayer = CALayer()
-    private var wholeStackView: UIStackView? = nil
-    
     private let inset: CGFloat = 0.5
     
     // MARK: - Life Cycle func

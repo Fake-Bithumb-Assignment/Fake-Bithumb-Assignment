@@ -29,6 +29,8 @@ class GraphTableView: UITableView {
             }
         }
     }
+    
+    // MARK: - Initializer
         
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -42,13 +44,14 @@ class GraphTableView: UITableView {
         self.configTableView()
     }
     
+    // MARK: - Custom func
+    
     private func configUI() {
         self.separatorStyle = .none
         self.rowHeight = 35
     }
     
     private func configTableView() {
-//        self.register(cell: GraphTableViewCell.self, forCellReuseIdentifier: "GraphTableViewCell")
         self.register(cell: GraphTableViewCell.self)
         self.isScrollEnabled = false
         self.isUserInteractionEnabled = false
