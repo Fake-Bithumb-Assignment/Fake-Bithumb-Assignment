@@ -113,6 +113,7 @@ class CoinTableViewCell: BaseTableViewCell {
             self.changeRate.textColor = color
         }
         else {
+            self.changeRate.text = "0.00%"
             self.changeRate.textColor = .black
             self.currentPrice.textColor = .black
         }
