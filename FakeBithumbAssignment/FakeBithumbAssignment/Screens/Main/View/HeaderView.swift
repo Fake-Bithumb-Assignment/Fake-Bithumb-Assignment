@@ -52,7 +52,7 @@ final class HeaderView: UIView {
     }
     
     private let indicatorView = UIView().then {
-        $0.backgroundColor = .black
+        $0.backgroundColor = UIColor(named: "bithumbColor")
     }
     
     private let columnNameView = ColumnNameView()
