@@ -104,11 +104,6 @@ final class HeaderView: UIView {
             make.size.equalToSuperview()
         }
         
-        subStackview.snp.makeConstraints { make in
-            make.width.equalTo(self.krwCoinListButton).multipliedBy(4)
-            make.width.equalTo(self.interestCoinListButton).multipliedBy(4)
-        }
-        
         self.bottomBorderView.snp.makeConstraints { make in
             make.height.equalTo(1)
         }
@@ -121,16 +116,14 @@ final class HeaderView: UIView {
         let stackView = UIStackView(arrangedSubviews: [
             self.krwCoinListButton,
             self.interestCoinListButton,
-            emptyView,
+            UIView(),
+            UIView(),
+            UIView(),
             self.settingButton
         ]).then {
             $0.alignment = .center
+            $0.distribution = .fill
         }
-        
-        self.krwCoinListButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        self.interestCoinListButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        self.settingButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        emptyView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
         return stackView
     }
@@ -243,8 +236,8 @@ final class HeaderView: UIView {
         button.addSubview(indicatorView)
         indicatorView.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(7)
-            make.leading.equalToSuperview().offset(25)
-            make.trailing.equalToSuperview().inset(25)
+            make.leading.equalToSuperview().offset(15)
+            make.trailing.equalToSuperview().inset(15)
             make.height.equalTo(2)
         }
     }
