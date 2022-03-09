@@ -25,7 +25,7 @@ final class HeaderView: UIView {
     
     private let krwCoinListButton = UIButton()
     
-    private let InterestCoinListButton = UIButton()
+    private let interestCoinListButton = UIButton()
     
     private var searchBarBorderLayer: CALayer?
     
@@ -91,7 +91,7 @@ final class HeaderView: UIView {
         
         subStackview.snp.makeConstraints { make in
             make.width.equalTo(self.krwCoinListButton).multipliedBy(4)
-            make.width.equalTo(self.InterestCoinListButton).multipliedBy(4)
+            make.width.equalTo(self.interestCoinListButton).multipliedBy(4)
         }
     }
     
@@ -100,7 +100,7 @@ final class HeaderView: UIView {
         
         let stackView = UIStackView(arrangedSubviews: [
             self.krwCoinListButton,
-            self.InterestCoinListButton,
+            self.interestCoinListButton,
             emptyView,
             self.settingButton
         ]).then {
@@ -108,7 +108,7 @@ final class HeaderView: UIView {
         }
         
         self.krwCoinListButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        self.InterestCoinListButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        self.interestCoinListButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         self.settingButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         emptyView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
@@ -163,11 +163,18 @@ final class HeaderView: UIView {
     }
     
     private func configureKRWButon() {
-        self.krwCoinListButton.configuration = setConfiguration(
-            .tinted(),
-            image: "won",
-            title: Category.krw.rawValue
-        )
+        var configuration  = UIButton.Configuration.plain()
+        configuration.buttonSize = .large
+        
+        var attributes = AttributeContainer()
+        attributes.foregroundColor = UIColor.black
+        var attributedText = AttributedString.init("원화", attributes: attributes)
+        attributedText.font = .preferredFont(forTextStyle: .headline)
+        configuration.attributedTitle = attributedText
+        
+        self.krwCoinListButton.configuration = configuration
+        self.krwCoinListButton.setTitleColor(UIColor.darkGray, for: .normal)
+        
         self.krwCoinListButton.addTarget(
             self,
             action: #selector(tapKRWButton),
@@ -177,12 +184,19 @@ final class HeaderView: UIView {
     }
     
     private func configureFavoritesButton() {
-        self.InterestCoinListButton.configuration = setConfiguration(
-            .gray(),
-            image: "star",
-            title: Category.interest.rawValue
-        )
-        self.InterestCoinListButton.addTarget(
+        var configuration  = UIButton.Configuration.plain()
+        configuration.buttonSize = .large
+        
+        var attributes = AttributeContainer()
+        attributes.foregroundColor = UIColor.black
+        var attributedText = AttributedString.init("관심", attributes: attributes)
+        attributedText.font = .preferredFont(forTextStyle: .headline)
+        configuration.attributedTitle = attributedText
+        
+        self.interestCoinListButton.configuration = configuration
+        self.interestCoinListButton.setTitleColor(UIColor.darkGray, for: .normal)
+        
+        self.interestCoinListButton.addTarget(
             self,
             action: #selector(tapFavoritesButton),
             for: .touchUpInside
@@ -193,8 +207,10 @@ final class HeaderView: UIView {
         self.indicatorView.removeFromSuperview()
         button.addSubview(indicatorView)
         indicatorView.snp.makeConstraints { make in
-            make.leading.width.bottom.equalToSuperview()
-            make.height.equalTo(3)
+            make.bottom.equalToSuperview().inset(7)
+            make.leading.equalToSuperview().offset(25)
+            make.trailing.equalToSuperview().inset(25)
+            make.height.equalTo(2)
         }
     }
     
@@ -217,31 +233,36 @@ final class HeaderView: UIView {
     
     @objc private func tapKRWButton() {
         setBottomBorder(to: self.krwCoinListButton)
-        self.krwCoinListButton.configuration = setConfiguration(
-            .tinted(),
-            image: "won",
-            title: Category.krw.rawValue
-        )
-        self.InterestCoinListButton.configuration = setConfiguration(
-            .gray(),
-            image: "star",
-            title: Category.interest.rawValue
-        )
+        
+        var configuration  = UIButton.Configuration.plain()
+        configuration.buttonSize = .large
+        
+        var attributes = AttributeContainer()
+        attributes.foregroundColor = UIColor.black
+        var attributedText = AttributedString.init("원화", attributes: attributes)
+        attributedText.font = .preferredFont(forTextStyle: .headline)
+        configuration.attributedTitle = attributedText
+        
+        self.krwCoinListButton.configuration = configuration
+        self.krwCoinListButton.setTitleColor(UIColor.darkGray, for: .normal)
+        
         delegate?.selectCategory(.krw)
     }
     
     @objc private func tapFavoritesButton() {
-        self.krwCoinListButton.configuration = setConfiguration(
-            .gray(),
-            image: "won",
-            title: Category.krw.rawValue
-        )
-        self.InterestCoinListButton.configuration = setConfiguration(
-            .tinted(),
-            image: "star",
-            title: Category.interest.rawValue
-        )
-        setBottomBorder(to: self.InterestCoinListButton)
+        var configuration  = UIButton.Configuration.plain()
+        configuration.buttonSize = .large
+        
+        var attributes = AttributeContainer()
+        attributes.foregroundColor = UIColor.black
+        var attributedText = AttributedString.init("관심", attributes: attributes)
+        attributedText.font = .preferredFont(forTextStyle: .headline)
+        configuration.attributedTitle = attributedText
+        
+        self.interestCoinListButton.configuration = configuration
+        self.interestCoinListButton.setTitleColor(UIColor.darkGray, for: .normal)
+
+        setBottomBorder(to: self.interestCoinListButton)
         delegate?.selectCategory(.interest)
     }
 }
