@@ -70,8 +70,7 @@ class CoinTableViewCell: BaseTableViewCell {
         self.changeRate.text = model.changeRate + "%"
         self.tradeValue.text = model.tradeValue + "백만"
         
-        var changeRateString = model.changeRate
-        changeRateString.removeLast()
+        let changeRateString = model.changeRate
 
         if let changeRate = Double(changeRateString) {
             self.configureTextColor(changeRate)
