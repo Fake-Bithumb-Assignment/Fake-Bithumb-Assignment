@@ -29,7 +29,7 @@ final class TotalCoinListView: UIView {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
         $0.backgroundColor = .clear
         $0.keyboardDismissMode = .onDrag
-        $0.separatorInset = UIEdgeInsets()
+        $0.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
 
     private let noInterestedCoinLabel = UILabel().then {
@@ -139,7 +139,7 @@ final class TotalCoinListView: UIView {
 
 extension TotalCoinListView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 55
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

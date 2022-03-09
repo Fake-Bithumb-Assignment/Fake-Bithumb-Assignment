@@ -71,6 +71,7 @@ final class MainViewController: BaseViewController {
     private func configureUI() {
         configureStackViews()
         configureIndicator()
+        configureNavigation()
     }
 
     private func configureIndicator() {
@@ -98,6 +99,10 @@ final class MainViewController: BaseViewController {
                 self.updateCurrentChangeRateAndValue(coin: coin, data: response)
             }
         }
+    }
+    
+    private func configureNavigation() {
+        self.navigationItem.titleView = NavigationLogoTitleView()
     }
     
     private func fetchCurrentPrice() {
