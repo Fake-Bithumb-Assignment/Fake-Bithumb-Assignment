@@ -25,7 +25,7 @@ final class TotalCoinListView: UIView {
         }
     }
 
-    private let totalCoinListTableView = UITableView().then {
+    let totalCoinListTableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
         $0.backgroundColor = .clear
         $0.keyboardDismissMode = .onDrag

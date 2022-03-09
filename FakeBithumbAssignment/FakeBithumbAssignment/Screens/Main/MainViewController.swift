@@ -20,9 +20,9 @@ final class MainViewController: BaseViewController {
 
     private var interestedCoinList: [CoinData] = []
 
-    private lazy var totalCoinListView = TotalCoinListView()
+    lazy var totalCoinListView = TotalCoinListView()
 
-    private lazy var interestedCoinListView = InterestedCoinListView()
+    lazy var interestedCoinListView = InterestedCoinListView()
 
     private lazy var searchedCoin: [CoinData] = []
 
@@ -225,7 +225,7 @@ final class MainViewController: BaseViewController {
                 changeRate: changeRate,
                 tradeValue: currentTradeValue,
                 isInterested: true,
-                popularity: 0
+                popularity: 172800
             ))
         }
         else {
@@ -234,7 +234,7 @@ final class MainViewController: BaseViewController {
                 currentPrice: "",
                 changeRate: changeRate,
                 tradeValue: currentTradeValue,
-                popularity: 0
+                popularity: 172800
             ))
         }
     }

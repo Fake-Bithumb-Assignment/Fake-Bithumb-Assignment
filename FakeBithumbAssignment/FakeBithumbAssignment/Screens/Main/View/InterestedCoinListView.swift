@@ -36,7 +36,7 @@ final class InterestedCoinListView: UIView {
         }
     }
 
-    private let interestedCoinListTableView = UITableView().then {
+    let interestedCoinListTableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
         $0.backgroundColor = .clear
         $0.keyboardDismissMode = .onDrag
