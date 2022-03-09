@@ -31,7 +31,7 @@ class DepositAndWithdrawalViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.dataSource = self.dataSource
+        self.configUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,12 +72,37 @@ class DepositAndWithdrawalViewController: BaseViewController {
     }
     
     override func configUI() {
-        self.view.backgroundColor = .white
+        super.configUI()
+        configureSearchBar()
+        configureTableView()
+        configureNavigation()
+    }
+    
+    private func configureSearchBar() {
         self.searchBar.placeholder = "검색"
         self.searchBar.delegate = self
+        
+        if let textField = self.searchBar.value(forKey: "searchField") as? UITextField {
+            textField.backgroundColor = .clear
+            textField.borderStyle = .none
+            let attributedString = NSAttributedString(string: "코인명 또는 심볼 검색",
+                                                      attributes: [.foregroundColor : UIColor.gray,
+                                                                   .font : UIFont.systemFont(ofSize: 15)])
+            textField.attributedPlaceholder = attributedString
+        }
+        
+        self.searchBar.heightAnchor.constraint(equalToConstant: 20).isActive = true
+    }
+    
+    private func configureTableView() {
         self.tableView.rowHeight = 50
         self.tableView.delegate = self
+        self.tableView.dataSource = self.dataSource
         self.tableView.separatorInset = UIEdgeInsets()
+    }
+    
+    private func configureNavigation() {
+        self.navigationItem.title = "입출금 현황"
     }
 }
 

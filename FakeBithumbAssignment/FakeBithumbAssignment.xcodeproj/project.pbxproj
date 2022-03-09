@@ -62,8 +62,10 @@
 		4320861927CFB54C002CFDBF /* TotalCoinListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320861827CFB54C002CFDBF /* TotalCoinListView.swift */; };
 		4320861B27CFC4F3002CFDBF /* InterestedCoinListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320861A27CFC4F3002CFDBF /* InterestedCoinListView.swift */; };
 		4320861D27CFCCE2002CFDBF /* CoinDelgate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320861C27CFCCE2002CFDBF /* CoinDelgate.swift */; };
-		4320862527D06CDE002CFDBF /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320862427D06CDE002CFDBF /* SearchView.swift */; };
 		4345B76627D28AFA007FA9F7 /* Loopable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345B76527D28AFA007FA9F7 /* Loopable.swift */; };
+		43B3271B27D5C0CF00B7243D /* TransactionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B3271A27D5C0CF00B7243D /* TransactionResponse.swift */; };
+		43B3271F27D71C7C00B7243D /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B3271E27D71C7C00B7243D /* MainTabBarViewController.swift */; };
+		43B3272527D72CE100B7243D /* TransactionAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B3272427D72CE100B7243D /* TransactionAPIService.swift */; };
 		43BEFF7727C9B99800FFA217 /* CoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEFF7627C9B99800FFA217 /* CoinTableViewCell.swift */; };
 		43CACF7927D268EC005EB9B7 /* TickerAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CACF7827D268EC005EB9B7 /* TickerAPIService.swift */; };
 		43CACF7B27D26946005EB9B7 /* TickerEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CACF7A27D26946005EB9B7 /* TickerEndPoint.swift */; };
@@ -96,6 +98,11 @@
 		FADFB52827D2B14A0043AF0A /* BTAssetsStatusAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52727D2B14A0043AF0A /* BTAssetsStatusAPIService.swift */; };
 		FADFB52A27D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52927D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift */; };
 		FADFB52C27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52B27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift */; };
+		FADFB52F27D532120043AF0A /* CandleStickChartViewLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB52E27D532120043AF0A /* CandleStickChartViewLayer.swift */; };
+		FADFB53127D532280043AF0A /* CandleStickChartViewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB53027D532280043AF0A /* CandleStickChartViewSetting.swift */; };
+		FADFB53327D532450043AF0A /* VerticalCenterCATextLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB53227D532450043AF0A /* VerticalCenterCATextLayer.swift */; };
+		FADFB53527D532820043AF0A /* CandleStick.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB53427D532820043AF0A /* CandleStick.swift */; };
+		FADFB53727D532C40043AF0A /* CandleStickScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFB53627D532C40043AF0A /* CandleStickScrollView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,6 +140,7 @@
 		1504F73127C6338100A5EC6C /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
 		1504F73327C6339D00A5EC6C /* HttpService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpService.swift; sourceTree = "<group>"; };
 		1504F73527C6363400A5EC6C /* NetworkStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatus.swift; sourceTree = "<group>"; };
+		151382D727D88C01000062C4 /* NavigationLogoTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLogoTitleView.swift; sourceTree = "<group>"; };
 		1535B48C27D1E59100413927 /* OrderbookAPIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderbookAPIResponse.swift; sourceTree = "<group>"; };
 		1535B48E27D1E5E100413927 /* OrderbookAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderbookAPIService.swift; sourceTree = "<group>"; };
 		1535B49027D1E65000413927 /* OrderbookEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderbookEndPoint.swift; sourceTree = "<group>"; };
@@ -169,8 +177,10 @@
 		4320861827CFB54C002CFDBF /* TotalCoinListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalCoinListView.swift; sourceTree = "<group>"; };
 		4320861A27CFC4F3002CFDBF /* InterestedCoinListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestedCoinListView.swift; sourceTree = "<group>"; };
 		4320861C27CFCCE2002CFDBF /* CoinDelgate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinDelgate.swift; sourceTree = "<group>"; };
-		4320862427D06CDE002CFDBF /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		4345B76527D28AFA007FA9F7 /* Loopable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loopable.swift; sourceTree = "<group>"; };
+		43B3271A27D5C0CF00B7243D /* TransactionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResponse.swift; sourceTree = "<group>"; };
+		43B3271E27D71C7C00B7243D /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
+		43B3272427D72CE100B7243D /* TransactionAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionAPIService.swift; sourceTree = "<group>"; };
 		43BEFF7627C9B99800FFA217 /* CoinTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTableViewCell.swift; sourceTree = "<group>"; };
 		43CACF7827D268EC005EB9B7 /* TickerAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickerAPIService.swift; sourceTree = "<group>"; };
 		43CACF7A27D26946005EB9B7 /* TickerEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickerEndPoint.swift; sourceTree = "<group>"; };
@@ -186,7 +196,7 @@
 		73B6FB0421C21C09E1FF0F1F /* Pods-FakeBithumbAssignment.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignment.release.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment.release.xcconfig"; sourceTree = "<group>"; };
 		AE02598F192C0E80255BEA38 /* Pods-FakeBithumbAssignment.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignment.debug.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment.debug.xcconfig"; sourceTree = "<group>"; };
 		FA041BBB27C7FA5F0053C996 /* BTSocketAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTSocketAPIService.swift; sourceTree = "<group>"; };
-		FA4C65ED27D2958A00786469 /* CandleStickChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CandleStickChartView.swift; path = FakeBithumbAssignment/Screens/Coin/Tabs/CandleStickChartTab/CandleStickChartView.swift; sourceTree = SOURCE_ROOT; };
+		FA4C65ED27D2958A00786469 /* CandleStickChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CandleStickChartView.swift; path = FakeBithumbAssignment/Screens/Coin/Tabs/CandleStickChartTab/CandleStickChartView/CandleStickChartView.swift; sourceTree = SOURCE_ROOT; };
 		FA4C65EE27D2958A00786469 /* IntervalButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IntervalButton.swift; path = FakeBithumbAssignment/Screens/Coin/Tabs/CandleStickChartTab/IntervalButton.swift; sourceTree = SOURCE_ROOT; };
 		FA4C65EF27D2958A00786469 /* CandleStickChartTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CandleStickChartTabViewController.swift; path = FakeBithumbAssignment/Screens/Coin/Tabs/CandleStickChartTab/CandleStickChartTabViewController.swift; sourceTree = SOURCE_ROOT; };
 		FA4C65F327D295A900786469 /* BTCandleStick+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BTCandleStick+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -205,6 +215,11 @@
 		FADFB52727D2B14A0043AF0A /* BTAssetsStatusAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTAssetsStatusAPIService.swift; sourceTree = "<group>"; };
 		FADFB52927D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositAndWithdrawalTableViewCell.swift; sourceTree = "<group>"; };
 		FADFB52B27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositAndWithWithdrawalTableHeaderView.swift; sourceTree = "<group>"; };
+		FADFB52E27D532120043AF0A /* CandleStickChartViewLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChartViewLayer.swift; sourceTree = "<group>"; };
+		FADFB53027D532280043AF0A /* CandleStickChartViewSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChartViewSetting.swift; sourceTree = "<group>"; };
+		FADFB53227D532450043AF0A /* VerticalCenterCATextLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalCenterCATextLayer.swift; sourceTree = "<group>"; };
+		FADFB53427D532820043AF0A /* CandleStick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStick.swift; sourceTree = "<group>"; };
+		FADFB53627D532C40043AF0A /* CandleStickScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickScrollView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,10 +283,12 @@
 			children = (
 				FA4C65FA27D295B400786469 /* BTCandleStickAPIService.swift */,
 				FA041BBB27C7FA5F0053C996 /* BTSocketAPIService.swift */,
+				FADFB52727D2B14A0043AF0A /* BTAssetsStatusAPIService.swift */,
 				43CACF7827D268EC005EB9B7 /* TickerAPIService.swift */,
 				1535B48E27D1E5E100413927 /* OrderbookAPIService.swift */,
 				FADFB52727D2B14A0043AF0A /* BTAssetsStatusAPIService.swift */,
 				150363C627D640E1008CCE01 /* TransAPIService.swift */,
+				43B3272427D72CE100B7243D /* TransactionAPIService.swift */,
 			);
 			path = APIService;
 			sourceTree = "<group>";
@@ -286,6 +303,7 @@
 				1535B48C27D1E59100413927 /* OrderbookAPIResponse.swift */,
 				FADFB52527D2B0810043AF0A /* BTAssetsStatusResponse.swift */,
 				1543A66F27D6645000B233D7 /* TransAPIResponse.swift */,
+				43B3271A27D5C0CF00B7243D /* TransactionResponse.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -492,6 +510,7 @@
 				4320861327CE045D002CFDBF /* Model */,
 				43F60EBB27C6524A0027699B /* View */,
 				1504F6CD27C5F64D00A5EC6C /* MainViewController.swift */,
+				43B3271E27D71C7C00B7243D /* MainTabBarViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -528,8 +547,8 @@
 		15BE7A6E27C5E6620007FB2F /* CandleStickChartTab */ = {
 			isa = PBXGroup;
 			children = (
+				FADFB52D27D531D40043AF0A /* CandleStickChartView */,
 				FA4C65EF27D2958A00786469 /* CandleStickChartTabViewController.swift */,
-				FA4C65ED27D2958A00786469 /* CandleStickChartView.swift */,
 				FA4C65EE27D2958A00786469 /* IntervalButton.swift */,
 			);
 			path = CandleStickChartTab;
@@ -566,7 +585,7 @@
 				43BEFF7627C9B99800FFA217 /* CoinTableViewCell.swift */,
 				4320861827CFB54C002CFDBF /* TotalCoinListView.swift */,
 				4320861A27CFC4F3002CFDBF /* InterestedCoinListView.swift */,
-				4320862427D06CDE002CFDBF /* SearchView.swift */,
+				151382D727D88C01000062C4 /* NavigationLogoTitleView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -615,6 +634,19 @@
 				FABFF57C27CFFD83000B65E6 /* BTCandleStickRepository.swift */,
 			);
 			path = Persistent;
+			sourceTree = "<group>";
+		};
+		FADFB52D27D531D40043AF0A /* CandleStickChartView */ = {
+			isa = PBXGroup;
+			children = (
+				FA4C65ED27D2958A00786469 /* CandleStickChartView.swift */,
+				FADFB52E27D532120043AF0A /* CandleStickChartViewLayer.swift */,
+				FADFB53027D532280043AF0A /* CandleStickChartViewSetting.swift */,
+				FADFB53227D532450043AF0A /* VerticalCenterCATextLayer.swift */,
+				FADFB53427D532820043AF0A /* CandleStick.swift */,
+				FADFB53627D532C40043AF0A /* CandleStickScrollView.swift */,
+			);
+			path = CandleStickChartView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -799,7 +831,7 @@
 				1504F72527C6316900A5EC6C /* BaseModel.swift in Sources */,
 				1504F6CA27C5F47C00A5EC6C /* UIView+Extension.swift in Sources */,
 				15564DBF27CF73E100BF9314 /* BuyGraphTableViewCell.swift in Sources */,
-				4320862527D06CDE002CFDBF /* SearchView.swift in Sources */,
+				43B3271F27D71C7C00B7243D /* MainTabBarViewController.swift in Sources */,
 				FAA2E36827CBB7D5003E3184 /* CoreAnimation+Extension.swift in Sources */,
 				FAC7F95B27C65A60001E11DA /* BTSocketAPIResponse.swift in Sources */,
 				1504F6CC27C5F58900A5EC6C /* NSObject+Extension.swift in Sources */,
@@ -809,6 +841,8 @@
 				43BEFF7727C9B99800FFA217 /* CoinTableViewCell.swift in Sources */,
 				15ACAE9527C9B69900AB7EDC /* CoinNavigationTitleView.swift in Sources */,
 				15ACAEA227CA26F300AB7EDC /* CoinPagingViewController.swift in Sources */,
+				FADFB53127D532280043AF0A /* CandleStickChartViewSetting.swift in Sources */,
+				FADFB53527D532820043AF0A /* CandleStick.swift in Sources */,
 				15564DBD27CF0D9000BF9314 /* UITableView+Extension.swift in Sources */,
 				15564DBB27CF0AC400BF9314 /* SellGraphTableViewCell.swift in Sources */,
 				150363C927D640EC008CCE01 /* TransEndPoint.swift in Sources */,
@@ -823,10 +857,13 @@
 				1504F73427C6339D00A5EC6C /* HttpService.swift in Sources */,
 				43CACF7B27D26946005EB9B7 /* TickerEndPoint.swift in Sources */,
 				1504F6C427C5F26000A5EC6C /* BaseViewController.swift in Sources */,
+				43B3272527D72CE100B7243D /* TransactionAPIService.swift in Sources */,
 				FAC7F95D27C65AC0001E11DA /* BTSocketAPIRequest.swift in Sources */,
 				15564DC527CFC2C600BF9314 /* UIScrollView+Extension.swift in Sources */,
 				1504F6D027C5F66200A5EC6C /* CoinQuoteInformationTabViewController.swift in Sources */,
 				15564DC127CF7C0C00BF9314 /* CoinFirstInformationView.swift in Sources */,
+				FADFB53727D532C40043AF0A /* CandleStickScrollView.swift in Sources */,
+				151382D827D88C01000062C4 /* NavigationLogoTitleView.swift in Sources */,
 				FADFB52A27D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift in Sources */,
 				15564DAF27CEFB2800BF9314 /* ConclusionTableViewController.swift in Sources */,
 				FADFB52827D2B14A0043AF0A /* BTAssetsStatusAPIService.swift in Sources */,
@@ -843,12 +880,15 @@
 				158731A327CB75790018E67B /* String+Extension.swift in Sources */,
 				158731A127CB715A0018E67B /* CoinHeaderModel.swift in Sources */,
 				1543A67327D7464B00B233D7 /* ContractTransaction.swift in Sources */,
+				FADFB52F27D532120043AF0A /* CandleStickChartViewLayer.swift in Sources */,
 				1504F6D427C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift in Sources */,
 				FADFB52627D2B0810043AF0A /* BTAssetsStatusResponse.swift in Sources */,
 				15ACAE9E27CA061100AB7EDC /* CoinHeaderView.swift in Sources */,
 				FA4C65F127D2958A00786469 /* IntervalButton.swift in Sources */,
 				1543A67027D6645000B233D7 /* TransAPIResponse.swift in Sources */,
 				150363C527D63847008CCE01 /* ContractTableHeaderViewCell.swift in Sources */,
+				FADFB53327D532450043AF0A /* VerticalCenterCATextLayer.swift in Sources */,
+				43B3271B27D5C0CF00B7243D /* TransactionResponse.swift in Sources */,
 				43F66EB727D1E52D004C9B06 /* AllTickerResponse.swift in Sources */,
 				43CACF7927D268EC005EB9B7 /* TickerAPIService.swift in Sources */,
 				4320861527CE0473002CFDBF /* Category.swift in Sources */,

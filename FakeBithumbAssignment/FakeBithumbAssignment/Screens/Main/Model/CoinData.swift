@@ -13,6 +13,7 @@ final class CoinData {
     var changeRate: String
     var tradeValue: String
     var isInterested: Bool
+    var popularity: Int
 
     // MARK: - Initializer
 
@@ -21,13 +22,15 @@ final class CoinData {
         currentPrice: String,
         changeRate: String,
         tradeValue: String,
-        isInterested: Bool = false
+        isInterested: Bool = false,
+        popularity: Int
     ) {
         self.coinName = coinName
         self.currentPrice = currentPrice
         self.changeRate = changeRate
         self.tradeValue = tradeValue
         self.isInterested = isInterested
+        self.popularity = popularity
     }
 }
 

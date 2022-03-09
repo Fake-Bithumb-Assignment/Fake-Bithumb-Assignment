@@ -21,7 +21,7 @@ struct BTCandleStickResponse: Decodable {
         object.highPrice = self.highPrice
         object.lowPrice = self.lowPrice
         object.tradePrice = self.tradePrice
-        object.tradePrice = self.tradePrice
+        object.tradeVolume = self.tradeVolume
         object.orderCurrency = orderCurrency
         object.chartIntervals = chartIntervals
     }

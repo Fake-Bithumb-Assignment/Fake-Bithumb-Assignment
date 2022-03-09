@@ -13,22 +13,22 @@ class DepositAndWithWithdrawalTableHeaderView: UIView {
     
     private let coinKoreanColumnLabel: UILabel = UILabel().then {
         $0.text = "자산"
-        $0.textColor = .black
+        $0.textColor = .darkGray
         $0.textAlignment = .left
-        $0.font = UIFont.preferredFont(forTextStyle: .body)
+        $0.font = UIFont.preferredFont(forTextStyle: .footnote)
     }
     private let emptyView: UIView = UIView()
     private let depositStatusColumnLabel: UILabel = UILabel().then {
         $0.text = "입금"
-        $0.textColor = .black
+        $0.textColor = .darkGray
         $0.textAlignment = .center
-        $0.font = UIFont.preferredFont(forTextStyle: .body)
+        $0.font = UIFont.preferredFont(forTextStyle: .footnote)
     }
     private let withdrawalColumnStatus: UILabel = UILabel().then {
         $0.text = "출금"
-        $0.textColor = .black
+        $0.textColor = .darkGray
         $0.textAlignment = .center
-        $0.font = UIFont.preferredFont(forTextStyle: .body)
+        $0.font = UIFont.preferredFont(forTextStyle: .footnote)
     }
     
     // MARK: - Life Cycle func

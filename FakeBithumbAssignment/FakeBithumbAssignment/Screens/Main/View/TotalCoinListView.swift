@@ -18,11 +18,29 @@ final class TotalCoinListView: UIView {
 
     weak var delegate: CoinDelgate?
 
-    var totalCoinList: [CoinData] = []
+    var totalCoinList: [CoinData] = [] {
+        didSet {
+            self.configurediffableDataSource()
+            noInterestedCoinView.isHidden = !totalCoinList.isEmpty
+        }
+    }
 
-    private let totalCoinListTableView = UITableView().then {
+    let totalCoinListTableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
         $0.backgroundColor = .clear
+        $0.keyboardDismissMode = .onDrag
+        $0.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+    }
+
+    private let noInterestedCoinLabel = UILabel().then {
+        $0.text = "등록된 관심 가상자산이 없습니다."
+        $0.font = .preferredFont(forTextStyle: .headline)
+        $0.textColor = .darkGray
+    }
+
+    private let noInterestedCoinView = UIView().then {
+        $0.backgroundColor = .clear
+        $0.isHidden = true
     }
 
     // MARK: - Initializer
@@ -30,11 +48,9 @@ final class TotalCoinListView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.configureTotalCoinListTableView()
+        self.configureNoInterestedCoinView()
         self.configureNotificationCenter()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.configurediffableDataSource()
-            self.setUpInterestedCoinListTableView()
-        }
+        self.setUpInterestedCoinListTableView()
     }
 
     @available(*, unavailable)
@@ -43,6 +59,18 @@ final class TotalCoinListView: UIView {
     }
 
     // MARK: - custom func
+
+    private func configureNoInterestedCoinView() {
+        noInterestedCoinView.addSubview(noInterestedCoinLabel)
+        noInterestedCoinLabel.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        
+        self.addSubview(noInterestedCoinView)
+        noInterestedCoinView.snp.makeConstraints { make in
+            make.size.equalToSuperview()
+        }
+    }
 
     private func configureTotalCoinListTableView() {
         self.addSubview(totalCoinListTableView)
@@ -53,7 +81,6 @@ final class TotalCoinListView: UIView {
 
     private func setUpInterestedCoinListTableView() {
         totalCoinListTableView.delegate = self
-        totalCoinListTableView.dataSource = dataSource
     }
 
     private func configurediffableDataSource() {
@@ -63,15 +90,20 @@ final class TotalCoinListView: UIView {
                 withIdentifier: CoinTableViewCell.className,
                 for: indexPath
             ) as? CoinTableViewCell
-            
+
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = .white
+            cell?.selectedBackgroundView = backgroundView
+
             cell?.configure(with: coinList)
             return cell
         }
 
+        self.totalCoinListTableView.dataSource = dataSource
         configureSnapshot()
     }
     
-    private func configureSnapshot() {
+    func configureSnapshot() {
         guard var snapshot = self.dataSource?.snapshot() else {
             return
         }
@@ -111,7 +143,7 @@ final class TotalCoinListView: UIView {
 
 extension TotalCoinListView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 55
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -126,8 +158,18 @@ extension TotalCoinListView: UITableViewDelegate {
         let interest = UIContextualAction(
             style: .normal,
             title: nil
-        ) { _, _, completion in
+        ) { _, view, completion in
             self.delegate?.updateInterestList(coin: self.totalCoinList[indexPath.row])
+
+            let star = self.totalCoinList[indexPath.row].isInterested ? "Interested" : "Interest"
+            let closingImageView = UIImageView(image: UIImage(named: star))
+
+            view.addSubView(closingImageView) {
+                $0.snp.makeConstraints { make in
+                    make.center.equalToSuperview()
+                }
+            }
+
             completion(true)
         }
         
