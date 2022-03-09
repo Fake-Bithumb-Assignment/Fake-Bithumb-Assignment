@@ -71,6 +71,7 @@ final class MainViewController: BaseViewController {
     private func configureUI() {
         configureStackViews()
         configureIndicator()
+        self.navigationItem.titleView = NavigationLogoTitleView()
     }
 
     private func configureIndicator() {

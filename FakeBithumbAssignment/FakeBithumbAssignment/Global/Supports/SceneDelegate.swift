@@ -19,9 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabbarController = MainTabBarViewController()
         let mainViewController = MainViewController()
         let depositAndWithdrawalViewController = DepositAndWithdrawalViewController()
-        
-        mainViewController.title = "거래소"
-        depositAndWithdrawalViewController.title = "입출금"
     
         let mainNavigationController = UINavigationController(
             rootViewController: mainViewController
