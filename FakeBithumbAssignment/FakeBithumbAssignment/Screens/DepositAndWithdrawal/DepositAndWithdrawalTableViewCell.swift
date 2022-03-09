@@ -131,8 +131,14 @@ class DepositAndWithdrawalTableViewCell: BaseTableViewCell {
         else {
             return nil
         }
+        let scaledImageSize = CGSize(width: 10, height: 10)
+        
+        let renderer = UIGraphicsImageRenderer(size:scaledImageSize)
+        let scaledImage = renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: scaledImageSize))
+        }
         let attatchment: NSTextAttachment = NSTextAttachment().then {
-            $0.image = image
+            $0.image = scaledImage
         }
         return NSAttributedString(attachment: attatchment)
     }
