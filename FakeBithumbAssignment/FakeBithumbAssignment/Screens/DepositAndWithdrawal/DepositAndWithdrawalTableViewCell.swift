@@ -76,8 +76,8 @@ class DepositAndWithdrawalTableViewCell: BaseTableViewCell {
     }
     private let normalText: String = "정상"
     private let abnormalText: String = "비정상"
-    private let normalColor: UIColor = .blue
-    private let abnormalColor: UIColor = .red
+    private let normalColor: UIColor = UIColor(named: "normal") ?? .blue
+    private let abnormalColor: UIColor = UIColor(named: "abnormal") ?? .red
     private let spaceAttributedString: NSAttributedString = NSAttributedString(string: " ")
     
     // MARK: - custom func
