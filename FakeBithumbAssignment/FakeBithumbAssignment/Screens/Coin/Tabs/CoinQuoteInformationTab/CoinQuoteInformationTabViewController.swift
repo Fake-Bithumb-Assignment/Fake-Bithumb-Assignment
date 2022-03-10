@@ -113,16 +113,34 @@ class CoinQuoteInformationTabViewController: BaseViewController {
         self.scrollView.snp.makeConstraints { make in
             make.leading.top.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
+        let firstInformationStackView: UIStackView = UIStackView(
+            arrangedSubviews: [UIView(), self.coinFirstInformationView]
+        ).then {
+            $0.axis = .vertical
+            $0.alignment = .fill
+        }
+        self.coinFirstInformationView.snp.makeConstraints { make in
+            make.height.equalTo(130)
+        }
         let upperStackView = UIStackView(arrangedSubviews: [
-            self.askTableView, self.coinFirstInformationView
+            self.askTableView, firstInformationStackView
         ]).then {
             $0.axis = .horizontal
         }
         self.coinFirstInformationView.snp.makeConstraints { make in
             make.width.equalTo(upperStackView).multipliedBy(1.0/3.0)
         }
+        let secondInformationStackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.coinSecondInformationView, UIView()]
+        ).then {
+            $0.axis = .vertical
+            $0.alignment = .fill
+        }
+        self.coinSecondInformationView.snp.makeConstraints { make in
+            make.height.equalTo(130)
+        }
         let lowerStackView = UIStackView(arrangedSubviews: [
-            self.coinSecondInformationView, self.bidTableView,
+            secondInformationStackView, self.bidTableView,
         ]).then {
             $0.axis = .horizontal
         }
@@ -212,6 +230,8 @@ class CoinQuoteInformationTabViewController: BaseViewController {
             tickTypes: [.mid]
         ) { ticker in
             self.prevClosePrice = ticker.content.prevClosePrice
+            self.coinFirstInformationView.ticker = ticker
+            self.coinSecondInformationView.ticker = ticker
         }
     }
     

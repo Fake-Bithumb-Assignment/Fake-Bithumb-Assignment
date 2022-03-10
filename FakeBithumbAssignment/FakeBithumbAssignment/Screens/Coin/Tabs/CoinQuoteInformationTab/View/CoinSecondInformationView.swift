@@ -12,80 +12,78 @@ import Then
 
 final class CoinSecondInformationView: UIView {
     
+    private static let fontSize: CGFloat = 10.0
+    private static let valueFormat: String = "%.1f"
+    
     // MARK: - Instance Property
     
-    private let previousTradingVolumeTextLabel = UILabel().then {
-        $0.text = "전일거래량"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
+    var ticker: BTSocketAPIResponse.TickerResponse? = nil {
+        didSet {
+            self.setNeedsLayout()
+        }
+    }
+    private let sellVolumeTitleLabel = UILabel().then {
+        $0.text = "매도누적"
+        $0.font = UIFont.systemFont(ofSize: CoinSecondInformationView.fontSize)
         $0.textColor = .lightGray
     }
-    
-    private let previousTradingVolumeLabel = UILabel().then {
-        $0.text = "5,562,495BTC"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-        $0.textColor = .lightGray
-        $0.textAlignment = .right
-    }
-    
-    private let previousTradingAmountTextLabel = UILabel().then {
-        $0.text = "전일거래금"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-        $0.textColor = .lightGray
-    }
-    
-    private let previousTradingAmountLabel = UILabel().then {
-        $0.text = "2,280,100KRW"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
+    private let sellVolumeValueLabel = UILabel().then {
+        $0.font = UIFont.systemFont(ofSize: CoinSecondInformationView.fontSize)
         $0.textColor = .lightGray
         $0.textAlignment = .right
     }
-    
-    private let highPriceTextLabel = UILabel().then {
-        $0.text = "고가(52주)"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
+    private let buyVolumeTitleLabel = UILabel().then {
+        $0.text = "매수누적"
+        $0.font = UIFont.systemFont(ofSize: CoinSecondInformationView.fontSize)
         $0.textColor = .lightGray
     }
-    
-    private let highPriceLabel = UILabel().then {
-        $0.text = "82,477,000"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-        $0.textColor = .black
-        $0.textAlignment = .right
-    }
-    
-    private let highPriceDateLabel = UILabel().then {
-        $0.text = "2021-11-09"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-        $0.textColor = .lightGray
-        $0.textAlignment = .left
-    }
-    
-    private let lowPriceTextLabel = UILabel().then {
-        $0.text = "저가(52주)"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-        $0.textColor = .lightGray
-    }
-    
-    private let lowPriceLabel = UILabel().then {
-        $0.text = "33,700,000"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-        $0.textColor = .black
-        $0.textAlignment = .right
-    }
-    
-    private let lowPriceDateLabel = UILabel().then {
-        $0.text = "2021-06-22"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
+    private let buyVolumeValueLabel = UILabel().then {
+        $0.font = UIFont.systemFont(ofSize: CoinSecondInformationView.fontSize)
         $0.textColor = .lightGray
         $0.textAlignment = .right
     }
-    
+    private let prevClosePriceTitleLabel = UILabel().then {
+        $0.text = "전일종가"
+        $0.font = UIFont.systemFont(ofSize: CoinSecondInformationView.fontSize)
+        $0.textColor = .lightGray
+    }
+    private let prevClosePriceValueLabel = UILabel().then {
+        $0.font = UIFont.systemFont(ofSize: CoinSecondInformationView.fontSize)
+        $0.textColor = .lightGray
+        $0.textAlignment = .right
+    }
+    private let chgRateTitleLabel = UILabel().then {
+        $0.text = "변동률"
+        $0.font = UIFont.systemFont(ofSize: CoinSecondInformationView.fontSize)
+        $0.textColor = .lightGray
+    }
+    private let chgRateValueLabel = UILabel().then {
+        $0.font = UIFont.systemFont(ofSize: CoinSecondInformationView.fontSize)
+        $0.textColor = .lightGray
+        $0.textAlignment = .right
+    }
+    private let chgAmtTitleLabel = UILabel().then {
+        $0.text = "변동액"
+        $0.font = UIFont.systemFont(ofSize: CoinSecondInformationView.fontSize)
+        $0.textColor = .lightGray
+    }
+    private let chgAmtValueLabel = UILabel().then {
+        $0.font = UIFont.systemFont(ofSize: CoinSecondInformationView.fontSize)
+        $0.textColor = .lightGray
+        $0.textAlignment = .right
+    }
+    private let volumePowerTitleLabel = UILabel().then {
+        $0.text = "체결강도"
+        $0.font = UIFont.systemFont(ofSize: CoinSecondInformationView.fontSize)
+        $0.textColor = .lightGray
+    }
+    private let volumePowerValueLabel = UILabel().then {
+        $0.font = UIFont.systemFont(ofSize: CoinSecondInformationView.fontSize)
+        $0.textColor = .lightGray
+        $0.textAlignment = .right
+    }
     private let borderView = UIView().then {
         $0.backgroundColor = .lightGray
-    }
-    
-    private let pageControlView = UIView().then {
-        $0.backgroundColor = .red
     }
     
     
@@ -93,111 +91,123 @@ final class CoinSecondInformationView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        render()
         configUI()
-        
     }
     
-    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
+    override func layoutSubviews() {
+        guard let ticker = ticker else {
+            return
+        }
+        self.sellVolumeValueLabel.text = self.formatToString(of: ticker.content.sellVolume)
+        self.buyVolumeValueLabel.text = self.formatToString(of: ticker.content.buyVolume)
+        self.prevClosePriceValueLabel.text = self.formatToString(
+            of: ticker.content.prevClosePrice
+        )
+        self.chgRateValueLabel.text = self.formatToString(of: ticker.content.chgRate)
+        self.volumePowerValueLabel.text = self.formatToString(of: ticker.content.volumePower)
+        self.chgAmtValueLabel.text = self.formatToString(of: ticker.content.chgAmt)
+    }
     
     // MARK: - custom funcs
-    
-    func render() {
-        self.addSubView(pageControlView)
-        
-        self.pageControlView.snp.makeConstraints { make in
-            make.centerX.equalTo(self)
-            make.width.equalTo(20)
-            make.bottom.equalTo(self)
-        }
-    }
-    
+
     func configUI() {
-        configStackView()
-    }
-    
-    func configStackView() {
-        let tradingVolumeStackView = UIStackView(arrangedSubviews: [
-            previousTradingVolumeTextLabel,
-            previousTradingVolumeLabel
-        ]).then {
+        let sellVolumeStackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.sellVolumeTitleLabel, self.sellVolumeValueLabel]
+        ).then {
             $0.axis = .horizontal
-            $0.spacing = 5
-            $0.distribution = .fill
+            $0.alignment = .center
         }
-        
-        let tradingAmountStackView = UIStackView(arrangedSubviews: [
-            previousTradingAmountTextLabel,
-            previousTradingAmountLabel
-        ]).then {
+        self.sellVolumeValueLabel.snp.makeConstraints { make in
+            make.width.equalTo(self.sellVolumeTitleLabel).multipliedBy(2)
+        }
+        let buyVolumeStackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.buyVolumeTitleLabel, self.buyVolumeValueLabel]
+        ).then {
             $0.axis = .horizontal
-            $0.spacing = 5
-            $0.distribution = .fill
+            $0.alignment = .center
         }
-        
-        let highPriceStackView = UIStackView(arrangedSubviews: [
-            highPriceTextLabel,
-            highPriceLabel
-        ]).then {
+        self.buyVolumeValueLabel.snp.makeConstraints { make in
+            make.width.equalTo(self.buyVolumeTitleLabel).multipliedBy(2)
+        }
+        let prevClosePriceStackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.prevClosePriceTitleLabel, self.prevClosePriceValueLabel]
+        ).then {
             $0.axis = .horizontal
-            $0.spacing = 5
-            $0.distribution = .fill
+            $0.alignment = .center
         }
-        
-        let highPriceRateStackView = UIStackView(arrangedSubviews: [
-            UIView(),
-            highPriceDateLabel
-        ]).then {
+        self.prevClosePriceValueLabel.snp.makeConstraints { make in
+            make.width.equalTo(self.prevClosePriceTitleLabel).multipliedBy(2)
+        }
+        let chgRateStackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.chgRateTitleLabel, self.chgRateValueLabel]
+        ).then {
             $0.axis = .horizontal
-            $0.spacing = 5
-            $0.distribution = .fill
+            $0.alignment = .center
         }
-        
-        let lowPriceStackView = UIStackView(arrangedSubviews: [
-            lowPriceTextLabel,
-            lowPriceLabel
-        ]).then {
+        self.chgRateValueLabel.snp.makeConstraints { make in
+            make.width.equalTo(self.chgRateTitleLabel).multipliedBy(2)
+        }
+        let volumePowerStackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.volumePowerTitleLabel, self.volumePowerValueLabel]
+        ).then {
             $0.axis = .horizontal
-            $0.spacing = 5
-            $0.distribution = .fill
+            $0.alignment = .center
         }
-        
-        let lowPriceRateStackView = UIStackView(arrangedSubviews: [
-            UIView(),
-            lowPriceDateLabel
-        ]).then {
+        self.volumePowerValueLabel.snp.makeConstraints { make in
+            make.width.equalTo(self.volumePowerTitleLabel).multipliedBy(2)
+        }
+        let chgAmtStackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.chgAmtTitleLabel, self.chgAmtValueLabel]
+        ).then {
             $0.axis = .horizontal
-            $0.spacing = 5
-            $0.distribution = .fill
+            $0.alignment = .center
         }
-        
-        let wholeStackView = UIStackView(arrangedSubviews: [
-            tradingVolumeStackView,
-            tradingAmountStackView,
-            self.borderView,
-            highPriceStackView,
-            highPriceRateStackView,
-            lowPriceStackView,
-            lowPriceRateStackView
-        ]).then {
+        self.chgAmtValueLabel.snp.makeConstraints { make in
+            make.width.equalTo(self.chgAmtTitleLabel).multipliedBy(2)
+        }
+        let wholeStackView: UIStackView = UIStackView(
+            arrangedSubviews: [
+                sellVolumeStackView,
+                buyVolumeStackView,
+                self.borderView,
+                prevClosePriceStackView,
+                volumePowerStackView,
+                chgAmtStackView,
+                chgRateStackView
+            ]
+        ).then {
             $0.axis = .vertical
-            $0.spacing = 5
-            $0.distribution = .fill
+            $0.distribution = .equalSpacing
+            $0.alignment = .fill
         }
-        
-        self.addSubview(wholeStackView)
-        wholeStackView.snp.makeConstraints { make in
-            make.leading.equalTo(self).offset(2)
-            make.trailing.equalTo(self).inset(2)
-            make.top.equalTo(self.snp.top).offset(5)
-        }
-        
         self.borderView.snp.makeConstraints { make in
             make.height.equalTo(0.3)
+        }
+        self.addSubview(wholeStackView)
+        wholeStackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(
+                UIEdgeInsets(
+                    top: 5,
+                    left: 5,
+                    bottom: 5,
+                    right: 5
+                )
+            )
+        }
+    }
+    
+    private func formatToString(of number: Double) -> String {
+        if number > 100000000.0 {
+            return String(
+                format: CoinSecondInformationView.valueFormat,
+                number / 100000000.0
+            ) + "억"
+        } else {
+            return String(format: CoinSecondInformationView.valueFormat, number)
         }
     }
 }
