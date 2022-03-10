@@ -33,7 +33,8 @@ final class MainViewController: BaseViewController {
         environment: .development
     )
 
-    private let transactionAPIService = TransactionAPIService()
+    private let transactionAPIService = TransactionAPIService(apiService: HttpService(),
+                                                              environment: .development)
 
     private let loadingAlert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
 
