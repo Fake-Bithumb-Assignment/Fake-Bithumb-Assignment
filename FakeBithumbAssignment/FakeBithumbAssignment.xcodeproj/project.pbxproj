@@ -34,14 +34,7 @@
 		153D784B27C3F07100C940AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 153D784A27C3F07100C940AB /* Assets.xcassets */; };
 		153D784E27C3F07100C940AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 153D784C27C3F07100C940AB /* LaunchScreen.storyboard */; };
 		153D786927C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153D786827C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift */; };
-		15564DAC27CEFA5100BF9314 /* SellGraphTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DAB27CEFA5100BF9314 /* SellGraphTableViewController.swift */; };
-		15564DAF27CEFB2800BF9314 /* ConclusionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DAE27CEFB2800BF9314 /* ConclusionTableViewController.swift */; };
-		15564DB127CEFB4400BF9314 /* QuoteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DB027CEFB4400BF9314 /* QuoteTableViewController.swift */; };
-		15564DB627CEFBB200BF9314 /* BuyGraphTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DB527CEFBB200BF9314 /* BuyGraphTableViewController.swift */; };
-		15564DB827CF03A700BF9314 /* QuoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DB727CF03A700BF9314 /* QuoteTableViewCell.swift */; };
-		15564DBB27CF0AC400BF9314 /* SellGraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DBA27CF0AC400BF9314 /* SellGraphTableViewCell.swift */; };
 		15564DBD27CF0D9000BF9314 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DBC27CF0D9000BF9314 /* UITableView+Extension.swift */; };
-		15564DBF27CF73E100BF9314 /* BuyGraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DBE27CF73E100BF9314 /* BuyGraphTableViewCell.swift */; };
 		15564DC127CF7C0C00BF9314 /* CoinFirstInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DC027CF7C0C00BF9314 /* CoinFirstInformationView.swift */; };
 		15564DC327CF7C1C00BF9314 /* CoinSecondInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DC227CF7C1C00BF9314 /* CoinSecondInformationView.swift */; };
 		15564DC527CFC2C600BF9314 /* UIScrollView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DC427CFC2C600BF9314 /* UIScrollView+Extension.swift */; };
@@ -86,6 +79,9 @@
 		FA4C65FB27D295B400786469 /* BTCandleStickAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4C65FA27D295B400786469 /* BTCandleStickAPIService.swift */; };
 		FA4C65FD27D295D900786469 /* BTCandleStickResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4C65FC27D295D900786469 /* BTCandleStickResponse.swift */; };
 		FA4C65FF27D2960B00786469 /* StringOrInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4C65FE27D2960B00786469 /* StringOrInt.swift */; };
+		FA611B0E27D91F0700C65218 /* GraphTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA611B0D27D91F0700C65218 /* GraphTableView.swift */; };
+		FA611B1027D91F1A00C65218 /* GraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA611B0F27D91F1A00C65218 /* GraphTableViewCell.swift */; };
+		FA611B1227D91F2F00C65218 /* OrderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA611B1127D91F2F00C65218 /* OrderType.swift */; };
 		FA79223327C63F3700D1246A /* WebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA79223227C63F3700D1246A /* WebSocketService.swift */; };
 		FAA2E36827CBB7D5003E3184 /* CoreAnimation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2E36727CBB7D5003E3184 /* CoreAnimation+Extension.swift */; };
 		FABFF57D27CFFD83000B65E6 /* BTCandleStickRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABFF57C27CFFD83000B65E6 /* BTCandleStickRepository.swift */; };
@@ -145,14 +141,7 @@
 		153D784F27C3F07100C940AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		153D786627C4CFFC00C940AB /* FakeBithumbAssignmentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FakeBithumbAssignmentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		153D786827C4CFFC00C940AB /* FakeBithumbAssignmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeBithumbAssignmentTests.swift; sourceTree = "<group>"; };
-		15564DAB27CEFA5100BF9314 /* SellGraphTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellGraphTableViewController.swift; sourceTree = "<group>"; };
-		15564DAE27CEFB2800BF9314 /* ConclusionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConclusionTableViewController.swift; sourceTree = "<group>"; };
-		15564DB027CEFB4400BF9314 /* QuoteTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteTableViewController.swift; sourceTree = "<group>"; };
-		15564DB527CEFBB200BF9314 /* BuyGraphTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyGraphTableViewController.swift; sourceTree = "<group>"; };
-		15564DB727CF03A700BF9314 /* QuoteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteTableViewCell.swift; sourceTree = "<group>"; };
-		15564DBA27CF0AC400BF9314 /* SellGraphTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellGraphTableViewCell.swift; sourceTree = "<group>"; };
 		15564DBC27CF0D9000BF9314 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
-		15564DBE27CF73E100BF9314 /* BuyGraphTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyGraphTableViewCell.swift; sourceTree = "<group>"; };
 		15564DC027CF7C0C00BF9314 /* CoinFirstInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinFirstInformationView.swift; sourceTree = "<group>"; };
 		15564DC227CF7C1C00BF9314 /* CoinSecondInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinSecondInformationView.swift; sourceTree = "<group>"; };
 		15564DC427CFC2C600BF9314 /* UIScrollView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extension.swift"; sourceTree = "<group>"; };
@@ -200,6 +189,9 @@
 		FA4C65FA27D295B400786469 /* BTCandleStickAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTCandleStickAPIService.swift; sourceTree = "<group>"; };
 		FA4C65FC27D295D900786469 /* BTCandleStickResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BTCandleStickResponse.swift; path = Model/BTCandleStickResponse.swift; sourceTree = "<group>"; };
 		FA4C65FE27D2960B00786469 /* StringOrInt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringOrInt.swift; sourceTree = "<group>"; };
+		FA611B0D27D91F0700C65218 /* GraphTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTableView.swift; sourceTree = "<group>"; };
+		FA611B0F27D91F1A00C65218 /* GraphTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTableViewCell.swift; sourceTree = "<group>"; };
+		FA611B1127D91F2F00C65218 /* OrderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderType.swift; sourceTree = "<group>"; };
 		FA79223227C63F3700D1246A /* WebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketService.swift; sourceTree = "<group>"; };
 		FAA2E36727CBB7D5003E3184 /* CoreAnimation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreAnimation+Extension.swift"; sourceTree = "<group>"; };
 		FABFF57C27CFFD83000B65E6 /* BTCandleStickRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTCandleStickRepository.swift; sourceTree = "<group>"; };
@@ -285,6 +277,7 @@
 				43F66EB627D1E52D004C9B06 /* AllTickerResponse.swift */,
 				1535B48C27D1E59100413927 /* OrderbookAPIResponse.swift */,
 				FADFB52527D2B0810043AF0A /* BTAssetsStatusResponse.swift */,
+				FA611B1127D91F2F00C65218 /* OrderType.swift */,
 				43B3271A27D5C0CF00B7243D /* TransactionAPIResponse.swift */,
 			);
 			name = Model;
@@ -332,12 +325,9 @@
 		15564DAD27CEFB0200BF9314 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				15564DAB27CEFA5100BF9314 /* SellGraphTableViewController.swift */,
-				15564DAE27CEFB2800BF9314 /* ConclusionTableViewController.swift */,
-				15564DB027CEFB4400BF9314 /* QuoteTableViewController.swift */,
-				15564DB527CEFBB200BF9314 /* BuyGraphTableViewController.swift */,
 				15564DC027CF7C0C00BF9314 /* CoinFirstInformationView.swift */,
 				15564DC227CF7C1C00BF9314 /* CoinSecondInformationView.swift */,
+				FA611B0D27D91F0700C65218 /* GraphTableView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -345,9 +335,7 @@
 		15564DB927CF03AB00BF9314 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				15564DBA27CF0AC400BF9314 /* SellGraphTableViewCell.swift */,
-				15564DB727CF03A700BF9314 /* QuoteTableViewCell.swift */,
-				15564DBE27CF73E100BF9314 /* BuyGraphTableViewCell.swift */,
+				FA611B0F27D91F1A00C65218 /* GraphTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -803,17 +791,14 @@
 				4320861B27CFC4F3002CFDBF /* InterestedCoinListView.swift in Sources */,
 				15ACAE9927C9DEC900AB7EDC /* UICollectionView+Extension.swift in Sources */,
 				4345B76627D28AFA007FA9F7 /* Loopable.swift in Sources */,
-				15564DB827CF03A700BF9314 /* QuoteTableViewCell.swift in Sources */,
 				1504F73227C6338100A5EC6C /* Requestable.swift in Sources */,
 				43F66EAD27D1C2B2004C9B06 /* SortOption.swift in Sources */,
-				15564DB127CEFB4400BF9314 /* QuoteTableViewController.swift in Sources */,
 				1504F6D627C5F68E00A5EC6C /* DepositAndWithdrawalViewController.swift in Sources */,
 				1504F6C627C5F3D900A5EC6C /* BaseCollectionViewCell.swift in Sources */,
 				4320861927CFB54C002CFDBF /* TotalCoinListView.swift in Sources */,
 				43EE309327CDDD4D00130EC1 /* Coin.swift in Sources */,
 				1504F72527C6316900A5EC6C /* BaseModel.swift in Sources */,
 				1504F6CA27C5F47C00A5EC6C /* UIView+Extension.swift in Sources */,
-				15564DBF27CF73E100BF9314 /* BuyGraphTableViewCell.swift in Sources */,
 				43B3271F27D71C7C00B7243D /* MainTabBarViewController.swift in Sources */,
 				FAA2E36827CBB7D5003E3184 /* CoreAnimation+Extension.swift in Sources */,
 				FAC7F95B27C65A60001E11DA /* BTSocketAPIResponse.swift in Sources */,
@@ -827,8 +812,6 @@
 				FADFB53127D532280043AF0A /* CandleStickChartViewSetting.swift in Sources */,
 				FADFB53527D532820043AF0A /* CandleStick.swift in Sources */,
 				15564DBD27CF0D9000BF9314 /* UITableView+Extension.swift in Sources */,
-				15564DBB27CF0AC400BF9314 /* SellGraphTableViewCell.swift in Sources */,
-				15564DB627CEFBB200BF9314 /* BuyGraphTableViewController.swift in Sources */,
 				43F66EAF27D1CD0F004C9B06 /* Notification.Name+Extension.swift in Sources */,
 				1504F73427C6339D00A5EC6C /* HttpService.swift in Sources */,
 				156F484D27D9BDC3007A75D8 /* ContractPriceAndVolumeTableViewCell.swift in Sources */,
@@ -842,16 +825,17 @@
 				43B3272527D72CE100B7243D /* TransactionAPIService.swift in Sources */,
 				FAC7F95D27C65AC0001E11DA /* BTSocketAPIRequest.swift in Sources */,
 				15564DC527CFC2C600BF9314 /* UIScrollView+Extension.swift in Sources */,
+				FA611B0E27D91F0700C65218 /* GraphTableView.swift in Sources */,
 				1504F6D027C5F66200A5EC6C /* CoinQuoteInformationTabViewController.swift in Sources */,
 				15564DC127CF7C0C00BF9314 /* CoinFirstInformationView.swift in Sources */,
 				FADFB53727D532C40043AF0A /* CandleStickScrollView.swift in Sources */,
 				156F484F27D9BDC3007A75D8 /* ContractTableHeaderViewCell.swift in Sources */,
 				151382D827D88C01000062C4 /* NavigationLogoTitleView.swift in Sources */,
 				FADFB52A27D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift in Sources */,
-				15564DAF27CEFB2800BF9314 /* ConclusionTableViewController.swift in Sources */,
 				FADFB52827D2B14A0043AF0A /* BTAssetsStatusAPIService.swift in Sources */,
 				FA4C65FB27D295B400786469 /* BTCandleStickAPIService.swift in Sources */,
 				1504F72D27C6322500A5EC6C /* HttpServiceError.swift in Sources */,
+				FA611B1027D91F1A00C65218 /* GraphTableViewCell.swift in Sources */,
 				1504F72727C631A500A5EC6C /* HttpMethod.swift in Sources */,
 				153D784227C3F07000C940AB /* AppDelegate.swift in Sources */,
 				1504F6CE27C5F64D00A5EC6C /* MainViewController.swift in Sources */,
@@ -879,6 +863,7 @@
 				1504F6D827C5F70B00A5EC6C /* CoinViewController.swift in Sources */,
 				1504F6C827C5F40300A5EC6C /* BaseTableViewCell.swift in Sources */,
 				1504F72927C631C100A5EC6C /* HttpEnvironment.swift in Sources */,
+				FA611B1227D91F2F00C65218 /* OrderType.swift in Sources */,
 				1504F72F27C6324600A5EC6C /* NetworkRequest.swift in Sources */,
 				FABFF57D27CFFD83000B65E6 /* BTCandleStickRepository.swift in Sources */,
 				4320861727CE0615002CFDBF /* Section.swift in Sources */,
@@ -888,7 +873,6 @@
 				FA4C65FD27D295D900786469 /* BTCandleStickResponse.swift in Sources */,
 				4320861D27CFCCE2002CFDBF /* CoinDelgate.swift in Sources */,
 				15564DC327CF7C1C00BF9314 /* CoinSecondInformationView.swift in Sources */,
-				15564DAC27CEFA5100BF9314 /* SellGraphTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

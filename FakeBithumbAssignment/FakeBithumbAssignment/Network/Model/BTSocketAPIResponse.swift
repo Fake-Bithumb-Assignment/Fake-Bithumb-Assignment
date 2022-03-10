@@ -246,9 +246,9 @@ struct BTSocketAPIResponse {
                 /// 주문 타입
                 let orderType: OrderType
                 /// 호가
-                let price: Double
+                let price: String
                 /// 잔량
-                let quantity: Double
+                let quantity: String
                 /// 건수
                 let total: Int
                 
@@ -268,14 +268,12 @@ struct BTSocketAPIResponse {
                     let values = try decoder.container(keyedBy: CodingKeys.self)
                     self.symbol = try values.decode(String.self, forKey: .symbol)
                     self.orderType = try values.decode(OrderType.self, forKey: .orderType)
-                    guard let price = Double(try values.decode(String.self, forKey: .price)),
-                          let quantity = Double(try values.decode(String.self, forKey: .quantity)),
-                          let total = Int(try values.decode(String.self, forKey: .price))
+                    self.price = try values.decode(String.self, forKey: .price)
+                    self.quantity = try values.decode(String.self, forKey: .quantity)
+                    guard let total = Int(try values.decode(String.self, forKey: .price))
                     else {
                         throw BTSocketAPIResponseError.canNotParse
                     }
-                    self.price = price
-                    self.quantity = quantity
                     self.total = total
                 }
 

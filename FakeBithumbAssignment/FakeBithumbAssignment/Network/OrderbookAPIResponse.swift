@@ -22,12 +22,35 @@ struct OrderbookAPIResponse: Codable {
     }
 }
 
-struct Quote: Codable {
-    var price, quantity: String
+/// 주문
+struct Quote: Codable, Hashable {
+    var price: String
+    var quantity: String
+    var prevClosePrice: Double? = nil
+    var priceNumer: Double {
+        get {
+            return Double(self.price) ?? 0.0
+        }
+    }
+    var quantityNumber: Double {
+        get {
+            return Double(self.quantity) ?? 0.0
+        }
+    }
+        
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.price)
+    }
     
-    init(price: Int, quantity: Double) {
-        self.price = "\(price)"
-        self.quantity = "\(quantity)"
+    static func == (lhs: Quote, rhs: Quote) -> Bool {
+        return lhs.price == rhs.price && lhs.quantity == rhs.quantity && lhs.prevClosePrice == rhs.prevClosePrice
+    }
+    
+    static let asc: (Quote, Quote) -> Bool = { (lhs: Quote, rhs: Quote) in
+        lhs.priceNumer <= rhs.priceNumer
+    }
+    
+    static let desc: (Quote, Quote) -> Bool = { (lhs: Quote, rhs: Quote) in
+        lhs.priceNumer >= rhs.priceNumer
     }
  }
-

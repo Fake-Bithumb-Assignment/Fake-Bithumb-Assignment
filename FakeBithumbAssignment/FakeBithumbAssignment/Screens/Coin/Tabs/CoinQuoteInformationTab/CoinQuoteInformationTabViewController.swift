@@ -14,22 +14,44 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     
     // MARK: - Instance Property
     
-    let orderbookAPIService: OrderbookAPIService = OrderbookAPIService(apiService: HttpService(),
-                                                                       environment: .development)
-    var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
-    
-    var asksList: [Quote] = []
-    var bidsList: [Quote] = []
-    
-    let sellGraphTableViewController = SellGraphTableViewController()
-    let buyGraphTableViewController = BuyGraphTableViewController()
-    let quoteTableViewController = QuoteTableViewController()
-    let coinFirstInformationView = CoinFirstInformationView()
-    let coinSecondInformationView = CoinSecondInformationView()
-    
-    let scrollView = UIScrollView().then { make in
+    let orderCurrenty: Coin = .BTC
+    private let orderbookAPIService: OrderbookAPIService = OrderbookAPIService(
+        apiService: HttpService(),
+        environment: .development
+    )
+    private var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
+    private let tickerAPIService: TickerAPIService = TickerAPIService(
+        apiService: HttpService(),
+        environment: .development
+    )
+    private var askQuotes: [String: Quote] = [:] {
+        didSet {
+            self.updateAsk()
+        }
+    }
+    private var bidQuotes: [String: Quote] = [:] {
+        didSet {
+            self.updateBid()
+        }
+    }
+    private var prevClosePrice: Double? = nil {
+        didSet {
+            self.updateAsk()
+            self.updateBid()
+        }
+    }
+    private let askTableView: GraphTableView = GraphTableView().then {
+        $0.type = .ask
+    }
+    private let bidTableView: GraphTableView = GraphTableView().then {
+        $0.type = .bid
+    }
+    private let coinFirstInformationView = CoinFirstInformationView()
+    private let coinSecondInformationView = CoinSecondInformationView()
+    private let scrollView = UIScrollView().then { make in
         make.backgroundColor = .white
     }
+    private let minimumDouble: Double = 0.00001
     
     // MARK: - Life Cycle func
     
@@ -38,9 +60,9 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        getOrderbookData(orderCurrency: "BTC", paymentCurrency: "KRW")
-        getWebSocketOrderbookData(orderCurrency: "BTC")
-        getWebsocketTransactionData(orderCurrency: "BTC")
+        self.fetchFromAPI()
+        self.fetchFromSocket()
+        self.fetchTicker()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -49,256 +71,148 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         btsocketAPIService.disconnectAll()
+        self.reset()
         super.viewDidDisappear(animated)
-    }
-    
-    override func render() {
-        self.view.addSubview(self.scrollView)
-        
-        self.scrollView.snp.makeConstraints { make in
-            make.leading.top.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
-        }
-    }
-    
-    override func configUI() {
-        configStackView()
     }
     
     // MARK: - custom funcs
     
-    func configStackView() {
-        let leftStackView = UIStackView(arrangedSubviews: [
-            sellGraphTableViewController.view,
-            coinSecondInformationView
-        ]).then {
-            $0.axis = .vertical
-            $0.spacing = 1
-            $0.distribution = .fillEqually
+    private func reset() {
+        self.bidQuotes.removeAll()
+        self.askQuotes.removeAll()
+    }
+    
+    private func updateAsk() {
+        let askQuotes: [Quote] = Array(askQuotes.values).filter {
+            $0.quantityNumber >= self.minimumDouble
+        }.map {
+            var quote = $0
+            quote.prevClosePrice = self.prevClosePrice
+            return quote
         }
-        
-        let rightStackView = UIStackView(arrangedSubviews: [
-            coinFirstInformationView,
-            buyGraphTableViewController.view
-        ]).then {
-            $0.axis = .vertical
-            $0.spacing = 1
-            $0.distribution = .fillEqually
+        self.askTableView.updatedQuotes(
+            to: askQuotes
+        )
+    }
+    
+    private func updateBid() {
+        let bidQuotes: [Quote] = Array(bidQuotes.values).filter {
+            $0.quantityNumber >= self.minimumDouble
+        }.map {
+            var quote = $0
+            quote.prevClosePrice = self.prevClosePrice
+            return quote
         }
-        
-        let wholeStackView = UIStackView(arrangedSubviews: [
-            leftStackView,
-            quoteTableViewController.view,
-            rightStackView
+        self.bidTableView.updatedQuotes(
+            to: bidQuotes
+        )
+    }
+    
+    override func configUI() {
+        self.view.addSubview(self.scrollView)
+        self.scrollView.snp.makeConstraints { make in
+            make.leading.top.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
+        }
+        let upperStackView = UIStackView(arrangedSubviews: [
+            self.askTableView, self.coinFirstInformationView
         ]).then {
             $0.axis = .horizontal
-            $0.spacing = 1
         }
-        
+        self.coinFirstInformationView.snp.makeConstraints { make in
+            make.width.equalTo(upperStackView).multipliedBy(1.0/3.0)
+        }
+        let lowerStackView = UIStackView(arrangedSubviews: [
+            self.coinSecondInformationView, self.bidTableView,
+        ]).then {
+            $0.axis = .horizontal
+        }
+        self.coinSecondInformationView.snp.makeConstraints { make in
+            make.width.equalTo(lowerStackView).multipliedBy(1.0/3.0)
+        }
+        let wholeStackView = UIStackView(arrangedSubviews: [
+            upperStackView, lowerStackView
+        ]).then {
+            $0.axis = .vertical
+            $0.distribution = .fillEqually
+        }
         self.scrollView.addSubview(wholeStackView)
+        self.view.addSubview(self.scrollView)
         wholeStackView.snp.makeConstraints { make in
-            make.top.leading.bottom.trailing.equalTo(self.scrollView)
-            make.width.equalTo(self.scrollView)
+            make.width.equalToSuperview()
+            make.centerX.top.bottom.equalToSuperview()
             make.height.equalTo(2100)
         }
-        
-        leftStackView.snp.makeConstraints { make in
-            make.width.equalTo(wholeStackView).multipliedBy(0.35)
-        }
-        
-        rightStackView.snp.makeConstraints { make in
-            make.width.equalTo(wholeStackView).multipliedBy(0.33)
-        }
     }
     
-    private func getOrderbookData(orderCurrency: String, paymentCurrency: String) {
+    private func fetchFromAPI() {
         Task {
             do {
-                let orderBookData = try await orderbookAPIService.getOrderbookData(orderCurrency: orderCurrency,
-                                                                                   paymentCurrency: paymentCurrency)
-                
-                if let orderBookData = orderBookData {
-                    self.asksList = orderBookData.asks
-                    self.bidsList = orderBookData.bids
-                } else {
-                    // TODO: 에러 처리 얼럿 띄우기
+                guard let orderBookResponse: OrderbookAPIResponse = try await self.orderbookAPIService.getOrderbookData(
+                    orderCurrency: String(describing: self.orderCurrenty),
+                    paymentCurrency: "KRW"
+                ) else {
+                    return
                 }
-                self.patchOrderbookData()
-            } catch HttpServiceError.serverError {
-                print("serverError")
-            } catch HttpServiceError.clientError(let message) {
-                print("clientError:\(message)")
-            }
-        }
-    }
-    
-    private func getWebSocketOrderbookData(orderCurrency: String) {
-        btsocketAPIService.subscribeOrderBook(
-            orderCurrency: [Coin.BTC],
-            paymentCurrency: .krw)
-        { response in
-            self.updateOrderbookData(coin: Coin.BTC, data: response)
-        }
-    }
-    
-    private func getWebsocketTransactionData(orderCurrency: String) {
-        btsocketAPIService.subscribeTransaction(
-            orderCurrency: [Coin.BTC],
-            paymentCurrency: .krw
-        ) { response in
-            self.updateTransactionData(coin: Coin.BTC, data: response)
-        }
-    }
-    
-    private func updateOrderbookData(coin: Coin, data: BTSocketAPIResponse.OrderBookResponse) {
-        let semaphore = DispatchSemaphore(value: 0)
-        DispatchQueue.global(qos: .background).async {
-            for content in data.content.list {
-                let quote = Quote(price: Int(content.price),
-                                  quantity: content.quantity)
-                switch content.orderType {
-                case .ask:
-                    if Double(quote.quantity) == 0 {
-                        self.removeQuantityIsZero(type: .ask, data: quote)
-                        continue
-                    }
-                    if !self.replaceQuote(type: .ask, data: quote) {
-                        self.asksList.append(quote)
-                    }
-                    self.sortQuoteList(type: .ask)
-                case .bid:
-                    if Double(quote.quantity) == 0 {
-                        self.removeQuantityIsZero(type: .bid, data: quote)
-                        continue
-                    }
-                    if !self.replaceQuote(type: .bid, data: quote) {
-                        self.bidsList.append(quote)
-                    }
-                    self.sortQuoteList(type: .bid)
+                var bidQuotes: [String: Quote] = [:]
+                var askQuotes: [String: Quote] = [:]
+                orderBookResponse.bids.forEach { quote in
+                    bidQuotes[quote.price] = quote
                 }
-            }
-            DispatchQueue.main.async {
-                self.patchOrderbookData()
-            }
-            semaphore.signal()
-        }
-        semaphore.wait()
-    }
-    
-    private func updateTransactionData(coin: Coin,
-                                       data: BTSocketAPIResponse.TransactionResponse) {
-        let semaphore = DispatchSemaphore(value: 0)
-        DispatchQueue.global(qos: .background).async {
-            for transaction in data.content.list {
-                switch transaction.buySellGb {
-                case .sell:
-                    var count = self.asksList.count
-                    var index = 0
-                    while(index < count) {
-                        if Double(self.asksList[index].price) == Double(transaction.contPrice) {
-                            guard let quantity = Double(self.asksList[index].quantity) else { return }
-                            if quantity - transaction.contQty <= 0 {
-                                self.asksList.remove(at: index)
-                                count -= 1
-                            } else {
-                                self.asksList[index].quantity = "\(quantity - transaction.contQty)"
-                            }
-                        }
-                        index += 1
-                    }
-                case .buy:
-                    var count = self.bidsList.count
-                    var index = 0
-                    while(index < count) {
-                        if Double(self.bidsList[index].price) == Double(transaction.contPrice) {
-                            guard let quantity = Double(self.bidsList[index].quantity) else { return }
-                            if Double(self.bidsList[index].quantity)! - transaction.contQty <= 0 {
-                                self.bidsList.remove(at: index)
-                                count -= 1
-                            } else {
-                                self.bidsList[index].quantity = "\(quantity - transaction.contQty)"
-                            }
-                        }
-                        index += 1
-                    }
+                orderBookResponse.asks.forEach { quote in
+                    askQuotes[quote.price] = quote
                 }
-            }
-            DispatchQueue.main.async {
-                self.patchOrderbookData()
-            }
-            semaphore.signal()
-        }
-        semaphore.wait()
-    }
-    
-    private func sortQuoteList(type: BTSocketAPIResponse.OrderBookResponse.Content.OrderBook.OrderType) {
-        switch type {
-        case .ask:
-            self.asksList = asksList.sorted(by: {$0.price > $1.price})
-        case .bid:
-            self.bidsList = bidsList.sorted(by: {$0.price > $1.price})
-        }
-    }
-    
-    private func removeQuantityIsZero(type: BTSocketAPIResponse.OrderBookResponse.Content.OrderBook.OrderType,
-                                      data: Quote) {
-        switch type {
-        case .ask:
-            var count = self.asksList.count
-            var index = 0
-            while(index < count) {
-                if Int(asksList[index].price) == Int(data.price) {
-                    self.asksList.remove(at: index)
-                    count -= 1
-                }
-                index += 1
-            }
-        case .bid:
-            var count = self.bidsList.count
-            var index = 0
-            while(index < count) {
-                if Int(bidsList[index].price) == Int(data.price) {
-                    self.bidsList.remove(at: index)
-                    count -= 1
-                }
-                index += 1
+                self.bidQuotes = bidQuotes
+                self.askQuotes = askQuotes
+                self.scrollView.scrollToCenter()
+            } catch {
+                // TODO: do something
+                print(error)
             }
         }
-    }
-    
-    private func replaceQuote(type: BTSocketAPIResponse.OrderBookResponse.Content.OrderBook.OrderType,
-                              data: Quote) -> Bool {
-        switch type {
-        case .ask:
-            let count = self.asksList.count
-            var index = 0
-            while(index < count) {
-                if Int(asksList[index].price) == Int(data.price) {
-                    self.asksList[index] = data
-                    return true
-                }
-                index += 1
-            }
-        case .bid:
-            let count = self.bidsList.count
-            for index in 0..<count {
-                if Int(self.bidsList[index].price) == Int(data.price) {
-                    self.bidsList[index] = data
-                    return true
-                }
-            }
-        }
-        return false
-    }
-    
-    private func patchOrderbookData() {
-        self.quoteTableViewController.setQuoteData(asks: self.asksList,
-                                                   bids: self.bidsList)
-        self.quoteTableViewController.tableView.reloadData()
         
-        self.sellGraphTableViewController.setQuoteData(asks: self.asksList)
-        self.sellGraphTableViewController.tableView.reloadData()
-        
-        self.buyGraphTableViewController.setQuoteData(bids: self.bidsList)
-        self.buyGraphTableViewController.tableView.reloadData()
     }
+    
+    private func fetchFromSocket() {
+        self.btsocketAPIService.subscribeOrderBook(
+            orderCurrency: [self.orderCurrenty],
+            paymentCurrency: .krw) {
+                $0.content.list.forEach { response in
+                    let newQuote: Quote = Quote(
+                        price: response.price,
+                        quantity: response.quantity
+                    )
+                    switch response.orderType {
+                    case .ask:
+                        self.askQuotes[newQuote.price] = newQuote
+                    case .bid:
+                        self.bidQuotes[newQuote.price] = newQuote
+                    }
+                }
+            }
+    }
+    
+    private func fetchTicker() {
+        Task {
+            do {
+                guard let ticker: Item = try await self.tickerAPIService.getOneTickerData(
+                    orderCurrency: String(describing: self.orderCurrenty),
+                    paymentCurrency: "krw"
+                ) else {
+                    return
+                }
+                self.prevClosePrice = Double(ticker.prevClosingPrice)
+            } catch {
+                //TODO: do something
+                print(error)
+            }
+        }
+        self.btsocketAPIService.subscribeTicker(
+            orderCurrency: [self.orderCurrenty],
+            paymentCurrency: .krw,
+            tickTypes: [.mid]
+        ) { ticker in
+            self.prevClosePrice = ticker.content.prevClosePrice
+        }
+    }
+    
 }
