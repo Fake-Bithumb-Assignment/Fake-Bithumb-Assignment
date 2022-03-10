@@ -16,6 +16,7 @@ final class CoinViewController: BaseViewController {
     
     private let tickerAPIService = TickerAPIService(apiService: HttpService(),
                                                     environment: .development)
+    var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
     
     private var tickerData: Item?
     
@@ -57,6 +58,7 @@ final class CoinViewController: BaseViewController {
         self.configUI()
         self.setPageView()
         self.getTickerData(orderCurrency: "BTC", paymentCurrency: "KRW")
+        self.getWebsocketTickerData(orderCurrency: "BTC")
         self.patchHeaderViewData()
     }
     
@@ -150,11 +152,27 @@ final class CoinViewController: BaseViewController {
         }
     }
     
+    private func getWebsocketTickerData(orderCurrency: String) {
+        btsocketAPIService.subscribeTicker(
+            orderCurrency: [Coin.BTC],
+            paymentCurrency: .krw,
+            tickTypes: [._24h]
+        ) { response in
+            self.updateHeaderViewTickerData(coin: Coin.BTC, data: response)
+        }
+    }
+    
     private func patchHeaderViewData() {
         guard let tickerData = self.tickerData else { return }
         self.headerView.patchData(data: CoinHeaderModel(currentPrice: tickerData.closingPrice,
                                                         fluctate: tickerData.fluctate24H,
                                                         fluctateRate: tickerData.fluctateRate24H))
+    }
+    
+    private func updateHeaderViewTickerData(coin: Coin, data: BTSocketAPIResponse.TickerResponse) {
+        self.headerView.patchData(data: CoinHeaderModel(currentPrice: "\(data.content.closePrice)",
+                                                        fluctate: "\(data.content.chgAmt)",
+                                                        fluctateRate: "\(data.content.chgRate)"))
     }
     
     
