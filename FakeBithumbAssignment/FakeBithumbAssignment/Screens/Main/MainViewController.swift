@@ -387,7 +387,7 @@ final class MainViewController: BaseViewController {
         if let searchTextField = self.headerView.searchController.searchBar.value(
             forKey: "searchField"
         ) as? UITextField,
-           let clearButton = searchTextField.value(forKey: "_clearButton")as? UIButton {
+           let clearButton = searchTextField.value(forKey: "_clearButton") as? UIButton {
             clearButton.addTarget(
                 self,
                 action: #selector(clearButtonClicked),

@@ -17,7 +17,7 @@ class DepositAndWithdrawalViewController: BaseViewController {
     }
     private let headerView: DepositAndWithWithdrawalTableHeaderView =
     DepositAndWithWithdrawalTableHeaderView()
-    private let tableView: UITableView = UITableView().then {
+    let tableView: UITableView = UITableView().then {
         $0.register(
             DepositAndWithdrawalTableViewCell.self,
             forCellReuseIdentifier: DepositAndWithdrawalTableViewCell.className
@@ -109,7 +109,7 @@ class DepositAndWithdrawalViewController: BaseViewController {
 
     private func setUpSearchClearButton() {
         if let searchTextField = self.searchBar.value(forKey: "searchField") as? UITextField,
-           let clearButton = searchTextField.value(forKey: "_clearButton")as? UIButton {
+           let clearButton = searchTextField.value(forKey: "_clearButton") as? UIButton {
             clearButton.addTarget(
                 self,
                 action: #selector(clearButtonClicked),
