@@ -9,6 +9,8 @@ import UIKit
 
 class MainTabBarViewController: UITabBarController {
 
+    private var selectedTap = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -27,6 +29,14 @@ class MainTabBarViewController: UITabBarController {
         self.tabBar.layer.shadowColor = UIColor.black.cgColor
         self.tabBar.layer.shadowOpacity = 0.3
     }
+
+    private func scrollToTop(_ tableView: UITableView?, indexPath: IndexPath) {
+        tableView?.scrollToRow(
+            at: indexPath,
+            at: .top,
+            animated: true
+        )
+    }
 }
 
 // MARK: - UITabBarControllerDelegate
@@ -37,22 +47,23 @@ extension MainTabBarViewController: UITabBarControllerDelegate {
         didSelect viewController: UIViewController
     ) {
         let tabBarIndex = tabBarController.selectedIndex
+        let indexPath = IndexPath(row: 0, section: 0)
+        let navigationViewController = viewController as? UINavigationController
+
         if tabBarIndex == 0 {
-            let indexPath = IndexPath(row: 0, section: 0)
-            let navigationViewController = viewController as? UINavigationController
+            self.selectedTap = 0
             let mainViewController = navigationViewController?.viewControllers[0] as? MainViewController
+            self.scrollToTop(mainViewController?.totalCoinListView.totalCoinListTableView, indexPath: indexPath)
+            self.scrollToTop(mainViewController?.interestedCoinListView.interestedCoinListTableView, indexPath: indexPath)
+        }
 
-            mainViewController?.totalCoinListView.totalCoinListTableView.scrollToRow(
-                at: indexPath,
-                at: .top,
-                animated: true
-            )
+        else if tabBarIndex == 1 {
+            if self.selectedTap == 1 {
+                let depositAndWithdrawalViewController = navigationViewController?.viewControllers[0] as? DepositAndWithdrawalViewController
+                self.scrollToTop(depositAndWithdrawalViewController?.tableView, indexPath: indexPath)
+            }
 
-            mainViewController?.interestedCoinListView.interestedCoinListTableView.scrollToRow(
-                at: indexPath as IndexPath,
-                at: .top,
-                animated: true
-            )
+            self.selectedTap = 1
         }
     }
 }
