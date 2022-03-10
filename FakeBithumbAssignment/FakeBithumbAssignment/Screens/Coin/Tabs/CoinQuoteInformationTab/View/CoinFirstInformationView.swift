@@ -12,106 +12,78 @@ import Then
 
 final class CoinFirstInformationView: UIView {
     
+    private static let fontSize: CGFloat = 10.0
+    private static let valueFormat: String = "%.1f"
+    
     // MARK: - Instance Property
     
-    private let tradingVolumeTextLabel = UILabel().then {
-        $0.text = "거래량"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-        $0.textColor = .lightGray
+    var ticker: BTSocketAPIResponse.TickerResponse? = nil {
+        didSet {
+            self.setNeedsLayout()
+        }
     }
-    
-    private let tradingVolumeLabel = UILabel().then {
-        $0.text = "4,974,938 BTC"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-        $0.textColor = .lightGray
-        $0.textAlignment = .right
-    }
-    
-    private let tradingAmountTextLabel = UILabel().then {
+    private let valueTitleLabel = UILabel().then {
         $0.text = "거래금"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
+        $0.font = UIFont.systemFont(ofSize: CoinFirstInformationView.fontSize)
         $0.textColor = .lightGray
     }
-    
-    private let tradingAmountLabel = UILabel().then {
-        $0.text = "2,280,100 억"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
+    private let valueValueLabel = UILabel().then {
+        $0.font = UIFont.systemFont(ofSize: CoinFirstInformationView.fontSize)
         $0.textColor = .lightGray
         $0.textAlignment = .right
     }
-    
-    private let previousPriceTextLabel = UILabel().then {
-        $0.text = "전일종가"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
+    private let volumeTitleLabel = UILabel().then {
+        $0.text = "거래량"
+        $0.font = UIFont.systemFont(ofSize: CoinFirstInformationView.fontSize)
         $0.textColor = .lightGray
     }
-    
-    private let previousPriceLabel = UILabel().then {
-        $0.text = "47,172,000"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
+    private let volumeValueLabel = UILabel().then {
+        $0.font = UIFont.systemFont(ofSize: CoinFirstInformationView.fontSize)
         $0.textColor = .lightGray
         $0.textAlignment = .right
     }
-    
-    private let startPriceTextLabel = UILabel().then {
-        $0.text = "시가(당일)"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
+    private let openPriceTitleLabel = UILabel().then {
+        $0.text = "시가"
+        $0.font = UIFont.systemFont(ofSize: CoinFirstInformationView.fontSize)
         $0.textColor = .lightGray
     }
-    
-    private let startPriceLabel = UILabel().then {
-        $0.text = "47,171,000"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
+    private let openPriceValueLabel = UILabel().then {
+        $0.font = UIFont.systemFont(ofSize: CoinFirstInformationView.fontSize)
         $0.textColor = .lightGray
         $0.textAlignment = .right
     }
-    
-    private let highPriceTextLabel = UILabel().then {
-        $0.text = "고가(당일)"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
+    private let closePriceTitleLabel = UILabel().then {
+        $0.text = "종가"
+        $0.font = UIFont.systemFont(ofSize: CoinFirstInformationView.fontSize)
         $0.textColor = .lightGray
     }
-    
-    private let highPriceLabel = UILabel().then {
-        $0.text = "47,188,000"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-        $0.textColor = UIColor(named: "up")
+    private let closePriceValueLabel = UILabel().then {
+        $0.font = UIFont.systemFont(ofSize: CoinFirstInformationView.fontSize)
+        $0.textColor = .lightGray
         $0.textAlignment = .right
     }
-    
-    private let highPriceRateLabel = UILabel().then {
-        $0.text = "1.31%"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-        $0.textColor = UIColor(named: "up")
-        $0.textAlignment = .left
+    private let lowPriceTitleLabel = UILabel().then {
+        $0.text = "저가"
+        $0.font = UIFont.systemFont(ofSize: CoinFirstInformationView.fontSize)
+        $0.textColor = UIColor(named: "down")
     }
-    
-    private let lowPriceTextLabel = UILabel().then {
-        $0.text = "저가(당일)"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-        $0.textColor = .lightGray
-    }
-    
-    private let lowPriceLabel = UILabel().then {
-        $0.text = "44,676,000"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
+    private let lowPriceValueLabel = UILabel().then {
+        $0.font = UIFont.systemFont(ofSize: CoinFirstInformationView.fontSize)
         $0.textColor = UIColor(named: "down")
         $0.textAlignment = .right
     }
-    
-    private let lowPriceRateLabel = UILabel().then {
-        $0.text = "-5.29%"
-        $0.font = UIFont.preferredFont(forTextStyle: .caption2)
-        $0.textColor = UIColor(named: "down")
+    private let highPriceTitleLabel = UILabel().then {
+        $0.text = "고가"
+        $0.font = UIFont.systemFont(ofSize: CoinFirstInformationView.fontSize)
+        $0.textColor = UIColor(named: "up")
+    }
+    private let highPriceValueLabel = UILabel().then {
+        $0.font = UIFont.systemFont(ofSize: CoinFirstInformationView.fontSize)
+        $0.textColor = UIColor(named: "up")
         $0.textAlignment = .right
     }
-    
     private let borderView = UIView().then {
         $0.backgroundColor = .lightGray
-    }
-    
-    private let pageControlView = UIView().then {
-        $0.backgroundColor = .red
     }
     
     
@@ -119,131 +91,121 @@ final class CoinFirstInformationView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        render()
         configUI()
-        
     }
     
-    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
-    
+    override func layoutSubviews() {
+        guard let ticker = ticker else {
+            return
+        }
+        self.valueValueLabel.text = self.formatToString(of: ticker.content.value)
+        self.volumeValueLabel.text = self.formatToString(of: ticker.content.volume)
+        self.openPriceValueLabel.text = self.formatToString(of: ticker.content.openPrice)
+        self.closePriceValueLabel.text = self.formatToString(of: ticker.content.closePrice)
+        self.highPriceValueLabel.text = self.formatToString(of: ticker.content.highPrice)
+        self.lowPriceValueLabel.text = self.formatToString(of: ticker.content.lowPrice)
+    }
+
     // MARK: - custom funcs
     
-    func render() {
-        self.addSubView(pageControlView)
-        
-        self.pageControlView.snp.makeConstraints { make in
-            make.centerX.equalTo(self)
-            make.width.equalTo(20)
-            make.bottom.equalTo(self)
-        }
-    }
-    
     func configUI() {
-        configStackView()
-    }
-    
-    func configStackView() {
-        let tradingVolumeStackView = UIStackView(arrangedSubviews: [
-            tradingVolumeTextLabel,
-            tradingVolumeLabel
-        ]).then {
+        let valueStackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.valueTitleLabel, self.valueValueLabel]
+        ).then {
             $0.axis = .horizontal
-            $0.spacing = 5
-            $0.distribution = .fill
+            $0.alignment = .center
         }
-        
-        let tradingAmountStackView = UIStackView(arrangedSubviews: [
-            tradingAmountTextLabel,
-            tradingAmountLabel
-        ]).then {
+        self.valueValueLabel.snp.makeConstraints { make in
+            make.width.equalTo(self.valueTitleLabel).multipliedBy(2)
+        }
+        let volumeStackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.volumeTitleLabel, self.volumeValueLabel]
+        ).then {
             $0.axis = .horizontal
-            $0.spacing = 5
-            $0.distribution = .fill
+            $0.alignment = .center
         }
-        
-        let previousPriceStackView = UIStackView(arrangedSubviews: [
-            previousPriceTextLabel,
-            previousPriceLabel
-        ]).then {
+        self.volumeValueLabel.snp.makeConstraints { make in
+            make.width.equalTo(self.volumeTitleLabel).multipliedBy(2)
+        }
+        let openPriceStackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.openPriceTitleLabel, self.openPriceValueLabel]
+        ).then {
             $0.axis = .horizontal
-            $0.spacing = 5
-            $0.distribution = .fill
+            $0.alignment = .center
         }
-        
-        let startPriceStackView = UIStackView(arrangedSubviews: [
-            startPriceTextLabel,
-            startPriceLabel
-        ]).then {
+        self.openPriceValueLabel.snp.makeConstraints { make in
+            make.width.equalTo(self.openPriceTitleLabel).multipliedBy(2)
+        }
+        let closePriceStackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.closePriceTitleLabel, self.closePriceValueLabel]
+        ).then {
             $0.axis = .horizontal
-            $0.spacing = 5
-            $0.distribution = .fill
+            $0.alignment = .center
         }
-        
-        let highPriceStackView = UIStackView(arrangedSubviews: [
-            highPriceTextLabel,
-            highPriceLabel
-        ]).then {
+        self.closePriceValueLabel.snp.makeConstraints { make in
+            make.width.equalTo(self.closePriceTitleLabel).multipliedBy(2)
+        }
+        let highPriceStackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.highPriceTitleLabel, self.highPriceValueLabel]
+        ).then {
             $0.axis = .horizontal
-            $0.spacing = 5
-            $0.distribution = .fill
+            $0.alignment = .center
         }
-        
-        let highPriceRateStackView = UIStackView(arrangedSubviews: [
-            UIView(),
-            highPriceRateLabel
-        ]).then {
+        self.highPriceValueLabel.snp.makeConstraints { make in
+            make.width.equalTo(self.highPriceTitleLabel).multipliedBy(2)
+        }
+        let lowPriceStackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.lowPriceTitleLabel, self.lowPriceValueLabel]
+        ).then {
             $0.axis = .horizontal
-            $0.spacing = 5
-            $0.distribution = .fill
+            $0.alignment = .center
         }
-        
-        let lowPriceStackView = UIStackView(arrangedSubviews: [
-            lowPriceTextLabel,
-            lowPriceLabel
-        ]).then {
-            $0.axis = .horizontal
-            $0.spacing = 5
-            $0.distribution = .fill
+        self.lowPriceValueLabel.snp.makeConstraints { make in
+            make.width.equalTo(self.lowPriceTitleLabel).multipliedBy(2)
         }
-        
-        let lowPriceRateStackView = UIStackView(arrangedSubviews: [
-            UIView(),
-            lowPriceRateLabel
-        ]).then {
-            $0.axis = .horizontal
-            $0.spacing = 5
-            $0.distribution = .fill
-        }
-        
-        let wholeStackView = UIStackView(arrangedSubviews: [
-            tradingVolumeStackView,
-            tradingAmountStackView,
-            self.borderView,
-            previousPriceStackView,
-            startPriceStackView,
-            highPriceStackView,
-            highPriceRateStackView,
-            lowPriceStackView,
-            lowPriceRateStackView
-        ]).then {
+        let wholeStackView: UIStackView = UIStackView(
+            arrangedSubviews: [
+                valueStackView,
+                volumeStackView,
+                self.borderView,
+                openPriceStackView,
+                highPriceStackView,
+                lowPriceStackView,
+                closePriceStackView
+            ]
+        ).then {
             $0.axis = .vertical
-            $0.spacing = 5
-            $0.distribution = .fill
+            $0.distribution = .equalSpacing
+            $0.alignment = .fill
         }
-        
-        self.addSubview(wholeStackView)
-        wholeStackView.snp.makeConstraints { make in
-            make.leading.equalTo(self).offset(2)
-            make.trailing.equalTo(self).inset(2)
-            make.bottom.equalTo(self.pageControlView).inset(5)
-        }
-        
         self.borderView.snp.makeConstraints { make in
             make.height.equalTo(0.3)
+        }
+        self.addSubview(wholeStackView)
+        wholeStackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(
+                UIEdgeInsets(
+                    top: 5,
+                    left: 5,
+                    bottom: 5,
+                    right: 5
+                )
+            )
+        }
+    }
+    
+    private func formatToString(of number: Double) -> String {
+        if number > 100000000.0 {
+            return String(
+                format: CoinFirstInformationView.valueFormat,
+                number / 100000000.0
+            ) + "억"
+        } else {
+            return String(format: CoinFirstInformationView.valueFormat, number)
         }
     }
 }
