@@ -14,6 +14,12 @@ final class CoinViewController: BaseViewController {
     
     // MARK: - Instance Property
     
+    var coin: Coin = .BTC {
+        didSet {
+            self.pageViewController.coin = self.coin
+        }
+    }
+    
     private let tickerAPIService = TickerAPIService(apiService: HttpService(),
                                                     environment: .development)
     
@@ -46,7 +52,7 @@ final class CoinViewController: BaseViewController {
         $0.backgroundColor = .white
     }
     
-    var pageViewController: CoinPagingViewController?
+    var pageViewController: CoinPagingViewController = CoinPagingViewController()
     
     
     // MARK: - Life Cycle func
@@ -72,7 +78,7 @@ final class CoinViewController: BaseViewController {
     
     
     // MARK: - custom func
-
+    
     private func configStackView() {
         let menuStackView: UIStackView = UIStackView(
             arrangedSubviews: [self.quoteButton, self.graphButton, self.contractDetailsButton]
@@ -109,16 +115,12 @@ final class CoinViewController: BaseViewController {
     }
     
     private func setPageView() {
-        self.pageViewController = CoinPagingViewController()
-        
-        if let pageViewController = pageViewController {
-            self.addChild(pageViewController)
-            self.pageView.addSubview(pageViewController.view)
-            self.pageViewController?.view.snp.makeConstraints { make in
-                make.top.leading.trailing.bottom.equalTo(self.pageView)
-            }
-            pageViewController.didMove(toParent: self)
+        self.addChild(pageViewController)
+        self.pageView.addSubview(pageViewController.view)
+        self.pageViewController.view.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.equalTo(self.pageView)
         }
+        pageViewController.didMove(toParent: self)
     }
     
     private func setBottomBorder(to button: UIButton) {
@@ -162,16 +164,16 @@ final class CoinViewController: BaseViewController {
     
     @objc private func tapQuoteButton(sender: UIButton) {
         self.setBottomBorder(to: self.quoteButton)
-        self.pageViewController?.setTabViewController(to: .quote)
+        self.pageViewController.setTabViewController(to: .quote)
     }
     
     @objc private func tapGraphButton() {
         self.setBottomBorder(to: self.graphButton)
-        self.pageViewController?.setTabViewController(to: .graph)
+        self.pageViewController.setTabViewController(to: .graph)
     }
     
     @objc private func tapContractDetailsButton() {
         self.setBottomBorder(to: self.contractDetailsButton)
-        self.pageViewController?.setTabViewController(to: .contractDetails)
+        self.pageViewController.setTabViewController(to: .contractDetails)
     }
 }

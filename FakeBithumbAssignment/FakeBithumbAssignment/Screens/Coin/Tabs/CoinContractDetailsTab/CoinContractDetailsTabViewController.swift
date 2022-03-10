@@ -14,7 +14,7 @@ enum ContractHeader {
     case time, price, volume
 }
 
-final class CoinContractDetailsTabViewController: BaseViewController {
+final class CoinContractDetailsTabViewController: BaseViewController, CoinAcceptable {
     
     // MARK: - Instance Property
     
@@ -76,6 +76,10 @@ final class CoinContractDetailsTabViewController: BaseViewController {
     
     
     // MARK: - custom funcs
+    
+    func accept(of coin: Coin) {
+        // do something
+    }
     
     func setDelegates() {
         self.timeTableView.dataSource = self

@@ -10,11 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
-class CoinQuoteInformationTabViewController: BaseViewController {
+class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable {
     
     // MARK: - Instance Property
     
-    let orderCurrenty: Coin = .BTC
+    var orderCurrenty: Coin = .BTC
     private let orderbookAPIService: OrderbookAPIService = OrderbookAPIService(
         apiService: HttpService(),
         environment: .development
@@ -76,6 +76,10 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     }
     
     // MARK: - custom funcs
+    
+    func accept(of coin: Coin) {
+        self.orderCurrenty = coin
+    }
     
     private func reset() {
         self.bidQuotes.removeAll()
