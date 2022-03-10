@@ -22,6 +22,7 @@ class DepositAndWithdrawalViewController: BaseViewController {
             DepositAndWithdrawalTableViewCell.self,
             forCellReuseIdentifier: DepositAndWithdrawalTableViewCell.className
         )
+        $0.keyboardDismissMode = .onDrag
     }
     private var assetStatuses: [AssetsStatus] = []
     private lazy var dataSource: UITableViewDiffableDataSource<AssetsStatusSection, AssetsStatus> =
@@ -92,6 +93,7 @@ class DepositAndWithdrawalViewController: BaseViewController {
         }
         
         self.searchBar.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        self.setUpSearchClearButton()
     }
     
     private func configureTableView() {
@@ -103,6 +105,23 @@ class DepositAndWithdrawalViewController: BaseViewController {
     
     private func configureNavigation() {
         self.navigationItem.title = "입출금 현황"
+    }
+
+    private func setUpSearchClearButton() {
+        if let searchTextField = self.searchBar.value(forKey: "searchField") as? UITextField,
+           let clearButton = searchTextField.value(forKey: "_clearButton")as? UIButton {
+            clearButton.addTarget(
+                self,
+                action: #selector(clearButtonClicked),
+                for: .touchUpInside
+            )
+        }
+    }
+
+    // MARK: - @objc
+
+    @objc private func clearButtonClicked() {
+        self.view.endEditing(true)
     }
 }
 
@@ -169,6 +188,7 @@ extension DepositAndWithdrawalViewController {
 
 extension DepositAndWithdrawalViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        self.view.endEditing(true)
         return nil
     }
 }
@@ -184,6 +204,10 @@ extension DepositAndWithdrawalViewController: UISearchBarDelegate {
             String(describing: $0.coin).contains(searchText)
         }
         self.updateSnapshot(to: filtered)
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.view.endEditing(true)
     }
 }
 
