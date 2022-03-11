@@ -65,7 +65,7 @@ final class CoinNavigationTitleView: UIView {
             arrangedSubviews: [self.coinLabel, self.subCoinLabel]
         ).then {
             $0.axis = .vertical
-            $0.alignment = .fill
+            $0.alignment = .center
             $0.spacing = 1
         }
         
