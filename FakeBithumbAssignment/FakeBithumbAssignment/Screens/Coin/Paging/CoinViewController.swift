@@ -16,6 +16,7 @@ final class CoinViewController: BaseViewController {
     
     private let tickerAPIService = TickerAPIService(apiService: HttpService(),
                                                     environment: .development)
+    var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
     
     private var tickerData: Item?
     
@@ -26,20 +27,34 @@ final class CoinViewController: BaseViewController {
     let quoteButton = UIButton().then {
         $0.setTitle("호가", for: .normal)
         $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .preferredFont(forTextStyle: .headline)
     }
     
     let graphButton = UIButton().then {
         $0.setTitle("차트", for: .normal)
         $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .preferredFont(forTextStyle: .headline)
     }
     
     let contractDetailsButton = UIButton().then {
         $0.setTitle("시세", for: .normal)
         $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .preferredFont(forTextStyle: .headline)
     }
     
     private let indicatorView = UIView().then {
-        $0.backgroundColor = .black
+        $0.backgroundColor = UIColor(named: "primaryBlack")
+    }
+    
+    private var starBarButton = UIBarButtonItem()
+    private var arrowBarButton = UIBarButtonItem()
+    private let starButton = UIButton().then {
+        guard let starImage: UIImage = UIImage(named: "notFillStar") else { return }
+        $0.setImage(starImage, for: .normal)
+    }
+    private let arrowButton = UIButton().then {
+        guard let starImage: UIImage = UIImage(named: "arrow") else { return }
+        $0.setImage(starImage, for: .normal)
     }
     
     private let pageView = UIView().then {
@@ -53,11 +68,11 @@ final class CoinViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.render()
-        self.configUI()
         self.setPageView()
         self.getTickerData(orderCurrency: "BTC", paymentCurrency: "KRW")
+        self.getWebsocketTickerData(orderCurrency: "BTC")
         self.patchHeaderViewData()
+        self.patchStarButton()
     }
     
     override func render() {
@@ -68,6 +83,7 @@ final class CoinViewController: BaseViewController {
         super.configUI()
         self.configStackView()
         self.configMenuButtons()
+        self.configNavigation()
     }
     
     
@@ -108,6 +124,18 @@ final class CoinViewController: BaseViewController {
         self.setBottomBorder(to: self.quoteButton)
     }
     
+    private func configNavigation() {
+        self.navigationItem.titleView = CoinNavigationTitleView()
+        
+        self.starBarButton = UIBarButtonItem(customView: self.starButton)
+        self.navigationItem.rightBarButtonItem = starBarButton
+        self.starButton.addTarget(self, action: #selector(tapStarButton), for: .touchUpInside)
+        
+        self.arrowBarButton = UIBarButtonItem(customView: self.arrowButton)
+        self.navigationItem.leftBarButtonItem = arrowBarButton
+        self.arrowButton.addTarget(self, action: #selector(self.tapBackButton), for: .touchUpInside)
+    }
+    
     private func setPageView() {
         self.pageViewController = CoinPagingViewController()
         
@@ -124,8 +152,10 @@ final class CoinViewController: BaseViewController {
     private func setBottomBorder(to button: UIButton) {
         self.indicatorView.removeFromSuperview()
         button.addSubview(indicatorView)
-        self.indicatorView.snp.makeConstraints { make in
-            make.leading.width.bottom.equalToSuperview()
+        indicatorView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview().inset(30)
             make.height.equalTo(3)
         }
     }
@@ -150,11 +180,36 @@ final class CoinViewController: BaseViewController {
         }
     }
     
+    private func getWebsocketTickerData(orderCurrency: String) {
+        btsocketAPIService.subscribeTicker(
+            orderCurrency: [Coin.BTC],
+            paymentCurrency: .krw,
+            tickTypes: [._24h]
+        ) { response in
+            self.updateHeaderViewTickerData(coin: Coin.BTC, data: response)
+        }
+    }
+    
     private func patchHeaderViewData() {
         guard let tickerData = self.tickerData else { return }
         self.headerView.patchData(data: CoinHeaderModel(currentPrice: tickerData.closingPrice,
                                                         fluctate: tickerData.fluctate24H,
                                                         fluctateRate: tickerData.fluctateRate24H))
+    }
+    
+    private func updateHeaderViewTickerData(coin: Coin, data: BTSocketAPIResponse.TickerResponse) {
+        self.headerView.patchData(data: CoinHeaderModel(currentPrice: "\(data.content.closePrice)",
+                                                        fluctate: "\(data.content.chgAmt)",
+                                                        fluctateRate: "\(data.content.chgRate)"))
+    }
+    
+    private func patchStarButton() {
+        if let alreadyInterestedCoin = UserDefaults.standard.string(forKey: "BTC") {
+            self.starButton.setImage(UIImage(named: "fillStar"), for: .normal)
+        }
+        else {
+            self.starButton.setImage(UIImage(named: "notFillStar"), for: .normal)
+        }
     }
     
     
@@ -173,5 +228,20 @@ final class CoinViewController: BaseViewController {
     @objc private func tapContractDetailsButton() {
         self.setBottomBorder(to: self.contractDetailsButton)
         self.pageViewController?.setTabViewController(to: .contractDetails)
+    }
+    
+    @objc private func tapBackButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func tapStarButton() {
+        if let alreadyInterestedCoin = UserDefaults.standard.string(forKey: "BTC") {
+            UserDefaults.standard.removeObject(forKey: alreadyInterestedCoin)
+            self.starButton.setImage(UIImage(named: "notFillStar"), for: .normal)
+        }
+        else {
+            UserDefaults.standard.set("BTC", forKey: "BTC")
+            self.starButton.setImage(UIImage(named: "fillStar"), for: .normal)
+        }
     }
 }
