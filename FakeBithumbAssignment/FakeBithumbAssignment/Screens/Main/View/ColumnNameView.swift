@@ -32,7 +32,7 @@ final class ColumnNameView: UIView {
         $0.font = .preferredFont(forTextStyle: .footnote)
         $0.text = "변동률"
         $0.textColor = .gray
-        $0.textAlignment = .center
+        $0.textAlignment = .right
     }
 
     private let tradeValueLabel = UILabel().then {
