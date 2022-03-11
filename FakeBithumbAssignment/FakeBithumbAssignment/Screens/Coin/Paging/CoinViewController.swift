@@ -43,6 +43,9 @@ final class CoinViewController: BaseViewController {
         $0.backgroundColor = .black
     }
     
+    private let starBarButton = UIBarButtonItem()
+    private let arrowBarButton = UIBarButtonItem()
+    
     private let pageView = UIView().then {
         $0.backgroundColor = .white
     }
@@ -54,8 +57,6 @@ final class CoinViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.render()
-        self.configUI()
         self.setPageView()
         self.getTickerData(orderCurrency: "BTC", paymentCurrency: "KRW")
         self.getWebsocketTickerData(orderCurrency: "BTC")
@@ -70,6 +71,7 @@ final class CoinViewController: BaseViewController {
         super.configUI()
         self.configStackView()
         self.configMenuButtons()
+        self.configNavigation()
     }
     
     
@@ -108,6 +110,24 @@ final class CoinViewController: BaseViewController {
         
         self.quoteButton.addTarget(self, action: #selector(self.tapQuoteButton), for: .touchUpInside)
         self.setBottomBorder(to: self.quoteButton)
+    }
+    
+    private func configNavigation() {
+        self.navigationItem.titleView = CoinNavigationTitleView()
+        
+        guard let starImage: UIImage = UIImage(named: "notFillStar") else { return }
+        let starButton = UIBarButtonItem(image: starImage,
+                                         style: .plain,
+                                         target: nil,
+                                         action: nil)
+        self.navigationItem.rightBarButtonItem = starButton
+        
+        guard var arrowImage: UIImage = UIImage(named: "arrow") else { return }
+        let arrowButton = UIBarButtonItem(image: arrowImage,
+                                         style: .plain,
+                                         target: nil,
+                                         action: nil)
+        self.navigationItem.leftBarButtonItem = arrowButton
     }
     
     private func setPageView() {

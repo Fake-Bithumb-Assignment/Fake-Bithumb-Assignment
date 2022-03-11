@@ -16,12 +16,13 @@ final class CoinNavigationTitleView: UIView {
     
     let coinLabel = UILabel().then {
         $0.text = "비트코인"
-        $0.font = .preferredFont(forTextStyle: .caption2)
+        $0.textColor = .black
+        $0.font = .preferredFont(forTextStyle: .subheadline)
     }
     
     let subCoinLabel = UILabel().then {
         $0.text = "BTC/KRW"
-        $0.font = UIFont.systemFont(ofSize: 5)
+        $0.font = .preferredFont(forTextStyle: .caption2)
         $0.textColor = .gray
     }
     
@@ -56,6 +57,22 @@ final class CoinNavigationTitleView: UIView {
     }
     
     private func configUI() {
+        configureStackView()
+    }
+    
+    private func configureStackView() {
+        let stackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.coinLabel, self.subCoinLabel]
+        ).then {
+            $0.axis = .vertical
+            $0.alignment = .fill
+            $0.spacing = 1
+        }
         
+        self.addSubview(stackView)
+        
+        stackView.snp.makeConstraints { make in
+            make.edges.equalTo(self.safeAreaLayoutGuide)
+        }
     }
 }
