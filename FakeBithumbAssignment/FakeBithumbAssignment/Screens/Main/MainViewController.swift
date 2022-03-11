@@ -138,6 +138,9 @@ final class MainViewController: BaseViewController {
             return
         }
 
+        let changeAmount = data.content.chgAmt
+        receivedCoinData.changeAmount = String.insertComma(value: changeAmount)
+
         let currentChangeRate = data.content.chgRate
         receivedCoinData.changeRate = String.insertComma(value: currentChangeRate)
 
@@ -217,13 +220,24 @@ final class MainViewController: BaseViewController {
 
     private func configureCoinData(coin: Coin, value: Item) {
         guard let fluctateRate24H = Double(value.fluctateRate24H),
-              let accTradeValue24H = Double(value.accTradeValue24H)
+              let accTradeValue24H = Double(value.accTradeValue24H),
+              let fluctate24H = Double(value.fluctate24H)
         else {
             return
         }
+
         let tradeValue = Int(accTradeValue24H) / 1000000
         let currentTradeValue = String.insertComma(value: Double(tradeValue))
         let changeRate = String.insertComma(value: fluctateRate24H)
+
+        let changeAmount: String
+
+        if fabs(fluctate24H) > 999.9 {
+            changeAmount = String.insertComma(value: fluctate24H)
+        }
+        else {
+            changeAmount = String(fluctate24H)
+        }
 
         if UserDefaults.standard.string(forKey: coin.rawValue) != nil {
             self.totalCoinList.append(CoinData(
@@ -232,7 +246,8 @@ final class MainViewController: BaseViewController {
                 changeRate: changeRate,
                 tradeValue: currentTradeValue,
                 isInterested: true,
-                popularity: 172800
+                popularity: 172800,
+                changeAmount: changeAmount
             ))
         }
         else {
@@ -241,7 +256,8 @@ final class MainViewController: BaseViewController {
                 currentPrice: "",
                 changeRate: changeRate,
                 tradeValue: currentTradeValue,
-                popularity: 172800
+                popularity: 172800,
+                changeAmount: changeAmount
             ))
         }
     }
@@ -317,11 +333,15 @@ final class MainViewController: BaseViewController {
                 
                 if let findedCoin = self.totalCoinList.first(where: { $0.coinName == coin }),
                    let latestTransactions = response.last?.transactionDate.components(separatedBy: " "),
-                   let oldestTransactions = response.first?.transactionDate.components(separatedBy: " ")
+                   let oldestTransactions = response.first?.transactionDate.components(separatedBy: " "),
+                   let priceData = response.first?.price, let price = Double(priceData)
                 {
-                    findedCoin.currentPrice = response.first?.price ?? ""
+                    let currentPrice = String.insertComma(value: price)
+                    findedCoin.currentPrice = currentPrice
+
                     let latestTransaction = latestTransactions[1]
                     let oldestTransaction = oldestTransactions[1]
+
                     findedCoin.popularity = self.calculatePopularity(
                         latestTransaction: latestTransaction,
                         oldestTransaction: oldestTransaction

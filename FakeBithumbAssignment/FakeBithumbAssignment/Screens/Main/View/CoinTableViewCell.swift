@@ -21,6 +21,13 @@ class CoinTableViewCell: BaseTableViewCell {
         $0.numberOfLines = 0
     }
 
+    private let coinSymbol = UILabel().then {
+        $0.font = .preferredFont(forTextStyle: .caption2)
+        $0.textAlignment = .left
+        $0.textColor = UIColor(named: "line")
+        $0.numberOfLines = 0
+    }
+
     private let currentPrice = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .subheadline)
         $0.textAlignment = .right
@@ -28,14 +35,13 @@ class CoinTableViewCell: BaseTableViewCell {
         $0.numberOfLines = 0
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.clear.cgColor
+        $0.sizeToFit()
     }
 
     private let changeRate = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .subheadline)
-        $0.textAlignment = .center
+        $0.textAlignment = .right
         $0.textColor = UIColor(named: "primaryBlack")
-        $0.numberOfLines = 0
-        $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.clear.cgColor
     }
 
@@ -45,6 +51,17 @@ class CoinTableViewCell: BaseTableViewCell {
         $0.textColor = UIColor(named: "primaryBlack")
         $0.numberOfLines = 0
     }
+
+    private let changeAmount = UILabel().then {
+        $0.font = .preferredFont(forTextStyle: .caption2)
+        $0.textAlignment = .right
+        $0.textColor = UIColor(named: "primaryBlack")
+        $0.numberOfLines = 0
+    }
+
+    private lazy var changeView = configureChangeView()
+
+    private lazy var coinView = configureCoinView()
 
     private var priceIncrement = false
 
@@ -66,8 +83,10 @@ class CoinTableViewCell: BaseTableViewCell {
         self.checkChangeRate(of: model)
 
         self.coinName.text = model.coinName.rawValue
+        self.coinSymbol.text = "\(model.coinName)/KRW"
         self.currentPrice.text = model.currentPrice
         self.changeRate.text = model.changeRate + "%"
+        self.changeAmount.text = model.changeAmount
         self.tradeValue.text = model.tradeValue + "백만"
         
         let changeRateString = model.changeRate
@@ -80,7 +99,6 @@ class CoinTableViewCell: BaseTableViewCell {
             }
 
             self.currentPrice.animateBorderColor(toColor: color, duration: 0.1)
-            self.changeRate.animateBorderColor(toColor: color, duration: 0.1)
         }
     }
 
@@ -106,24 +124,33 @@ class CoinTableViewCell: BaseTableViewCell {
             let color = UIColor(named: "down") ?? .systemBlue
             self.currentPrice.textColor = color
             self.changeRate.textColor = color
+            self.changeAmount.textColor = color
         }
         else if changeRate > 0 {
             let color = UIColor(named: "up") ?? .systemRed
             self.currentPrice.textColor = color
             self.changeRate.textColor = color
+            self.changeAmount.textColor = color
+            
+            if let changeRate = self.changeRate.text,
+               let changeAmount = self.changeAmount.text {
+                self.changeRate.text = "+" + changeRate
+                self.changeAmount.text = "+" + changeAmount
+            }
         }
         else {
             self.changeRate.text = "0.00%"
             self.changeRate.textColor = .black
             self.currentPrice.textColor = .black
+            self.changeAmount.textColor = .black
         }
     }
 
     private func configureStackView() {
         let stackView = UIStackView(arrangedSubviews: [
-            self.coinName,
+            self.coinView,
             self.currentPrice,
-            self.changeRate,
+            self.changeView,
             self.tradeValue
         ]).then {
             $0.spacing = 10
@@ -138,5 +165,31 @@ class CoinTableViewCell: BaseTableViewCell {
             make.width.equalTo(self.currentPrice).multipliedBy(4)
             make.width.equalTo(self.changeRate).multipliedBy(5)
         }
+    }
+
+    private func configureChangeView() -> UIStackView {
+        let stackView = UIStackView(arrangedSubviews: [
+            self.changeRate,
+            self.changeAmount
+        ]).then {
+            $0.spacing = 5
+            $0.axis = .vertical
+            $0.alignment = .trailing
+        }
+
+        return stackView
+    }
+
+    private func configureCoinView() -> UIStackView {
+        let stackView = UIStackView(arrangedSubviews: [
+            self.coinName,
+            self.coinSymbol
+        ]).then {
+            $0.spacing = 5
+            $0.axis = .vertical
+            $0.alignment = .fill
+        }
+
+        return stackView
     }
 }

@@ -14,6 +14,7 @@ final class CoinData {
     var tradeValue: String
     var isInterested: Bool
     var popularity: Int
+    var changeAmount: String
 
     // MARK: - Initializer
 
@@ -23,7 +24,8 @@ final class CoinData {
         changeRate: String,
         tradeValue: String,
         isInterested: Bool = false,
-        popularity: Int
+        popularity: Int,
+        changeAmount: String
     ) {
         self.coinName = coinName
         self.currentPrice = currentPrice
@@ -31,6 +33,7 @@ final class CoinData {
         self.tradeValue = tradeValue
         self.isInterested = isInterested
         self.popularity = popularity
+        self.changeAmount = changeAmount
     }
 }
 
