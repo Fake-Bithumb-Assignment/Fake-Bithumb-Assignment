@@ -345,6 +345,19 @@ extension CandleStickChartView {
             guard let tradePriceYCoord: CGFloat = self.getYCoord(of: candleStick.tradePrice) else {
                 return
             }
+            guard candleStick.highPrice != candleStick.lowPrice else {
+                let lineLayer: CALayer = CALayer().then {
+                    $0.frame = CGRect(
+                        x: xCoord - self.setting.size.candleStickWidth / 2,
+                        y: highPriceYCoord - self.setting.size.candleStickLineWidth / 2,
+                        width: self.setting.size.candleStickWidth,
+                        height: self.setting.size.candleStickLineWidth
+                    )
+                    $0.backgroundColor = self.setting.color.redColor
+                }
+                self.layers.dataLayer.addSublayer(lineLayer)
+                return
+            }
             let lineLayer: CALayer = CALayer().then {
                 $0.frame = CGRect(
                     x: xCoord - self.setting.size.candleStickLineWidth / 2,
@@ -460,7 +473,7 @@ extension CandleStickChartView {
                 $0.contentsScale = UIScreen.main.scale
                 $0.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
                 $0.fontSize = self.setting.size.defaultFontSize
-                $0.string = self.valueToString(of: value)
+                $0.string = String.insertComma(value: Int(value))
             }
             self.layers.valueLayer.addSublayer(thornLineLayer)
             self.layers.valueLayer.addSublayer(textLayer)
@@ -473,11 +486,6 @@ extension CandleStickChartView {
             )
             self.layers.horizontalGridLayer.addSublayer(gridLayer)
         }
-    }
-    
-    /// 값을 스트링으로 바꿔주는 메소드
-    private func valueToString(of value: Double) -> String {
-        return String(Int(value))
     }
 }
 
@@ -589,7 +597,7 @@ extension CandleStickChartView {
             $0.contentsScale = UIScreen.main.scale
             $0.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
             $0.fontSize = self.setting.size.defaultFontSize
-            $0.string = self.valueToString(of: value)
+            $0.string = String.insertComma(value: Int(value))
             self.layers.focusValueLayer.addSublayer($0)
         }
     }
@@ -663,7 +671,7 @@ extension CandleStickChartView {
                 self.layers.focusInfoTextLayer.addSublayer($0)
             }
             let _ = VerticalCenterCATextLayer().then {
-                $0.string = String(value)
+                $0.string = String.insertComma(value: value)
                 $0.frame = CGRect(
                     x: self.setting.size.focusInfoPadding.x,
                     y: self.setting.size.focusInfoPadding.y + labelHeight * CGFloat(row),
@@ -697,7 +705,7 @@ extension CandleStickChartView {
             self.layers.focusInfoTextLayer.addSublayer($0)
         }
         let _ = VerticalCenterCATextLayer().then {
-            $0.string = String(format: "%.2f", candleStick.tradeVolume)
+            $0.string = String.insertComma(value: candleStick.tradeVolume)
             $0.frame = CGRect(
                 x: self.setting.size.focusInfoPadding.x,
                 y: self.setting.size.focusInfoPadding.y + labelHeight * 5.0,
