@@ -56,10 +56,12 @@ final class MainViewController: BaseViewController {
     }
 
     private func fetchInitialData() {
+        self.present(self.loadingAlert, animated: true, completion: nil)
         getTickerData(orderCurrency: "ALL", paymentCurrency: "KRW")
-        getTransactionData()
         self.loadingAlert.dismiss(animated: true) {
-            self.sortByDefaultOption()
+            self.sortByPopularity()
+            self.totalCoinListView.totalCoinList = self.totalCoinList
+            self.updateInterestedCoinList()
             self.fetchData()
         }
     }
@@ -263,17 +265,8 @@ final class MainViewController: BaseViewController {
         }
     }
 
-    private func sortByDefaultOption() {
-        self.totalCoinList.sort { $0.popularity < $1.popularity }
-        self.totalCoinListView.totalCoinList = self.totalCoinList
-        self.updateInterestedCoinList()
-    }
-
     private func sortByPopularity() {
-        self.present(self.loadingAlert, animated: true, completion: nil)
-        self.getTransactionData()
         self.totalCoinList.sort { $0.popularity < $1.popularity }
-        self.loadingAlert.dismiss(animated: true, completion: nil)
     }
 
     private func sortByName() {
@@ -296,8 +289,6 @@ final class MainViewController: BaseViewController {
     }
 
     private func getTickerData(orderCurrency: String, paymentCurrency: String) {
-        self.present(self.loadingAlert, animated: true, completion: nil)
-
         Task {
             do {
                 let tickerData = try await tickerAPIService.getTickerData(
@@ -321,6 +312,7 @@ final class MainViewController: BaseViewController {
                 print("clientError:\(String(describing: message))")
             }
         }
+        self.getTransactionData()
     }
     
     private func getTransactionData() {
@@ -347,6 +339,9 @@ final class MainViewController: BaseViewController {
                         latestTransaction: latestTransaction,
                         oldestTransaction: oldestTransaction
                     )
+
+                    print(findedCoin.coinName.rawValue, response.last?.transactionDate, response.first?.transactionDate)
+                    print(findedCoin.popularity)
                 }
             }
         }
@@ -423,7 +418,11 @@ extension MainViewController: HeaderViewDelegate {
     func sorted(by sortOption: SortOption) {
         switch sortOption {
         case .sortedBypopular:
-            self.sortByPopularity()
+            self.present(self.loadingAlert, animated: true, completion: nil)
+            self.getTransactionData()
+            self.loadingAlert.dismiss(animated: true) {
+                self.sortByPopularity()
+            }
         case .sortedByName:
             self.sortByName()
         case .sortedByChangeRate:

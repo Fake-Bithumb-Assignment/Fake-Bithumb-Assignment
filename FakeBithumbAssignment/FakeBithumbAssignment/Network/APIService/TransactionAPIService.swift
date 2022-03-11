@@ -24,18 +24,18 @@ struct TransactionAPIService {
     }
     
     func requestTransactionHistory(of orderCurrency: Coin) async -> [TransactionAPIResponse]? {
-            let url: String = "https://api.bithumb.com/public/transaction_history/\(String(describing: orderCurrency))"
-            let request: NetworkRequest = NetworkRequest(
-                url: url,
-                headers: nil,
-                reqBody: nil,
-                reqTimeout: nil,
-                httpMethod: .GET
-            )
-            do {
-                return try await apiService.request(request)
-            } catch {
-                return nil
-            }
+        let url: String = "https://api.bithumb.com/public/transaction_history/\(String(describing: orderCurrency))"
+        let request: NetworkRequest = NetworkRequest(
+            url: url,
+            headers: nil,
+            reqBody: nil,
+            reqTimeout: nil,
+            httpMethod: .GET
+        )
+        do {
+            return try await apiService.request(request)
+        } catch {
+            return nil
         }
+    }
 }

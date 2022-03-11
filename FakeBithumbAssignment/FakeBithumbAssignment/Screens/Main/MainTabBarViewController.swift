@@ -46,24 +46,25 @@ extension MainTabBarViewController: UITabBarControllerDelegate {
         _ tabBarController: UITabBarController,
         didSelect viewController: UIViewController
     ) {
-        let tabBarIndex = tabBarController.selectedIndex
-        let indexPath = IndexPath(row: 0, section: 0)
-        let navigationViewController = viewController as? UINavigationController
-
-        if tabBarIndex == 0 {
-            self.selectedTap = 0
-            let mainViewController = navigationViewController?.viewControllers[0] as? MainViewController
-            self.scrollToTop(mainViewController?.totalCoinListView.totalCoinListTableView, indexPath: indexPath)
-            self.scrollToTop(mainViewController?.interestedCoinListView.interestedCoinListTableView, indexPath: indexPath)
-        }
-
-        else if tabBarIndex == 1 {
-            if self.selectedTap == 1 {
-                let depositAndWithdrawalViewController = navigationViewController?.viewControllers[0] as? DepositAndWithdrawalViewController
-                self.scrollToTop(depositAndWithdrawalViewController?.tableView, indexPath: indexPath)
-            }
-
-            self.selectedTap = 1
-        }
+//        let tabBarIndex = tabBarController.selectedIndex
+//        let indexPath = IndexPath(row: 0, section: 0)
+//        let navigationViewController = viewController as? UINavigationController
+//
+//        if tabBarIndex == 0 {
+//            self.selectedTap = 0
+//            let mainViewController = navigationViewController?.viewControllers[0] as? MainViewController
+//
+//            self.scrollToTop(mainViewController?.totalCoinListView.totalCoinListTableView, indexPath: indexPath)
+//            self.scrollToTop(mainViewController?.interestedCoinListView.interestedCoinListTableView, indexPath: indexPath)
+//        }
+//
+//        else if tabBarIndex == 1 {
+//            if self.selectedTap == 1 {
+//                let depositAndWithdrawalViewController = navigationViewController?.viewControllers[0] as? DepositAndWithdrawalViewController
+//                self.scrollToTop(depositAndWithdrawalViewController?.tableView, indexPath: indexPath)
+//            }
+//
+//            self.selectedTap = 1
+//        }
     }
 }
