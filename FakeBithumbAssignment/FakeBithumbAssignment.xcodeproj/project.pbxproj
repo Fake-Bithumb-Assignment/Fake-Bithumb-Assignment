@@ -40,6 +40,7 @@
 		15564DC527CFC2C600BF9314 /* UIScrollView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DC427CFC2C600BF9314 /* UIScrollView+Extension.swift */; };
 		15639F9C27DB053E00765B36 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15639F9B27DB053E00765B36 /* MoreViewController.swift */; };
 		15639F9E27DB1A1900765B36 /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15639F9D27DB1A1900765B36 /* MoreView.swift */; };
+		15639FA027DB1D9E00765B36 /* MoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15639F9F27DB1D9E00765B36 /* MoreModel.swift */; };
 		156F484D27D9BDC3007A75D8 /* ContractPriceAndVolumeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156F484A27D9BDC3007A75D8 /* ContractPriceAndVolumeTableViewCell.swift */; };
 		156F484E27D9BDC3007A75D8 /* ContractTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156F484B27D9BDC3007A75D8 /* ContractTimeTableViewCell.swift */; };
 		156F484F27D9BDC3007A75D8 /* ContractTableHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156F484C27D9BDC3007A75D8 /* ContractTableHeaderViewCell.swift */; };
@@ -149,6 +150,7 @@
 		15564DC427CFC2C600BF9314 /* UIScrollView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extension.swift"; sourceTree = "<group>"; };
 		15639F9B27DB053E00765B36 /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		15639F9D27DB1A1900765B36 /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
+		15639F9F27DB1D9E00765B36 /* MoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreModel.swift; sourceTree = "<group>"; };
 		156F484A27D9BDC3007A75D8 /* ContractPriceAndVolumeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractPriceAndVolumeTableViewCell.swift; sourceTree = "<group>"; };
 		156F484B27D9BDC3007A75D8 /* ContractTimeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractTimeTableViewCell.swift; sourceTree = "<group>"; };
 		156F484C27D9BDC3007A75D8 /* ContractTableHeaderViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractTableHeaderViewCell.swift; sourceTree = "<group>"; };
@@ -349,6 +351,7 @@
 			children = (
 				15639F9B27DB053E00765B36 /* MoreViewController.swift */,
 				15639F9D27DB1A1900765B36 /* MoreView.swift */,
+				15639F9F27DB1D9E00765B36 /* MoreModel.swift */,
 			);
 			path = More;
 			sourceTree = "<group>";
@@ -826,6 +829,7 @@
 				FADFB53127D532280043AF0A /* CandleStickChartViewSetting.swift in Sources */,
 				FADFB53527D532820043AF0A /* CandleStick.swift in Sources */,
 				15564DBD27CF0D9000BF9314 /* UITableView+Extension.swift in Sources */,
+				15639FA027DB1D9E00765B36 /* MoreModel.swift in Sources */,
 				43F66EAF27D1CD0F004C9B06 /* Notification.Name+Extension.swift in Sources */,
 				1504F73427C6339D00A5EC6C /* HttpService.swift in Sources */,
 				156F484D27D9BDC3007A75D8 /* ContractPriceAndVolumeTableViewCell.swift in Sources */,
