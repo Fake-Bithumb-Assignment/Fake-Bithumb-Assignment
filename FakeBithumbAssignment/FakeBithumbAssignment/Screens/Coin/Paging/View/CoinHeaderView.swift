@@ -89,15 +89,17 @@ final class CoinHeaderView: UIView {
     }
     
     private func setLabelColor(data: CoinHeaderModel) {
-        guard let fluctateRate = Int(data.fluctateRate) else { return }
+        guard let fluctateRate = Double(data.fluctateRate) else { return }
         if fluctateRate > 0 {
             self.currentPriceLabel.textColor = UIColor(named: "up")
             self.fluctateLabel.textColor = UIColor(named: "up")
             self.fluctateRateLabel.textColor = UIColor(named: "up")
+            self.fluctateImageView.image = UIImage(named: "up")
         } else {
             self.currentPriceLabel.textColor = UIColor(named: "down")
             self.fluctateLabel.textColor = UIColor(named: "down")
             self.fluctateRateLabel.textColor = UIColor(named: "down")
+            self.fluctateImageView.image = UIImage(named: "down")
         }
     }
 }
