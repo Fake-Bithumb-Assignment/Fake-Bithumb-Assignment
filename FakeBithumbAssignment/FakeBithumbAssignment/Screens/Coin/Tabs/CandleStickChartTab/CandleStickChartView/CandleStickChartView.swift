@@ -473,7 +473,7 @@ extension CandleStickChartView {
                 $0.contentsScale = UIScreen.main.scale
                 $0.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
                 $0.fontSize = self.setting.size.defaultFontSize
-                $0.string = String.insertComma(value: value)
+                $0.string = String.insertComma(value: Int(value))
             }
             self.layers.valueLayer.addSublayer(thornLineLayer)
             self.layers.valueLayer.addSublayer(textLayer)
@@ -597,7 +597,7 @@ extension CandleStickChartView {
             $0.contentsScale = UIScreen.main.scale
             $0.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
             $0.fontSize = self.setting.size.defaultFontSize
-            $0.string = String.insertComma(value: value)
+            $0.string = String.insertComma(value: Int(value))
             self.layers.focusValueLayer.addSublayer($0)
         }
     }
