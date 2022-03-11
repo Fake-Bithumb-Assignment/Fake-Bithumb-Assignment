@@ -33,8 +33,10 @@ final class MainViewController: BaseViewController {
         environment: .development
     )
 
-    private let transactionAPIService = TransactionAPIService(apiService: HttpService(),
-                                                              environment: .development)
+    private let transactionAPIService = TransactionAPIService(
+        apiService: HttpService(),
+        environment: .development
+    )
 
     private let loadingAlert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
 
@@ -44,7 +46,6 @@ final class MainViewController: BaseViewController {
         super.viewDidLoad()
         fetchInitialData()
         setUpViews()
-        setUpNotification()
         setUpSearchClearButton()
     }
 
@@ -394,15 +395,6 @@ final class MainViewController: BaseViewController {
         }
     }
 
-    private func setUpNotification() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
-    }
-
     private func setUpSearchClearButton() {
         if let searchTextField = self.headerView.searchController.searchBar.value(
             forKey: "searchField"
@@ -418,14 +410,10 @@ final class MainViewController: BaseViewController {
 
     // MARK: - @objc
 
-    @objc private func keyboardWillHide() {
-        self.headerView.searchController.dismiss(animated: true, completion: nil)
-    }
-
     @objc private func clearButtonClicked() {
+        self.headerView.searchController.dismiss(animated: true, completion: nil)
         totalCoinListView.totalCoinList = self.totalCoinList
         updateInterestedCoinList()
-        keyboardWillHide()
     }
 }
 
