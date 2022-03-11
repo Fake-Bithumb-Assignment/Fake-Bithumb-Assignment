@@ -460,7 +460,7 @@ extension CandleStickChartView {
                 $0.contentsScale = UIScreen.main.scale
                 $0.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
                 $0.fontSize = self.setting.size.defaultFontSize
-                $0.string = self.valueToString(of: value)
+                $0.string = String.insertComma(value: value)
             }
             self.layers.valueLayer.addSublayer(thornLineLayer)
             self.layers.valueLayer.addSublayer(textLayer)
@@ -473,11 +473,6 @@ extension CandleStickChartView {
             )
             self.layers.horizontalGridLayer.addSublayer(gridLayer)
         }
-    }
-    
-    /// 값을 스트링으로 바꿔주는 메소드
-    private func valueToString(of value: Double) -> String {
-        return String(Int(value))
     }
 }
 
@@ -589,7 +584,7 @@ extension CandleStickChartView {
             $0.contentsScale = UIScreen.main.scale
             $0.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
             $0.fontSize = self.setting.size.defaultFontSize
-            $0.string = self.valueToString(of: value)
+            $0.string = String.insertComma(value: value)
             self.layers.focusValueLayer.addSublayer($0)
         }
     }
@@ -663,7 +658,7 @@ extension CandleStickChartView {
                 self.layers.focusInfoTextLayer.addSublayer($0)
             }
             let _ = VerticalCenterCATextLayer().then {
-                $0.string = String(value)
+                $0.string = String.insertComma(value: value)
                 $0.frame = CGRect(
                     x: self.setting.size.focusInfoPadding.x,
                     y: self.setting.size.focusInfoPadding.y + labelHeight * CGFloat(row),
@@ -697,7 +692,7 @@ extension CandleStickChartView {
             self.layers.focusInfoTextLayer.addSublayer($0)
         }
         let _ = VerticalCenterCATextLayer().then {
-            $0.string = String(format: "%.2f", candleStick.tradeVolume)
+            $0.string = String.insertComma(value: candleStick.tradeVolume)
             $0.frame = CGRect(
                 x: self.setting.size.focusInfoPadding.x,
                 y: self.setting.size.focusInfoPadding.y + labelHeight * 5.0,
