@@ -21,6 +21,7 @@ class DepositAndWithdrawalTableViewCell: BaseTableViewCell {
     private let coinKoreanLabel: UILabel = UILabel().then {
         $0.textColor = UIColor(named: "primaryBlack")
         $0.textAlignment = .left
+        $0.numberOfLines = 0
         $0.font = UIFont.preferredFont(forTextStyle: .subheadline)
     }
     private let coinEnglishLabel: UILabel = UILabel().then {

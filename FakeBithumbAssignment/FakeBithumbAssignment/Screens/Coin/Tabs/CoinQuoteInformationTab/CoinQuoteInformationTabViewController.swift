@@ -197,20 +197,21 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
     private func fetchFromSocket() {
         self.btsocketAPIService.subscribeOrderBook(
             orderCurrency: [self.orderCurrenty],
-            paymentCurrency: .krw) {
-                $0.content.list.forEach { response in
-                    let newQuote: Quote = Quote(
-                        price: response.price,
-                        quantity: response.quantity
-                    )
-                    switch response.orderType {
-                    case .ask:
-                        self.askQuotes[newQuote.price] = newQuote
-                    case .bid:
-                        self.bidQuotes[newQuote.price] = newQuote
-                    }
+            paymentCurrency: .krw
+        ) {
+            $0.content.list.forEach { response in
+                let newQuote: Quote = Quote(
+                    price: response.price,
+                    quantity: response.quantity
+                )
+                switch response.orderType {
+                case .ask:
+                    self.askQuotes[newQuote.price] = newQuote
+                case .bid:
+                    self.bidQuotes[newQuote.price] = newQuote
                 }
             }
+        }
     }
     
     private func fetchTicker() {
