@@ -33,19 +33,29 @@ final class CoinViewController: BaseViewController {
     let graphButton = UIButton().then {
         $0.setTitle("차트", for: .normal)
         $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .preferredFont(forTextStyle: .headline)
     }
     
     let contractDetailsButton = UIButton().then {
         $0.setTitle("시세", for: .normal)
         $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .preferredFont(forTextStyle: .headline)
     }
     
     private let indicatorView = UIView().then {
         $0.backgroundColor = UIColor(named: "primaryBlack")
     }
     
-    private let starBarButton = UIBarButtonItem()
-    private let arrowBarButton = UIBarButtonItem()
+    private var starBarButton = UIBarButtonItem()
+    private var arrowBarButton = UIBarButtonItem()
+    private let starButton = UIButton().then {
+        guard let starImage: UIImage = UIImage(named: "notFillStar") else { return }
+        $0.setImage(starImage, for: .normal)
+    }
+    private let arrowButton = UIButton().then {
+        guard let starImage: UIImage = UIImage(named: "arrow") else { return }
+        $0.setImage(starImage, for: .normal)
+    }
     
     private let pageView = UIView().then {
         $0.backgroundColor = .white
@@ -62,6 +72,7 @@ final class CoinViewController: BaseViewController {
         self.getTickerData(orderCurrency: "BTC", paymentCurrency: "KRW")
         self.getWebsocketTickerData(orderCurrency: "BTC")
         self.patchHeaderViewData()
+        self.patchStarButton()
     }
     
     override func render() {
@@ -116,19 +127,13 @@ final class CoinViewController: BaseViewController {
     private func configNavigation() {
         self.navigationItem.titleView = CoinNavigationTitleView()
         
-        guard let starImage: UIImage = UIImage(named: "notFillStar") else { return }
-        let starButton = UIBarButtonItem(image: starImage,
-                                         style: .plain,
-                                         target: nil,
-                                         action: nil)
-        self.navigationItem.rightBarButtonItem = starButton
+        self.starBarButton = UIBarButtonItem(customView: self.starButton)
+        self.navigationItem.rightBarButtonItem = starBarButton
+        self.starButton.addTarget(self, action: #selector(tapStarButton), for: .touchUpInside)
         
-        guard let arrowImage: UIImage = UIImage(named: "arrow") else { return }
-        let arrowButton = UIBarButtonItem(image: arrowImage,
-                                         style: .plain,
-                                         target: nil,
-                                         action: nil)
-        self.navigationItem.leftBarButtonItem = arrowButton
+        self.arrowBarButton = UIBarButtonItem(customView: self.arrowButton)
+        self.navigationItem.leftBarButtonItem = arrowBarButton
+        self.arrowButton.addTarget(self, action: #selector(self.tapBackButton), for: .touchUpInside)
     }
     
     private func setPageView() {
@@ -198,6 +203,15 @@ final class CoinViewController: BaseViewController {
                                                         fluctateRate: "\(data.content.chgRate)"))
     }
     
+    private func patchStarButton() {
+        if let alreadyInterestedCoin = UserDefaults.standard.string(forKey: "BTC") {
+            self.starButton.setImage(UIImage(named: "fillStar"), for: .normal)
+        }
+        else {
+            self.starButton.setImage(UIImage(named: "notFillStar"), for: .normal)
+        }
+    }
+    
     
     // MARK: - @objc
     
@@ -214,5 +228,20 @@ final class CoinViewController: BaseViewController {
     @objc private func tapContractDetailsButton() {
         self.setBottomBorder(to: self.contractDetailsButton)
         self.pageViewController?.setTabViewController(to: .contractDetails)
+    }
+    
+    @objc private func tapBackButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func tapStarButton() {
+        if let alreadyInterestedCoin = UserDefaults.standard.string(forKey: "BTC") {
+            UserDefaults.standard.removeObject(forKey: alreadyInterestedCoin)
+            self.starButton.setImage(UIImage(named: "notFillStar"), for: .normal)
+        }
+        else {
+            UserDefaults.standard.set("BTC", forKey: "BTC")
+            self.starButton.setImage(UIImage(named: "fillStar"), for: .normal)
+        }
     }
 }
