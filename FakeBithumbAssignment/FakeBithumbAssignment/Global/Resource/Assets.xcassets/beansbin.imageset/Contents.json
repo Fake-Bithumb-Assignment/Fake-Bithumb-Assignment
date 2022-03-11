@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "cil_chart-line@1x.png",
+      "filename" : "beansbin.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "cil_chart-line@2x.png",
+      "filename" : "beansbin-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "cil_chart-line@3x.png",
+      "filename" : "beansbin-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
@@ -19,8 +19,5 @@
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "template-rendering-intent" : "original"
   }
 }
