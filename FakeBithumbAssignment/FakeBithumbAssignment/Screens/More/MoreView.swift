@@ -32,8 +32,18 @@ final class MoreView: UIView {
     }
     
     private let commentLabel = UILabel().then {
-        $0.font = .preferredFont(forTextStyle: .subheadline)
-        $0.textColor = UIColor.darkGray
+        let matrix = CGAffineTransform(a: 1,
+                                       b: 0,
+                                       c: CGFloat(tanf(12 * 3.141592653589793 / 180 )),
+                                       d: 1,
+                                       tx: 0,
+                                       ty: 0)
+        let descriptor = UIFontDescriptor.init(name: "AppleSDGothicNeo-Regular",
+                                                 matrix: matrix)
+        $0.font = UIFont(descriptor: descriptor, size: 14)
+        
+        $0.textColor = .darkGray
+        $0.numberOfLines = 0
     }
     
     
@@ -42,7 +52,6 @@ final class MoreView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.render()
-        self.configUI()
     }
     
     @available(*, unavailable)
@@ -65,18 +74,19 @@ final class MoreView: UIView {
         }
         
         self.mbtiLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.nameLabel.snp.bottom).offset(5)
+            make.top.equalTo(self.nameLabel.snp.bottom).offset(3)
             make.leading.equalTo(self.characterImageView.snp.trailing).offset(15)
         }
         
         self.githubLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.mbtiLabel.snp.bottom).offset(5)
+            make.top.equalTo(self.mbtiLabel.snp.bottom).offset(0)
             make.leading.equalTo(self.characterImageView.snp.trailing).offset(15)
         }
         
         self.commentLabel.snp.makeConstraints { make in
             make.top.equalTo(self.githubLabel.snp.bottom).offset(10)
             make.leading.equalTo(self.characterImageView.snp.trailing).offset(15)
+            make.trailing.equalTo(self.snp.trailing).inset(10)
         }
     }
     

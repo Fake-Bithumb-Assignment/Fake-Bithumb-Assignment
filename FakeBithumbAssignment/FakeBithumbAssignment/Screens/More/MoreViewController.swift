@@ -15,7 +15,7 @@ final class MoreViewController: BaseViewController {
                              name: "콩이(beansbin)",
                              mbti: "INTP",
                              github: "https://github.com/beansbin",
-                             comment: "안녕하세요")
+                             comment: "지식을 경험으로,\n그리고 경험을 공유로 이끌어나가는 개발자입니다.")
     
     let choony = MoreModel(characterImage: UIImage(named: "choony") ?? UIImage(),
                              name: "추니(choony)",
