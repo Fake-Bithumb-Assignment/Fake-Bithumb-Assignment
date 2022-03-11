@@ -38,6 +38,8 @@
 		15564DC127CF7C0C00BF9314 /* CoinFirstInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DC027CF7C0C00BF9314 /* CoinFirstInformationView.swift */; };
 		15564DC327CF7C1C00BF9314 /* CoinSecondInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DC227CF7C1C00BF9314 /* CoinSecondInformationView.swift */; };
 		15564DC527CFC2C600BF9314 /* UIScrollView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15564DC427CFC2C600BF9314 /* UIScrollView+Extension.swift */; };
+		15639F9C27DB053E00765B36 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15639F9B27DB053E00765B36 /* MoreViewController.swift */; };
+		15639F9E27DB1A1900765B36 /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15639F9D27DB1A1900765B36 /* MoreView.swift */; };
 		156F484D27D9BDC3007A75D8 /* ContractPriceAndVolumeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156F484A27D9BDC3007A75D8 /* ContractPriceAndVolumeTableViewCell.swift */; };
 		156F484E27D9BDC3007A75D8 /* ContractTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156F484B27D9BDC3007A75D8 /* ContractTimeTableViewCell.swift */; };
 		156F484F27D9BDC3007A75D8 /* ContractTableHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156F484C27D9BDC3007A75D8 /* ContractTableHeaderViewCell.swift */; };
@@ -145,6 +147,8 @@
 		15564DC027CF7C0C00BF9314 /* CoinFirstInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinFirstInformationView.swift; sourceTree = "<group>"; };
 		15564DC227CF7C1C00BF9314 /* CoinSecondInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinSecondInformationView.swift; sourceTree = "<group>"; };
 		15564DC427CFC2C600BF9314 /* UIScrollView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extension.swift"; sourceTree = "<group>"; };
+		15639F9B27DB053E00765B36 /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
+		15639F9D27DB1A1900765B36 /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
 		156F484A27D9BDC3007A75D8 /* ContractPriceAndVolumeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractPriceAndVolumeTableViewCell.swift; sourceTree = "<group>"; };
 		156F484B27D9BDC3007A75D8 /* ContractTimeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractTimeTableViewCell.swift; sourceTree = "<group>"; };
 		156F484C27D9BDC3007A75D8 /* ContractTableHeaderViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractTableHeaderViewCell.swift; sourceTree = "<group>"; };
@@ -340,6 +344,15 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		15639F9A27DB04DC00765B36 /* More */ = {
+			isa = PBXGroup;
+			children = (
+				15639F9B27DB053E00765B36 /* MoreViewController.swift */,
+				15639F9D27DB1A1900765B36 /* MoreView.swift */,
+			);
+			path = More;
+			sourceTree = "<group>";
+		};
 		156F484927D9BDA1007A75D8 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -418,6 +431,7 @@
 				15BE7A6A27C5DC5B0007FB2F /* Main */,
 				15BE7A6B27C5DC9E0007FB2F /* Coin */,
 				15BE7A6C27C5E6310007FB2F /* DepositAndWithdrawal */,
+				15639F9A27DB04DC00765B36 /* More */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -818,6 +832,7 @@
 				FA79223327C63F3700D1246A /* WebSocketService.swift in Sources */,
 				FA4C65F027D2958A00786469 /* CandleStickChartView.swift in Sources */,
 				FAC7F96127C768B5001E11DA /* JSONDecoder+Extension.swift in Sources */,
+				15639F9E27DB1A1900765B36 /* MoreView.swift in Sources */,
 				FADFB52C27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift in Sources */,
 				1504F73427C6339D00A5EC6C /* HttpService.swift in Sources */,
 				43CACF7B27D26946005EB9B7 /* TickerEndPoint.swift in Sources */,
@@ -856,6 +871,7 @@
 				43B3271B27D5C0CF00B7243D /* TransactionAPIResponse.swift in Sources */,
 				43F66EB727D1E52D004C9B06 /* AllTickerResponse.swift in Sources */,
 				43CACF7927D268EC005EB9B7 /* TickerAPIService.swift in Sources */,
+				15639F9C27DB053E00765B36 /* MoreViewController.swift in Sources */,
 				4320861527CE0473002CFDBF /* Category.swift in Sources */,
 				FA4C65F727D295A900786469 /* BTCandleStick+CoreDataClass.swift in Sources */,
 				1535B48D27D1E59100413927 /* OrderbookAPIResponse.swift in Sources */,
