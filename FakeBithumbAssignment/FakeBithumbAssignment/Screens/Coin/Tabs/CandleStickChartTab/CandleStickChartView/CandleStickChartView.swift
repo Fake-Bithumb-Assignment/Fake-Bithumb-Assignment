@@ -345,6 +345,19 @@ extension CandleStickChartView {
             guard let tradePriceYCoord: CGFloat = self.getYCoord(of: candleStick.tradePrice) else {
                 return
             }
+            guard candleStick.highPrice != candleStick.lowPrice else {
+                let lineLayer: CALayer = CALayer().then {
+                    $0.frame = CGRect(
+                        x: xCoord - self.setting.size.candleStickWidth / 2,
+                        y: highPriceYCoord - self.setting.size.candleStickLineWidth / 2,
+                        width: self.setting.size.candleStickWidth,
+                        height: self.setting.size.candleStickLineWidth
+                    )
+                    $0.backgroundColor = self.setting.color.redColor
+                }
+                self.layers.dataLayer.addSublayer(lineLayer)
+                return
+            }
             let lineLayer: CALayer = CALayer().then {
                 $0.frame = CGRect(
                     x: xCoord - self.setting.size.candleStickLineWidth / 2,
