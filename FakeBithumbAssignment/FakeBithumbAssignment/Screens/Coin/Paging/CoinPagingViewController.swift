@@ -17,6 +17,13 @@ enum TabView: Int{
 final class CoinPagingViewController: UIPageViewController {
     
     // MARK: - Instance Property
+    
+    var coin: Coin = .BTC {
+        didSet {
+            print(self.coin)
+        }
+    }
+    
     private var pages : [TabView: UIViewController] = [
         .quote: CoinQuoteInformationTabViewController(),
         .graph: CandleStickChartTabViewController(),
@@ -58,7 +65,8 @@ final class CoinPagingViewController: UIPageViewController {
     }
     
     func setTabViewController(to type: TabView) {
-        guard let page = pages[type] else { return }
+        guard let page: UIViewController = pages[type] else { return }
+        (page as? CoinAcceptable)?.accept(of: self.coin)
         self.setViewControllers([page], direction: .forward, animated: false, completion: nil)
     }
 }

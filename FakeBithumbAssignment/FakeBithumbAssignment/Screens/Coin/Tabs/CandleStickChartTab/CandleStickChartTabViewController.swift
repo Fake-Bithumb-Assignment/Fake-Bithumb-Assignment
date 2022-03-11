@@ -7,13 +7,13 @@
 
 import UIKit
 
-class CandleStickChartTabViewController: BaseViewController {
+class CandleStickChartTabViewController: BaseViewController, CoinAcceptable {
     
     // MARK: - Instance Property
 
     private let btCandleStickRepository: BTCandleStickRepository = BTCandleStickRepository()
     private let btCandleStickApiService: BTCandleStickAPIService = BTCandleStickAPIService()
-    private var orderCurrency: String? = "BTC"
+    private var orderCurrency: Coin = .BTC
     private var selectedIntervalButton: IntervalButton?
     private let intervalButtons: [IntervalButton] = [
         IntervalButton(title: "1분", interval: ._1m),
@@ -42,13 +42,7 @@ class CandleStickChartTabViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.refershTimer = Timer.scheduledTimer(
-            timeInterval: 1.0,
-            target: self,
-            selector: #selector(refreshData),
-            userInfo: nil,
-            repeats: true
-        )
+        self.setTimer()
     }
 
     override func viewDidLoad() {
@@ -65,13 +59,23 @@ class CandleStickChartTabViewController: BaseViewController {
     
     // MARK: - custom func
     
-    func setOrderCurrency(of orderCurrency: String) {
-        self.orderCurrency = orderCurrency
+    func setTimer() {
+        self.refershTimer = Timer.scheduledTimer(
+            timeInterval: 1.0,
+            target: self,
+            selector: #selector(refreshData),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+    
+    func accept(of coin: Coin) {
+        self.orderCurrency = coin
         self.candleSticks = []
         self.candleStickChartView.reset()
         Task { await self.fetchInitialData() }
     }
-    
+        
     override func configUI() {
         self.view.backgroundColor = UIColor.white
         let buttonStackView = UIStackView(arrangedSubviews: self.intervalButtons).then {
@@ -108,23 +112,23 @@ extension CandleStickChartTabViewController {
         guard let selectedButton: IntervalButton = sender as? IntervalButton else {
             return
         }
+        self.refershTimer?.invalidate()
         self.candleStickChartView.reset()
         self.candleSticks = []
         self.selectedIntervalButton = selectedButton
         self.intervalButtons.forEach { $0.deselect() }
         selectedButton.select()
         self.refreshData()
+        self.setTimer()
     }
 
     /// rest api로 데이터 받아오고, Core Data에 있는것과 연속되도록 합쳐주는 메소드.
     /// 연속되지 않을 경우 rest api의 값만 사용함.
     private func fetchInitialData() async {
-        guard let orderCurrency: String = self.orderCurrency else {
-            return
-        }
         guard let selectedIntervalButton = self.selectedIntervalButton else {
             return
         }
+        let orderCurrency: String = String(describing: self.orderCurrency)
         let fromAPI: [BTCandleStickResponse] = await self.btCandleStickApiService.requestCandleStick(
             of: orderCurrency, interval: selectedIntervalButton.interval
         )
@@ -138,12 +142,10 @@ extension CandleStickChartTabViewController {
     /// 새로운 데이터를 받아오는 메소드.
     /// rest api로 새로운 데이터 받아온 뒤에 현재 쓰이고 있는 데이터와 합쳐준다.
     @objc private func refreshData() {
-        guard let orderCurrency: String = self.orderCurrency else {
-            return
-        }
         guard let selectedIntervalButton = self.selectedIntervalButton else {
             return
         }
+        let orderCurrency: String = String(describing: self.orderCurrency)
         Task {
             let fromAPI: [BTCandleStickResponse] = await self.btCandleStickApiService.requestCandleStick(
                 of: orderCurrency,
@@ -192,12 +194,10 @@ extension CandleStickChartTabViewController {
     
     /// api response -> Core Data entity model로 변환해주는 메소드
     private func transform(from apiData: [BTCandleStickResponse]) -> [BTCandleStick] {
-        guard let orderCurrency: String = self.orderCurrency else {
-            return []
-        }
         guard let selectedIntervalButton = self.selectedIntervalButton else {
             return []
         }
+        let orderCurrency: String = String(describing: self.orderCurrency)
         return apiData.map { candleStickResponse in
             guard let newObject = self.btCandleStickRepository.makeNewBTCandleStick() else {
                 return BTCandleStick()

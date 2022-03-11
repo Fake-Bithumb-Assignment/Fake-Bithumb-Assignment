@@ -85,6 +85,7 @@
 		FA611B0E27D91F0700C65218 /* GraphTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA611B0D27D91F0700C65218 /* GraphTableView.swift */; };
 		FA611B1027D91F1A00C65218 /* GraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA611B0F27D91F1A00C65218 /* GraphTableViewCell.swift */; };
 		FA611B1227D91F2F00C65218 /* OrderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA611B1127D91F2F00C65218 /* OrderType.swift */; };
+		FA611B1427DA926D00C65218 /* CoinAcceptable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA611B1327DA926D00C65218 /* CoinAcceptable.swift */; };
 		FA79223327C63F3700D1246A /* WebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA79223227C63F3700D1246A /* WebSocketService.swift */; };
 		FAA2E36827CBB7D5003E3184 /* CoreAnimation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2E36727CBB7D5003E3184 /* CoreAnimation+Extension.swift */; };
 		FABFF57D27CFFD83000B65E6 /* BTCandleStickRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABFF57C27CFFD83000B65E6 /* BTCandleStickRepository.swift */; };
@@ -198,6 +199,7 @@
 		FA611B0D27D91F0700C65218 /* GraphTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTableView.swift; sourceTree = "<group>"; };
 		FA611B0F27D91F1A00C65218 /* GraphTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTableViewCell.swift; sourceTree = "<group>"; };
 		FA611B1127D91F2F00C65218 /* OrderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderType.swift; sourceTree = "<group>"; };
+		FA611B1327DA926D00C65218 /* CoinAcceptable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinAcceptable.swift; sourceTree = "<group>"; };
 		FA79223227C63F3700D1246A /* WebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketService.swift; sourceTree = "<group>"; };
 		FAA2E36727CBB7D5003E3184 /* CoreAnimation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreAnimation+Extension.swift"; sourceTree = "<group>"; };
 		FABFF57C27CFFD83000B65E6 /* BTCandleStickRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTCandleStickRepository.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 				15BE7A6D27C5E64B0007FB2F /* CoinQuoteInformationTab */,
 				15BE7A6E27C5E6620007FB2F /* CandleStickChartTab */,
 				15BE7A6F27C5E6AB0007FB2F /* CoinContractDetailsTab */,
+				FA611B1327DA926D00C65218 /* CoinAcceptable.swift */,
 			);
 			path = Tabs;
 			sourceTree = "<group>";
@@ -884,6 +887,7 @@
 				1504F6C827C5F40300A5EC6C /* BaseTableViewCell.swift in Sources */,
 				1504F72927C631C100A5EC6C /* HttpEnvironment.swift in Sources */,
 				FA611B1227D91F2F00C65218 /* OrderType.swift in Sources */,
+				FA611B1427DA926D00C65218 /* CoinAcceptable.swift in Sources */,
 				1504F72F27C6324600A5EC6C /* NetworkRequest.swift in Sources */,
 				FABFF57D27CFFD83000B65E6 /* BTCandleStickRepository.swift in Sources */,
 				4320861727CE0615002CFDBF /* Section.swift in Sources */,
