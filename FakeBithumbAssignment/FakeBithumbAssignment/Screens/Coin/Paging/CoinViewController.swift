@@ -27,6 +27,7 @@ final class CoinViewController: BaseViewController {
     let quoteButton = UIButton().then {
         $0.setTitle("호가", for: .normal)
         $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .preferredFont(forTextStyle: .headline)
     }
     
     let graphButton = UIButton().then {
@@ -40,7 +41,7 @@ final class CoinViewController: BaseViewController {
     }
     
     private let indicatorView = UIView().then {
-        $0.backgroundColor = .black
+        $0.backgroundColor = UIColor(named: "primaryBlack")
     }
     
     private let starBarButton = UIBarButtonItem()
@@ -122,7 +123,7 @@ final class CoinViewController: BaseViewController {
                                          action: nil)
         self.navigationItem.rightBarButtonItem = starButton
         
-        guard var arrowImage: UIImage = UIImage(named: "arrow") else { return }
+        guard let arrowImage: UIImage = UIImage(named: "arrow") else { return }
         let arrowButton = UIBarButtonItem(image: arrowImage,
                                          style: .plain,
                                          target: nil,
@@ -146,8 +147,10 @@ final class CoinViewController: BaseViewController {
     private func setBottomBorder(to button: UIButton) {
         self.indicatorView.removeFromSuperview()
         button.addSubview(indicatorView)
-        self.indicatorView.snp.makeConstraints { make in
-            make.leading.width.bottom.equalToSuperview()
+        indicatorView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview().inset(30)
             make.height.equalTo(3)
         }
     }

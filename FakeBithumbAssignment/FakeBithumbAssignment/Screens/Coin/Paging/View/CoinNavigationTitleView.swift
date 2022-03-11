@@ -17,7 +17,7 @@ final class CoinNavigationTitleView: UIView {
     let coinLabel = UILabel().then {
         $0.text = "비트코인"
         $0.textColor = .black
-        $0.font = .preferredFont(forTextStyle: .subheadline)
+        $0.font = .preferredFont(forTextStyle: .headline)
     }
     
     let subCoinLabel = UILabel().then {
