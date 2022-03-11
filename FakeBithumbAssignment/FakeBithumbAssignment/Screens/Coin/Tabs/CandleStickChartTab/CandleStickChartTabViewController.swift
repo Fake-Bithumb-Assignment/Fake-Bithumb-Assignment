@@ -42,13 +42,7 @@ class CandleStickChartTabViewController: BaseViewController, CoinAcceptable {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.refershTimer = Timer.scheduledTimer(
-            timeInterval: 1.0,
-            target: self,
-            selector: #selector(refreshData),
-            userInfo: nil,
-            repeats: true
-        )
+        self.setTimer()
     }
 
     override func viewDidLoad() {
@@ -64,6 +58,16 @@ class CandleStickChartTabViewController: BaseViewController, CoinAcceptable {
     }
     
     // MARK: - custom func
+    
+    func setTimer() {
+        self.refershTimer = Timer.scheduledTimer(
+            timeInterval: 1.0,
+            target: self,
+            selector: #selector(refreshData),
+            userInfo: nil,
+            repeats: true
+        )
+    }
     
     func accept(of coin: Coin) {
         self.orderCurrency = coin
@@ -108,12 +112,14 @@ extension CandleStickChartTabViewController {
         guard let selectedButton: IntervalButton = sender as? IntervalButton else {
             return
         }
+        self.refershTimer?.invalidate()
         self.candleStickChartView.reset()
         self.candleSticks = []
         self.selectedIntervalButton = selectedButton
         self.intervalButtons.forEach { $0.deselect() }
         selectedButton.select()
         self.refreshData()
+        self.setTimer()
     }
 
     /// rest api로 데이터 받아오고, Core Data에 있는것과 연속되도록 합쳐주는 메소드.
