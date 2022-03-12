@@ -34,7 +34,8 @@ final class MainViewController: BaseViewController {
 
     private lazy var searchedCoin: [CoinData] = []
 
-    private var btsocketAPIService = BTSocketAPIService()
+    private var tickerMidWebSocket = BTSocketAPIService()
+    private var ticker24WebSocket = BTSocketAPIService()
 
     private let tickerAPIService = TickerAPIService(
         apiService: HttpService(),
@@ -52,19 +53,22 @@ final class MainViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchInitialData()
         setUpViews()
         setUpSearchClearButton()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.fetchData()
+        self.fetchTickerAPIData(orderCurrency: "ALL", paymentCurrency: "KRW")
+        self.fetchTransactionAPIData()
+        self.fetchTickerSocketData()
+        self.fetchTickerAmountSocketData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.btsocketAPIService.disconnectAll()
+        self.ticker24WebSocket.disconnectAll()
+        self.tickerMidWebSocket.disconnectAll()
     }
 
     // MARK: - custom func
@@ -72,29 +76,8 @@ final class MainViewController: BaseViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.headerView.searchController.dismiss(animated: true, completion: nil)
     }
-
-    private func fetchInitialData() {
-        self.present(self.loadingAlert, animated: true, completion: nil)
-        self.getTickerData(orderCurrency: "ALL", paymentCurrency: "KRW")
-        self.getTransactionData()
-        // 이타이밍에 아무것도 없음
-        self.loadingAlert.dismiss(animated: true) {
-            self.sortByPopularity()
-        }
-    }
-
-    private func fetchData() {
-        DispatchQueue.global().async {
-            self.fetchCurrentPrice()
-            self.fetchChangeRateAndValue()
-        }
-    }
     
     override func render() {
-        configureUI()
-    }
-
-    private func configureUI() {
         configureStackViews()
         configureIndicator()
         configureNavigation()
@@ -112,8 +95,8 @@ final class MainViewController: BaseViewController {
         }
     }
 
-    private func fetchChangeRateAndValue() {
-        btsocketAPIService.subscribeTicker(
+    private func fetchTickerAmountSocketData() {
+        ticker24WebSocket.subscribeTicker(
             orderCurrency: Array(Coin.allCases),
             paymentCurrency: .krw, tickTypes: [._24h]
         ) { response in
@@ -122,7 +105,7 @@ final class MainViewController: BaseViewController {
             }
 
             DispatchQueue.main.async {
-                self.updateCurrentChangeRateAndValue(coin: coin, data: response)
+                self.updateTickerAmount(coin: coin, data: response)
             }
         }
     }
@@ -131,23 +114,22 @@ final class MainViewController: BaseViewController {
         self.navigationItem.titleView = NavigationLogoTitleView()
     }
     
-    private func fetchCurrentPrice() {
-        btsocketAPIService.subscribeTransaction(
+    private func fetchTickerSocketData() {
+        tickerMidWebSocket.subscribeTicker(
             orderCurrency: Array(Coin.allCases),
-            paymentCurrency: .krw
+            paymentCurrency: .krw, tickTypes: [.mid]
         ) { response in
-            guard let coin = self.parseSymbol(symbol: response.content.list.first?.symbol)
-            else {
+            guard let coin = self.parseSymbol(symbol: response.content.symbol) else {
                 return
             }
 
             DispatchQueue.main.async {
-                self.updateCurrentPrice(coin: coin, data: response)
+                self.updateTicker(coin: coin, data: response)
             }
         }
     }
 
-    private func updateCurrentChangeRateAndValue(
+    private func updateTickerAmount(
         coin: Coin,
         data: BTSocketAPIResponse.TickerResponse
     ) {
@@ -158,17 +140,11 @@ final class MainViewController: BaseViewController {
             return
         }
 
-        let changeAmount = data.content.chgAmt
-        receivedCoinData.changeAmount = String.insertComma(value: changeAmount)
-
-        let currentChangeRate = data.content.chgRate
-        receivedCoinData.changeRate = String.insertComma(value: currentChangeRate)
-
         let currentTradeValue = Int(data.content.value) / 1000000
         receivedCoinData.tradeValue = String.insertComma(value: Double(currentTradeValue))
     }
 
-    private func updateCurrentPrice(coin: Coin, data: BTSocketAPIResponse.TransactionResponse) {
+    private func updateTicker(coin: Coin, data: BTSocketAPIResponse.TickerResponse) {
         guard let receivedCoinData = self.totalCoinList.first(
             where: { $0.coinName.rawValue == coin.rawValue }
         )
@@ -176,10 +152,13 @@ final class MainViewController: BaseViewController {
             return
         }
 
-        guard let currentPrice = data.content.list.first?.contPrice else {
-            return
-        }
+        let currentPrice = data.content.closePrice
+        let currentChangeRate = data.content.chgRate
+        let changeAmount = data.content.chgAmt
 
+        receivedCoinData.changeAmount = String.insertComma(value: changeAmount)
+        receivedCoinData.changeRate = String.insertComma(value: currentChangeRate)
+        
         if floor(currentPrice) == currentPrice {
             let price = Int(currentPrice)
             receivedCoinData.currentPrice = String.insertComma(value: price)
@@ -228,7 +207,8 @@ final class MainViewController: BaseViewController {
     private func configureCoinData(coin: Coin, value: Item) {
         guard let fluctateRate24H = Double(value.fluctateRate24H),
               let accTradeValue24H = Double(value.accTradeValue24H),
-              let fluctate24H = Double(value.fluctate24H)
+              let fluctate24H = Double(value.fluctate24H),
+              let currentPrice = Double(value.closingPrice)
         else {
             return
         }
@@ -236,7 +216,7 @@ final class MainViewController: BaseViewController {
         let tradeValue = Int(accTradeValue24H) / 1000000
         let currentTradeValue = String.insertComma(value: Double(tradeValue))
         let changeRate = String.insertComma(value: fluctateRate24H)
-
+        let price = String.insertComma(value: currentPrice)
         let changeAmount: String
 
         if fabs(fluctate24H) > 999.9 {
@@ -249,7 +229,7 @@ final class MainViewController: BaseViewController {
         if UserDefaults.standard.string(forKey: coin.rawValue) != nil {
             self.totalCoinList.append(CoinData(
                 coinName: coin,
-                currentPrice: "",
+                currentPrice: price,
                 changeRate: changeRate,
                 tradeValue: currentTradeValue,
                 isInterested: true,
@@ -260,7 +240,7 @@ final class MainViewController: BaseViewController {
         else {
             self.totalCoinList.append(CoinData(
                 coinName: coin,
-                currentPrice: "",
+                currentPrice: price,
                 changeRate: changeRate,
                 tradeValue: currentTradeValue,
                 popularity: 172800,
@@ -294,7 +274,7 @@ final class MainViewController: BaseViewController {
         }
     }
 
-    private func getTickerData(orderCurrency: String, paymentCurrency: String) {
+    private func fetchTickerAPIData(orderCurrency: String, paymentCurrency: String) {
         Task {
             do {
                 let tickerData = try await tickerAPIService.getTickerData(
@@ -303,7 +283,7 @@ final class MainViewController: BaseViewController {
                 if let tickerData = tickerData {
                     try tickerData.allProperties().forEach({
                         if let coinName = Coin(rawValue: $0.key.uppercased()) {
-                            configureCoinData(coin: coinName, value: $0.value)
+                            self.configureCoinData(coin: coinName, value: $0.value)
                         }
                     })
                 } else {
@@ -319,7 +299,7 @@ final class MainViewController: BaseViewController {
         }
     }
     
-    private func getTransactionData() {
+    private func fetchTransactionAPIData() {
         Coin.allCases.forEach { coin in
             Task {
                 guard let response = await transactionAPIService.requestTransactionHistory(
@@ -329,11 +309,8 @@ final class MainViewController: BaseViewController {
                 }
                 if let findedCoin = self.totalCoinList.first(where: { $0.coinName == coin }),
                    let latestTransactions = response.last?.transactionDate.components(separatedBy: " "),
-                   let oldestTransactions = response.first?.transactionDate.components(separatedBy: " "),
-                   let priceData = response.first?.price, let price = Double(priceData)
+                   let oldestTransactions = response.first?.transactionDate.components(separatedBy: " ")
                 {
-                    let currentPrice = String.insertComma(value: price)
-                    findedCoin.currentPrice = currentPrice
 
                     let latestTransaction = latestTransactions[1]
                     let oldestTransaction = oldestTransactions[1]
@@ -422,7 +399,7 @@ extension MainViewController: HeaderViewDelegate {
         switch sortOption {
         case .sortedBypopular:
             self.present(self.loadingAlert, animated: true, completion: nil)
-            self.getTransactionData()
+            self.fetchTransactionAPIData()
             DispatchQueue.main.async {
                 self.loadingAlert.dismiss(animated: true) {
                     self.sortByPopularity()
