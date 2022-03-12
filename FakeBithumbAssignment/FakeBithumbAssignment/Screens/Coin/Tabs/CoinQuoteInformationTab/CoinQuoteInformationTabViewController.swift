@@ -265,11 +265,11 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
             ]
             self.coinFirstInformationView.informtion = CoinInformation(rows: firstInformation)
             let secondInformation: [CoinInformation.Row] = [
-                CoinInformation.Row(title: "거래량(24)", value: Double(response.unitsTraded24H) ?? 0.0, color: .lightGray),
-                CoinInformation.Row(title: "거래금(24)", value: Double(response.accTradeValue24H) ?? 0.0, color: .lightGray),
+                CoinInformation.Row(title: "거래량24", value: Double(response.unitsTraded24H) ?? 0.0, color: .lightGray),
+                CoinInformation.Row(title: "거래금24", value: Double(response.accTradeValue24H) ?? 0.0, color: .lightGray),
                 CoinInformation.Row.line,
-                CoinInformation.Row(title: "변동가(24)", value: Double(response.fluctate24H) ?? 0.0, color: .lightGray),
-                CoinInformation.Row(title: "변동률(24)", value: Double(response.fluctateRate24H) ?? 0.0, color: .lightGray),
+                CoinInformation.Row(title: "변동가24", value: Double(response.fluctate24H) ?? 0.0, color: .lightGray),
+                CoinInformation.Row(title: "변동률24", value: Double(response.fluctateRate24H) ?? 0.0, color: .lightGray),
                 CoinInformation.Row(title: "전일종가", value: Double(response.prevClosingPrice) ?? 0.0, color: .lightGray)
             ]
             self.coinSecondInformationView.informtion = CoinInformation(rows: secondInformation)

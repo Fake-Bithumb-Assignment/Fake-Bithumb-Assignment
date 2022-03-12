@@ -25,6 +25,7 @@ class OrderBookTableViewCell: BaseTableViewCell {
     private let graphQuantityLabel: UILabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
         $0.textColor = .darkGray
+        $0.numberOfLines = 0 
     }
     private let graphStickLayer: CALayer = CALayer()
     private var wholeStackView: UIStackView? = nil

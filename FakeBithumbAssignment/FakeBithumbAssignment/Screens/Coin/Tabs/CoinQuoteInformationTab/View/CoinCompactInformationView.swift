@@ -24,7 +24,7 @@ final class CoinCompactInformationView: UIView {
     private let lineView = UIView().then {
         $0.backgroundColor = .lightGray
         $0.snp.makeConstraints { make in
-            make.height.equalTo(0.3)
+            make.height.equalTo(0.5)
         }
     }
     private var stackView: UIStackView? = nil
@@ -57,6 +57,7 @@ final class CoinCompactInformationView: UIView {
                         $0.font = UIFont.systemFont(ofSize: CoinCompactInformationView.fontSize)
                         $0.textColor = row.color
                         $0.textAlignment = .right
+                        $0.numberOfLines = 0
                     }
                     let rowStackView: UIStackView = UIStackView(arrangedSubviews: [titleLabel, valueLabel]).then {
                         $0.axis = .horizontal
