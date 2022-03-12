@@ -1,5 +1,5 @@
 //
-//  GraphTableViewCell.swift
+//  OrderBookTableViewCell.swift
 //  FakeBithumbAssignment
 //
 //  Created by momo on 2022/03/09.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GraphTableViewCell: BaseTableViewCell {
+class OrderBookTableViewCell: BaseTableViewCell {
     
     // MARK: - Instance Property
     
@@ -25,6 +25,7 @@ class GraphTableViewCell: BaseTableViewCell {
     private let graphQuantityLabel: UILabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
         $0.textColor = .darkGray
+        $0.numberOfLines = 0 
     }
     private let graphStickLayer: CALayer = CALayer()
     private var wholeStackView: UIStackView? = nil
@@ -138,8 +139,16 @@ class GraphTableViewCell: BaseTableViewCell {
         self.valueView.backgroundColor = self.cellColor
         self.graphView.backgroundColor = self.cellColor
         self.graphStickLayer.backgroundColor = self.graphColor.cgColor
-        self.valuePriceLabel.text = quote.price
-        self.graphQuantityLabel.text = quote.quantity
+        guard !quote.isEmptyQuote else {
+            self.valuePriceLabel.text = ""
+            self.graphQuantityLabel.text = ""
+            self.valuePercentabeLabel.text = ""
+            self.graphStickLayer.frame = .zero
+            CATransaction.commit()
+            return
+        }
+        self.valuePriceLabel.text = String.insertComma(value: quote.priceNumer)
+        self.graphQuantityLabel.text = String.insertComma(value: quote.quantityNumber)
         self.setValuePercentage()
         let graphWidth: CGFloat = self.graphView.bounds.width * (quote.quantityNumber / maxQuantity)
         self.graphStickLayer.frame = CGRect(
@@ -182,5 +191,4 @@ class GraphTableViewCell: BaseTableViewCell {
             self.valuePriceLabel.textColor = UIColor(named: "down") ?? .blue
         }
     }
-
 }
