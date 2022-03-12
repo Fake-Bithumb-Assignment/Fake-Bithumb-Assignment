@@ -212,8 +212,8 @@ extension DepositAndWithdrawalViewController: UISearchBarDelegate {
             return
         }
         let filtered: [AssetsStatus] = self.assetStatuses.filter {
-            $0.coin.rawValue.contains(searchText) ||
-            String(describing: $0.coin).contains(searchText)
+            $0.coin.rawValue.contains(searchText.uppercased()) ||
+            String(describing: $0.coin).contains(searchText.uppercased())
         }
         self.updateSnapshot(to: filtered)
     }
