@@ -351,8 +351,8 @@ final class MainViewController: BaseViewController {
         let latest = latestTransaction.components(separatedBy: ":")
         let oldest = oldestTransaction.components(separatedBy: ":")
         var seconds = 3600
-        var latestValue = 86400
-        var oldestValue = 86400
+        var latestValue = 0
+        var oldestValue = 0
 
         latest.forEach {
             if let time = Int($0) {
@@ -370,6 +370,9 @@ final class MainViewController: BaseViewController {
             }
         }
 
+        if latestValue < oldestValue {
+            return latestValue + 86400 - oldestValue
+        }
         return latestValue - oldestValue
     }
 
