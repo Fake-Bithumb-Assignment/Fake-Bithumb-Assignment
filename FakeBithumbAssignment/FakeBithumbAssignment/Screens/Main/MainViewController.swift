@@ -49,6 +49,16 @@ final class MainViewController: BaseViewController {
         setUpSearchClearButton()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.fetchData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.btsocketAPIService.disconnectAll()
+    }
+
     // MARK: - custom func
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -62,7 +72,6 @@ final class MainViewController: BaseViewController {
             self.sortByPopularity()
             self.totalCoinListView.totalCoinList = self.totalCoinList
             self.updateInterestedCoinList()
-            self.fetchData()
         }
     }
 
