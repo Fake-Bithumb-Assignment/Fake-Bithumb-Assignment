@@ -16,7 +16,15 @@ final class MainViewController: BaseViewController {
 
     private let headerView = HeaderView()
 
-    private var totalCoinList: [CoinData] = []
+    private var totalCoinList: [CoinData] = [] {
+        didSet {
+            // 여기서 현재 선택되어 있는 정렬 방법으로 정렬 해서 요렇게 넘겨주는건 어때요?
+            // 정렬 어떤 조건인지 확인
+            // sort 메소드 호출
+            // 테이블뷰 반영
+            self.totalCoinListView.totalCoinList = self.totalCoinList
+        }
+    }
 
     private var interestedCoinList: [CoinData] = []
 
@@ -67,7 +75,9 @@ final class MainViewController: BaseViewController {
 
     private func fetchInitialData() {
         self.present(self.loadingAlert, animated: true, completion: nil)
-        getTickerData(orderCurrency: "ALL", paymentCurrency: "KRW")
+        self.getTickerData(orderCurrency: "ALL", paymentCurrency: "KRW")
+        self.getTransactionData()
+        // 이타이밍에 아무것도 없음
         self.loadingAlert.dismiss(animated: true) {
             self.sortByPopularity()
         }
@@ -156,8 +166,6 @@ final class MainViewController: BaseViewController {
 
         let currentTradeValue = Int(data.content.value) / 1000000
         receivedCoinData.tradeValue = String.insertComma(value: Double(currentTradeValue))
-
-        updateSnapshot(receivedCoinData)
     }
 
     private func updateCurrentPrice(coin: Coin, data: BTSocketAPIResponse.TransactionResponse) {
@@ -179,19 +187,8 @@ final class MainViewController: BaseViewController {
         else {
             receivedCoinData.currentPrice = String(currentPrice)
         }
-
-        updateSnapshot(receivedCoinData)
     }
-    
-    private func updateSnapshot(_ updatedValue: CoinData) {
-        if totalCoinListView.totalCoinList.contains(updatedValue) {
-            totalCoinListView.updateSnapshot(of: updatedValue)
-            if updatedValue.isInterested {
-                interestedCoinListView.updateSnapshot(of: updatedValue)
-            }
-        }
-    }
-    
+        
     private func updateInterestedCoinList() {
         self.interestedCoinList = totalCoinList.filter { $0.isInterested }
         interestedCoinListView.interestedCoinList = self.interestedCoinList
@@ -320,7 +317,6 @@ final class MainViewController: BaseViewController {
                 print("clientError:\(String(describing: message))")
             }
         }
-        self.getTransactionData()
     }
     
     private func getTransactionData() {
@@ -331,7 +327,6 @@ final class MainViewController: BaseViewController {
                 ) else {
                     return
                 }
-                
                 if let findedCoin = self.totalCoinList.first(where: { $0.coinName == coin }),
                    let latestTransactions = response.last?.transactionDate.components(separatedBy: " "),
                    let oldestTransactions = response.first?.transactionDate.components(separatedBy: " "),

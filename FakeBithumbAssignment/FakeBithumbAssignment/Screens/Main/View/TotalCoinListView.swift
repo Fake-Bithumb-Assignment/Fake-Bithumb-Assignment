@@ -127,6 +127,9 @@ final class TotalCoinListView: UIView {
         guard var snapshot = self.dataSource?.snapshot() else {
             return
         }
+        guard self.totalCoinList.first(where: { $0.coinName == coin.coinName }) != nil else {
+            return
+        }
 
         snapshot.reconfigureItems([coin])
         self.dataSource?.apply(snapshot)

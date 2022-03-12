@@ -127,6 +127,9 @@ final class InterestedCoinListView: UIView {
         guard var snapshot = self.dataSource?.snapshot() else {
             return
         }
+        guard self.interestedCoinList.first(where: { $0.coinName == coin.coinName }) != nil else {
+            return
+        }
 
         snapshot.reconfigureItems([coin])
         self.dataSource?.apply(snapshot)
