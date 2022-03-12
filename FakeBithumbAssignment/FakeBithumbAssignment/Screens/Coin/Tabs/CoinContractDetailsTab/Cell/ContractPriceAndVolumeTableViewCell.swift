@@ -19,7 +19,6 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
     // MARK: - Instance Property
     
     private let contentLabel = UILabel().then {
-        $0.text = "40,000,000"
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
         $0.textColor = .darkGray
     }
@@ -57,10 +56,22 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
     func update(to: TransactionAPIResponse, type: ContractTableLabelType) {
         switch type {
         case .price:
-            self.contentLabel.text = to.price
+            self.contentLabel.text = self.configurePrice(to.price)
         case .volume:
             self.contentLabel.text = to.unitsTraded
         }
+    }
+    
+    private func configurePrice(_ price: String) -> String? {
+        guard let givenPrice = Double(price) else {
+            return nil
+        }
+
+        if givenPrice > 1000.0 {
+             return String.insertComma(value: Int(givenPrice))
+        }
+
+        return String.insertComma(value: givenPrice)
     }
 }
 
