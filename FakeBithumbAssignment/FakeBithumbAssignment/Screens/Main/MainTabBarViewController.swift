@@ -54,8 +54,8 @@ extension MainTabBarViewController: UITabBarControllerDelegate {
             self.selectedTap = 0
             let mainViewController = navigationViewController?.viewControllers[0] as? MainViewController
 
-            self.scrollToTop(mainViewController?.totalCoinListView.totalCoinListTableView, indexPath: indexPath)
-            self.scrollToTop(mainViewController?.interestedCoinListView.interestedCoinListTableView, indexPath: indexPath)
+            self.scrollToTop(mainViewController?.totalCoinTableView.tableView, indexPath: indexPath)
+            self.scrollToTop(mainViewController?.interestedCoinTableView.tableView, indexPath: indexPath)
         }
 
         else if tabBarIndex == 1 {
