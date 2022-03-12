@@ -292,8 +292,7 @@ final class MainViewController: BaseViewController {
         Task {
             do {
                 let tickerData = try await tickerAPIService.getTickerData(
-                    orderCurrency: orderCurrency,
-                    paymentCurrency: paymentCurrency
+                    orderCurrency: orderCurrency
                 )
                 if let tickerData = tickerData {
                     try tickerData.allProperties().forEach({

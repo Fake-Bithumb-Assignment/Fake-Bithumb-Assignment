@@ -75,8 +75,8 @@ final class CoinViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setPageView()
-        self.getTickerData(orderCurrency: "BTC", paymentCurrency: "KRW")
-        self.getWebsocketTickerData(orderCurrency: "BTC")
+        self.getTickerData(orderCurrency: self.coin)
+        self.getWebsocketTickerData(orderCurrency: self.coin)
         self.patchHeaderViewData()
         self.patchStarButton()
     }
@@ -89,7 +89,7 @@ final class CoinViewController: BaseViewController {
         super.configUI()
         self.configStackView()
         self.configMenuButtons()
-        self.configNavigation()
+        self.configNavigation(orderCurrency: self.coin)
     }
     
     
@@ -130,8 +130,10 @@ final class CoinViewController: BaseViewController {
         self.setBottomBorder(to: self.quoteButton)
     }
     
-    private func configNavigation() {
-        self.navigationItem.titleView = CoinNavigationTitleView()
+    private func configNavigation(orderCurrency: Coin) {
+        let navigationTitleView = CoinNavigationTitleView()
+        navigationTitleView.patchData(orderCurrency: orderCurrency)
+        self.navigationItem.titleView = navigationTitleView
         
         self.starBarButton = UIBarButtonItem(customView: self.starButton)
         self.navigationItem.rightBarButtonItem = starBarButton
@@ -162,14 +164,12 @@ final class CoinViewController: BaseViewController {
         }
     }
     
-    private func getTickerData(orderCurrency: String, paymentCurrency: String) {
+    private func getTickerData(orderCurrency: Coin) {
         Task {
             do {
-                let tickerData = try await tickerAPIService.getOneTickerData(orderCurrency: orderCurrency,
-                                                                             paymentCurrency: paymentCurrency)
+                let tickerData = try await tickerAPIService.getOneTickerData(orderCurrency: String(describing: orderCurrency))
                 if let tickerData = tickerData {
                     self.tickerData = tickerData
-                    print(tickerData)
                 } else {
                     // TODO: 에러 처리 얼럿 띄우기
                 }
@@ -182,13 +182,13 @@ final class CoinViewController: BaseViewController {
         }
     }
     
-    private func getWebsocketTickerData(orderCurrency: String) {
+    private func getWebsocketTickerData(orderCurrency: Coin) {
         btsocketAPIService.subscribeTicker(
-            orderCurrency: [Coin.BTC],
+            orderCurrency: [orderCurrency],
             paymentCurrency: .krw,
             tickTypes: [._24h]
         ) { response in
-            self.updateHeaderViewTickerData(coin: Coin.BTC, data: response)
+            self.updateHeaderViewTickerData(coin: orderCurrency, data: response)
         }
     }
     
@@ -206,7 +206,7 @@ final class CoinViewController: BaseViewController {
     }
     
     private func patchStarButton() {
-        if let alreadyInterestedCoin = UserDefaults.standard.string(forKey: "BTC") {
+        if let alreadyInterestedCoin = UserDefaults.standard.string(forKey: self.coin.rawValue) {
             self.starButton.setImage(UIImage(named: "fillStar"), for: .normal)
         }
         else {

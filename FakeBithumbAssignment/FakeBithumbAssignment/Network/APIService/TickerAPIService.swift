@@ -16,16 +16,16 @@ struct TickerAPIService {
         self.environment = environment
     }
     
-    func getTickerData(orderCurrency: String, paymentCurrency: String) async throws -> AllTickerResponse? {
+    func getTickerData(orderCurrency: String) async throws -> AllTickerResponse? {
         let request = TickerEndPoint
-            .getTickerData(orderCurrency: orderCurrency, paymentCurrency: paymentCurrency)
+            .getTickerData(orderCurrency: orderCurrency)
             .createRequest(environment: environment)
         return try await self.apiService.request(request)
     }
     
-    func getOneTickerData(orderCurrency: String, paymentCurrency: String) async throws -> Item? {
+    func getOneTickerData(orderCurrency: String) async throws -> Item? {
         let request = TickerEndPoint
-            .getOneTickerData(orderCurrency: orderCurrency, paymentCurrency: paymentCurrency)
+            .getOneTickerData(orderCurrency: orderCurrency)
             .createRequest(environment: environment)
         return try await self.apiService.request(request)
     }

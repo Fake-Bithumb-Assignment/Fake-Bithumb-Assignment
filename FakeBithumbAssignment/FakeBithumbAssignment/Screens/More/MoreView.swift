@@ -71,16 +71,19 @@ final class MoreView: UIView {
         self.nameLabel.snp.makeConstraints { make in
             make.leading.equalTo(self.characterImageView.snp.trailing).offset(15)
             make.top.equalTo(self.characterImageView.snp.top)
+            make.trailing.equalTo(self.snp.trailing)
         }
         
         self.mbtiLabel.snp.makeConstraints { make in
             make.top.equalTo(self.nameLabel.snp.bottom).offset(3)
             make.leading.equalTo(self.characterImageView.snp.trailing).offset(15)
+            make.trailing.equalTo(self.snp.trailing)
         }
         
         self.githubLabel.snp.makeConstraints { make in
             make.top.equalTo(self.mbtiLabel.snp.bottom).offset(0)
             make.leading.equalTo(self.characterImageView.snp.trailing).offset(15)
+            make.trailing.equalTo(self.snp.trailing)
         }
         
         self.commentLabel.snp.makeConstraints { make in

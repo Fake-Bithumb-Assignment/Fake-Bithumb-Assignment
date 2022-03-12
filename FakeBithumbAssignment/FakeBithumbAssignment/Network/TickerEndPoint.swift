@@ -8,8 +8,8 @@
 import Foundation
 
 enum TickerEndPoint {
-    case getTickerData(orderCurrency: String, paymentCurrency: String)
-    case getOneTickerData(orderCurrency: String, paymentCurrency: String)
+    case getTickerData(orderCurrency: String)
+    case getOneTickerData(orderCurrency: String)
     
     var requestTimeOut: Float {
         return 20
@@ -36,10 +36,10 @@ enum TickerEndPoint {
     func getURL(from environment: HttpEnvironment) -> String {
         let baseUrl = environment.baseUrl
         switch self {
-        case .getTickerData(let orderCurrency, let paymentCurrency):
-            return "\(baseUrl)/ticker/\(orderCurrency)_\(paymentCurrency)"
-        case .getOneTickerData(let orderCurrency, let paymentCurrency):
-            return "\(baseUrl)/ticker/\(orderCurrency)_\(paymentCurrency)"
+        case .getTickerData(let orderCurrency):
+            return "\(baseUrl)/ticker/\(orderCurrency)_KRW"
+        case .getOneTickerData(let orderCurrency):
+            return "\(baseUrl)/ticker/\(orderCurrency)_KRW"
         }
     }
     

@@ -218,8 +218,7 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
         Task {
             do {
                 guard let ticker: Item = try await self.tickerAPIService.getOneTickerData(
-                    orderCurrency: String(describing: self.orderCurrenty),
-                    paymentCurrency: "krw"
+                    orderCurrency: String(describing: self.orderCurrenty)
                 ) else {
                     return
                 }
