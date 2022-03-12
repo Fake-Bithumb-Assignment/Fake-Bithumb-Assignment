@@ -109,16 +109,180 @@
     
  → 이후 pageViewController 내부에서 setViewController 메서드를 이용해 화면 전환하는 코드를 구현한다.
 
+2) 호가 정보창 - 웹소켓 (모모 리팩토링 이전)
+	
+ 2-1. 변경된 호가의 quantity가 0인 경우, 현재 리스트에서 해당 price를 찾아 삭제해줘야 한다.
+    
+    ```swift
+    if Double(quote.quantity) == 0 {
+        self.removeQuantityIsZero(type: .ask, data: quote)
+        continue
+    }
+    
+    private func removeQuantityIsZero(type: BTSocketAPIResponse.OrderBookResponse.Content.OrderBook.OrderType,
+                                      data: Quote) {
+        switch type {
+        case .ask:
+            var count = self.asksList.count
+            var index = 0
+            while(index < count) {
+                if Int(asksList[index].price) == Int(data.price) {
+                    self.asksList.remove(at: index)
+                    count -= 1
+                }
+                index += 1
+            }
+        case .bid:
+            var count = self.bidsList.count
+            var index = 0
+            while(index < count) {
+                if Int(bidsList[index].price) == Int(data.price) {
+                    self.bidsList.remove(at: index)
+                    count -= 1
+                }
+                index += 1
+            }
+        }
+    }
+    ```
+    
+2-2. 단순히 호가 정보 30개씩 받아서 표시해줄 경우, (1) 처럼 remove된 경우에 표시해줄 데이터가 없다.
+	
+	-> 그러나 빗썸에서 받아올 수 있는 최대 데이터는 30개이므로, 그 이상의 데이터를 로컬에서 관리하고 그 중에서 30개만 표시하도록 해야한다.
+	
+	-> 그리고 리스트 중 asks(매도)는 하위 30개, bids(매수)는 상위 30개를 표시한다. 물론 price 순으로 정렬해서.
+    
+    ```swift
+    private func sortQuoteList(type: BTSocketAPIResponse.OrderBookResponse.Content.OrderBook.OrderType) {
+      switch type {
+      case .ask:
+          self.asksList = asksList.sorted(by: {$0.price > $1.price})
+      case .bid:
+          self.bidsList = bidsList.sorted(by: {$0.price > $1.price})
+      }
+    }
+    ```
+    
+2-3. 변경된 호가가 로컬 리스트에 있는 호가와 같은 경우, 해당 호가를 찾아 quantity를 업데이트 해준다.
+    
+    ```swift
+    if !self.replaceQuote(type: .ask, data: quote) {
+        self.asksList.append(quote)
+    }
+    
+    private func replaceQuote(type: BTSocketAPIResponse.OrderBookResponse.Content.OrderBook.OrderType,
+                              data: Quote) -> Bool {
+        switch type {
+        case .ask:
+            let count = self.asksList.count
+            var index = 0
+            while(index < count) {
+                if Int(asksList[index].price) == Int(data.price) {
+                    self.asksList[index] = data
+                    return true
+                }
+                index += 1
+            }
+        case .bid:
+            let count = self.bidsList.count
+            for index in 0..<count {
+                if Int(self.bidsList[index].price) == Int(data.price) {
+                    self.bidsList[index] = data
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    ```
+    
+2-4. 로컬에 있는 list에서 찾아 remove하는 작업을 수행하는 도중, websocket api에서 데이터를 받아와 list가 업데이트 되면 반복문의 범위가 조정되어 index out of range 오류가 발생한다.
+	
+	-> 따라서 remove 작업을 시행하는 동안에는 동기적으로 처리하기 위해 sempaphore를 활용한다.
+    
+    ```swift
+    private func updateTransactionData(coin: Coin,
+                                       data: BTSocketAPIResponse.TransactionResponse) {
+        let semaphore = DispatchSemaphore(value: 0)
+        DispatchQueue.global(qos: .background).async {
+            for transaction in data.content.list {
+                switch transaction.buySellGb {
+                case .sell:
+                    var count = self.asksList.count
+                    var index = 0
+                    while(index < count) {
+                        if Double(self.asksList[index].price) == Double(transaction.contPrice) {
+                            guard let quantity = Double(self.asksList[index].quantity) else { return }
+                            if quantity - transaction.contQty <= 0 {
+                                self.asksList.remove(at: index)
+                                count -= 1
+                            } else {
+                                self.asksList[index].quantity = "\(quantity - transaction.contQty)"
+                            }
+                        }
+                        index += 1
+                    }
+                case .buy:
+                    var count = self.bidsList.count
+                    var index = 0
+                    while(index < count) {
+                        if Double(self.bidsList[index].price) == Double(transaction.contPrice) {
+                            guard let quantity = Double(self.bidsList[index].quantity) else { return }
+                            if Double(self.bidsList[index].quantity)! - transaction.contQty <= 0 {
+                                self.bidsList.remove(at: index)
+                                count -= 1
+                            } else {
+                                self.bidsList[index].quantity = "\(quantity - transaction.contQty)"
+                            }
+                        }
+                        index += 1
+                    }
+                }
+            }
+            DispatchQueue.main.async {
+                self.patchOrderbookData()
+            }
+            semaphore.signal()
+        }
+        semaphore.wait()
+    }
+    ```
+    
+2-5. 마지막으로, 가끔 매도/매수의 경계선이 아니라 아주 낮은 가격에 매도를 하거나, 아주 높은 가격에 매수를 하는 케이스가 존재한다.
+	
+	-> 이런 경우는 대개 체결이 되지만, 아주 극단적으로 생각해서 매도하는 사람만 있고 매수하는 사람은 없는 경우, 매수하는 사람만 있고 매도하는 사람만 있는 경우도 존재할 수 있다. (예를 들어.. 주식에서 상한가, 하한가 쳤을 때)
+	
+	-> 체결 시 로컬 list에 있는 quantity - 체결 quanity = 0인 경우만 호가창에서 삭제하도록 한다.
+
     
 </details>
 
 <details>
 <summary>추니</summary>
+	
+메인화면의 헤더뷰를 구현할 때, 원화, 관심 버튼은 터치되면 아래의 바가 생기게 됩니다. 이를 컬렉션 뷰셀로 깔끔하게 처리하기 위해 원화, 관심 버튼을 컬렉션 뷰를 활용해서 구현하였습니다. 또한 모든 셀에 대해 자동적으로 간격, 크기 등을 지정할 수 있고, 추후에 버튼이 추가될 수도 있기 때문에 컬렉션 뷰를 활용하였습니다.
+하지만 컬렉션 뷰는 테이블 뷰와 마찬가지로 많은 양의 데이터를 보여주기 위해 존재한다고 생각이 들었습니다. 현재의 2개의 버튼을 컬렉션 뷰로 구현하기에는 데이터가 적다고 판단되었고, UIButton으로 구현하게 되었습니다.
+
+UI 객체들을 레이아웃할 때, 객체를 하나하나 다 설정해주는 방법이 예전에 오토레이아웃 공부하며 익숙해졌습니다. 하지만 스택뷰를 사용하게 되면 UI 객체들의 레이아웃을 각각 걸어주지 않아도 되고, 코드가 간결해지며 가독성이 좋아보인다 생각해 스택뷰를 사용하게 되었습니다.
+
+검색창을 이용하게 되면 키보드가 자동으로 올라오고, 가상 화폐 목록을 가리게 됩니다. 검색창이 아닌 다른 부분을 터치하게 되면 키보드가 내려가는 방식을 상식적으로 생각하게 되었습니다. 하지만 이는 테이블 뷰 셀을 터치하는 것도 포함이 되어 터치된 가상 화폐의 호가정보 창으로 진입하게 됩니다. 이를 해결하기 위해 검색창을 dismiss 하는 것과 뷰컨트롤러의 push 진입은 동시에 동작할 수 없음을 이용하여 검색 도중 셀이 터치되었을 때 키보드를 내리고, 뷰컨트롤러의 전환이 될 수 없도록 하였습니다.
+하지만 이는 꼼수에 불과하며, 계속해서 경고메세지가 뜨게 됩니다. 그래서 다른 방식으로 키보드를 내리는 방법을 생각했고, 검색 도중 테이블 뷰를 스크롤하면 키보드가 내려가는 방식으로 구현하게 되었습니다.
+
+실시간 가상 화폐의 데이터를 받아 테이블 뷰에 나타내기 위해 단순히 데이터를 받을 때, 테이블 뷰를 reload시키자는 생각을 하였습니다. 제 생각과 다르게 기본적인 테이블뷰를 사용하였을 경우 많은 양의 데이터가 연속적으로 들어와 앱이 멈추는 현상이 발생하였습니다. 이를 해결하기 위해 UITableViewDiffableDataSource를 사용하게 되었고, iOS 15부터 도입된 reconfigureItems 메소드를 통해 화면의 끊김 없이 테이블 뷰를 업데이트할 수 있었습니다.
+
+모든 가상 화폐의 목록 테이블뷰와 관심 목록 테이블뷰를 구분해서 나타내야하는데 이를 하나의 뷰컨트롤러가 하나의 테이블 뷰를 관리하고, 원화, 관심 탭이 눌릴 때마다 그에 맞는 데이터를 보여주자는 생각을 하였습니다. 각각의 테이블 뷰를 보여주는 로직은 비슷하다 생각했기 때문입니다.
+하지만 이는 하나의 파일에 너무 많은 양의 코드를 작성하게 하고, 테이블 뷰를 제어하는 로직을많이 복잡하게 하였으며, 구현하다보니 두 개의 테이블뷰가 조금은 다른 로직을 통해 보여준 다는 것을 깨달았습니다.
+이를 해결하기 위해 먼저 테이블 뷰를 2개의 뷰로 분리하였습니다. 컨트롤러는 해당 탭에 대한 뷰를 보여주고, 데이터를 받으면 업데이트하라는 명령을 내리게 하였습니다. 사실 두개의 뷰는 비슷한 로직도 분명 존재합니다. 이를 클래스 상속을 통해 기본 구현하고, 조금 다른 로직을 가진 뷰는 오버라이딩하여 구현하면 코드가 더 깔끔해질 것 같습니다.
 
 </details>
 
 <details>
 <summary>모모</summary>
+	
+- 현상 : 캔들스틱 차트에서 스크롤이나 핀치 제스처가 있을 경우, 화면 안에 들어온 캔들스틱을 대상으로 y축 스케일링이 되도록 하고 싶었으나, 이러한 상태 변화가 있었을 경우 앱이 꺼지지 않고 멈춘 상태로 지속되거나, 화면 전환이 끊기는 현상이 있었습니다. (CPU 사용률 100%)
+- 원인 : 캔들스틱 차트는 CALayer들의 조합으로 구성 되었습니다. 길이 조정 등이 필요할 경우에 이 전체 Layer들을 다 지워 준 뒤에 다시 추가해 화면을 그려주는 연산이 필요합니다. 매 이벤트(스크롤, 핀치) 마다 모든 캔들스틱에 대해 이러한 처음부터 다시 그려주는 연산이 반복되고 있어 이러한 방대한 연산이 원인이였습니다.
+- 해결 : 그리기 연산을 최소화 해 CPU 부하를 더는 방법으로 해결 했습니다. 모든 메소드가 O(N)의 시간 복잡도를 갖고 있어 2차원의 레이어 연산은 큰 부담이 되지 않을 것이라 생각했지만 이벤트마다 5000개정도의 레이어 삭제 후 추가는 상당한 부담이 되었던 것 같습니다. 기존에는 캔들스틱 처음부터 끝까지 각각의 레이어를 다 추가해주고 지워주는 방식으로 개발이 되어있었으나, 꼭 그려줘야 하는 캔들스틱만 대상으로 레이어를 추가 해주도록 수정 했습니다. 꼭 그려줘야 하는 캔들스틱의 영역은 스크롤 뷰의 contentOffset으로 계산을 해 주었습니다. 반복적으로 필요한 값들은 computed property를 통하지 않고 stored property에 한번만 계산 해서 넣어주는 방법으로도 연산을 최소화 했습니다. 또한 레이어 작업에 자동으로 애니메이션 효과가 들어가 있어 레이어 전체를 CATransaction으로 묶어 애니메이션 효과도 제거 해 주었습니다.
+- 결과 : 원하던 대로 스크롤, 핀치 제스처 시 적절한 스케일의 캔들스틱 차트가 화면에 가득 차도록 작동 했습니다.
 
 </details>
 
@@ -242,6 +406,9 @@ FakethumbAssignment
 | <img src="https://user-images.githubusercontent.com/46108770/158012511-c97175f3-8419-4277-a582-dc4233a6d10f.png" width="200"> | <img src="https://user-images.githubusercontent.com/46108770/158012604-2c427495-c539-4425-80ae-a5e4691e499e.png" width="200"> |   <img src="https://user-images.githubusercontent.com/46108770/158012540-5ead852b-f1f1-4e04-bb14-2dc14603c637.png" width="200">    |
 | :-----------------: | :-----: | :-----: |
 | **콩이**(beansbin)        | **추니**(choony) | **모모**(momo-youngg) |
+
+
+## 💬 커뮤니케이션 방식
 
 
 ## 📚 사용한 API, 라이브러리 및 참고자료
