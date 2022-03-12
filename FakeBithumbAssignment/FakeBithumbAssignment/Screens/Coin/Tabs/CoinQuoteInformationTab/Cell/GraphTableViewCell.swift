@@ -138,8 +138,8 @@ class GraphTableViewCell: BaseTableViewCell {
         self.valueView.backgroundColor = self.cellColor
         self.graphView.backgroundColor = self.cellColor
         self.graphStickLayer.backgroundColor = self.graphColor.cgColor
-        self.valuePriceLabel.text = quote.price
-        self.graphQuantityLabel.text = quote.quantity
+        self.valuePriceLabel.text = String.insertComma(value: quote.priceNumer)
+        self.graphQuantityLabel.text = String.insertComma(value: quote.quantityNumber)
         self.setValuePercentage()
         let graphWidth: CGFloat = self.graphView.bounds.width * (quote.quantityNumber / maxQuantity)
         self.graphStickLayer.frame = CGRect(
