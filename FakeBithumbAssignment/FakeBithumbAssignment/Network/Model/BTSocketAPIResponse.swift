@@ -150,6 +150,7 @@ struct BTSocketAPIResponse {
                 let buySellGb: BuyCell
                 /// 체결가격
                 let contPrice: Double
+                let contPriceString: String
                 /// 체결수량
                 let contQty: Double
                 /// 체결금액
@@ -188,6 +189,7 @@ struct BTSocketAPIResponse {
                     self.symbol = try values.decode(String.self, forKey: .symbol)
                     self.buySellGb = try values.decode(BuyCell.self, forKey: .buySellGb)
                     self.updn = try values.decode(UpDown.self, forKey: .updn)
+                    self.contPriceString = try values.decode(String.self, forKey: .contPrice)
                     guard let contPrice = Double(try values.decode(String.self, forKey: .contPrice)),
                           let contQty = Double(try values.decode(String.self, forKey: .contQty)),
                           let contAmt = Double(try values.decode(String.self, forKey: .contAmt)),

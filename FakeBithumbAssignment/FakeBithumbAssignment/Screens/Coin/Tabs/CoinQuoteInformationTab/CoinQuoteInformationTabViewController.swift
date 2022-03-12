@@ -40,6 +40,12 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
             self.updateBid()
         }
     }
+    private var transactionPrice: String? = nil {
+        didSet {
+            self.updateAsk()
+            self.updateBid()
+        }
+    }
     private let askTableView: OrderBookTableView = OrderBookTableView().then {
         $0.type = .ask
     }
@@ -64,6 +70,7 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
         self.fetchOrderBookFromSocket()
         self.fetchTickerFromAPI()
         self.fetchTickerFromSocket()
+        self.fetchTransactionFromSocket()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -93,6 +100,7 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
         }.map {
             var quote = $0
             quote.prevClosePrice = self.prevClosePrice
+            quote.transactionPrice = self.transactionPrice
             return quote
         }
         self.askTableView.updatedQuotes(
@@ -106,6 +114,7 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
         }.map {
             var quote = $0
             quote.prevClosePrice = self.prevClosePrice
+            quote.transactionPrice = self.transactionPrice
             return quote
         }
         self.bidTableView.updatedQuotes(
@@ -274,4 +283,15 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
         }
     }
     
+    private func fetchTransactionFromSocket() {
+        self.btsocketAPIService.subscribeTransaction(
+            orderCurrency: [self.orderCurrenty],
+            paymentCurrency: .krw
+        ) { response in
+            guard !response.content.list.isEmpty else {
+                return
+            }
+            self.transactionPrice = response.content.list[0].contPriceString
+        }
+    }
 }
