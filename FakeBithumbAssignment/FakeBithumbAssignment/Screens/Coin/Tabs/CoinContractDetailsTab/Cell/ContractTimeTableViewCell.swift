@@ -15,7 +15,6 @@ class ContractTimeTableViewCell: BaseTableViewCell {
     // MARK: - Instance Property
     
     private let timeLabel = UILabel().then {
-        $0.text = "19:20:20"
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
         $0.textColor = .darkGray
     }
@@ -52,6 +51,31 @@ class ContractTimeTableViewCell: BaseTableViewCell {
     // MARK: - custom funcs
     
     func update(to: TransactionAPIResponse) {
-        self.timeLabel.text = to.transactionDate
+        self.timeLabel.text = self.configureTransactionDate(to.transactionDate)
+    }
+
+    private func configureTransactionDate(_ date: String) -> String? {
+        let splitedGivenDate = date.components(separatedBy: " ")
+        var splitedTime = splitedGivenDate[1].components(separatedBy: ":")
+        let hourString = splitedTime[0]
+        guard var hour = Int(hourString) else {
+            return nil
+        }
+        
+        hour += 9
+        
+        if hour > 23 {
+            hour -= 24
+        }
+        
+        if hour < 10 {
+            splitedTime[0] = "0\(hour)"
+        }
+        
+        else {
+            splitedTime[0] = "\(hour)"
+        }
+
+        return splitedTime.joined(separator: ":")
     }
 }
