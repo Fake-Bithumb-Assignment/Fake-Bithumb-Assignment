@@ -41,12 +41,10 @@ enum Coin: String, CaseIterable {
     case AAVE
     case MKR
     case WAVES
-    case BTT
     case CAKE
     case GALA
     case GRT
     case BSV
-    case XEC
     case ENJ
     case CHZ
     case KSM
@@ -71,7 +69,6 @@ enum Coin: String, CaseIterable {
     case ZIL
     case ICX
     case ONT
-    case NFT
     case ZRX
     case NU
     case SNX
@@ -130,7 +127,6 @@ enum Coin: String, CaseIterable {
     case ARPA
     case BAL
     case CTK
-    case MBL
     case LOOM
     case AERGO
     case AQT
@@ -156,24 +152,16 @@ enum Coin: String, CaseIterable {
     case SOFI
     case GOM2
     case MVC
-    case BASIC
-    case QTCON
     case VSYS
     case GO
     case WOZX
     case WICC
-    case AMO
     case EVZ
     case BUGGER
     case SOC
     case GHX
-    case EL
-    case TMTG
-    case HIBS
     case XNO
     case EGG
-    case TEMCO
-    case OBSR
     case IPX
     case VALOR
     case WOM
@@ -197,7 +185,6 @@ enum Coin: String, CaseIterable {
     case SPRT
     case MM
     case ATOLO
-    case FIT
     
     var rawValue: String {
         switch self {
@@ -234,12 +221,10 @@ enum Coin: String, CaseIterable {
         case .AAVE:     return "에이브"
         case .MKR:      return "메이커"
         case .WAVES:    return "웨이브"
-        case .BTT:      return "비트토렌트"
         case .CAKE:     return "팬케이크스왑"
         case .GALA:     return "갈라"
         case .GRT:      return "더그래프"
         case .BSV:      return "비트코인에스브이"
-        case .XEC:      return "이캐시"
         case .ENJ:      return "엔진코인"
         case .CHZ:      return "칠리즈"
         case .KSM:      return "쿠사마"
@@ -264,7 +249,6 @@ enum Coin: String, CaseIterable {
         case .ZIL:      return "질리카"
         case .ICX:      return "아이콘"
         case .ONT:      return "온톨로지"
-        case .NFT:      return "에이피이앤에프티"
         case .ZRX:      return "제로엑스"
         case .NU:       return "누사이퍼"
         case .SNX:      return "신세틱스"
@@ -323,7 +307,6 @@ enum Coin: String, CaseIterable {
         case .ARPA:     return "알파체인"
         case .BAL:      return "밸런서"
         case .CTK:      return "써틱"
-        case .MBL:      return "무비블록"
         case .LOOM:     return "룸네트워크"
         case .AERGO:    return "아르고"
         case .AQT:      return "알파쿼크"
@@ -349,24 +332,16 @@ enum Coin: String, CaseIterable {
         case .SOFI:     return "라이파이낸스"
         case .GOM2:     return "고머니2"
         case .MVC:      return "마일벌스"
-        case .BASIC:    return "베이직"
-        case .QTCON:    return "퀴즈톡"
         case .VSYS:     return "브이시스템즈"
         case .GO:       return "고체인"
         case .WOZX:     return "이포스"
         case .WICC:     return "웨이키체인"
-        case .AMO:      return "아모코인"
         case .EVZ:      return "이브이지"
         case .BUGGER:   return "버거스왑"
         case .SOC:      return "소다코인"
         case .GHX:      return "게이머코인"
-        case .EL:       return "엘리시아"
-        case .TMTG:     return "더마이다스터치골드"
-        case .HIBS:     return "힙스"
         case .XNO:      return "제노토큰"
         case .EGG:      return "네스트리"
-        case .TEMCO:    return "템코"
-        case .OBSR:     return "옵저버"
         case .IPX:      return "타키온프로토콜"
         case .VALOR:    return "밸러토큰"
         case .WOM:      return "왐토큰"
@@ -390,7 +365,6 @@ enum Coin: String, CaseIterable {
         case .SPRT:     return "스포티움"
         case .MM:       return "밀리미터토큰"
         case .ATOLO:    return "라이즌"
-        case .FIT:      return "300피트 네트워크"
         }
     }
 }
