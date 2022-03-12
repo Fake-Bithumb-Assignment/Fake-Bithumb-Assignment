@@ -182,5 +182,4 @@ class GraphTableViewCell: BaseTableViewCell {
             self.valuePriceLabel.textColor = UIColor(named: "down") ?? .blue
         }
     }
-
 }

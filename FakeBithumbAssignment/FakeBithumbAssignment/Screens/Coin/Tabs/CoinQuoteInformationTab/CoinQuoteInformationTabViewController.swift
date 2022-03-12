@@ -46,8 +46,8 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
     private let bidTableView: GraphTableView = GraphTableView().then {
         $0.type = .bid
     }
-    private let coinFirstInformationView = CoinFirstInformationView()
-    private let coinSecondInformationView = CoinSecondInformationView()
+    private let coinFirstInformationView = CoinCompactInformationView()
+    private let coinSecondInformationView = CoinCompactInformationView()
     private let scrollView = UIScrollView().then { make in
         make.backgroundColor = .white
     }
@@ -62,7 +62,7 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
     override func viewWillAppear(_ animated: Bool) {
         self.fetchFromAPI()
         self.fetchFromSocket()
-        self.fetchTicker()
+        self.fetchTickerFromAPI()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -214,29 +214,40 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
         }
     }
     
-    private func fetchTicker() {
+    private func fetchTickerFromAPI() {
         Task {
-            do {
-                guard let ticker: Item = try await self.tickerAPIService.getOneTickerData(
-                    orderCurrency: String(describing: self.orderCurrenty),
-                    paymentCurrency: "krw"
-                ) else {
-                    return
-                }
-                self.prevClosePrice = Double(ticker.prevClosingPrice)
-            } catch {
-                //TODO: do something
-                print(error)
+            guard let response = try await self.tickerAPIService.getOneTickerData(
+                orderCurrency: String(describing: self.orderCurrenty),
+                paymentCurrency: "krw"
+            ) else {
+                return
             }
-        }
-        self.btsocketAPIService.subscribeTicker(
-            orderCurrency: [self.orderCurrenty],
-            paymentCurrency: .krw,
-            tickTypes: [.mid]
-        ) { ticker in
-            self.prevClosePrice = ticker.content.prevClosePrice
-            self.coinFirstInformationView.ticker = ticker
-            self.coinSecondInformationView.ticker = ticker
+            let firstInformation: [CoinInformation.Row] = [
+                CoinInformation.Row(title: "거래량", value: Double(response.unitsTraded) ?? 0.0, color: .lightGray),
+                CoinInformation.Row(title: "거래금", value: Double(response.accTradeValue) ?? 0.0, color: .lightGray),
+                CoinInformation.Row.line,
+                CoinInformation.Row(title: "시가", value: Double(response.openingPrice) ?? 0.0, color: .lightGray),
+                CoinInformation.Row(
+                    title: "고가",
+                    value: Double(response.maxPrice) ?? 0.0,
+                    color: UIColor(named: "up") ?? .red
+                ),
+                CoinInformation.Row(
+                    title: "저가",
+                    value: Double(response.minPrice) ?? 0.0,
+                    color: UIColor(named: "down") ?? .blue
+                )
+            ]
+            self.coinFirstInformationView.informtion = CoinInformation(rows: firstInformation)
+            let secondInformation: [CoinInformation.Row] = [
+                CoinInformation.Row(title: "거래량(24)", value: Double(response.unitsTraded24H) ?? 0.0, color: .lightGray),
+                CoinInformation.Row(title: "거래금(24)", value: Double(response.accTradeValue24H) ?? 0.0, color: .lightGray),
+                CoinInformation.Row.line,
+                CoinInformation.Row(title: "변동가(24)", value: Double(response.fluctate24H) ?? 0.0, color: .lightGray),
+                CoinInformation.Row(title: "변동률(24)", value: Double(response.fluctateRate24H) ?? 0.0, color: .lightGray),
+                CoinInformation.Row(title: "전일종가", value: Double(response.prevClosingPrice) ?? 0.0, color: .lightGray)
+            ]
+            self.coinSecondInformationView.informtion = CoinInformation(rows: secondInformation)
         }
     }
     
