@@ -40,10 +40,10 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
             self.updateBid()
         }
     }
-    private let askTableView: GraphTableView = GraphTableView().then {
+    private let askTableView: OrderBookTableView = OrderBookTableView().then {
         $0.type = .ask
     }
-    private let bidTableView: GraphTableView = GraphTableView().then {
+    private let bidTableView: OrderBookTableView = OrderBookTableView().then {
         $0.type = .bid
     }
     private let coinFirstInformationView = CoinCompactInformationView()

@@ -1,5 +1,5 @@
 //
-//  GraphTableView.swift
+//  OrderBookTableView.swift
 //  FakeBithumbAssignment
 //
 //  Created by momo on 2022/03/09.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GraphTableView: UITableView {
+class OrderBookTableView: UITableView {
     
     // MARK: - Instance Property
     lazy var quoteDatasource: UITableViewDiffableDataSource<OrderType, Quote> = configureDataSource()
@@ -52,7 +52,7 @@ class GraphTableView: UITableView {
     }
     
     private func configTableView() {
-        self.register(cell: GraphTableViewCell.self)
+        self.register(cell: OrderBookTableViewCell.self)
         self.isScrollEnabled = false
         self.isUserInteractionEnabled = false
     }
@@ -62,9 +62,9 @@ class GraphTableView: UITableView {
             tableView: self
         ) {  tableView, indexPath, quote in
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: GraphTableViewCell.className,
+                withIdentifier: OrderBookTableViewCell.className,
                 for: indexPath
-            ) as? GraphTableViewCell
+            ) as? OrderBookTableViewCell
             cell?.update(type: self.type, quote: quote, maxQuantity: self.maxQuantity)
             return cell
         }
