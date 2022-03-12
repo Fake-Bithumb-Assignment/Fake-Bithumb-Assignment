@@ -49,6 +49,16 @@ final class MainViewController: BaseViewController {
         setUpSearchClearButton()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.fetchData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.btsocketAPIService.disconnectAll()
+    }
+
     // MARK: - custom func
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -60,9 +70,6 @@ final class MainViewController: BaseViewController {
         getTickerData(orderCurrency: "ALL", paymentCurrency: "KRW")
         self.loadingAlert.dismiss(animated: true) {
             self.sortByPopularity()
-            self.totalCoinListView.totalCoinList = self.totalCoinList
-            self.updateInterestedCoinList()
-            self.fetchData()
         }
     }
 
@@ -217,7 +224,7 @@ final class MainViewController: BaseViewController {
 
         stackView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
 
@@ -267,6 +274,8 @@ final class MainViewController: BaseViewController {
 
     private func sortByPopularity() {
         self.totalCoinList.sort { $0.popularity < $1.popularity }
+        totalCoinListView.totalCoinList = self.totalCoinList
+        updateInterestedCoinList()
     }
 
     private func sortByName() {
@@ -338,9 +347,6 @@ final class MainViewController: BaseViewController {
                         latestTransaction: latestTransaction,
                         oldestTransaction: oldestTransaction
                     )
-
-                    print(findedCoin.coinName.rawValue, response.last?.transactionDate, response.first?.transactionDate)
-                    print(findedCoin.popularity)
                 }
             }
         }
@@ -350,8 +356,8 @@ final class MainViewController: BaseViewController {
         let latest = latestTransaction.components(separatedBy: ":")
         let oldest = oldestTransaction.components(separatedBy: ":")
         var seconds = 3600
-        var latestValue = 86400
-        var oldestValue = 86400
+        var latestValue = 0
+        var oldestValue = 0
 
         latest.forEach {
             if let time = Int($0) {
@@ -369,6 +375,9 @@ final class MainViewController: BaseViewController {
             }
         }
 
+        if latestValue < oldestValue {
+            return latestValue + 86400 - oldestValue
+        }
         return latestValue - oldestValue
     }
 
@@ -419,8 +428,10 @@ extension MainViewController: HeaderViewDelegate {
         case .sortedBypopular:
             self.present(self.loadingAlert, animated: true, completion: nil)
             self.getTransactionData()
-            self.loadingAlert.dismiss(animated: true) {
-                self.sortByPopularity()
+            DispatchQueue.main.async {
+                self.loadingAlert.dismiss(animated: true) {
+                    self.sortByPopularity()
+                }
             }
         case .sortedByName:
             self.sortByName()
