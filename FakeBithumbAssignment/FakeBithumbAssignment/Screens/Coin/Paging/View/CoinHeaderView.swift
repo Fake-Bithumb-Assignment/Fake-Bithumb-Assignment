@@ -95,11 +95,16 @@ final class CoinHeaderView: UIView {
             self.fluctateLabel.textColor = UIColor(named: "up")
             self.fluctateRateLabel.textColor = UIColor(named: "up")
             self.fluctateImageView.image = UIImage(named: "up")
-        } else {
+        } else if fluctateRate < 0 {
             self.currentPriceLabel.textColor = UIColor(named: "down")
             self.fluctateLabel.textColor = UIColor(named: "down")
             self.fluctateRateLabel.textColor = UIColor(named: "down")
             self.fluctateImageView.image = UIImage(named: "down")
+        } else {
+            self.currentPriceLabel.textColor = .black
+            self.fluctateLabel.textColor = .black
+            self.fluctateRateLabel.textColor = .black
+            self.fluctateImageView.image = UIImage()
         }
     }
 }

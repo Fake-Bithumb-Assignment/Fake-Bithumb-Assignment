@@ -301,8 +301,7 @@ final class MainViewController: BaseViewController {
         Task {
             do {
                 let tickerData = try await tickerAPIService.getTickerData(
-                    orderCurrency: orderCurrency,
-                    paymentCurrency: paymentCurrency
+                    orderCurrency: orderCurrency
                 )
                 if let tickerData = tickerData {
                     try tickerData.allProperties().forEach({
@@ -481,6 +480,7 @@ extension MainViewController: CoinDelgate {
     func showCoinInformation(coin: CoinData) {
         self.headerView.searchController.dismiss(animated: false) {
             let coinViewController = CoinViewController()
+            coinViewController.coin = coin.coinName
             coinViewController.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(coinViewController, animated: true)
         }

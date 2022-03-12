@@ -8,7 +8,7 @@
 import Foundation
 
 enum TransactionEndPoint {
-    case getTransactionData(orderCurrency: String, paymentCurrency: String)
+    case getTransactionData(orderCurrency: String)
     
     var requestTimeOut: Float {
         return 20
@@ -31,8 +31,8 @@ enum TransactionEndPoint {
     func getURL(from environment: HttpEnvironment) -> String {
         let baseUrl = environment.baseUrl
         switch self {
-        case .getTransactionData(let orderCurrency, let paymentCurrency):
-            return "\(baseUrl)/transaction_history/\(orderCurrency)_\(paymentCurrency)?count=80"
+        case .getTransactionData(let orderCurrency):
+            return "\(baseUrl)/transaction_history/\(orderCurrency)_KRW?count=80"
         }
     }
     

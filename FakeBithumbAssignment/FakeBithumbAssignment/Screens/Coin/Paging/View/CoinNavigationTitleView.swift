@@ -75,4 +75,9 @@ final class CoinNavigationTitleView: UIView {
             make.edges.equalTo(self.safeAreaLayoutGuide)
         }
     }
+    
+    func patchData(orderCurrency: Coin) {
+        self.coinLabel.text = orderCurrency.rawValue
+        self.subCoinLabel.text = "\(String(describing: orderCurrency))/KRW"
+    }
 }

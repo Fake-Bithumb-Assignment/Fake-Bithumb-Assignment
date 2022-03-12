@@ -92,7 +92,7 @@ class DepositAndWithdrawalViewController: BaseViewController {
             textField.attributedPlaceholder = attributedString
         }
         
-        self.searchBar.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        self.searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
         self.setUpSearchClearButton()
     }
     
@@ -164,7 +164,7 @@ extension DepositAndWithdrawalViewController {
                 var currentSnapshot = self.dataSource.snapshot()
                 self.assetStatuses.append(assetsStatus)
                 currentSnapshot.appendItems([assetsStatus], toSection: .main)
-                await self.dataSource.apply(currentSnapshot)
+                await self.dataSource.apply(currentSnapshot, animatingDifferences: false)
             }
         }
     }
@@ -174,7 +174,7 @@ extension DepositAndWithdrawalViewController {
         var currentSnapshot = self.dataSource.snapshot()
         currentSnapshot.deleteAllItems()
         currentSnapshot.appendSections([.main])
-        self.dataSource.apply(currentSnapshot)
+        self.dataSource.apply(currentSnapshot, animatingDifferences: false)
     }
     
     private func updateSnapshot(to: [AssetsStatus]) {
@@ -182,7 +182,7 @@ extension DepositAndWithdrawalViewController {
         currentSnapshot.deleteAllItems()
         currentSnapshot.appendSections([.main])
         currentSnapshot.appendItems(to, toSection: .main)
-        self.dataSource.apply(currentSnapshot)
+        self.dataSource.apply(currentSnapshot, animatingDifferences: false)
     }
 }
 

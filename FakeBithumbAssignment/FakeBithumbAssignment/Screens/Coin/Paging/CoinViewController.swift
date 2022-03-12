@@ -14,6 +14,12 @@ final class CoinViewController: BaseViewController {
     
     // MARK: - Instance Property
     
+    var coin: Coin = .BTC {
+        didSet {
+            self.pageViewController.coin = self.coin
+        }
+    }
+    
     private let tickerAPIService = TickerAPIService(apiService: HttpService(),
                                                     environment: .development)
     var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
@@ -61,7 +67,7 @@ final class CoinViewController: BaseViewController {
         $0.backgroundColor = .white
     }
     
-    var pageViewController: CoinPagingViewController?
+    var pageViewController: CoinPagingViewController = CoinPagingViewController()
     
     
     // MARK: - Life Cycle func
@@ -69,8 +75,8 @@ final class CoinViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setPageView()
-        self.getTickerData(orderCurrency: "BTC", paymentCurrency: "KRW")
-        self.getWebsocketTickerData(orderCurrency: "BTC")
+        self.getTickerData(orderCurrency: self.coin)
+        self.getWebsocketTickerData(orderCurrency: self.coin)
         self.patchHeaderViewData()
         self.patchStarButton()
     }
@@ -83,12 +89,12 @@ final class CoinViewController: BaseViewController {
         super.configUI()
         self.configStackView()
         self.configMenuButtons()
-        self.configNavigation()
+        self.configNavigation(orderCurrency: self.coin)
     }
     
     
     // MARK: - custom func
-
+    
     private func configStackView() {
         let menuStackView: UIStackView = UIStackView(
             arrangedSubviews: [self.quoteButton, self.graphButton, self.contractDetailsButton]
@@ -124,8 +130,10 @@ final class CoinViewController: BaseViewController {
         self.setBottomBorder(to: self.quoteButton)
     }
     
-    private func configNavigation() {
-        self.navigationItem.titleView = CoinNavigationTitleView()
+    private func configNavigation(orderCurrency: Coin) {
+        let navigationTitleView = CoinNavigationTitleView()
+        navigationTitleView.patchData(orderCurrency: orderCurrency)
+        self.navigationItem.titleView = navigationTitleView
         
         self.starBarButton = UIBarButtonItem(customView: self.starButton)
         self.navigationItem.rightBarButtonItem = starBarButton
@@ -137,16 +145,12 @@ final class CoinViewController: BaseViewController {
     }
     
     private func setPageView() {
-        self.pageViewController = CoinPagingViewController()
-        
-        if let pageViewController = pageViewController {
-            self.addChild(pageViewController)
-            self.pageView.addSubview(pageViewController.view)
-            self.pageViewController?.view.snp.makeConstraints { make in
-                make.top.leading.trailing.bottom.equalTo(self.pageView)
-            }
-            pageViewController.didMove(toParent: self)
+        self.addChild(pageViewController)
+        self.pageView.addSubview(pageViewController.view)
+        self.pageViewController.view.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.equalTo(self.pageView)
         }
+        pageViewController.didMove(toParent: self)
     }
     
     private func setBottomBorder(to button: UIButton) {
@@ -160,14 +164,12 @@ final class CoinViewController: BaseViewController {
         }
     }
     
-    private func getTickerData(orderCurrency: String, paymentCurrency: String) {
+    private func getTickerData(orderCurrency: Coin) {
         Task {
             do {
-                let tickerData = try await tickerAPIService.getOneTickerData(orderCurrency: orderCurrency,
-                                                                             paymentCurrency: paymentCurrency)
+                let tickerData = try await tickerAPIService.getOneTickerData(orderCurrency: String(describing: orderCurrency))
                 if let tickerData = tickerData {
                     self.tickerData = tickerData
-                    print(tickerData)
                 } else {
                     // TODO: 에러 처리 얼럿 띄우기
                 }
@@ -180,13 +182,13 @@ final class CoinViewController: BaseViewController {
         }
     }
     
-    private func getWebsocketTickerData(orderCurrency: String) {
+    private func getWebsocketTickerData(orderCurrency: Coin) {
         btsocketAPIService.subscribeTicker(
-            orderCurrency: [Coin.BTC],
+            orderCurrency: [orderCurrency],
             paymentCurrency: .krw,
             tickTypes: [._24h]
         ) { response in
-            self.updateHeaderViewTickerData(coin: Coin.BTC, data: response)
+            self.updateHeaderViewTickerData(coin: orderCurrency, data: response)
         }
     }
     
@@ -204,7 +206,7 @@ final class CoinViewController: BaseViewController {
     }
     
     private func patchStarButton() {
-        if let alreadyInterestedCoin = UserDefaults.standard.string(forKey: "BTC") {
+        if let alreadyInterestedCoin = UserDefaults.standard.string(forKey: self.coin.rawValue) {
             self.starButton.setImage(UIImage(named: "fillStar"), for: .normal)
         }
         else {
@@ -217,17 +219,17 @@ final class CoinViewController: BaseViewController {
     
     @objc private func tapQuoteButton(sender: UIButton) {
         self.setBottomBorder(to: self.quoteButton)
-        self.pageViewController?.setTabViewController(to: .quote)
+        self.pageViewController.setTabViewController(to: .quote)
     }
     
     @objc private func tapGraphButton() {
         self.setBottomBorder(to: self.graphButton)
-        self.pageViewController?.setTabViewController(to: .graph)
+        self.pageViewController.setTabViewController(to: .graph)
     }
     
     @objc private func tapContractDetailsButton() {
         self.setBottomBorder(to: self.contractDetailsButton)
-        self.pageViewController?.setTabViewController(to: .contractDetails)
+        self.pageViewController.setTabViewController(to: .contractDetails)
     }
     
     @objc private func tapBackButton() {

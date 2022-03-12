@@ -10,11 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
-class CoinQuoteInformationTabViewController: BaseViewController {
+class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable {
     
     // MARK: - Instance Property
     
-    let orderCurrenty: Coin = .BTC
+    var orderCurrenty: Coin = .BTC
     private let orderbookAPIService: OrderbookAPIService = OrderbookAPIService(
         apiService: HttpService(),
         environment: .development
@@ -76,6 +76,10 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     }
     
     // MARK: - custom funcs
+    
+    func accept(of coin: Coin) {
+        self.orderCurrenty = coin
+    }
     
     private func reset() {
         self.bidQuotes.removeAll()
@@ -193,28 +197,28 @@ class CoinQuoteInformationTabViewController: BaseViewController {
     private func fetchFromSocket() {
         self.btsocketAPIService.subscribeOrderBook(
             orderCurrency: [self.orderCurrenty],
-            paymentCurrency: .krw) {
-                $0.content.list.forEach { response in
-                    let newQuote: Quote = Quote(
-                        price: response.price,
-                        quantity: response.quantity
-                    )
-                    switch response.orderType {
-                    case .ask:
-                        self.askQuotes[newQuote.price] = newQuote
-                    case .bid:
-                        self.bidQuotes[newQuote.price] = newQuote
-                    }
+            paymentCurrency: .krw
+        ) {
+            $0.content.list.forEach { response in
+                let newQuote: Quote = Quote(
+                    price: response.price,
+                    quantity: response.quantity
+                )
+                switch response.orderType {
+                case .ask:
+                    self.askQuotes[newQuote.price] = newQuote
+                case .bid:
+                    self.bidQuotes[newQuote.price] = newQuote
                 }
             }
+        }
     }
     
     private func fetchTicker() {
         Task {
             do {
                 guard let ticker: Item = try await self.tickerAPIService.getOneTickerData(
-                    orderCurrency: String(describing: self.orderCurrenty),
-                    paymentCurrency: "krw"
+                    orderCurrency: String(describing: self.orderCurrenty)
                 ) else {
                     return
                 }
