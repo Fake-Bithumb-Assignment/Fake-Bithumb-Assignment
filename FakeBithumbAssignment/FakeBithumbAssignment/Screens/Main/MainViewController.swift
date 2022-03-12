@@ -70,8 +70,6 @@ final class MainViewController: BaseViewController {
         getTickerData(orderCurrency: "ALL", paymentCurrency: "KRW")
         self.loadingAlert.dismiss(animated: true) {
             self.sortByPopularity()
-            self.totalCoinListView.totalCoinList = self.totalCoinList
-            self.updateInterestedCoinList()
         }
     }
 
@@ -276,6 +274,8 @@ final class MainViewController: BaseViewController {
 
     private func sortByPopularity() {
         self.totalCoinList.sort { $0.popularity < $1.popularity }
+        totalCoinListView.totalCoinList = self.totalCoinList
+        updateInterestedCoinList()
     }
 
     private func sortByName() {
@@ -348,9 +348,6 @@ final class MainViewController: BaseViewController {
                         latestTransaction: latestTransaction,
                         oldestTransaction: oldestTransaction
                     )
-
-                    print(findedCoin.coinName.rawValue, response.last?.transactionDate, response.first?.transactionDate)
-                    print(findedCoin.popularity)
                 }
             }
         }
@@ -432,8 +429,10 @@ extension MainViewController: HeaderViewDelegate {
         case .sortedBypopular:
             self.present(self.loadingAlert, animated: true, completion: nil)
             self.getTransactionData()
-            self.loadingAlert.dismiss(animated: true) {
-                self.sortByPopularity()
+            DispatchQueue.main.async {
+                self.loadingAlert.dismiss(animated: true) {
+                    self.sortByPopularity()
+                }
             }
         case .sortedByName:
             self.sortByName()
