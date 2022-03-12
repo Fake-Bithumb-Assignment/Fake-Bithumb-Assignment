@@ -224,7 +224,7 @@ final class MainViewController: BaseViewController {
 
         stackView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
 
