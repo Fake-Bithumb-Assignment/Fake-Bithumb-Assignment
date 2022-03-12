@@ -75,8 +75,8 @@ final class CoinViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setPageView()
-        self.getTickerData(orderCurrency: "BTC", paymentCurrency: "KRW")
-        self.getWebsocketTickerData(orderCurrency: "BTC")
+        self.getTickerData(orderCurrency: self.coin)
+        self.getWebsocketTickerData(orderCurrency: self.coin)
         self.patchHeaderViewData()
         self.patchStarButton()
     }
@@ -162,11 +162,10 @@ final class CoinViewController: BaseViewController {
         }
     }
     
-    private func getTickerData(orderCurrency: String, paymentCurrency: String) {
+    private func getTickerData(orderCurrency: Coin) {
         Task {
             do {
-                let tickerData = try await tickerAPIService.getOneTickerData(orderCurrency: orderCurrency,
-                                                                             paymentCurrency: paymentCurrency)
+                let tickerData = try await tickerAPIService.getOneTickerData(orderCurrency: String(describing: orderCurrency))
                 if let tickerData = tickerData {
                     self.tickerData = tickerData
                 } else {
@@ -181,13 +180,13 @@ final class CoinViewController: BaseViewController {
         }
     }
     
-    private func getWebsocketTickerData(orderCurrency: String) {
+    private func getWebsocketTickerData(orderCurrency: Coin) {
         btsocketAPIService.subscribeTicker(
-            orderCurrency: [Coin.BTC],
+            orderCurrency: [orderCurrency],
             paymentCurrency: .krw,
             tickTypes: [._24h]
         ) { response in
-            self.updateHeaderViewTickerData(coin: Coin.BTC, data: response)
+            self.updateHeaderViewTickerData(coin: orderCurrency, data: response)
         }
     }
     
@@ -205,7 +204,7 @@ final class CoinViewController: BaseViewController {
     }
     
     private func patchStarButton() {
-        if let alreadyInterestedCoin = UserDefaults.standard.string(forKey: "BTC") {
+        if let alreadyInterestedCoin = UserDefaults.standard.string(forKey: self.coin.rawValue) {
             self.starButton.setImage(UIImage(named: "fillStar"), for: .normal)
         }
         else {
