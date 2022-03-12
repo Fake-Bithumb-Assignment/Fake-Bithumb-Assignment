@@ -10,10 +10,8 @@ import Foundation
 struct BTAssetsStatusAPIService {
     private let httpService: HttpService = HttpService()
     
-    func requestAssetsStatus(
-        of orderCurrency: Coin
-    ) async -> BTAssetsStatusResponse? {
-        let url: String = "https://api.bithumb.com/public/assetsstatus/\(String(describing: orderCurrency))"
+    func requestAllAssetsStatus() async -> [String: BTAssetsStatusResponse]? {
+        let url: String = "https://api.bithumb.com/public/assetsstatus/ALL"
         let request: NetworkRequest = NetworkRequest(
             url: url,
             headers: nil,
