@@ -32,6 +32,7 @@ final class MoreViewController: BaseViewController {
     let beansbinView = MoreView()
     let choonyView = MoreView()
     let momoView = MoreView()
+    var stackView = UIStackView()
     
     
     // MARK: - Life Cycle func
@@ -39,6 +40,7 @@ final class MoreViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.patchData()
+        self.configureViewForSize(view.bounds.size)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -56,7 +58,7 @@ final class MoreViewController: BaseViewController {
     // MARK: - cusotm funcs
     
     private func configStackView() {
-        let stackView = UIStackView(arrangedSubviews: [
+        self.stackView = UIStackView(arrangedSubviews: [
             self.beansbinView,
             self.choonyView,
             self.momoView
@@ -66,11 +68,11 @@ final class MoreViewController: BaseViewController {
             $0.distribution = .fillEqually
         }
         
-        self.view.addSubview(stackView)
-        stackView.snp.makeConstraints { make in
+        self.view.addSubview(self.stackView)
+        self.stackView.snp.makeConstraints { make in
             make.top.bottom.equalTo(self.view.safeAreaLayoutGuide)
-            make.leading.equalTo(self.view.safeAreaLayoutGuide).offset(10)
-            make.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(10)
+            make.leading.equalTo(self.view.safeAreaLayoutGuide)
+            make.trailing.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
     
