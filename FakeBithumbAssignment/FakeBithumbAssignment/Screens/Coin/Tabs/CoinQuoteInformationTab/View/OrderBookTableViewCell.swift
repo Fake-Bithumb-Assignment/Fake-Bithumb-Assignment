@@ -158,6 +158,12 @@ class OrderBookTableViewCell: BaseTableViewCell {
             height: self.graphView.bounds.height / 3
         )
         CATransaction.commit()
+        if let transactionPrice: String = quote.transactionPrice, transactionPrice == quote.price {
+            self.valueView.layer.borderWidth = 1.0
+            self.valueView.layer.borderColor = UIColor.black.cgColor
+        } else {
+            self.valueView.layer.borderWidth = 0.0
+        }
     }
         
     // MARK: - custom funcs

@@ -38,6 +38,7 @@ struct Quote: Codable, Hashable {
         }
     }
     var isEmptyQuote: Bool
+    var transactionPrice: String? = nil
         
     func hash(into hasher: inout Hasher) {
         hasher.combine(self.price)
@@ -61,7 +62,10 @@ struct Quote: Codable, Hashable {
     }
     
     static func == (lhs: Quote, rhs: Quote) -> Bool {
-        return lhs.price == rhs.price && lhs.quantity == rhs.quantity && lhs.prevClosePrice == rhs.prevClosePrice
+        return lhs.price == rhs.price &&
+        lhs.quantity == rhs.quantity &&
+        lhs.prevClosePrice == rhs.prevClosePrice &&
+        lhs.transactionPrice == rhs.transactionPrice
     }
     
     static let asc: (Quote, Quote) -> Bool = { (lhs: Quote, rhs: Quote) in
