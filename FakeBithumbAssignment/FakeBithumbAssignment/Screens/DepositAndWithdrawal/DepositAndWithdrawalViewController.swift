@@ -86,9 +86,13 @@ class DepositAndWithdrawalViewController: BaseViewController {
         if let textField = self.searchBar.value(forKey: "searchField") as? UITextField {
             textField.backgroundColor = .clear
             textField.borderStyle = .none
-            let attributedString = NSAttributedString(string: "코인명 또는 심볼 검색",
-                                                      attributes: [.foregroundColor : UIColor.gray,
-                                                                   .font : UIFont.systemFont(ofSize: 15)])
+            let attributedString = NSAttributedString(
+                string: "코인명 또는 심볼 검색",
+                attributes: [
+                    .foregroundColor: UIColor.gray,
+                    .font: UIFont.systemFont(ofSize: 15)
+                ]
+            )
             textField.attributedPlaceholder = attributedString
         }
         
@@ -147,25 +151,33 @@ extension DepositAndWithdrawalViewController {
     }
     
     private func fetchData() {
-        Coin.allCases.forEach { coin in
-            Task {
-                guard let response: BTAssetsStatusResponse = await btAssetsStatusAPIService.requestAssetsStatus(
-                    of: coin
-                ) else {
+        Task {
+            guard let response: [String: BTAssetsStatusResponse] = await
+                    btAssetsStatusAPIService.requestAllAssetsStatus()
+            else {
+                return
+            }
+            var result: [AssetsStatus] = []
+            response.keys.forEach { symbol in
+                guard let coin: Coin = Coin(symbol: symbol) else {
                     return
                 }
-                let depositStatus: Bool = response.depositStatus == 1
-                let withdrawalStatus: Bool = response.withdrawalStatus == 1
+                guard let assetStatus: BTAssetsStatusResponse = response[symbol] else {
+                    return
+                }
+                let depositStatus: Bool = assetStatus.depositStatus == 1
+                let withdrawalStatus: Bool = assetStatus.withdrawalStatus == 1
                 let assetsStatus: AssetsStatus = AssetsStatus(
                     coin: coin,
                     depositStatus: depositStatus,
                     withdrawalStatus: withdrawalStatus
                 )
-                var currentSnapshot = self.dataSource.snapshot()
-                self.assetStatuses.append(assetsStatus)
-                currentSnapshot.appendItems([assetsStatus], toSection: .main)
-                await self.dataSource.apply(currentSnapshot, animatingDifferences: false)
+                result.append(assetsStatus)
             }
+            var currentSnapshot = self.dataSource.snapshot()
+            self.assetStatuses = result
+            currentSnapshot.appendItems(result, toSection: .main)
+            await self.dataSource.apply(currentSnapshot, animatingDifferences: false)
         }
     }
     
