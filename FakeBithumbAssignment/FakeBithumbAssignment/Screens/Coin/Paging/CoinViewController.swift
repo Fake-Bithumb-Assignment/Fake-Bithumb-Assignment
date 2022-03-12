@@ -89,7 +89,7 @@ final class CoinViewController: BaseViewController {
         super.configUI()
         self.configStackView()
         self.configMenuButtons()
-        self.configNavigation()
+        self.configNavigation(orderCurrency: self.coin)
     }
     
     
@@ -130,8 +130,10 @@ final class CoinViewController: BaseViewController {
         self.setBottomBorder(to: self.quoteButton)
     }
     
-    private func configNavigation() {
-        self.navigationItem.titleView = CoinNavigationTitleView()
+    private func configNavigation(orderCurrency: Coin) {
+        let navigationTitleView = CoinNavigationTitleView()
+        navigationTitleView.patchData(orderCurrency: orderCurrency)
+        self.navigationItem.titleView = navigationTitleView
         
         self.starBarButton = UIBarButtonItem(customView: self.starButton)
         self.navigationItem.rightBarButtonItem = starBarButton
