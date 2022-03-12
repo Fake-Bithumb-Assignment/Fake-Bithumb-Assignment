@@ -169,7 +169,6 @@ final class CoinViewController: BaseViewController {
                                                                              paymentCurrency: paymentCurrency)
                 if let tickerData = tickerData {
                     self.tickerData = tickerData
-                    print(tickerData)
                 } else {
                     // TODO: 에러 처리 얼럿 띄우기
                 }
