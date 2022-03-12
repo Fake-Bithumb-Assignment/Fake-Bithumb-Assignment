@@ -87,11 +87,11 @@ class OrderBookTableView: UITableView {
     func updatedQuotes(to quotes: [Quote]) {
         let sortedQuotes: [Quote] = self.type == .ask ?
         self.getSortedSellQuotes(of: quotes) : self.getSortedBuyQuotes(of: quotes)
-        self.maxQuantity = sortedQuotes.max { $0.quantityNumber < $1.quantityNumber }?.quantityNumber ?? 100.0
         var currentSnapshot = self.quoteDatasource.snapshot()
         currentSnapshot.deleteAllItems()
         currentSnapshot.appendSections([self.type])
         currentSnapshot.appendItems(sortedQuotes, toSection: self.type)
+        self.maxQuantity = sortedQuotes.max { $0.quantityNumber < $1.quantityNumber }?.quantityNumber ?? 100.0
         self.quoteDatasource.apply(currentSnapshot, animatingDifferences: false)
         self.quotes = sortedQuotes
     }
@@ -100,17 +100,23 @@ class OrderBookTableView: UITableView {
         guard !quotes.isEmpty else {
             return []
         }
-        let lastIndex: Int = min(cellCount, quotes.count)
+        guard quotes.count >= 30 else {
+            return Quote.getEmptyQuoteList(number: 30 - quotes.count) +
+            Array(quotes.sorted(by: Quote.asc)).reversed()
+        }
         // 증가순으로 30개 자른 뒤에 뒤집음
-        return Array(quotes.sorted(by: Quote.asc)[..<lastIndex]).reversed()
+        return Array(quotes.sorted(by: Quote.asc)[..<30]).reversed()
     }
     
     private func getSortedBuyQuotes(of quotes: [Quote]) -> [Quote] {
         guard !quotes.isEmpty else {
             return []
         }
-        let lastIndex: Int = min(cellCount, quotes.count)
+        guard quotes.count >= 30 else {
+            return Array(quotes.sorted(by: Quote.desc)) +
+            Quote.getEmptyQuoteList(number: 30 - quotes.count)
+        }
         // 감소순으로 30개
-        return Array(quotes.sorted(by: Quote.desc)[..<lastIndex])
+        return Array(quotes.sorted(by: Quote.desc)[..<30])
     }
 }

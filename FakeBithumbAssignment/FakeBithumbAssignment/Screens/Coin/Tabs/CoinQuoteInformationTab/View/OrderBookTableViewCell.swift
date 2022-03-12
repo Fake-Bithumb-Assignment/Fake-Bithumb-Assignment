@@ -138,6 +138,14 @@ class OrderBookTableViewCell: BaseTableViewCell {
         self.valueView.backgroundColor = self.cellColor
         self.graphView.backgroundColor = self.cellColor
         self.graphStickLayer.backgroundColor = self.graphColor.cgColor
+        guard !quote.isEmptyQuote else {
+            self.valuePriceLabel.text = ""
+            self.graphQuantityLabel.text = ""
+            self.valuePercentabeLabel.text = ""
+            self.graphStickLayer.frame = .zero
+            CATransaction.commit()
+            return
+        }
         self.valuePriceLabel.text = String.insertComma(value: quote.priceNumer)
         self.graphQuantityLabel.text = String.insertComma(value: quote.quantityNumber)
         self.setValuePercentage()

@@ -37,9 +37,27 @@ struct Quote: Codable, Hashable {
             return Double(self.quantity) ?? 0.0
         }
     }
+    var isEmptyQuote: Bool
         
     func hash(into hasher: inout Hasher) {
         hasher.combine(self.price)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case price, quantity
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.price = try values.decode(String.self, forKey: .price)
+        self.quantity = try values.decode(String.self, forKey: .quantity)
+        self.isEmptyQuote = false
+    }
+    
+    init(price: String, quantity: String) {
+        self.price = price
+        self.quantity = quantity
+        self.isEmptyQuote = false
     }
     
     static func == (lhs: Quote, rhs: Quote) -> Bool {
@@ -52,5 +70,17 @@ struct Quote: Codable, Hashable {
     
     static let desc: (Quote, Quote) -> Bool = { (lhs: Quote, rhs: Quote) in
         lhs.priceNumer >= rhs.priceNumer
+    }
+
+    static var emptyQuote: Quote {
+        var quote = Quote(price: UUID().uuidString, quantity: "")
+        quote.isEmptyQuote = true
+        return quote
+    }
+    
+    static func getEmptyQuoteList(number: Int) -> [Quote] {
+        return (1...number).map { _ -> Quote in
+            Quote.emptyQuote
+        }
     }
  }
