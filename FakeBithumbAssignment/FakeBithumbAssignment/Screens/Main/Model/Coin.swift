@@ -367,4 +367,365 @@ enum Coin: String, CaseIterable {
         case .ATOLO:    return "라이즌"
         }
     }
+    
+    init?(symbol: String) {
+        switch symbol {
+        case "BTC":
+            self = .BTC
+        case "ETH":
+            self = .ETH
+        case "BNB":
+            self = .BNB
+        case "XRP":
+            self = .XRP
+        case "LUNA":
+            self = .LUNA
+        case "SOL":
+            self = .SOL
+        case "ADA":
+            self = .ADA
+        case "DOT":
+            self = .DOT
+        case "DOGE":
+            self = .DOGE
+        case "MATIC":
+            self = .MATIC
+        case "CRO":
+            self = .CRO
+        case "DAI":
+            self = .DAI
+        case "ATOM":
+            self = .ATOM
+        case "LTC":
+            self = .LTC
+        case "LINK":
+            self = .LINK
+        case "UNI":
+            self = .UNI
+        case "TRX":
+            self = .TRX
+        case "BCH":
+            self = .BCH
+        case "ALGO":
+            self = .ALGO
+        case "MANA":
+            self = .MANA
+        case "XLM":
+            self = .XLM
+        case "ETC":
+            self = .ETC
+        case "SAND":
+            self = .SAND
+        case "AXS":
+            self = .AXS
+        case "VET":
+            self = .VET
+        case "EGLD":
+            self = .EGLD
+        case "THETA":
+            self = .THETA
+        case "KLAY":
+            self = .KLAY
+        case "XTZ":
+            self = .XTZ
+        case "EOS":
+            self = .EOS
+        case "AAVE":
+            self = .AAVE
+        case "MKR":
+            self = .MKR
+        case "WAVES":
+            self = .WAVES
+        case "CAKE":
+            self = .CAKE
+        case "GALA":
+            self = .GALA
+        case "GRT":
+            self = .GRT
+        case "BSV":
+            self = .BSV
+        case "ENJ":
+            self = .ENJ
+        case "CHZ":
+            self = .CHZ
+        case "KSM":
+            self = .KSM
+        case "BAT":
+            self = .BAT
+        case "LRC":
+            self = .LRC
+        case "XEM":
+            self = .XEM
+        case "TFUEL":
+            self = .TFUEL
+        case "XYM":
+            self = .XYM
+        case "BORA":
+            self = .BORA
+        case "COMP":
+            self = .COMP
+        case "YFI":
+            self = .YFI
+        case "WEMIX":
+            self = .WEMIX
+        case "QTUM":
+            self = .QTUM
+        case "BNT":
+            self = .BNT
+        case "WAXP":
+            self = .WAXP
+        case "ANKR":
+            self = .ANKR
+        case "OMG":
+            self = .OMG
+        case "UMA":
+            self = .UMA
+        case "LPT":
+            self = .LPT
+        case "BTG":
+            self = .BTG
+        case "RLY":
+            self = .RLY
+        case "ZIL":
+            self = .ZIL
+        case "ICX":
+            self = .ICX
+        case "ONT":
+            self = .ONT
+        case "ZRX":
+            self = .ZRX
+        case "NU":
+            self = .NU
+        case "SNX":
+            self = .SNX
+        case "WOO":
+            self = .WOO
+        case "IOST":
+            self = .IOST
+        case "GLM":
+            self = .GLM
+        case "SUSHI":
+            self = .SUSHI
+        case "HIVE":
+            self = .HIVE
+        case "UOS":
+            self = .UOS
+        case "JST":
+            self = .JST
+        case "CKB":
+            self = .CKB
+        case "REN":
+            self = .REN
+        case "OCEAN":
+            self = .OCEAN
+        case "CELR":
+            self = .CELR
+        case "C98":
+            self = .C98
+        case "KNC":
+            self = .KNC
+        case "SRM":
+            self = .SRM
+        case "SXP":
+            self = .SXP
+        case "POWR":
+            self = .POWR
+        case "CHR":
+            self = .CHR
+        case "COTI":
+            self = .COTI
+        case "ALICE":
+            self = .ALICE
+        case "FX":
+            self = .FX
+        case "MED":
+            self = .MED
+        case "ONG":
+            self = .ONG
+        case "CTSI":
+            self = .CTSI
+        case "ORBS":
+            self = .ORBS
+        case "PUNDIX":
+            self = .PUNDIX
+        case "BOBA":
+            self = .BOBA
+        case "MXC":
+            self = .MXC
+        case "SNT":
+            self = .SNT
+        case "RSR":
+            self = .RSR
+        case "ELF":
+            self = .ELF
+        case "BFC":
+            self = .BFC
+        case "NMR":
+            self = .NMR
+        case "ORC":
+            self = .ORC
+        case "OXT":
+            self = .OXT
+        case "REP":
+            self = .REP
+        case "DAO":
+            self = .DAO
+        case "RLC":
+            self = .RLC
+        case "STRAX":
+            self = .STRAX
+        case "GXC":
+            self = .GXC
+        case "STEEM":
+            self = .STEEM
+        case "CENNZ":
+            self = .CENNZ
+        case "META":
+            self = .META
+        case "SUN":
+            self = .SUN
+        case "XPR":
+            self = .XPR
+        case "BCD":
+            self = .BCD
+        case "XVS":
+            self = .XVS
+        case "SSX":
+            self = .SSX
+        case "BAKE":
+            self = .BAKE
+        case "QKC":
+            self = .QKC
+        case "MTL":
+            self = .MTL
+        case "VRA":
+            self = .VRA
+        case "MIR":
+            self = .MIR
+        case "ARPA":
+            self = .ARPA
+        case "BAL":
+            self = .BAL
+        case "CTK":
+            self = .CTK
+        case "LOOM":
+            self = .LOOM
+        case "AERGO":
+            self = .AERGO
+        case "AQT":
+            self = .AQT
+        case "LINA":
+            self = .LINA
+        case "MLK":
+            self = .MLK
+        case "DAD":
+            self = .DAD
+        case "ASM":
+            self = .ASM
+        case "COS":
+            self = .COS
+        case "BIOT":
+            self = .BIOT
+        case "MEV":
+            self = .MEV
+        case "VELO":
+            self = .VELO
+        case "MIX":
+            self = .MIX
+        case "CTXC":
+            self = .CTXC
+        case "FRONT":
+            self = .FRONT
+        case "CYCLUB":
+            self = .CYCLUB
+        case "BEL":
+            self = .BEL
+        case "AION":
+            self = .AION
+        case "MAP":
+            self = .MAP
+        case "FCT2":
+            self = .FCT2
+        case "WTC":
+            self = .WTC
+        case "BOA":
+            self = .BOA
+        case "CON":
+            self = .CON
+        case "SOFI":
+            self = .SOFI
+        case "GOM2":
+            self = .GOM2
+        case "MVC":
+            self = .MVC
+        case "VSYS":
+            self = .VSYS
+        case "GO":
+            self = .GO
+        case "WOZX":
+            self = .WOZX
+        case "WICC":
+            self = .WICC
+        case "EVZ":
+            self = .EVZ
+        case "BUGGER":
+            self = .BUGGER
+        case "SOC":
+            self = .SOC
+        case "GHX":
+            self = .GHX
+        case "XNO":
+            self = .XNO
+        case "EGG":
+            self = .EGG
+        case "IPX":
+            self = .IPX
+        case "VALOR":
+            self = .VALOR
+        case "WOM":
+            self = .WOM
+        case "WIKEN":
+            self = .WIKEN
+        case "RINGX":
+            self = .RINGX
+        case "APM":
+            self = .APM
+        case "TRV":
+            self = .TRV
+        case "BLY":
+            self = .BLY
+        case "ANW":
+            self = .ANW
+        case "APIX":
+            self = .APIX
+        case "POLA":
+            self = .POLA
+        case "PCI":
+            self = .PCI
+        case "TDROP":
+            self = .TDROP
+        case "CTC":
+            self = .CTC
+        case "CWD":
+            self = .CWD
+        case "COLA":
+            self = .COLA
+        case "AWO":
+            self = .AWO
+        case "ADP":
+            self = .ADP
+        case "ANV":
+            self = .ANV
+        case "ARW":
+            self = .ARW
+        case "SPRT":
+            self = .SPRT
+        case "MM":
+            self = .MM
+        case "ATOLO":
+            self = .ATOLO
+        default:
+            return nil
+        }
+    }
 }
