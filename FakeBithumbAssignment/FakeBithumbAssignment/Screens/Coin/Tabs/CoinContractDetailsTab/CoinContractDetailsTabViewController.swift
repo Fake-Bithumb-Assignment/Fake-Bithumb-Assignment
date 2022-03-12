@@ -18,6 +18,8 @@ final class CoinContractDetailsTabViewController: BaseViewController, CoinAccept
     
     // MARK: - Instance Property
     
+    var orderCurreny: Coin = .BTC
+    
     let transactionAPIService: TransactionAPIService = TransactionAPIService(apiService: HttpService(),
                                                                              environment: .development)
     var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
@@ -57,8 +59,8 @@ final class CoinContractDetailsTabViewController: BaseViewController, CoinAccept
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setDelegates()
-        self.getTransactionData(orderCurrency: "BTC", paymentCurrency: "KRW")
-        self.getWebsocketTransactionData(orderCurrency: "BTC")
+        self.getTransactionData(orderCurrency: self.orderCurreny)
+        self.getWebsocketTransactionData(orderCurrency: self.orderCurreny)
     }
     
     override func render() {
@@ -78,7 +80,7 @@ final class CoinContractDetailsTabViewController: BaseViewController, CoinAccept
     // MARK: - custom funcs
     
     func accept(of coin: Coin) {
-        // do something
+        self.orderCurreny = coin
     }
     
     func setDelegates() {
@@ -141,11 +143,10 @@ final class CoinContractDetailsTabViewController: BaseViewController, CoinAccept
         self.volumeTableView.sectionHeaderTopPadding = 0
     }
     
-    private func getTransactionData(orderCurrency: String, paymentCurrency: String) {
+    private func getTransactionData(orderCurrency: Coin) {
         Task {
             do {
-                let transactionData = try await transactionAPIService.getTransactionData(orderCurrency: orderCurrency,
-                                                                                         paymentCurrency: paymentCurrency)
+                let transactionData = try await transactionAPIService.getTransactionData(orderCurrency: String(describing: orderCurrency))
                 
                 if let transactionData = transactionData {
                    self.transactionData = transactionData.reversed()
@@ -161,9 +162,9 @@ final class CoinContractDetailsTabViewController: BaseViewController, CoinAccept
         }
     }
     
-    private func getWebsocketTransactionData(orderCurrency: String) {
+    private func getWebsocketTransactionData(orderCurrency: Coin) {
         btsocketAPIService.subscribeTransaction(
-            orderCurrency: [Coin.BTC],
+            orderCurrency: [orderCurrency],
             paymentCurrency: .krw
         ) { response in
             self.updateTransactionData(coin: Coin.BTC, data: response)

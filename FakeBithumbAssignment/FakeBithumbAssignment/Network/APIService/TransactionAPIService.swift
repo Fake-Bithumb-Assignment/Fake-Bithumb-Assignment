@@ -16,9 +16,9 @@ struct TransactionAPIService {
         self.environment = environment
     }
     
-    func getTransactionData(orderCurrency: String, paymentCurrency: String) async throws -> [TransactionAPIResponse]? {
+    func getTransactionData(orderCurrency: String) async throws -> [TransactionAPIResponse]? {
         let request = TransactionEndPoint
-            .getTransactionData(orderCurrency: orderCurrency, paymentCurrency: paymentCurrency)
+            .getTransactionData(orderCurrency: orderCurrency)
             .createRequest(environment: environment)
         return try await self.apiService.request(request)
     }
