@@ -241,8 +241,7 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
     private func fetchTickerFromAPI() {
         Task {
             guard let response = try await self.tickerAPIService.getOneTickerData(
-                orderCurrency: String(describing: self.orderCurrenty),
-                paymentCurrency: "krw"
+                orderCurrency: String(describing: self.orderCurrenty)
             ) else {
                 return
             }
