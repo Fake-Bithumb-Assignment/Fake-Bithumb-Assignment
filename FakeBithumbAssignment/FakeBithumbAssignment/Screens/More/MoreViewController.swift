@@ -41,11 +41,19 @@ final class MoreViewController: BaseViewController {
         self.patchData()
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+      super.viewWillTransition(to: size, with: coordinator)
+      configureViewForSize(size)
+    }
+    
     override func configUI() {
         self.view.backgroundColor = .white
         self.configStackView()
         self.navigationItem.title = "짭썸 창시자들"
     }
+    
+    
+    // MARK: - cusotm funcs
     
     private func configStackView() {
         let stackView = UIStackView(arrangedSubviews: [
@@ -66,7 +74,13 @@ final class MoreViewController: BaseViewController {
         }
     }
     
-    // MARK: - cusotm funcs
+    private func configureViewForSize(_ size: CGSize) {
+      if size.width > size.height {
+        stackView.axis = .horizontal
+      } else {
+        stackView.axis = .vertical
+      }
+    }
     
     private func patchData() {
         self.beansbinView.patchData(data: self.beansbin)
