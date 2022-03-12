@@ -92,7 +92,7 @@ class DepositAndWithdrawalViewController: BaseViewController {
             textField.attributedPlaceholder = attributedString
         }
         
-        self.searchBar.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        self.searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
         self.setUpSearchClearButton()
     }
     
