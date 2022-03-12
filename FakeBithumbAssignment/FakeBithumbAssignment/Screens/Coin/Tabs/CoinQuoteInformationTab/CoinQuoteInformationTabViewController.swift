@@ -60,9 +60,10 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.fetchFromAPI()
-        self.fetchFromSocket()
+        self.fetchOrderBookFromAPI()
+        self.fetchOrderBookFromSocket()
         self.fetchTickerFromAPI()
+        self.fetchTickerFromSocket()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -166,7 +167,7 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
         }
     }
     
-    private func fetchFromAPI() {
+    private func fetchOrderBookFromAPI() {
         Task {
             do {
                 guard let orderBookResponse: OrderbookAPIResponse = try await self.orderbookAPIService.getOrderbookData(
@@ -194,7 +195,7 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
         
     }
     
-    private func fetchFromSocket() {
+    private func fetchOrderBookFromSocket() {
         self.btsocketAPIService.subscribeOrderBook(
             orderCurrency: [self.orderCurrenty],
             paymentCurrency: .krw
@@ -211,6 +212,30 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
                     self.bidQuotes[newQuote.price] = newQuote
                 }
             }
+        }
+    }
+    
+    private func fetchTickerFromSocket() {
+        Task {
+            do {
+                guard let ticker: Item = try await self.tickerAPIService.getOneTickerData(
+                    orderCurrency: String(describing: self.orderCurrenty),
+                    paymentCurrency: "krw"
+                ) else {
+                    return
+                }
+                self.prevClosePrice = Double(ticker.prevClosingPrice)
+            } catch {
+                //TODO: do something
+                print(error)
+            }
+        }
+        self.btsocketAPIService.subscribeTicker(
+            orderCurrency: [self.orderCurrenty],
+            paymentCurrency: .krw,
+            tickTypes: [.mid]
+        ) { ticker in
+            self.prevClosePrice = ticker.content.prevClosePrice
         }
     }
     
