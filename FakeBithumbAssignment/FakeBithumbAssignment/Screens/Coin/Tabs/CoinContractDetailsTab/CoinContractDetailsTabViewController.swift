@@ -158,11 +158,8 @@ final class CoinContractDetailsTabViewController: BaseViewController, CoinAccept
                 if let transactionData = transactionData {
                     self.transactionData = transactionData.reversed()
                     for index in 0..<self.transactionData.count {
-                        guard let date = self.configureTransactionDate(self.transactionData[index].transactionDate) else { return }
-                        self.transactionData[index].transactionDate = date
+                        self.transactionData[index].transactionDate = self.configureWebsocketTransactionDate(self.transactionData[index].transactionDate, type: .rest)
                     }
-
-                   
                 } else {
                     // TODO: 에러 처리 얼럿 띄우기
                 }
@@ -198,15 +195,25 @@ final class CoinContractDetailsTabViewController: BaseViewController, CoinAccept
         self.reloadTableViews()
     }
     
-    private func configureTransactionDate(_ date: String) -> String? {
+    private func reloadTableViews() {
+        self.timeTableView.reloadData()
+        self.priceTableView.reloadData()
+        self.volumeTableView.reloadData()
+    }
+    
+    private func configureWebsocketTransactionDate(_ date: String, type: APIType) -> String {
         let splitedGivenDate = date.components(separatedBy: " ")
         var splitedTime = splitedGivenDate[1].components(separatedBy: ":")
         let hourString = splitedTime[0]
         guard var hour = Int(hourString) else {
-            return nil
+            return hourString
         }
         
-        hour += 0
+        if type == .rest {
+            hour += 15
+        } else {
+            hour += 9
+        }
         
         if hour > 23 {
             hour -= 24
@@ -221,12 +228,6 @@ final class CoinContractDetailsTabViewController: BaseViewController, CoinAccept
         }
 
         return splitedTime.joined(separator: ":")
-    }
-    
-    private func reloadTableViews() {
-        self.timeTableView.reloadData()
-        self.priceTableView.reloadData()
-        self.volumeTableView.reloadData()
     }
 }
 

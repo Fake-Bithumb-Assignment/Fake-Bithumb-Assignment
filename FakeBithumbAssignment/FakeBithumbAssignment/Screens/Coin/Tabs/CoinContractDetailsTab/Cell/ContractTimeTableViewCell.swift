@@ -55,23 +55,25 @@ class ContractTimeTableViewCell: BaseTableViewCell {
     // MARK: - custom funcs
     
     func update(to: TransactionAPIResponse, type: APIType) {
-        switch type {
-        case .rest:
-            self.timeLabel.text = to.transactionDate
-        case .websocket:
-            self.timeLabel.text = self.configureWebsocketTransactionDate(to.transactionDate)
-        }
+        self.timeLabel.text = self.configureWebsocketTransactionDate(to.transactionDate, type: type)
     }
 
-    private func configureWebsocketTransactionDate(_ date: String) -> String? {
+    private func configureWebsocketTransactionDate(_ date: String, type: APIType) -> String? {
         let splitedGivenDate = date.components(separatedBy: " ")
+        if splitedGivenDate.count == 1 {
+            return nil
+        }
         var splitedTime = splitedGivenDate[1].components(separatedBy: ":")
         let hourString = splitedTime[0]
         guard var hour = Int(hourString) else {
-            return nil
+            return hourString
         }
         
-        hour += 9
+        if type == .rest {
+            hour += 1
+        } else {
+            hour += 9
+        }
         
         if hour > 23 {
             hour -= 24
