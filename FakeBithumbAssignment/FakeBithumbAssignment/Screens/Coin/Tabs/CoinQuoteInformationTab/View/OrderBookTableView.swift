@@ -7,10 +7,10 @@
 
 import UIKit
 
-class OrderBookTableView: UITableView {
+final class OrderBookTableView: UITableView {
     
     // MARK: - Instance Property
-    lazy var quoteDatasource: UITableViewDiffableDataSource<OrderType, Quote> = configureDataSource()
+    private lazy var quoteDatasource: UITableViewDiffableDataSource<OrderType, Quote> = configureDataSource()
     var type: OrderType = .ask {
         didSet {
             self.configUI()
@@ -104,7 +104,6 @@ class OrderBookTableView: UITableView {
             return Quote.getEmptyQuoteList(number: 30 - quotes.count) +
             Array(quotes.sorted(by: Quote.asc)).reversed()
         }
-        // 증가순으로 30개 자른 뒤에 뒤집음
         return Array(quotes.sorted(by: Quote.asc)[..<30]).reversed()
     }
     
@@ -116,7 +115,6 @@ class OrderBookTableView: UITableView {
             return Array(quotes.sorted(by: Quote.desc)) +
             Quote.getEmptyQuoteList(number: 30 - quotes.count)
         }
-        // 감소순으로 30개
         return Array(quotes.sorted(by: Quote.desc)[..<30])
     }
 }

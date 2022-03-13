@@ -7,9 +7,14 @@
 
 import UIKit
 
-class CandleStickScrollView: UIScrollView {
+final class CandleStickScrollView: UIScrollView {
+    
+    // MARK: - Instance Property
+
     var touchEventDelegate: UIResponder? = nil
-        
+
+    // MARK: - custom func
+
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.touchEventDelegate?.touchesMoved(touches, with: event)
     }

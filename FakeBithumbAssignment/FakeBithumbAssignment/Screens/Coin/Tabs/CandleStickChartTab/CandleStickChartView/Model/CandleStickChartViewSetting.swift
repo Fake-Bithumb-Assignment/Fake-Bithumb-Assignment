@@ -7,7 +7,10 @@
 
 import UIKit
 
-class CandleStickChartViewSetting {
+final class CandleStickChartViewSetting {
+    
+    // MARK: - Instance Property
+    
     let color: Color = Color()
     let number: Number = Number()
     let size: Size = Size()

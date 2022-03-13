@@ -8,183 +8,50 @@
 import Foundation
 
 enum Coin: String, CaseIterable {
-    case BTC
-    case ETH
-    case BNB
-    case XRP
-    case LUNA
-    case SOL
-    case ADA
-    case DOT
-    case DOGE
-    case MATIC
-    case CRO
-    case DAI
-    case ATOM
-    case LTC
-    case LINK
-    case UNI
-    case TRX
-    case BCH
-    case ALGO
-    case MANA
-    case XLM
-    case ETC
-    case SAND
-    case AXS
-    case VET
-    case EGLD
-    case THETA
-    case KLAY
-    case XTZ
-    case EOS
-    case AAVE
-    case MKR
-    case WAVES
-    case CAKE
-    case GALA
-    case GRT
-    case BSV
-    case ENJ
-    case CHZ
-    case KSM
-    case BAT
-    case LRC
-    case XEM
-    case TFUEL
-    case XYM
-    case BORA
-    case COMP
-    case YFI
-    case WEMIX
-    case QTUM
-    case BNT
-    case WAXP
-    case ANKR
-    case OMG
-    case UMA
-    case LPT
-    case BTG
-    case RLY
-    case ZIL
-    case ICX
-    case ONT
-    case ZRX
-    case NU
-    case SNX
-    case WOO
-    case IOST
-    case GLM
-    case SUSHI
-    case HIVE
-    case UOS
-    case JST
-    case CKB
-    case REN
-    case OCEAN
-    case CELR
-    case C98
-    case KNC
-    case SRM
-    case SXP
-    case POWR
-    case CHR
-    case COTI
-    case ALICE
-    case FX
-    case MED
-    case ONG
-    case CTSI
-    case ORBS
-    case PUNDIX
-    case BOBA
-    case MXC
-    case SNT
-    case RSR
-    case ELF
-    case BFC
-    case NMR
-    case ORC
-    case OXT
-    case REP
-    case DAO
-    case RLC
-    case STRAX
-    case GXC
-    case STEEM
-    case CENNZ
-    case META
-    case SUN
-    case XPR
-    case BCD
-    case XVS
-    case SSX
-    case BAKE
-    case QKC
-    case MTL
-    case VRA
-    case MIR
-    case ARPA
-    case BAL
-    case CTK
-    case LOOM
-    case AERGO
-    case AQT
-    case LINA
-    case MLK
-    case DAD
-    case ASM
-    case COS
-    case BIOT
-    case MEV
-    case VELO
-    case MIX
-    case CTXC
-    case FRONT
-    case CYCLUB
-    case BEL
-    case AION
-    case MAP
-    case FCT2
-    case WTC
-    case BOA
-    case CON
-    case SOFI
-    case GOM2
-    case MVC
-    case VSYS
-    case GO
-    case WOZX
-    case WICC
-    case EVZ
-    case BUGGER
-    case SOC
-    case GHX
-    case XNO
-    case EGG
-    case IPX
-    case VALOR
-    case WOM
-    case WIKEN
-    case RINGX
-    case APM
-    case TRV
-    case BLY
-    case ANW
-    case APIX
-    case POLA
-    case PCI
-    case TDROP
-    case CTC
-    case CWD
-    case COLA
-    case AWO
-    case ADP
-    case ANV
-    case ARW
-    case SPRT
-    case MM
-    case ATOLO
+    case BTC, ETH, BNB, XRP
+    case LUNA, SOL, ADA, DOT
+    case DOGE, MATIC, CRO, DAI
+    case ATOM, LTC, LINK, UNI
+    case TRX, BCH, ALGO, MANA
+    case XLM, ETC, SAND, AXS
+    case VET, EGLD, THETA, KLAY
+    case XTZ, EOS, AAVE, MKR
+    case WAVES, CAKE, GALA, GRT
+    case BSV, ENJ, CHZ, KSM
+    case BAT, LRC, XEM, TFUEL
+    case XYM, BORA, COMP, YFI
+    case WEMIX, QTUM, BNT, WAXP
+    case ANKR, OMG, UMA, LPT
+    case BTG, RLY, ZIL, ICX
+    case ONT, ZRX, NU, SNX
+    case WOO, IOST, GLM, SUSHI
+    case HIVE, UOS, JST, CKB
+    case REN, OCEAN, CELR, C98
+    case KNC, SRM, SXP, POWR
+    case CHR, COTI, ALICE, FX
+    case MED, ONG, CTSI, ORBS
+    case PUNDIX, BOBA, MXC, SNT
+    case RSR, ELF, BFC, NMR
+    case ORC, OXT, REP, DAO
+    case RLC, STRAX, GXC, STEEM
+    case CENNZ, META, SUN, XPR
+    case BCD, XVS, SSX, BAKE
+    case QKC, MTL, VRA, MIR
+    case ARPA, BAL, CTK, LOOM
+    case AERGO, AQT, LINA, MLK
+    case DAD, ASM, COS, BIOT
+    case MEV, VELO, MIX, CTXC
+    case FRONT, CYCLUB, BEL, AION
+    case MAP, FCT2, WTC, BOA
+    case CON, SOFI, GOM2, MVC
+    case VSYS, GO, WOZX, WICC
+    case EVZ, BUGGER, SOC, GHX
+    case XNO, EGG, IPX, VALOR
+    case WOM, WIKEN, RINGX, APM
+    case TRV, BLY, ANW, APIX
+    case POLA, PCI, TDROP, CTC
+    case CWD, COLA, AWO, ADP
+    case ANV, ARW, SPRT, MM, ATOLO
     
     var rawValue: String {
         switch self {

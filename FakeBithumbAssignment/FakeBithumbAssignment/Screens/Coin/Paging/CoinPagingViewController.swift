@@ -18,12 +18,7 @@ final class CoinPagingViewController: UIPageViewController {
     
     // MARK: - Instance Property
     
-    var coin: Coin = .BTC {
-        didSet {
-            print(self.coin)
-        }
-    }
-    
+    var coin: Coin = .BTC
     private var pages : [TabView: UIViewController] = [
         .quote: CoinQuoteInformationTabViewController(),
         .graph: CandleStickChartTabViewController(),
@@ -32,9 +27,10 @@ final class CoinPagingViewController: UIPageViewController {
 
     // MARK: - Life Cycle func
     
-    override init(transitionStyle style: UIPageViewController.TransitionStyle,
-                  navigationOrientation: UIPageViewController.NavigationOrientation,
-                  options: [UIPageViewController.OptionsKey : Any]? = nil
+    override init(
+        transitionStyle style: UIPageViewController.TransitionStyle,
+        navigationOrientation: UIPageViewController.NavigationOrientation,
+        options: [UIPageViewController.OptionsKey : Any]? = nil
     ) {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     }
@@ -45,27 +41,19 @@ final class CoinPagingViewController: UIPageViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.makeTabViewController()
         self.setFirstShowViewController()
     }
     
-    
     // MARK: - custom funcs
-    
-    private func makeTabViewController() {
-//        self.pages = [
-//            .quote: CoinQuoteInformationTabViewController(),
-//            .graph: CoinGraphTabViewController(),
-//            .contractDetails: CoinContractDetailsTabViewController()
-//        ]
-    }
     
     private func setFirstShowViewController() {
         self.setTabViewController(to: .quote)
     }
     
     func setTabViewController(to type: TabView) {
-        guard let page: UIViewController = pages[type] else { return }
+        guard let page: UIViewController = pages[type] else {
+            return
+        }
         (page as? CoinAcceptable)?.accept(of: self.coin)
         self.setViewControllers([page], direction: .forward, animated: false, completion: nil)
     }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DepositAndWithWithdrawalTableHeaderView: UIView {
+final class DepositAndWithWithdrawalTableHeaderView: UIView {
     
     // MARK: - Instance Property
     

@@ -14,22 +14,18 @@ final class CoinHeaderView: UIView {
     
     // MARK: - Instance Property
 
-    private let currentPriceLabel = UILabel().then {
+    private let currentPriceLabel: UILabel = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .title2)
     }
-    
-    private let fluctateLabel = UILabel().then {
+    private let fluctateLabel: UILabel = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .subheadline)
     }
-    
-    private let fluctateImageView = UIImageView().then {
+    private let fluctateImageView: UIImageView = UIImageView().then {
         $0.image = UIImage()
     }
-    
-    private let fluctateRateLabel = UILabel().then {
+    private let fluctateRateLabel: UILabel = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .subheadline)
     }
-    
     
     // MARK: - Life Cycle func
     
@@ -48,7 +44,12 @@ final class CoinHeaderView: UIView {
     // MARK: - custom func
     
     private func render() {
-        self.addSubViews([currentPriceLabel, fluctateLabel, fluctateImageView, fluctateRateLabel])
+        self.addSubViews([
+            self.currentPriceLabel,
+            self.fluctateLabel,
+            self.fluctateImageView,
+            self.fluctateRateLabel
+        ])
         
         self.snp.makeConstraints { make in
             make.height.equalTo(90)
@@ -89,7 +90,9 @@ final class CoinHeaderView: UIView {
     }
     
     private func setLabelColor(data: CoinHeaderModel) {
-        guard let fluctateRate = Double(data.fluctateRate) else { return }
+        guard let fluctateRate: Double = Double(data.fluctateRate) else {
+            return
+        }
         if fluctateRate > 0 {
             self.currentPriceLabel.textColor = UIColor(named: "up")
             self.fluctateLabel.textColor = UIColor(named: "up")

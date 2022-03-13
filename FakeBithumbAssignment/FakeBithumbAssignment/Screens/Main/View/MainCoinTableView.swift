@@ -16,29 +16,29 @@ final class MainCoinTableView: UIView {
     
     var isInterestView: Bool = false {
         didSet {
-            noInterestedCoinView.isHidden = coinDatas.isEmpty ? false : true
+            self.noInterestedCoinView.isHidden = coinDatas.isEmpty ? false : true
         }
     }
     private var dataSource: UITableViewDiffableDataSource<Section, CoinData>?
     weak var delegate: CoinDelgate?
     var coinDatas: [CoinData] = [] {
         didSet {
-            noInterestedCoinView.isHidden = coinDatas.isEmpty ? false : true
+            self.noInterestedCoinView.isHidden = coinDatas.isEmpty ? false : true
             self.configureSnapshot()
         }
     }
-    let tableView = UITableView().then {
+    let tableView: UITableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
         $0.backgroundColor = .clear
         $0.keyboardDismissMode = .onDrag
         $0.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
-    private let noInterestedCoinLabel = UILabel().then {
+    private let noInterestedCoinLabel: UILabel = UILabel().then {
         $0.text = "등록된 관심 가상자산이 없습니다."
         $0.font = .preferredFont(forTextStyle: .headline)
         $0.textColor = .darkGray
     }
-    private let noInterestedCoinView = UIView().then {
+    private let noInterestedCoinView: UIView = UIView().then {
         $0.backgroundColor = .clear
         $0.isHidden = true
     }
@@ -60,16 +60,16 @@ final class MainCoinTableView: UIView {
     // MARK: - custom func
 
     private func configUI() {
-        noInterestedCoinView.addSubview(noInterestedCoinLabel)
-        noInterestedCoinLabel.snp.makeConstraints { make in
+        self.noInterestedCoinView.addSubview(noInterestedCoinLabel)
+        self.noInterestedCoinLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
         self.addSubview(noInterestedCoinView)
-        noInterestedCoinView.snp.makeConstraints { make in
+        self.noInterestedCoinView.snp.makeConstraints { make in
             make.size.equalToSuperview()
         }
         self.addSubview(tableView)
-        tableView.snp.makeConstraints { make in
+        self.tableView.snp.makeConstraints { make in
             make.size.equalToSuperview()
         }
     }
@@ -86,8 +86,8 @@ final class MainCoinTableView: UIView {
         }
         self.tableView.dataSource = dataSource
     }
-    
-    func configureSnapshot() {
+
+    private func configureSnapshot() {
         guard var snapshot = self.dataSource?.snapshot() else {
             return
         }
@@ -107,15 +107,15 @@ extension MainCoinTableView: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        delegate?.showCoinInformation(coin: coinDatas[indexPath.row])
+        self.delegate?.showCoinInformation(coin: coinDatas[indexPath.row])
     }
-    
+
     func tableView(
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         if self.isInterestView {
-            let interest = UIContextualAction(
+            let interest: UIContextualAction = UIContextualAction(
                 style: .normal,
                 title: nil
             ) { _, _, completion in
@@ -125,14 +125,14 @@ extension MainCoinTableView: UITableViewDelegate {
             interest.image = UIImage(named: "Interested")
             return UISwipeActionsConfiguration(actions: [interest])
         } else {
-            let interest = UIContextualAction(
+            let interest: UIContextualAction = UIContextualAction(
                 style: .normal,
                 title: nil
             ) { _, view, completion in
                 self.delegate?.updateInterestList(coinData: self.coinDatas[indexPath.row])
-                let star = self.coinDatas[indexPath.row].isInterested ?
+                let star: String = self.coinDatas[indexPath.row].isInterested ?
                 "Interested" : "Interest"
-                let closingImageView = UIImageView(image: UIImage(named: star))
+                let closingImageView: UIImageView = UIImageView(image: UIImage(named: star))
                 view.addSubView(closingImageView) {
                     $0.snp.makeConstraints { make in
                         make.center.equalToSuperview()
@@ -142,8 +142,7 @@ extension MainCoinTableView: UITableViewDelegate {
             }
             if self.coinDatas[indexPath.row].isInterested {
                 interest.image = UIImage(named: "Interested")
-            }
-            else {
+            } else {
                 interest.image = UIImage(named: "Interest")
             }
             return UISwipeActionsConfiguration(actions: [interest])

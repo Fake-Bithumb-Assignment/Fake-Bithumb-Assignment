@@ -9,7 +9,7 @@ import UIKit
 
 import Then
 
-class CandleStickChartView: UIView {
+final class CandleStickChartView: UIView {
     
     // MARK: - instance property
     
@@ -333,16 +333,11 @@ extension CandleStickChartView {
             let candleStick: CandleStick = candleSticks[index]
             let xCoord: CGFloat = getXCoord(indexOf: index)
             let color: CGColor = candleStick.type == .blue ? self.setting.color.blueColor : self.setting.color.redColor
-            guard let openingPriceYCoord: CGFloat = self.getYCoord(of: candleStick.openingPrice) else {
-                return
-            }
-            guard let highPriceYCoord: CGFloat = self.getYCoord(of: candleStick.highPrice) else {
-                return
-            }
-            guard let lowPriceYCoord: CGFloat = self.getYCoord(of: candleStick.lowPrice) else {
-                return
-            }
-            guard let tradePriceYCoord: CGFloat = self.getYCoord(of: candleStick.tradePrice) else {
+            guard let openingPriceYCoord: CGFloat = self.getYCoord(of: candleStick.openingPrice),
+                  let highPriceYCoord: CGFloat = self.getYCoord(of: candleStick.highPrice),
+                  let lowPriceYCoord: CGFloat = self.getYCoord(of: candleStick.lowPrice),
+                  let tradePriceYCoord: CGFloat = self.getYCoord(of: candleStick.tradePrice)
+            else {
                 return
             }
             guard candleStick.highPrice != candleStick.lowPrice else {
@@ -390,7 +385,7 @@ extension CandleStickChartView {
             (self.setting.size.candleStickWidth + self.setting.size.candleStickSpace)
         )
         self.drawingTargetIndex.forEach { index in
-            guard ((self.candleSticks.count-1) - index) % drawPerCandleStickCount == 0 else {
+            guard ((self.candleSticks.count - 1) - index) % drawPerCandleStickCount == 0 else {
                 return
             }
             let xCoord: CGFloat = getXCoord(indexOf: index)
@@ -541,7 +536,10 @@ extension CandleStickChartView {
     /// 선택 시간을 그려주는 메소드
     private func drawFocusDateTime(on point: CGPoint) {
         guard let candleStick: CandleStick = self.getSelectedCandleStick(on: point) ??
-                self.getSelectedCandleStick(on: CGPoint(x: point.x + self.setting.size.candleStickSpace, y: point.y))
+                self.getSelectedCandleStick(on: CGPoint(
+                    x: point.x + self.setting.size.candleStickSpace,
+                    y: point.y
+                ))
         else {
             return
         }
