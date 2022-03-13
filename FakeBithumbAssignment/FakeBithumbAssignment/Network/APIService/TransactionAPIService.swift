@@ -15,16 +15,9 @@ struct TransactionAPIService {
         self.apiService = apiService
         self.environment = environment
     }
-    
-    func getTransactionData(orderCurrency: String) async throws -> [TransactionAPIResponse]? {
-        let request = TransactionEndPoint
-            .getTransactionData(orderCurrency: orderCurrency)
-            .createRequest(environment: environment)
-        return try await self.apiService.request(request)
-    }
-    
+        
     func requestTransactionHistory(of orderCurrency: Coin) async -> [TransactionAPIResponse]? {
-        let url: String = "https://api.bithumb.com/public/transaction_history/\(String(describing: orderCurrency))_krw"
+        let url: String = "https://api.bithumb.com/public/transaction_history/\(String(describing: orderCurrency))_KRW?count=100"
         let request: NetworkRequest = NetworkRequest(
             url: url,
             headers: nil,

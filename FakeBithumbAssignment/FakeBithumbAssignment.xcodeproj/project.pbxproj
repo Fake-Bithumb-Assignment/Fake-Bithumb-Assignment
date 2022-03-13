@@ -14,7 +14,6 @@
 		1504F6CC27C5F58900A5EC6C /* NSObject+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6CB27C5F58900A5EC6C /* NSObject+Extension.swift */; };
 		1504F6CE27C5F64D00A5EC6C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6CD27C5F64D00A5EC6C /* MainViewController.swift */; };
 		1504F6D027C5F66200A5EC6C /* CoinQuoteInformationTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6CF27C5F66200A5EC6C /* CoinQuoteInformationTabViewController.swift */; };
-		1504F6D427C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6D327C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift */; };
 		1504F6D627C5F68E00A5EC6C /* DepositAndWithdrawalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6D527C5F68E00A5EC6C /* DepositAndWithdrawalViewController.swift */; };
 		1504F6D827C5F70B00A5EC6C /* CoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F6D727C5F70B00A5EC6C /* CoinViewController.swift */; };
 		1504F72527C6316900A5EC6C /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504F72427C6316900A5EC6C /* BaseModel.swift */; };
@@ -40,9 +39,6 @@
 		15639F9C27DB053E00765B36 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15639F9B27DB053E00765B36 /* MoreViewController.swift */; };
 		15639F9E27DB1A1900765B36 /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15639F9D27DB1A1900765B36 /* MoreView.swift */; };
 		15639FA027DB1D9E00765B36 /* MoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15639F9F27DB1D9E00765B36 /* MoreModel.swift */; };
-		156F484D27D9BDC3007A75D8 /* ContractPriceAndVolumeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156F484A27D9BDC3007A75D8 /* ContractPriceAndVolumeTableViewCell.swift */; };
-		156F484E27D9BDC3007A75D8 /* ContractTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156F484B27D9BDC3007A75D8 /* ContractTimeTableViewCell.swift */; };
-		156F484F27D9BDC3007A75D8 /* ContractTableHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156F484C27D9BDC3007A75D8 /* ContractTableHeaderViewCell.swift */; };
 		156F485127D9BF43007A75D8 /* TransactionEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156F485027D9BF43007A75D8 /* TransactionEndPoint.swift */; };
 		158731A127CB715A0018E67B /* CoinHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158731A027CB715A0018E67B /* CoinHeaderModel.swift */; };
 		158731A327CB75790018E67B /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158731A227CB75790018E67B /* String+Extension.swift */; };
@@ -87,6 +83,8 @@
 		FA611B1027D91F1A00C65218 /* OrderBookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA611B0F27D91F1A00C65218 /* OrderBookTableViewCell.swift */; };
 		FA611B1227D91F2F00C65218 /* OrderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA611B1127D91F2F00C65218 /* OrderType.swift */; };
 		FA611B1427DA926D00C65218 /* CoinAcceptable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA611B1327DA926D00C65218 /* CoinAcceptable.swift */; };
+		FA611B1627DDF3C400C65218 /* CoinTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA611B1527DDF3C400C65218 /* CoinTransactionViewController.swift */; };
+		FA611B1827DDF43D00C65218 /* TransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA611B1727DDF43D00C65218 /* TransactionTableViewCell.swift */; };
 		FA79223327C63F3700D1246A /* WebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA79223227C63F3700D1246A /* WebSocketService.swift */; };
 		FAA2E36827CBB7D5003E3184 /* CoreAnimation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2E36727CBB7D5003E3184 /* CoreAnimation+Extension.swift */; };
 		FABFF57D27CFFD83000B65E6 /* BTCandleStickRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABFF57C27CFFD83000B65E6 /* BTCandleStickRepository.swift */; };
@@ -123,7 +121,6 @@
 		1504F6CB27C5F58900A5EC6C /* NSObject+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Extension.swift"; sourceTree = "<group>"; };
 		1504F6CD27C5F64D00A5EC6C /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		1504F6CF27C5F66200A5EC6C /* CoinQuoteInformationTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinQuoteInformationTabViewController.swift; sourceTree = "<group>"; };
-		1504F6D327C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinContractDetailsTabViewController.swift; sourceTree = "<group>"; };
 		1504F6D527C5F68E00A5EC6C /* DepositAndWithdrawalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositAndWithdrawalViewController.swift; sourceTree = "<group>"; };
 		1504F6D727C5F70B00A5EC6C /* CoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinViewController.swift; sourceTree = "<group>"; };
 		1504F72427C6316900A5EC6C /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
@@ -152,9 +149,6 @@
 		15639F9B27DB053E00765B36 /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		15639F9D27DB1A1900765B36 /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
 		15639F9F27DB1D9E00765B36 /* MoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreModel.swift; sourceTree = "<group>"; };
-		156F484A27D9BDC3007A75D8 /* ContractPriceAndVolumeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractPriceAndVolumeTableViewCell.swift; sourceTree = "<group>"; };
-		156F484B27D9BDC3007A75D8 /* ContractTimeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractTimeTableViewCell.swift; sourceTree = "<group>"; };
-		156F484C27D9BDC3007A75D8 /* ContractTableHeaderViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractTableHeaderViewCell.swift; sourceTree = "<group>"; };
 		156F485027D9BF43007A75D8 /* TransactionEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionEndPoint.swift; sourceTree = "<group>"; };
 		158731A027CB715A0018E67B /* CoinHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinHeaderModel.swift; sourceTree = "<group>"; };
 		158731A227CB75790018E67B /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
@@ -202,6 +196,8 @@
 		FA611B0F27D91F1A00C65218 /* OrderBookTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookTableViewCell.swift; sourceTree = "<group>"; };
 		FA611B1127D91F2F00C65218 /* OrderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderType.swift; sourceTree = "<group>"; };
 		FA611B1327DA926D00C65218 /* CoinAcceptable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinAcceptable.swift; sourceTree = "<group>"; };
+		FA611B1527DDF3C400C65218 /* CoinTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTransactionViewController.swift; sourceTree = "<group>"; };
+		FA611B1727DDF43D00C65218 /* TransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTableViewCell.swift; sourceTree = "<group>"; };
 		FA79223227C63F3700D1246A /* WebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketService.swift; sourceTree = "<group>"; };
 		FAA2E36727CBB7D5003E3184 /* CoreAnimation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreAnimation+Extension.swift"; sourceTree = "<group>"; };
 		FABFF57C27CFFD83000B65E6 /* BTCandleStickRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTCandleStickRepository.swift; sourceTree = "<group>"; };
@@ -350,16 +346,6 @@
 				15639F9F27DB1D9E00765B36 /* MoreModel.swift */,
 			);
 			path = More;
-			sourceTree = "<group>";
-		};
-		156F484927D9BDA1007A75D8 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				156F484A27D9BDC3007A75D8 /* ContractPriceAndVolumeTableViewCell.swift */,
-				156F484C27D9BDC3007A75D8 /* ContractTableHeaderViewCell.swift */,
-				156F484B27D9BDC3007A75D8 /* ContractTimeTableViewCell.swift */,
-			);
-			path = Cell;
 			sourceTree = "<group>";
 		};
 		1587319F27CB71270018E67B /* Model */ = {
@@ -544,8 +530,8 @@
 		15BE7A6F27C5E6AB0007FB2F /* CoinContractDetailsTab */ = {
 			isa = PBXGroup;
 			children = (
-				1504F6D327C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift */,
-				156F484927D9BDA1007A75D8 /* Cell */,
+				FA611B1527DDF3C400C65218 /* CoinTransactionViewController.swift */,
+				FA611B1727DDF43D00C65218 /* TransactionTableViewCell.swift */,
 			);
 			path = CoinContractDetailsTab;
 			sourceTree = "<group>";
@@ -829,6 +815,7 @@
 				43EE309727CDEF3700130EC1 /* CoinData.swift in Sources */,
 				15ACAE9927C9DEC900AB7EDC /* UICollectionView+Extension.swift in Sources */,
 				4345B76627D28AFA007FA9F7 /* Loopable.swift in Sources */,
+				FA611B1627DDF3C400C65218 /* CoinTransactionViewController.swift in Sources */,
 				1504F73227C6338100A5EC6C /* Requestable.swift in Sources */,
 				43F66EAD27D1C2B2004C9B06 /* SortOption.swift in Sources */,
 				1504F6D627C5F68E00A5EC6C /* DepositAndWithdrawalViewController.swift in Sources */,
@@ -840,7 +827,7 @@
 				43B3271F27D71C7C00B7243D /* MainTabBarViewController.swift in Sources */,
 				FAA2E36827CBB7D5003E3184 /* CoreAnimation+Extension.swift in Sources */,
 				FAC7F95B27C65A60001E11DA /* BTSocketAPIResponse.swift in Sources */,
-				156F484E27D9BDC3007A75D8 /* ContractTimeTableViewCell.swift in Sources */,
+				FA611B1827DDF43D00C65218 /* TransactionTableViewCell.swift in Sources */,
 				1504F6CC27C5F58900A5EC6C /* NSObject+Extension.swift in Sources */,
 				FA4C65F827D295A900786469 /* BithumbAPI.xcdatamodeld in Sources */,
 				FA4C65FF27D2960B00786469 /* StringOrInt.swift in Sources */,
@@ -853,7 +840,6 @@
 				15639FA027DB1D9E00765B36 /* MoreModel.swift in Sources */,
 				43F66EAF27D1CD0F004C9B06 /* Notification.Name+Extension.swift in Sources */,
 				1504F73427C6339D00A5EC6C /* HttpService.swift in Sources */,
-				156F484D27D9BDC3007A75D8 /* ContractPriceAndVolumeTableViewCell.swift in Sources */,
 				FA79223327C63F3700D1246A /* WebSocketService.swift in Sources */,
 				FA4C65F027D2958A00786469 /* CandleStickChartView.swift in Sources */,
 				FAC7F96127C768B5001E11DA /* JSONDecoder+Extension.swift in Sources */,
@@ -871,7 +857,6 @@
 				1504F6D027C5F66200A5EC6C /* CoinQuoteInformationTabViewController.swift in Sources */,
 				15564DC127CF7C0C00BF9314 /* CoinCompactInformationView.swift in Sources */,
 				FADFB53727D532C40043AF0A /* CandleStickScrollView.swift in Sources */,
-				156F484F27D9BDC3007A75D8 /* ContractTableHeaderViewCell.swift in Sources */,
 				151382D827D88C01000062C4 /* NavigationLogoTitleView.swift in Sources */,
 				FADFB52A27D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift in Sources */,
 				4320465727DE0847005D1BF1 /* AssetsStatus.swift in Sources */,
@@ -891,7 +876,6 @@
 				158731A327CB75790018E67B /* String+Extension.swift in Sources */,
 				158731A127CB715A0018E67B /* CoinHeaderModel.swift in Sources */,
 				FADFB52F27D532120043AF0A /* CandleStickChartViewLayer.swift in Sources */,
-				1504F6D427C5F67F00A5EC6C /* CoinContractDetailsTabViewController.swift in Sources */,
 				FADFB52627D2B0810043AF0A /* BTAssetsStatusResponse.swift in Sources */,
 				15ACAE9E27CA061100AB7EDC /* CoinHeaderView.swift in Sources */,
 				FA4C65F127D2958A00786469 /* IntervalButton.swift in Sources */,

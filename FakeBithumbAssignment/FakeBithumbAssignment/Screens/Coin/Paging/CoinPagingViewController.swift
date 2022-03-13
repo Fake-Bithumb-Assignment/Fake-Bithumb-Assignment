@@ -22,7 +22,7 @@ final class CoinPagingViewController: UIPageViewController {
     private var pages : [TabView: UIViewController] = [
         .quote: CoinQuoteInformationTabViewController(),
         .graph: CandleStickChartTabViewController(),
-        .contractDetails: CoinContractDetailsTabViewController()
+        .contractDetails: CoinTransactionViewController()
     ]
 
     // MARK: - Life Cycle func
