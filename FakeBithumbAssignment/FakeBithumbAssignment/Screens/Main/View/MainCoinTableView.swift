@@ -14,11 +14,16 @@ final class MainCoinTableView: UIView {
 
     // MARK: - Instance Property
     
-    var isInterestView: Bool = false
+    var isInterestView: Bool = false {
+        didSet {
+            noInterestedCoinView.isHidden = coinDatas.isEmpty ? false : true
+        }
+    }
     private var dataSource: UITableViewDiffableDataSource<Section, CoinData>?
     weak var delegate: CoinDelgate?
     var coinDatas: [CoinData] = [] {
         didSet {
+            noInterestedCoinView.isHidden = coinDatas.isEmpty ? false : true
             self.configureSnapshot()
         }
     }

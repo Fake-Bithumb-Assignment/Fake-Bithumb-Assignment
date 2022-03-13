@@ -370,9 +370,11 @@ extension MainViewController: HeaderViewDelegate {
         case .krw:
             self.totalCoinTableView.isHidden = false
             self.interestedCoinTableView.isHidden = true
+            self.totalCoinTableView.isInterestView = false
         case .interest:
             self.totalCoinTableView.isHidden = true
             self.interestedCoinTableView.isHidden = false
+            self.interestedCoinTableView.isInterestView = true
         default:
             break
         }
