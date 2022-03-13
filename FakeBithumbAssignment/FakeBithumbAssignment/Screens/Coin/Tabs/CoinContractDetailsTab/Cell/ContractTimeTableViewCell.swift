@@ -10,6 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
+enum APIType {
+    case rest, websocket
+}
+
 class ContractTimeTableViewCell: BaseTableViewCell {
     
     // MARK: - Instance Property
@@ -50,11 +54,16 @@ class ContractTimeTableViewCell: BaseTableViewCell {
     
     // MARK: - custom funcs
     
-    func update(to: TransactionAPIResponse) {
-        self.timeLabel.text = self.configureTransactionDate(to.transactionDate)
+    func update(to: TransactionAPIResponse, type: APIType) {
+        switch type {
+        case .rest:
+            self.timeLabel.text = to.transactionDate
+        case .websocket:
+            self.timeLabel.text = self.configureWebsocketTransactionDate(to.transactionDate)
+        }
     }
 
-    private func configureTransactionDate(_ date: String) -> String? {
+    private func configureWebsocketTransactionDate(_ date: String) -> String? {
         let splitedGivenDate = date.components(separatedBy: " ")
         var splitedTime = splitedGivenDate[1].components(separatedBy: ":")
         let hourString = splitedTime[0]

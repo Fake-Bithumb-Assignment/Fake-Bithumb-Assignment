@@ -20,6 +20,8 @@ final class CoinContractDetailsTabViewController: BaseViewController, CoinAccept
     
     var orderCurreny: Coin = .BTC
     
+    var apiType: APIType = .rest
+    
     let transactionAPIService: TransactionAPIService = TransactionAPIService(apiService: HttpService(),
                                                                              environment: .development)
     var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
@@ -154,7 +156,13 @@ final class CoinContractDetailsTabViewController: BaseViewController, CoinAccept
                 let transactionData = try await transactionAPIService.getTransactionData(orderCurrency: String(describing: orderCurrency))
                 
                 if let transactionData = transactionData {
-                   self.transactionData = transactionData.reversed()
+                    self.transactionData = transactionData.reversed()
+                    for index in 0..<self.transactionData.count {
+                        guard let date = self.configureTransactionDate(self.transactionData[index].transactionDate) else { return }
+                        self.transactionData[index].transactionDate = date
+                    }
+
+                   
                 } else {
                     // TODO: 에러 처리 얼럿 띄우기
                 }
@@ -172,7 +180,8 @@ final class CoinContractDetailsTabViewController: BaseViewController, CoinAccept
             orderCurrency: [orderCurrency],
             paymentCurrency: .krw
         ) { response in
-            self.updateTransactionData(coin: Coin.BTC, data: response)
+            self.updateTransactionData(coin: self.orderCurreny, data: response)
+            self.apiType = .websocket
         }
     }
     
@@ -187,6 +196,31 @@ final class CoinContractDetailsTabViewController: BaseViewController, CoinAccept
             self.transactionData.popLast()
         }
         self.reloadTableViews()
+    }
+    
+    private func configureTransactionDate(_ date: String) -> String? {
+        let splitedGivenDate = date.components(separatedBy: " ")
+        var splitedTime = splitedGivenDate[1].components(separatedBy: ":")
+        let hourString = splitedTime[0]
+        guard var hour = Int(hourString) else {
+            return nil
+        }
+        
+        hour += 0
+        
+        if hour > 23 {
+            hour -= 24
+        }
+        
+        if hour < 10 {
+            splitedTime[0] = "0\(hour)"
+        }
+        
+        else {
+            splitedTime[0] = "\(hour)"
+        }
+
+        return splitedTime.joined(separator: ":")
     }
     
     private func reloadTableViews() {
@@ -225,7 +259,7 @@ extension CoinContractDetailsTabViewController: UITableViewDataSource {
         case self.timeTableView:
             let cell = tableView.dequeueReusableCell(withType: ContractTimeTableViewCell.self, for: indexPath)
             if self.transactionData.count != 0 {
-                cell.update(to: self.transactionData[indexPath.row])
+                cell.update(to: self.transactionData[indexPath.row], type: self.apiType)
             }
             return cell
         case self.priceTableView:
