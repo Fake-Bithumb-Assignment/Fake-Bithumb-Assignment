@@ -51,6 +51,8 @@ final class MainViewController: BaseViewController {
             SortOption.sortedByChangeRate: byChangeRate
         ]
     }()
+    private let loadingAlert = UIAlertController(title: "", message: nil, preferredStyle: .alert)
+    private var isInitialState: Bool = true
     
     // MARK: - Life Cycle func
 
@@ -60,11 +62,12 @@ final class MainViewController: BaseViewController {
         self.configureSearchController()
         self.setUpSearchClearButton()
     }
-    
-    private var isInitialState: Bool = true
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if self.isInitialState {
+            self.present(self.loadingAlert, animated: true, completion: nil)
+        }
         self.fetchTickerAPIData(orderCurrency: "ALL", paymentCurrency: "KRW")
         if self.isInitialState {
             self.fetchTransactionAPIData()
@@ -99,6 +102,7 @@ final class MainViewController: BaseViewController {
             make.top.equalTo(self.view.safeAreaLayoutGuide)
             make.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
+        self.configureIndicator()
     }
     
     private func setDelegates() {
@@ -106,7 +110,19 @@ final class MainViewController: BaseViewController {
         self.totalCoinTableView.delegate = self
         self.interestedCoinTableView.delegate = self
     }
-    
+
+    private func configureIndicator() {
+        let loadingIndicator = UIActivityIndicatorView(style: .large)
+        loadingIndicator.startAnimating()
+        
+        self.loadingAlert.view.addSubview(loadingIndicator)
+        self.loadingAlert.view.tintColor = .black
+        
+        loadingIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+    }
+
     private func configureSearchController() {
         self.headerView.searchController.searchResultsUpdater = self
         self.navigationItem.searchController = headerView.searchController
@@ -201,6 +217,12 @@ final class MainViewController: BaseViewController {
                    // TODO: 에러 처리 얼럿 띄우기
                     print("tickerData is nil")
                 }
+                
+                self.updateTotalCoinTableView()
+                self.updateInterestCoinTableView()
+                self.loadingAlert.dismiss(animated: true, completion: nil)
+                
+
             } catch HttpServiceError.serverError {
                 print("serverError")
             } catch HttpServiceError.clientError(let message) {
@@ -271,8 +293,9 @@ final class MainViewController: BaseViewController {
             changeRate: String.insertComma(value: data.content.chgRate),
             tradeValue: originCoinData?.tradeValue ?? "0",
             isInterested: originCoinData?.isInterested ?? false,
-            popularity: originCoinData?.popularity ?? 0,
-            changeAmount: String.insertComma(value: data.content.chgAmt)
+            popularity: originCoinData?.popularity ?? 172800,
+            changeAmount: String.insertComma(value: data.content.chgAmt),
+            previousPrice: originCoinData?.currentPrice ?? ""
         )
         self.totalCoins[coin] = coinData
         self.updateTotalCoinTableView()
@@ -311,11 +334,10 @@ final class MainViewController: BaseViewController {
             tradeValue: currentTradeValue,
             isInterested: UserDefaults.standard.string(forKey: coin.rawValue) != nil,
             popularity: originCoinData?.popularity ?? 172800,
-            changeAmount: changeAmount
+            changeAmount: changeAmount,
+            previousPrice: ""
         )
         self.totalCoins[coin] = coinData
-        self.updateTotalCoinTableView()
-        self.updateInterestCoinTableView()
     }
     
     private func calculatePopularity(
@@ -392,7 +414,9 @@ extension MainViewController: CoinDelgate {
     }
     
     func showCoinInformation(coin: CoinData) {
-        self.headerView.searchController.dismiss(animated: false) {
+        if self.headerView.searchController.isActive {
+            self.headerView.searchController.dismiss(animated: true)
+        } else {
             let coinViewController = CoinViewController()
             coinViewController.coin = coin.coinName
             coinViewController.hidesBottomBarWhenPushed = true
