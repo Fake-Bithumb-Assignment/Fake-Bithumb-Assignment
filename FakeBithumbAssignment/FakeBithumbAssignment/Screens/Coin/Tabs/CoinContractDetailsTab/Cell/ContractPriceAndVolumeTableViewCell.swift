@@ -56,13 +56,13 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
     // MARK: - custom funcs
     
     func update(to: TransactionAPIResponse, type: ContractTableLabelType) {
+        self.setLabelColor(to: to)
         switch type {
         case .price:
             self.contentLabel.text = self.configurePrice(to.price)
         case .volume:
             self.contentLabel.text = self.configureTrade(to.unitsTraded)
         }
-        self.setLabelColor(to: to)
     }
     
     private func setLabelColor(to: TransactionAPIResponse) {
