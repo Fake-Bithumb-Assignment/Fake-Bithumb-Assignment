@@ -60,6 +60,19 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
         case .volume:
             self.contentLabel.text = self.configureTrade(to.unitsTraded)
         }
+        self.setLabelColor(to: to)
+    }
+    
+    private func setLabelColor(to: TransactionAPIResponse) {
+        guard let type = to.type else { return }
+        switch type {
+        case "ask":
+            self.contentLabel.textColor = UIColor(named: "up")
+        case "bid":
+            self.contentLabel.textColor = UIColor(named: "down")
+        default:
+            self.contentLabel.textColor = .black
+        }
     }
     
     private func configurePrice(_ price: String) -> String? {
