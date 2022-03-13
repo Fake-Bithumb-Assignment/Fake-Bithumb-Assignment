@@ -423,7 +423,7 @@ FakethumbAssignment
 ## 👨‍👧‍👦 만든 사람들 
 | <img src="https://user-images.githubusercontent.com/46108770/158012511-c97175f3-8419-4277-a582-dc4233a6d10f.png" width="200"> | <img src="https://user-images.githubusercontent.com/46108770/158012604-2c427495-c539-4425-80ae-a5e4691e499e.png" width="200"> |   <img src="https://user-images.githubusercontent.com/46108770/158012540-5ead852b-f1f1-4e04-bb14-2dc14603c637.png" width="200">    |
 | :-----------------: | :-----: | :-----: |
-| **콩이**(beansbin)        | **추니**(choony) | **모모**(momo-youngg) |
+| **콩이**(beansbin)        | **추니**(chuuny) | **모모**(momo-youngg) |
 
 
 ## 💬 커뮤니케이션 방식
