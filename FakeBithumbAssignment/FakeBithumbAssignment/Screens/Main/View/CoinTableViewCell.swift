@@ -79,9 +79,9 @@ class CoinTableViewCell: BaseTableViewCell {
         guard let model = model else {
             return
         }
-        
-        self.checkChangeRate(of: model)
 
+        self.checkChangePrice(of: model)
+        
         self.coinName.text = model.coinName.rawValue
         self.coinSymbol.text = "\(model.coinName)/KRW"
         self.currentPrice.text = model.currentPrice
@@ -93,6 +93,20 @@ class CoinTableViewCell: BaseTableViewCell {
 
         if let changeRate = Double(changeRateString) {
             self.configureTextColor(changeRate)
+        }
+    }
+
+    private func checkChangePrice(of model: CoinData) {
+        let previousPriceString = model.previousPrice.replacingOccurrences(of: ",", with: "")
+        let currentPriceString = model.currentPrice.replacingOccurrences(of: ",", with: "")
+        
+        guard let previousPrice = Double(previousPriceString),
+              let currentPrice = Double(currentPriceString) else {
+                  return
+              }
+        
+        if previousPrice != currentPrice {
+            self.priceIncrement = previousPrice < currentPrice ? true : false
             guard let color = priceIncrement ? UIColor(named: "up") : UIColor(named: "down")
             else {
                 return
@@ -100,21 +114,6 @@ class CoinTableViewCell: BaseTableViewCell {
 
             self.currentPrice.animateBorderColor(toColor: color, duration: 0.1)
         }
-    }
-
-    private func checkChangeRate(of model: CoinData) {
-        guard var previousChangeRateString = self.changeRate.text else {
-            return
-        }
-        
-        previousChangeRateString.removeLast()
-        
-        guard let previousChangeRate = Double(previousChangeRateString),
-              let updatedChangeRate = Double(model.changeRate) else {
-                  return
-              }
-
-        self.priceIncrement = previousChangeRate < updatedChangeRate ? true : false
     }
 
     private func configureTextColor(_ changeRate: Double) {
