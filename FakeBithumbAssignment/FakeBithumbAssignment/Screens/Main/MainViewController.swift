@@ -391,6 +391,7 @@ extension MainViewController: CoinDelgate {
         self.setUserDefaults(coinData.coinName.rawValue)
         self.updateTotalCoinTableView()
         self.updateInterestCoinTableView()
+        self.totalCoinTableView.endEditing(true)
     }
     
     func showCoinInformation(coin: CoinData) {
