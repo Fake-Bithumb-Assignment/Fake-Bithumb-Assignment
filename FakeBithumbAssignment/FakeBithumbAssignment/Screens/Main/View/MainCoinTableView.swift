@@ -81,7 +81,6 @@ final class MainCoinTableView: UIView {
                 withIdentifier: CoinTableViewCell.className,
                 for: indexPath
             ) as? CoinTableViewCell
-            cell?.backgroundColor = .white
             cell?.configure(with: coinData)
             return cell
         }
