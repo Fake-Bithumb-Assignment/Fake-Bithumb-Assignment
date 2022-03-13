@@ -12,36 +12,44 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        
+        guard let windowScene = (scene as? UIWindowScene) else {
+            return
+        }
         let window = UIWindow(windowScene: windowScene)
         
         let tabbarController = MainTabBarViewController()
         let mainViewController = MainViewController()
         let depositAndWithdrawalViewController = DepositAndWithdrawalViewController()
         let moreViewController = MoreViewController()
-    
         let mainNavigationController = UINavigationController(
             rootViewController: mainViewController
         )
-
         let depositAndWithdrawalNavigationController = UINavigationController(
             rootViewController: depositAndWithdrawalViewController
         )
-        
         let moreNavigationViewController = UINavigationController(
             rootViewController: moreViewController
         )
-
         tabbarController.setViewControllers(
             [mainNavigationController, depositAndWithdrawalNavigationController, moreNavigationViewController],
             animated: true
         )
         
-        mainViewController.tabBarItem = UITabBarItem(title: "거래소", image: UIImage(named: "chart"), tag: 1)
-        depositAndWithdrawalViewController.tabBarItem = UITabBarItem(title: "입출금", image: UIImage(named: "trade"), tag: 2)
-        moreViewController.tabBarItem = UITabBarItem(title: "더보기", image: UIImage(named: "more"), tag: 2)
-
+        mainViewController.tabBarItem = UITabBarItem(
+            title: "거래소",
+            image: UIImage(named: "chart"),
+            tag: 1
+        )
+        depositAndWithdrawalViewController.tabBarItem = UITabBarItem(
+            title: "입출금",
+            image: UIImage(named: "trade"),
+            tag: 2
+        )
+        moreViewController.tabBarItem = UITabBarItem(
+            title: "더보기",
+            image: UIImage(named: "more"),
+            tag: 3
+        )
         window.rootViewController = tabbarController
         window.makeKeyAndVisible()
         self.window = window
@@ -74,7 +82,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-    
-    
 }
-

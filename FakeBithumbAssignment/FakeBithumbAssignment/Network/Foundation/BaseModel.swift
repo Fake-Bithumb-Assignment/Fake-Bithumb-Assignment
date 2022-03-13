@@ -8,10 +8,12 @@
 import Foundation
 
 struct BaseModel<T: Decodable>: Decodable {
+    
+    // MARK: - Instance Property
+    
     var status: String?
     var data: T?
     var message: String?
-    
     var statusCase: NetworkStatus? {
         return NetworkStatus(rawValue: status ?? "5900")
     }

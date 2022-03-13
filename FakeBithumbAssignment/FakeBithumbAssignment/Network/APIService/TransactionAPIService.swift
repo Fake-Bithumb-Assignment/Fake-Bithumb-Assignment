@@ -8,10 +8,10 @@
 import Foundation
 
 struct TransactionAPIService {
-    private let apiService: Requestable
+    private let apiService: HttpService
     private let environment: HttpEnvironment
 
-    init(apiService: Requestable, environment: HttpEnvironment) {
+    init(apiService: HttpService, environment: HttpEnvironment) {
         self.apiService = apiService
         self.environment = environment
     }
