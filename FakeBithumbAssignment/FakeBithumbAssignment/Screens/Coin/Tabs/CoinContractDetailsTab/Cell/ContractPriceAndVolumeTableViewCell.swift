@@ -21,6 +21,7 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
     private let contentLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
         $0.textColor = .darkGray
+        $0.textAlignment = .right
     }
     
     
@@ -38,7 +39,8 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
         self.contentView.addSubView(self.contentLabel)
         
         self.contentLabel.snp.makeConstraints { make in
-            make.center.equalTo(self.contentView)
+            make.top.bottom.leading.equalTo(self)
+            make.trailing.equalTo(self).inset(5)
         }
     }
     
