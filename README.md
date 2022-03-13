@@ -4,42 +4,50 @@
 
 > **프로젝트 기간** : 2022.02.21~2022.03.13 (3주)
 
+<br>
+
 ## 😎 목차
 
-[스크린샷 및 영상](#:camera:-스크린샷-및-영상)
+[스크린샷 및 영상](#스크린샷-및-영상)
 
 [기술 스택](#기술-스택)
 
 [플로우 차트](#플로우-차트)
 
-[Trouble-Shooting](#Trouble-Shooting)
+[트러블 슈팅](#트러블-슈팅)
 
-[만든사람들](#만든사람들)
+[만든 사람들](#만든-사람들)
 
-[커뮤니케이션-방식](#커뮤니케이션-방식)
+[커뮤니케이션 방식](#커뮤니케이션-방식)
 
-[사용한 API, 라이브러리 및 참고자료](#사용한-API,-라이브러리-및-참고자료)
+[참고 자료](#참고-자료)
 
+<br>
 
-
-## :camera: 스크린샷 및 영상
+## 스크린샷 및 영상
 
 ![Group 11](https://user-images.githubusercontent.com/46108770/158055678-13676e09-31d4-479f-be6b-73151fbde0ae.png)
 
+<br>
 
-
-## ⚒️ 기술 스택
+## 기술 스택
 <img width="77" src="https://img.shields.io/badge/iOS-15.2+-silver"> <img width="95" src="https://img.shields.io/badge/Xcode-13.2.1-blue">
 
 <img width="77" src="https://img.shields.io/badge/URLSession-pink"> <img width="77" src="https://img.shields.io/badge/Websocket-yellow"> <img width="95" src="https://img.shields.io/badge/Github Actions-green">
 
+<img width="50" src="https://img.shields.io/badge/iPhone-red"> <img width="35" src="https://img.shields.io/badge/iPad-orange">
 
-## ✈️ 플로우 차트
+<img width="77" src="https://img.shields.io/badge/Accessibility-cyan">
+
+<br>
+
+## 플로우 차트
 
 <img width="700" src="https://user-images.githubusercontent.com/46108770/158055594-5eaace50-7e37-4d4f-b3d4-4e40ef29e3d2.png">
 
+<br>
 
-## 🎣 Trouble Shooting
+## 트러블 슈팅
 <details>
 <summary>콩이</summary>
     
@@ -307,7 +315,9 @@ UI 객체들을 레이아웃할 때, 객체를 하나하나 다 설정해주는 
 
 </details>
 
-## 🥊 Ground Rules
+<br>
+
+## Ground Rules
 <details>
 <summary>Git branch</summary>
     
@@ -384,13 +394,13 @@ UI 객체들을 레이아웃할 때, 객체를 하나하나 다 설정해주는 
 FakethumbAssignment
   |
   └── FakethumbAssignment
-			 |── Global
+		   |── Global
 		   │   │── Literal 
 		   │   │── Base 
 		   │   │── Protocol
 		   │   │── Supports
 		   │   │      │── AppDelegate
-       │   │      │── SceneDelegate
+                   │   │      │── SceneDelegate
 		   │   │      └── Info.plist
 		   │   │── Utils
 		   │   │── Extension
@@ -398,10 +408,10 @@ FakethumbAssignment
 		   │   └── Resource
 		   │          └── Assets.xcassets
 		   │
-  		 |── Network
+  	           |── Network
 		   │   │── APIService 
 		   │   │── API  
-	     │   │── Model
+	           │   │── Model
 		   │   └── Foundation
 		   │
 		   └── Screens 
@@ -422,17 +432,26 @@ FakethumbAssignment
 ```
 </details>
 
+<br>
 
-## 👨‍👧‍👦 만든 사람들 
+## 만든 사람들 
 | <img src="https://user-images.githubusercontent.com/46108770/158012511-c97175f3-8419-4277-a582-dc4233a6d10f.png" width="200"> | <img src="https://user-images.githubusercontent.com/46108770/158012604-2c427495-c539-4425-80ae-a5e4691e499e.png" width="200"> |   <img src="https://user-images.githubusercontent.com/46108770/158012540-5ead852b-f1f1-4e04-bb14-2dc14603c637.png" width="200">    |
 | :-----------------: | :-----: | :-----: |
 | **콩이**(beansbin)        | **추니**(chuuny) | **모모**(momo-youngg) |
 
+<br>
 
-## 💬 커뮤니케이션 방식
+## 커뮤니케이션 방식
+* 프로젝트 일정 관리 : [Notion](https://beansbin.notion.site/2-21-3-13-5c018673116a4ed7a65ced2dffb65c97)
+* 스크럼 미팅 및 소통 : Discord
+* Webhook : Discord
 
+<br>
 
-## 📚 사용한 API, 라이브러리 및 참고자료
+## 참고 자료
+* API : [빗썸 API](https://apidocs.bithumb.com/docs/api_info)
+* 참고자료 : [Apple Human Interface Guideline](https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/typography/)
+* Library
 
 | 라이브러리        | Version |       |
 | ----------------- | :-----: | ----- |
