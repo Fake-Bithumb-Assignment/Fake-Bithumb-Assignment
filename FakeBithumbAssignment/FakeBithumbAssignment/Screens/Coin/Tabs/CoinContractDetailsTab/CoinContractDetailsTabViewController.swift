@@ -63,6 +63,12 @@ final class CoinContractDetailsTabViewController: BaseViewController, CoinAccept
         self.getWebsocketTransactionData(orderCurrency: self.orderCurreny)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        btsocketAPIService.disconnectAll()
+        self.reset()
+        super.viewDidDisappear(animated)
+    }
+    
     override func render() {
         self.view.addSubview(self.scrollView)
         
