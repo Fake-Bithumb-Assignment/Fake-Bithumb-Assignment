@@ -24,7 +24,8 @@
 
 ## :camera: 스크린샷 및 영상
 
-<img src = "https://user-images.githubusercontent.com/46108770/158010783-7c0e290b-c23b-4293-b64b-2bf8e626ba96.png" width="150"> <img src = "https://user-images.githubusercontent.com/46108770/158010826-047a70f6-89aa-4eee-8002-dfdbed454b12.png" width="150"> <img src = "https://user-images.githubusercontent.com/46108770/158010834-b5a6d749-8911-4080-ada3-17bd447ba812.png" width="150"> <img src = "https://user-images.githubusercontent.com/46108770/158010841-2547e804-e403-4087-a6c4-2906ab6acc43.png" width="150"> <img src = "https://user-images.githubusercontent.com/46108770/158010860-f5776c78-ed83-4ba2-9943-8ac7ca8bb962.png" width="150">
+![Group 11](https://user-images.githubusercontent.com/46108770/158055678-13676e09-31d4-479f-be6b-73151fbde0ae.png)
+
 
 
 ## ⚒️ 기술 스택
@@ -34,6 +35,8 @@
 
 
 ## ✈️ 플로우 차트
+
+<img width="700" src="https://user-images.githubusercontent.com/46108770/158055594-5eaace50-7e37-4d4f-b3d4-4e40ef29e3d2.png">
 
 
 ## 🎣 Trouble Shooting
