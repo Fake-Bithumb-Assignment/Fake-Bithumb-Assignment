@@ -65,7 +65,6 @@ final class CoinContractDetailsTabViewController: BaseViewController, CoinAccept
     
     override func viewDidDisappear(_ animated: Bool) {
         btsocketAPIService.disconnectAll()
-        self.reset()
         super.viewDidDisappear(animated)
     }
     

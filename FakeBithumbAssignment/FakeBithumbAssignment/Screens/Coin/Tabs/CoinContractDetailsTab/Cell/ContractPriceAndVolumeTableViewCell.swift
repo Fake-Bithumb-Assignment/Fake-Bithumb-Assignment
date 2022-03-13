@@ -69,9 +69,9 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
         guard let type = to.type else { return }
         switch type {
         case "ask":
-            self.contentLabel.textColor = UIColor(named: "up")
-        case "bid":
             self.contentLabel.textColor = UIColor(named: "down")
+        case "bid":
+            self.contentLabel.textColor = UIColor(named: "up")
         default:
             self.contentLabel.textColor = .black
         }
