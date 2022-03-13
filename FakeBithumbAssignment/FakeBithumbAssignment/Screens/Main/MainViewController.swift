@@ -239,7 +239,9 @@ final class MainViewController: BaseViewController {
         guard let searchText: String = self.searchText, !searchText.isEmpty else {
             return { _ in true }
         }
-        return { $0.coinName.rawValue.contains(searchText.uppercased()) }
+        return { $0.coinName.rawValue.contains(searchText.uppercased()) ||
+            String(describing: $0.coinName).contains(searchText.uppercased())
+        }
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
