@@ -21,13 +21,13 @@ final class MoreViewController: BaseViewController {
                              name: "추니(choony)",
                              mbti: "ISFP",
                              github: "https://github.com/kch1285",
-                             comment: "안녕하세요")
+                             comment: "계속해서 전진합니다.")
     
     let momo = MoreModel(characterImage: UIImage(named: "momo") ?? UIImage(),
                              name: "모모(momo-youngg)",
                              mbti: "INFP",
                              github: "https://github.com/momo-youngg",
-                             comment: "안녕하세요")
+                             comment: "기똥차게 해냅니다.")
     
     let beansbinView = MoreView()
     let choonyView = MoreView()
@@ -66,6 +66,7 @@ final class MoreViewController: BaseViewController {
             $0.axis = .vertical
             $0.spacing = 10
             $0.distribution = .fillEqually
+            $0.alignment = .center
         }
         
         self.view.addSubview(self.stackView)
