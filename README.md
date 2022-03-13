@@ -26,7 +26,7 @@
 
 ## 스크린샷 및 영상
 
-![Group 11](https://user-images.githubusercontent.com/46108770/158055678-13676e09-31d4-479f-be6b-73151fbde0ae.png)
+![Group 11](https://user-images.githubusercontent.com/46108770/158057480-6a332ae9-d42e-4ef2-9a09-07d6353516a0.png)
 
 <br>
 
