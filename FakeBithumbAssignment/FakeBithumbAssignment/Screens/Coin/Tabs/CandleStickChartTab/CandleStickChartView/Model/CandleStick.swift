@@ -10,6 +10,9 @@ import Foundation
 extension CandleStickChartView {
     /// 캔들스틱 값
     struct CandleStick {
+        
+        // MARK: - Instance Property
+        
         /// 일시
         let date: Date
         /// 시가

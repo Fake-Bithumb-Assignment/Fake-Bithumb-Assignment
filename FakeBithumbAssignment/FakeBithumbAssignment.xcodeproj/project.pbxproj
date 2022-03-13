@@ -175,8 +175,8 @@
 		73B6FB0421C21C09E1FF0F1F /* Pods-FakeBithumbAssignment.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignment.release.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment.release.xcconfig"; sourceTree = "<group>"; };
 		AE02598F192C0E80255BEA38 /* Pods-FakeBithumbAssignment.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignment.debug.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignment/Pods-FakeBithumbAssignment.debug.xcconfig"; sourceTree = "<group>"; };
 		FA041BBB27C7FA5F0053C996 /* SocketAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketAPIService.swift; sourceTree = "<group>"; };
-		FA4C65ED27D2958A00786469 /* CandleStickChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CandleStickChartView.swift; path = FakeBithumbAssignment/Screens/Coin/Tabs/CandleStickChartTab/CandleStickChartView/CandleStickChartView.swift; sourceTree = SOURCE_ROOT; };
-		FA4C65EE27D2958A00786469 /* IntervalButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IntervalButton.swift; path = FakeBithumbAssignment/Screens/Coin/Tabs/CandleStickChartTab/IntervalButton.swift; sourceTree = SOURCE_ROOT; };
+		FA4C65ED27D2958A00786469 /* CandleStickChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CandleStickChartView.swift; path = FakeBithumbAssignment/Screens/Coin/Tabs/CandleStickChartTab/CandleStickChartView/View/CandleStickChartView.swift; sourceTree = SOURCE_ROOT; };
+		FA4C65EE27D2958A00786469 /* IntervalButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IntervalButton.swift; path = FakeBithumbAssignment/Screens/Coin/Tabs/CandleStickChartTab/CandleStickChartView/View/IntervalButton.swift; sourceTree = SOURCE_ROOT; };
 		FA4C65EF27D2958A00786469 /* CandleStickChartTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CandleStickChartTabViewController.swift; path = FakeBithumbAssignment/Screens/Coin/Tabs/CandleStickChartTab/CandleStickChartTabViewController.swift; sourceTree = SOURCE_ROOT; };
 		FA4C65F327D295A900786469 /* BTCandleStick+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BTCandleStick+CoreDataClass.swift"; sourceTree = "<group>"; };
 		FA4C65F527D295A900786469 /* BithumbAPI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BithumbAPI.xcdatamodel; sourceTree = "<group>"; };
@@ -332,9 +332,9 @@
 		15639F9A27DB04DC00765B36 /* More */ = {
 			isa = PBXGroup;
 			children = (
+				FA611B1D27DE24D500C65218 /* Model */,
+				FA611B1C27DE24D100C65218 /* View */,
 				15639F9B27DB053E00765B36 /* MoreViewController.swift */,
-				15639F9D27DB1A1900765B36 /* MoreView.swift */,
-				15639F9F27DB1D9E00765B36 /* MoreModel.swift */,
 			);
 			path = More;
 			sourceTree = "<group>";
@@ -487,10 +487,9 @@
 		15BE7A6C27C5E6310007FB2F /* DepositAndWithdrawal */ = {
 			isa = PBXGroup;
 			children = (
+				FA611B1B27DE24C800C65218 /* View */,
 				4320465327DE0830005D1BF1 /* Model */,
 				1504F6D527C5F68E00A5EC6C /* DepositAndWithdrawalViewController.swift */,
-				FADFB52927D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift */,
-				FADFB52B27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift */,
 			);
 			path = DepositAndWithdrawal;
 			sourceTree = "<group>";
@@ -510,7 +509,6 @@
 			children = (
 				FADFB52D27D531D40043AF0A /* CandleStickChartView */,
 				FA4C65EF27D2958A00786469 /* CandleStickChartTabViewController.swift */,
-				FA4C65EE27D2958A00786469 /* IntervalButton.swift */,
 			);
 			path = CandleStickChartTab;
 			sourceTree = "<group>";
@@ -518,8 +516,8 @@
 		15BE7A6F27C5E6AB0007FB2F /* CoinContractDetailsTab */ = {
 			isa = PBXGroup;
 			children = (
+				FA611B1A27DE24BD00C65218 /* View */,
 				FA611B1527DDF3C400C65218 /* CoinTransactionViewController.swift */,
-				FA611B1727DDF43D00C65218 /* TransactionTableViewCell.swift */,
 			);
 			path = CoinContractDetailsTab;
 			sourceTree = "<group>";
@@ -535,6 +533,7 @@
 		4320465227DE0667005D1BF1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FADFB53427D532820043AF0A /* CandleStick.swift */,
 				FADFB52E27D532120043AF0A /* CandleStickChartViewLayer.swift */,
 				FADFB53027D532280043AF0A /* CandleStickChartViewSetting.swift */,
 			);
@@ -610,6 +609,50 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FA611B1927DE249400C65218 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FA4C65EE27D2958A00786469 /* IntervalButton.swift */,
+				FA4C65ED27D2958A00786469 /* CandleStickChartView.swift */,
+				FADFB53227D532450043AF0A /* VerticalCenterCATextLayer.swift */,
+				FADFB53627D532C40043AF0A /* CandleStickScrollView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FA611B1A27DE24BD00C65218 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FA611B1727DDF43D00C65218 /* TransactionTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FA611B1B27DE24C800C65218 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FADFB52927D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift */,
+				FADFB52B27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FA611B1C27DE24D100C65218 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				15639F9D27DB1A1900765B36 /* MoreView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FA611B1D27DE24D500C65218 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				15639F9F27DB1D9E00765B36 /* MoreModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		FABFF57927CFFBAE000B65E6 /* Persistent */ = {
 			isa = PBXGroup;
 			children = (
@@ -624,11 +667,8 @@
 		FADFB52D27D531D40043AF0A /* CandleStickChartView */ = {
 			isa = PBXGroup;
 			children = (
+				FA611B1927DE249400C65218 /* View */,
 				4320465227DE0667005D1BF1 /* Model */,
-				FA4C65ED27D2958A00786469 /* CandleStickChartView.swift */,
-				FADFB53227D532450043AF0A /* VerticalCenterCATextLayer.swift */,
-				FADFB53427D532820043AF0A /* CandleStick.swift */,
-				FADFB53627D532C40043AF0A /* CandleStickScrollView.swift */,
 			);
 			path = CandleStickChartView;
 			sourceTree = "<group>";

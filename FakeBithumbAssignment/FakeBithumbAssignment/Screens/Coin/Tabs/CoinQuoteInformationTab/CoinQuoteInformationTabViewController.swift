@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable {
+final class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable {
     
     // MARK: - Instance Property
     
@@ -188,7 +188,6 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
                 self.askQuotes = askQuotes
                 self.scrollView.scrollToCenter()
             } catch {
-                // TODO: do something
                 print(error)
             }
         }
@@ -226,7 +225,6 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
                 }
                 self.prevClosePrice = Double(ticker.prevClosingPrice)
             } catch {
-                //TODO: do something
                 print(error)
             }
         }

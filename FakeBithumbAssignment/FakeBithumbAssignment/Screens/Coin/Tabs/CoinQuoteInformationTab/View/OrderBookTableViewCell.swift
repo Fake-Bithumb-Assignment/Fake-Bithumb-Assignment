@@ -62,6 +62,53 @@ final class OrderBookTableViewCell: BaseTableViewCell {
     private let inset: CGFloat = 0.5
     
     // MARK: - Life Cycle func
+        
+    override func layoutSubviews() {
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0)
+        guard let quote = quote,
+              let maxQuantity = maxQuantity,
+              let wholeStackView = wholeStackView,
+              let lastView: UIView = wholeStackView.arrangedSubviews.last
+        else {
+            return
+        }
+        if self.type == .bid && lastView !== self.graphView {
+            wholeStackView.removeArrangedSubview(self.graphView)
+            wholeStackView.addArrangedSubview(self.graphView)
+        }
+        self.graphQuantityLabel.textAlignment = self.graphTextAlignment
+        self.valueView.backgroundColor = self.cellColor
+        self.graphView.backgroundColor = self.cellColor
+        self.graphStickLayer.backgroundColor = self.graphColor.cgColor
+        guard !quote.isEmptyQuote else {
+            self.valuePriceLabel.text = ""
+            self.graphQuantityLabel.text = ""
+            self.valuePercentabeLabel.text = ""
+            self.graphStickLayer.frame = .zero
+            CATransaction.commit()
+            return
+        }
+        self.valuePriceLabel.text = String.insertComma(value: quote.priceNumer)
+        self.graphQuantityLabel.text = String.insertComma(value: quote.quantityNumber)
+        self.setValuePercentage()
+        let graphWidth: CGFloat = self.graphView.bounds.width * (quote.quantityNumber / maxQuantity)
+        self.graphStickLayer.frame = CGRect(
+            x: type == .ask ? self.graphView.bounds.width - graphWidth : 0,
+            y: self.graphView.bounds.height / 3,
+            width: graphWidth,
+            height: self.graphView.bounds.height / 3
+        )
+        CATransaction.commit()
+        if let transactionPrice: String = quote.transactionPrice, transactionPrice == quote.price {
+            self.valueView.layer.borderWidth = 1.0
+            self.valueView.layer.borderColor = UIColor.black.cgColor
+        } else {
+            self.valueView.layer.borderWidth = 0.0
+        }
+    }
+        
+    // MARK: - custom func
     
     override func render() {
         let valueStackView: UIStackView = UIStackView(
@@ -120,53 +167,6 @@ final class OrderBookTableViewCell: BaseTableViewCell {
             )
         }
     }
-    
-    override func layoutSubviews() {
-        CATransaction.begin()
-        CATransaction.setAnimationDuration(0)
-        guard let quote = quote,
-              let maxQuantity = maxQuantity,
-              let wholeStackView = wholeStackView,
-              let lastView: UIView = wholeStackView.arrangedSubviews.last
-        else {
-            return
-        }
-        if self.type == .bid && lastView !== self.graphView {
-            wholeStackView.removeArrangedSubview(self.graphView)
-            wholeStackView.addArrangedSubview(self.graphView)
-        }
-        self.graphQuantityLabel.textAlignment = self.graphTextAlignment
-        self.valueView.backgroundColor = self.cellColor
-        self.graphView.backgroundColor = self.cellColor
-        self.graphStickLayer.backgroundColor = self.graphColor.cgColor
-        guard !quote.isEmptyQuote else {
-            self.valuePriceLabel.text = ""
-            self.graphQuantityLabel.text = ""
-            self.valuePercentabeLabel.text = ""
-            self.graphStickLayer.frame = .zero
-            CATransaction.commit()
-            return
-        }
-        self.valuePriceLabel.text = String.insertComma(value: quote.priceNumer)
-        self.graphQuantityLabel.text = String.insertComma(value: quote.quantityNumber)
-        self.setValuePercentage()
-        let graphWidth: CGFloat = self.graphView.bounds.width * (quote.quantityNumber / maxQuantity)
-        self.graphStickLayer.frame = CGRect(
-            x: type == .ask ? self.graphView.bounds.width - graphWidth : 0,
-            y: self.graphView.bounds.height / 3,
-            width: graphWidth,
-            height: self.graphView.bounds.height / 3
-        )
-        CATransaction.commit()
-        if let transactionPrice: String = quote.transactionPrice, transactionPrice == quote.price {
-            self.valueView.layer.borderWidth = 1.0
-            self.valueView.layer.borderColor = UIColor.black.cgColor
-        } else {
-            self.valueView.layer.borderWidth = 0.0
-        }
-    }
-        
-    // MARK: - custom funcs
     
     func update(type: OrderType, quote: Quote, maxQuantity: Double) {
         self.type = type

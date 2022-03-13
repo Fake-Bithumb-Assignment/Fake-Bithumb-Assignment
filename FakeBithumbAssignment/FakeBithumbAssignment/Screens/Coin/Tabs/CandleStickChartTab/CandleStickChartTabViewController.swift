@@ -59,7 +59,7 @@ final class CandleStickChartTabViewController: BaseViewController, CoinAcceptabl
     
     // MARK: - custom func
     
-    func setTimer() {
+    private func setTimer() {
         self.refershTimer = Timer.scheduledTimer(
             timeInterval: 1.0,
             target: self,

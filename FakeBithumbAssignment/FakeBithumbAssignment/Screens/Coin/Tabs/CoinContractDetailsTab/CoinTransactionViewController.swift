@@ -129,7 +129,6 @@ final class CoinTransactionViewController: BaseViewController, CoinAcceptable {
                 for: indexPath
             ) as? TransactionTableViewCell
             cell?.transaction = transaction
-            cell?.separatorInset = UIEdgeInsets()
             return cell
         }
         var snapshot = NSDiffableDataSourceSnapshot<TransactionSection, Transaction>()
@@ -197,6 +196,9 @@ extension CoinTransactionViewController: UITableViewDelegate {
 }
 
 struct Transaction: Hashable {
+    
+    // MARK: - Instance Property
+
     let date: String
     let price: String
     let quantity: String
@@ -204,6 +206,8 @@ struct Transaction: Hashable {
     
     enum TransactionType {
         case ask, bid
+        
+        // MARK: - Initializer
         
         init(buyCell: SocketAPIResponse.TransactionResponse.Content.Transaction.BuyCell) {
             switch buyCell {
@@ -224,7 +228,6 @@ struct Transaction: Hashable {
         }
     }
 }
-
 
 enum TransactionSection {
     case main

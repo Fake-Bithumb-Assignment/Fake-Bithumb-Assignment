@@ -129,7 +129,7 @@ final class DepositAndWithdrawalViewController: BaseViewController {
     }
 }
 
-// MARK: - Table view
+// MARK: - extension
 
 extension DepositAndWithdrawalViewController {
     private func configureDataSource() -> UITableViewDiffableDataSource<AssetsStatusSection, AssetsStatus> {

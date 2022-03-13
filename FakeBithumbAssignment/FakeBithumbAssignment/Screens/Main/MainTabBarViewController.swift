@@ -59,17 +59,13 @@ extension MainTabBarViewController: UITabBarControllerDelegate {
         if tabBarIndex == 0 {
             self.selectedTap = 0
             let mainViewController = navigationViewController?.viewControllers[0] as? MainViewController
-
             self.scrollToTop(mainViewController?.totalCoinTableView.tableView, indexPath: indexPath)
             self.scrollToTop(mainViewController?.interestedCoinTableView.tableView, indexPath: indexPath)
-        }
-
-        else if tabBarIndex == 1 {
+        } else if tabBarIndex == 1 {
             if self.selectedTap == 1 {
                 let depositAndWithdrawalViewController = navigationViewController?.viewControllers[0] as? DepositAndWithdrawalViewController
                 self.scrollToTop(depositAndWithdrawalViewController?.tableView, indexPath: indexPath)
             }
-
             self.selectedTap = 1
         }
     }

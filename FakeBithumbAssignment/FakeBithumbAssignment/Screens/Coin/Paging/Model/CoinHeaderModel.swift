@@ -8,13 +8,10 @@
 import Foundation
 
 struct CoinHeaderModel {
+    
+    // MARK: - Instance Property
+    
     let currentPrice: String
     let fluctate: String
     let fluctateRate: String
-    
-    init(currentPrice: String, fluctate: String, fluctateRate: String){
-        self.currentPrice = currentPrice
-        self.fluctate = fluctate
-        self.fluctateRate = fluctateRate
-    }
 }
