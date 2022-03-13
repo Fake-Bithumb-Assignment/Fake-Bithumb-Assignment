@@ -7,13 +7,18 @@
 
 import Foundation
 
-struct BTCandleStickResponse: Decodable {
+struct CandleStickResponse: Decodable {
+    
+    // MARK: - Instance Property
+    
     let date: Int
     let openingPrice: Double
     let highPrice: Double
     let lowPrice: Double
     let tradePrice: Double
     let tradeVolume: Double
+    
+    // MARK: - custom func
     
     func copy(to object: BTCandleStick, orderCurrency: String, chartIntervals: String) {
         object.date = Int64(self.date)

@@ -218,7 +218,7 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
     private func fetchTickerFromSocket() {
         Task {
             do {
-                guard let ticker: Item = try await self.tickerAPIService.getOneTickerData(
+                guard let ticker: AllTickerResponse.Ticker = try await self.tickerAPIService.getOneTickerData(
                     orderCurrency: String(describing: self.orderCurrenty)
                 )
                 else {

@@ -205,7 +205,7 @@ struct Transaction: Hashable {
     enum TransactionType {
         case ask, bid
         
-        init(buyCell: BTSocketAPIResponse.TransactionResponse.Content.Transaction.BuyCell) {
+        init(buyCell: SocketAPIResponse.TransactionResponse.Content.Transaction.BuyCell) {
             switch buyCell {
             case .sell:
                 self = .ask

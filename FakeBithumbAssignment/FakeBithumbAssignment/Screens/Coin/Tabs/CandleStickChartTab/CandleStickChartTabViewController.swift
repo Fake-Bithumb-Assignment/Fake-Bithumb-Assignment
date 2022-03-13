@@ -134,7 +134,7 @@ extension CandleStickChartTabViewController {
             return
         }
         let orderCurrency: String = String(describing: self.orderCurrency)
-        let fromAPI: [BTCandleStickResponse] = await self.btCandleStickApiService.requestCandleStick(
+        let fromAPI: [CandleStickResponse] = await self.btCandleStickApiService.requestCandleStick(
             of: orderCurrency, interval: selectedIntervalButton.interval
         )
         let fromCoreData: [BTCandleStick] = self.btCandleStickRepository.findAllBTCandleSticksOrderByDateAsc(
@@ -152,7 +152,7 @@ extension CandleStickChartTabViewController {
         }
         let orderCurrency: String = String(describing: self.orderCurrency)
         Task {
-            let fromAPI: [BTCandleStickResponse] = await self.btCandleStickApiService.requestCandleStick(
+            let fromAPI: [CandleStickResponse] = await self.btCandleStickApiService.requestCandleStick(
                 of: orderCurrency,
                 interval: selectedIntervalButton.interval
             )
@@ -162,7 +162,7 @@ extension CandleStickChartTabViewController {
     
     /// Core Data + rest api response를 연속되도록 합쳐주는 메소드.
     /// 이것이 끝나고 차트에 데이터를 넣어준다.
-    private func combineData(coreData: [BTCandleStick], apiData: [BTCandleStickResponse]) {
+    private func combineData(coreData: [BTCandleStick], apiData: [CandleStickResponse]) {
         guard !apiData.isEmpty else {
             self.setCandleStickToChart(of: coreData)
             return
@@ -172,8 +172,8 @@ extension CandleStickChartTabViewController {
             return
         }
         guard let latestFromCoreData: BTCandleStick = coreData.first else { return }
-        guard let latestFromApIData: BTCandleStickResponse = apiData.first else { return }
-        guard let oldFromAPI: BTCandleStickResponse = apiData.last else { return }
+        guard let latestFromApIData: CandleStickResponse = apiData.first else { return }
+        guard let oldFromAPI: CandleStickResponse = apiData.last else { return }
         
         // api의 제일 최신값이 더 최신값이여야 함
         guard latestFromCoreData.date <= latestFromApIData.date else {
@@ -198,7 +198,7 @@ extension CandleStickChartTabViewController {
     }
     
     /// api response -> Core Data entity model로 변환해주는 메소드
-    private func transform(from apiData: [BTCandleStickResponse]) -> [BTCandleStick] {
+    private func transform(from apiData: [CandleStickResponse]) -> [BTCandleStick] {
         guard let selectedIntervalButton = self.selectedIntervalButton else {
             return []
         }

@@ -15,7 +15,7 @@ struct AssetsStatusAPIService {
     
     // MARK: - custom func
     
-    func requestAllAssetsStatus() async -> [String: BTAssetsStatusResponse]? {
+    func requestAllAssetsStatus() async -> [String: AssetsStatusResponse]? {
         let url: String = "https://api.bithumb.com/public/assetsstatus/ALL"
         let request: NetworkRequest = NetworkRequest(
             url: url,

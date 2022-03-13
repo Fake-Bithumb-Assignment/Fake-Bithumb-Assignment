@@ -21,7 +21,7 @@ final class CoinViewController: BaseViewController {
     }
     private let tickerAPIService: TickerAPIService = TickerAPIService()
     private var btsocketAPIService: SocketAPIService = SocketAPIService()
-    private var tickerData: Item?
+    private var tickerData: AllTickerResponse.Ticker?
     private let sectionInsets: UIEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     private let headerView = CoinHeaderView()
     private let quoteButton: UIButton = UIButton().then {
@@ -206,7 +206,7 @@ final class CoinViewController: BaseViewController {
         ))
     }
     
-    private func updateHeaderViewTickerData(coin: Coin, data: BTSocketAPIResponse.TickerResponse) {
+    private func updateHeaderViewTickerData(coin: Coin, data: SocketAPIResponse.TickerResponse) {
         self.headerView.patchData(data: CoinHeaderModel(
             currentPrice: "\(data.content.closePrice)",
             fluctate: "\(data.content.chgAmt)",

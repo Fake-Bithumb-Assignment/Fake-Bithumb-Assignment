@@ -8,12 +8,12 @@
 import Foundation
 
 protocol Loopable {
-    func allProperties() throws -> [String: Item]
+    func allProperties() throws -> [String: AllTickerResponse.Ticker]
 }
 
 extension Loopable {
-    func allProperties() throws -> [String: Item] {
-        var result: [String: Item] = [:]
+    func allProperties() throws -> [String: AllTickerResponse.Ticker] {
+        var result: [String: AllTickerResponse.Ticker] = [:]
         let mirror = Mirror(reflecting: self)
         guard let style = mirror.displayStyle, style == .struct || style == .class else {
             return [:]
@@ -22,7 +22,7 @@ extension Loopable {
             guard let property = property else {
                 continue
             }
-            result[property] = value as? Item
+            result[property] = value as? AllTickerResponse.Ticker
         }
         return result
     }

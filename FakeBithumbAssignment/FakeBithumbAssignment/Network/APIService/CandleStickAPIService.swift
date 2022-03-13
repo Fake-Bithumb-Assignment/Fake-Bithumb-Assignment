@@ -19,7 +19,7 @@ struct CandleStickAPIService {
     func requestCandleStick(
         of orderCurrency: String,
         interval: BTCandleStickChartInterval
-    ) async -> [BTCandleStickResponse] {
+    ) async -> [CandleStickResponse] {
         let url: String = "https://api.bithumb.com/public/candlestick/\(orderCurrency)_KRW/\(interval.rawValue)"
         let request: NetworkRequest = NetworkRequest(
             url: url,
@@ -32,7 +32,7 @@ struct CandleStickAPIService {
             guard let rawResponse: [[StringOrInt]] = try await httpService.request(request) else {
                 return []
             }
-            let result: [BTCandleStickResponse] = try rawResponse.map { rawCandleStick in
+            let result: [CandleStickResponse] = try rawResponse.map { rawCandleStick in
                 guard let openingPrice = Double(rawCandleStick[1].stringValue),
                       let tradePrice = Double(rawCandleStick[2].stringValue),
                       let highPrice = Double(rawCandleStick[3].stringValue),
@@ -40,7 +40,7 @@ struct CandleStickAPIService {
                       let tradeVolume = Double(rawCandleStick[5].stringValue) else {
                           throw BTCandleStickAPIError.unknownError
                       }
-                return BTCandleStickResponse(
+                return CandleStickResponse(
                     date: rawCandleStick[0].intValue,
                     openingPrice: openingPrice,
                     highPrice: highPrice,

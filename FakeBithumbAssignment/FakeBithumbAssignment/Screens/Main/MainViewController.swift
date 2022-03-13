@@ -267,7 +267,7 @@ final class MainViewController: BaseViewController {
 
     private func updateTickerAmount(
         coin: Coin,
-        data: BTSocketAPIResponse.TickerResponse
+        data: SocketAPIResponse.TickerResponse
     ) {
         guard let coinData: CoinData = self.totalCoins[coin] else {
             return
@@ -278,7 +278,7 @@ final class MainViewController: BaseViewController {
 
     private func updateTicker(
         coin: Coin, data:
-        BTSocketAPIResponse.TickerResponse
+        SocketAPIResponse.TickerResponse
     ) {
         let originCoinData: CoinData? = self.totalCoins[coin]
         let currentPriceResponse: Double = data.content.closePrice
@@ -309,7 +309,7 @@ final class MainViewController: BaseViewController {
         return Coin(rawValue: parsedCoin)
     }
 
-    private func configureCoinData(coin: Coin, value: Item) {
+    private func configureCoinData(coin: Coin, value: AllTickerResponse.Ticker) {
         guard let fluctateRate24H: Double = Double(value.fluctateRate24H),
               let accTradeValue24H: Double = Double(value.accTradeValue24H),
               let fluctate24H: Double = Double(value.fluctate24H),
