@@ -237,13 +237,14 @@ final class CoinViewController: BaseViewController {
     }
     
     @objc private func tapStarButton() {
-        if let alreadyInterestedCoin = UserDefaults.standard.string(forKey: "BTC") {
+        if let alreadyInterestedCoin = UserDefaults.standard.string(forKey: self.coin.rawValue) {
             UserDefaults.standard.removeObject(forKey: alreadyInterestedCoin)
             self.starButton.setImage(UIImage(named: "notFillStar"), for: .normal)
         }
         else {
-            UserDefaults.standard.set("BTC", forKey: "BTC")
+            UserDefaults.standard.set(self.coin.rawValue, forKey: self.coin.rawValue)
             self.starButton.setImage(UIImage(named: "fillStar"), for: .normal)
         }
+        dump(UserDefaults.standard.dictionaryRepresentation())
     }
 }
