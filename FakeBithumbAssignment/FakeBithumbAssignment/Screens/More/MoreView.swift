@@ -14,38 +14,37 @@ final class MoreView: UIView {
     
     // MARK: - Instance Property
     
-    private let characterImageView = UIImageView()
-    
-    private let nameLabel = UILabel().then {
+    private let characterImageView: UIImageView = UIImageView()
+    private let nameLabel: UILabel = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .headline)
         $0.textColor = UIColor(named: "primaryBlack")
     }
-    
-    private let mbtiLabel = UILabel().then {
+    private let mbtiLabel: UILabel = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .caption1)
         $0.textColor = UIColor.gray
     }
-    
-    private let githubLabel = UILabel().then {
+    private let githubLabel: UILabel = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .caption1)
         $0.textColor = UIColor.gray
     }
-    
-    private let commentLabel = UILabel().then {
-        let matrix = CGAffineTransform(a: 1,
-                                       b: 0,
-                                       c: CGFloat(tanf(12 * 3.141592653589793 / 180 )),
-                                       d: 1,
-                                       tx: 0,
-                                       ty: 0)
-        let descriptor = UIFontDescriptor.init(name: "AppleSDGothicNeo-Regular",
-                                                 matrix: matrix)
+    private let commentLabel: UILabel = UILabel().then {
+        let matrix: CGAffineTransform = CGAffineTransform(
+            a: 1,
+            b: 0,
+            c: CGFloat(tanf(12 * 3.141592653589793 / 180 )),
+            d: 1,
+            tx: 0,
+            ty: 0
+        )
+        let descriptor: UIFontDescriptor = UIFontDescriptor.init(
+            name: "AppleSDGothicNeo-Regular",
+            matrix: matrix
+        )
         $0.font = UIFont(descriptor: descriptor, size: 14)
         
         $0.textColor = .darkGray
         $0.numberOfLines = 0
     }
-    
     
     // MARK: - Life Cycle func
     
@@ -59,8 +58,15 @@ final class MoreView: UIView {
         super.init(coder: coder)
     }
     
-    func render() {
-        self.addSubViews([characterImageView, nameLabel, mbtiLabel, githubLabel, commentLabel])
+    private func render() {
+        self.addSubViews(
+            [self.characterImageView,
+             self.nameLabel,
+             self.mbtiLabel,
+             self.githubLabel,
+             self.commentLabel
+            ]
+        )
         
         self.characterImageView.snp.makeConstraints { make in
             make.centerY.equalTo(self)

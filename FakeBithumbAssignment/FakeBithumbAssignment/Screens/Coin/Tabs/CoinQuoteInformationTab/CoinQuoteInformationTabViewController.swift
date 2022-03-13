@@ -52,8 +52,8 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
     private let bidTableView: OrderBookTableView = OrderBookTableView().then {
         $0.type = .bid
     }
-    private let coinFirstInformationView = CoinCompactInformationView()
-    private let coinSecondInformationView = CoinCompactInformationView()
+    private let coinFirstInformationView: CoinCompactInformationView = CoinCompactInformationView()
+    private let coinSecondInformationView: CoinCompactInformationView = CoinCompactInformationView()
     private let scrollView = UIScrollView().then { make in
         make.backgroundColor = .white
     }
@@ -78,7 +78,7 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        btsocketAPIService.disconnectAll()
+        self.btsocketAPIService.disconnectAll()
         self.reset()
         super.viewDidDisappear(animated)
     }
@@ -103,9 +103,7 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
             quote.transactionPrice = self.transactionPrice
             return quote
         }
-        self.askTableView.updatedQuotes(
-            to: askQuotes
-        )
+        self.askTableView.updatedQuotes(to: askQuotes)
     }
     
     private func updateBid() {
@@ -117,9 +115,7 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
             quote.transactionPrice = self.transactionPrice
             return quote
         }
-        self.bidTableView.updatedQuotes(
-            to: bidQuotes
-        )
+        self.bidTableView.updatedQuotes(to: bidQuotes)
     }
     
     override func configUI() {
@@ -182,7 +178,8 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
                 guard let orderBookResponse: OrderbookAPIResponse = try await self.orderbookAPIService.getOrderbookData(
                     orderCurrency: String(describing: self.orderCurrenty),
                     paymentCurrency: "KRW"
-                ) else {
+                )
+                else {
                     return
                 }
                 var bidQuotes: [String: Quote] = [:]
@@ -229,7 +226,8 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
             do {
                 guard let ticker: Item = try await self.tickerAPIService.getOneTickerData(
                     orderCurrency: String(describing: self.orderCurrenty)
-                ) else {
+                )
+                else {
                     return
                 }
                 self.prevClosePrice = Double(ticker.prevClosingPrice)
@@ -255,10 +253,22 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
                 return
             }
             let firstInformation: [CoinInformation.Row] = [
-                CoinInformation.Row(title: "거래량", value: Double(response.unitsTraded) ?? 0.0, color: .lightGray),
-                CoinInformation.Row(title: "거래금", value: Double(response.accTradeValue) ?? 0.0, color: .lightGray),
+                CoinInformation.Row(
+                    title: "거래량",
+                    value: Double(response.unitsTraded) ?? 0.0,
+                    color: .lightGray
+                ),
+                CoinInformation.Row(
+                    title: "거래금",
+                    value: Double(response.accTradeValue) ?? 0.0,
+                    color: .lightGray
+                ),
                 CoinInformation.Row.line,
-                CoinInformation.Row(title: "시가", value: Double(response.openingPrice) ?? 0.0, color: .lightGray),
+                CoinInformation.Row(
+                    title: "시가",
+                    value: Double(response.openingPrice) ?? 0.0,
+                    color: .lightGray
+                ),
                 CoinInformation.Row(
                     title: "고가",
                     value: Double(response.maxPrice) ?? 0.0,
@@ -272,12 +282,32 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
             ]
             self.coinFirstInformationView.informtion = CoinInformation(rows: firstInformation)
             let secondInformation: [CoinInformation.Row] = [
-                CoinInformation.Row(title: "거래량24", value: Double(response.unitsTraded24H) ?? 0.0, color: .lightGray),
-                CoinInformation.Row(title: "거래금24", value: Double(response.accTradeValue24H) ?? 0.0, color: .lightGray),
+                CoinInformation.Row(
+                    title: "거래량24",
+                    value: Double(response.unitsTraded24H) ?? 0.0,
+                    color: .lightGray
+                ),
+                CoinInformation.Row(
+                    title: "거래금24",
+                    value: Double(response.accTradeValue24H) ?? 0.0,
+                    color: .lightGray
+                ),
                 CoinInformation.Row.line,
-                CoinInformation.Row(title: "변동가24", value: Double(response.fluctate24H) ?? 0.0, color: .lightGray),
-                CoinInformation.Row(title: "변동률24", value: Double(response.fluctateRate24H) ?? 0.0, color: .lightGray),
-                CoinInformation.Row(title: "전일종가", value: Double(response.prevClosingPrice) ?? 0.0, color: .lightGray)
+                CoinInformation.Row(
+                    title: "변동가24",
+                    value: Double(response.fluctate24H) ?? 0.0,
+                    color: .lightGray
+                ),
+                CoinInformation.Row(
+                    title: "변동률24",
+                    value: Double(response.fluctateRate24H) ?? 0.0,
+                    color: .lightGray
+                ),
+                CoinInformation.Row(
+                    title: "전일종가",
+                    value: Double(response.prevClosingPrice) ?? 0.0,
+                    color: .lightGray
+                )
             ]
             self.coinSecondInformationView.informtion = CoinInformation(rows: secondInformation)
         }

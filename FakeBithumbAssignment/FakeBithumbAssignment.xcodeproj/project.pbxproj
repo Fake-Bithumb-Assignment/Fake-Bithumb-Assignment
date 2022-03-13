@@ -50,6 +50,9 @@
 		15ACAE9927C9DEC900AB7EDC /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ACAE9827C9DEC900AB7EDC /* UICollectionView+Extension.swift */; };
 		15ACAE9E27CA061100AB7EDC /* CoinHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ACAE9D27CA061100AB7EDC /* CoinHeaderView.swift */; };
 		15ACAEA227CA26F300AB7EDC /* CoinPagingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ACAEA127CA26F300AB7EDC /* CoinPagingViewController.swift */; };
+		4320465127DE0450005D1BF1 /* CoinInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320465027DE0450005D1BF1 /* CoinInformation.swift */; };
+		4320465527DE083A005D1BF1 /* AssetsStatusSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320465427DE083A005D1BF1 /* AssetsStatusSection.swift */; };
+		4320465727DE0847005D1BF1 /* AssetsStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320465627DE0847005D1BF1 /* AssetsStatus.swift */; };
 		4320861527CE0473002CFDBF /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320861427CE0473002CFDBF /* Category.swift */; };
 		4320861727CE0615002CFDBF /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320861627CE0615002CFDBF /* Section.swift */; };
 		4320861927CFB54C002CFDBF /* MainCoinTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320861827CFB54C002CFDBF /* MainCoinTableView.swift */; };
@@ -160,6 +163,9 @@
 		15ACAE9D27CA061100AB7EDC /* CoinHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinHeaderView.swift; sourceTree = "<group>"; };
 		15ACAEA127CA26F300AB7EDC /* CoinPagingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinPagingViewController.swift; sourceTree = "<group>"; };
 		31928FD3DB50A78B294459C0 /* Pods-FakeBithumbAssignmentTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FakeBithumbAssignmentTests.release.xcconfig"; path = "Target Support Files/Pods-FakeBithumbAssignmentTests/Pods-FakeBithumbAssignmentTests.release.xcconfig"; sourceTree = "<group>"; };
+		4320465027DE0450005D1BF1 /* CoinInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinInformation.swift; sourceTree = "<group>"; };
+		4320465427DE083A005D1BF1 /* AssetsStatusSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsStatusSection.swift; sourceTree = "<group>"; };
+		4320465627DE0847005D1BF1 /* AssetsStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsStatus.swift; sourceTree = "<group>"; };
 		4320861427CE0473002CFDBF /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		4320861627CE0615002CFDBF /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		4320861827CFB54C002CFDBF /* MainCoinTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoinTableView.swift; sourceTree = "<group>"; };
@@ -507,6 +513,7 @@
 		15BE7A6C27C5E6310007FB2F /* DepositAndWithdrawal */ = {
 			isa = PBXGroup;
 			children = (
+				4320465327DE0830005D1BF1 /* Model */,
 				1504F6D527C5F68E00A5EC6C /* DepositAndWithdrawalViewController.swift */,
 				FADFB52927D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift */,
 				FADFB52B27D37AA90043AF0A /* DepositAndWithWithdrawalTableHeaderView.swift */,
@@ -518,6 +525,7 @@
 			isa = PBXGroup;
 			children = (
 				1504F6CF27C5F66200A5EC6C /* CoinQuoteInformationTabViewController.swift */,
+				4320464D27DE0438005D1BF1 /* Model */,
 				15564DAD27CEFB0200BF9314 /* View */,
 			);
 			path = CoinQuoteInformationTab;
@@ -540,6 +548,32 @@
 				156F484927D9BDA1007A75D8 /* Cell */,
 			);
 			path = CoinContractDetailsTab;
+			sourceTree = "<group>";
+		};
+		4320464D27DE0438005D1BF1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4320465027DE0450005D1BF1 /* CoinInformation.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4320465227DE0667005D1BF1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FADFB52E27D532120043AF0A /* CandleStickChartViewLayer.swift */,
+				FADFB53027D532280043AF0A /* CandleStickChartViewSetting.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4320465327DE0830005D1BF1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4320465427DE083A005D1BF1 /* AssetsStatusSection.swift */,
+				4320465627DE0847005D1BF1 /* AssetsStatus.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		4320861327CE045D002CFDBF /* Model */ = {
@@ -616,9 +650,8 @@
 		FADFB52D27D531D40043AF0A /* CandleStickChartView */ = {
 			isa = PBXGroup;
 			children = (
+				4320465227DE0667005D1BF1 /* Model */,
 				FA4C65ED27D2958A00786469 /* CandleStickChartView.swift */,
-				FADFB52E27D532120043AF0A /* CandleStickChartViewLayer.swift */,
-				FADFB53027D532280043AF0A /* CandleStickChartViewSetting.swift */,
 				FADFB53227D532450043AF0A /* VerticalCenterCATextLayer.swift */,
 				FADFB53427D532820043AF0A /* CandleStick.swift */,
 				FADFB53627D532C40043AF0A /* CandleStickScrollView.swift */,
@@ -830,8 +863,10 @@
 				43CACF7B27D26946005EB9B7 /* TickerEndPoint.swift in Sources */,
 				1504F6C427C5F26000A5EC6C /* BaseViewController.swift in Sources */,
 				43B3272527D72CE100B7243D /* TransactionAPIService.swift in Sources */,
+				4320465127DE0450005D1BF1 /* CoinInformation.swift in Sources */,
 				FAC7F95D27C65AC0001E11DA /* BTSocketAPIRequest.swift in Sources */,
 				15564DC527CFC2C600BF9314 /* UIScrollView+Extension.swift in Sources */,
+				4320465527DE083A005D1BF1 /* AssetsStatusSection.swift in Sources */,
 				FA611B0E27D91F0700C65218 /* OrderBookTableView.swift in Sources */,
 				1504F6D027C5F66200A5EC6C /* CoinQuoteInformationTabViewController.swift in Sources */,
 				15564DC127CF7C0C00BF9314 /* CoinCompactInformationView.swift in Sources */,
@@ -839,6 +874,7 @@
 				156F484F27D9BDC3007A75D8 /* ContractTableHeaderViewCell.swift in Sources */,
 				151382D827D88C01000062C4 /* NavigationLogoTitleView.swift in Sources */,
 				FADFB52A27D2B9A80043AF0A /* DepositAndWithdrawalTableViewCell.swift in Sources */,
+				4320465727DE0847005D1BF1 /* AssetsStatus.swift in Sources */,
 				FADFB52827D2B14A0043AF0A /* BTAssetsStatusAPIService.swift in Sources */,
 				FA4C65FB27D295B400786469 /* BTCandleStickAPIService.swift in Sources */,
 				1504F72D27C6322500A5EC6C /* HttpServiceError.swift in Sources */,

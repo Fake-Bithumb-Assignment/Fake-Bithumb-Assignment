@@ -14,28 +14,25 @@ final class ColumnNameView: UIView {
 
     // MARK: - Instance Property
 
-    private let coinNameLabel = UILabel().then {
+    private let coinNameLabel: UILabel = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .footnote)
         $0.text = "가상자산명"
         $0.textColor = .gray
         $0.textAlignment = .left
     }
-
-    private let currentPriceLabel = UILabel().then {
+    private let currentPriceLabel: UILabel = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .footnote)
         $0.text = "현재가"
         $0.textColor = .gray
         $0.textAlignment = .right
     }
-
-    private let changeRateLabel = UILabel().then {
+    private let changeRateLabel: UILabel = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .footnote)
         $0.text = "변동률"
         $0.textColor = .gray
         $0.textAlignment = .right
     }
-
-    private let tradeValueLabel = UILabel().then {
+    private let tradeValueLabel: UILabel = UILabel().then {
         $0.font = .preferredFont(forTextStyle: .footnote)
         $0.text = "거래금액"
         $0.textColor = .gray
@@ -46,7 +43,7 @@ final class ColumnNameView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configUI()
+        self.configUI()
     }
 
     @available(*, unavailable)
@@ -57,7 +54,7 @@ final class ColumnNameView: UIView {
     // MARK: - custom func
 
     private func configUI() {
-        let stackView = UIStackView(arrangedSubviews: [
+        let stackView: UIStackView = UIStackView(arrangedSubviews: [
             self.coinNameLabel,
             self.currentPriceLabel,
             self.changeRateLabel,
