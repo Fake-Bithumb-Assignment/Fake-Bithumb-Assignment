@@ -25,7 +25,11 @@
 <br>
 
 ## 스크린샷 및 영상
+
+https://user-images.githubusercontent.com/94916868/158063272-958429f9-4f21-42ff-950a-615d66b097a8.mp4
+
 <img width="600" src="https://user-images.githubusercontent.com/46108770/158057480-6a332ae9-d42e-4ef2-9a09-07d6353516a0.png">
+
 
 <br>
 
