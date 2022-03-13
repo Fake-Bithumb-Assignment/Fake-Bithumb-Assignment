@@ -15,11 +15,8 @@ final class CoinTransactionViewController: BaseViewController, CoinAcceptable {
     // MARK: - Instance Property
     
     private var orderCurreny: Coin = .BTC
-    private let transactionAPIService: TransactionAPIService = TransactionAPIService(
-        apiService: HttpService(),
-        environment: .development
-    )
-    private var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
+    private let transactionAPIService: TransactionAPIService = TransactionAPIService()
+    private var btsocketAPIService: SocketAPIService = SocketAPIService()
     private var sortedTransaction: [Transaction] = []
     private var totalTransactions: Set<Transaction> = Set() {
         didSet {

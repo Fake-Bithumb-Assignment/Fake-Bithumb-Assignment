@@ -15,15 +15,9 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
     // MARK: - Instance Property
     
     var orderCurrenty: Coin = .BTC
-    private let orderbookAPIService: OrderbookAPIService = OrderbookAPIService(
-        apiService: HttpService(),
-        environment: .development
-    )
-    private var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
-    private let tickerAPIService: TickerAPIService = TickerAPIService(
-        apiService: HttpService(),
-        environment: .development
-    )
+    private let orderbookAPIService: OrderbookAPIService = OrderbookAPIService()
+    private var btsocketAPIService: SocketAPIService = SocketAPIService()
+    private let tickerAPIService: TickerAPIService = TickerAPIService()
     private var askQuotes: [String: Quote] = [:] {
         didSet {
             self.updateAsk()

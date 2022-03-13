@@ -7,8 +7,13 @@
 
 import Foundation
 
-struct BTAssetsStatusAPIService {
+struct AssetsStatusAPIService {
+    
+    // MARK: - Instance Property
+    
     private let httpService: HttpService = HttpService()
+    
+    // MARK: - custom func
     
     func requestAllAssetsStatus() async -> [String: BTAssetsStatusResponse]? {
         let url: String = "https://api.bithumb.com/public/assetsstatus/ALL"

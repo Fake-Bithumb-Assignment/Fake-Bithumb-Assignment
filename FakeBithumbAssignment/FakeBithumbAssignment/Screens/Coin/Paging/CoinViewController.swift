@@ -19,11 +19,8 @@ final class CoinViewController: BaseViewController {
             self.pageViewController.coin = self.coin
         }
     }
-    private let tickerAPIService: TickerAPIService = TickerAPIService(
-        apiService: HttpService(),
-        environment: .development
-    )
-    private var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
+    private let tickerAPIService: TickerAPIService = TickerAPIService()
+    private var btsocketAPIService: SocketAPIService = SocketAPIService()
     private var tickerData: Item?
     private let sectionInsets: UIEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     private let headerView = CoinHeaderView()

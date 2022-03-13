@@ -78,8 +78,5 @@ extension WebSocket {
         responseHandler(decodedResponse)
     }
     
-    private func handleErrorResponse(of error: Error?) {
-        // TODO: 에러 처리
-        print(error!)
-    }
+    private func handleErrorResponse(of error: Error?) { }
 }

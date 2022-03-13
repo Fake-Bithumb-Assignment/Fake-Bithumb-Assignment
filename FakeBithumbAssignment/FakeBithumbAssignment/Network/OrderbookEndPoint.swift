@@ -10,23 +10,25 @@ import Foundation
 enum OrderbookEndPoint {
     case getOrderbookData(orderCurrency: String, paymentCurrency: String)
     
+    // MARK: - Instance Property
+    
     var requestTimeOut: Float {
         return 20
     }
-    
     var httpMethod: HttpMethod {
         switch self {
         case .getOrderbookData:
             return .GET
         }
     }
-    
     var requestBody: Data? {
         switch self {
         case .getOrderbookData:
             return nil
         }
     }
+    
+    // MARK: - custom func
     
     func getURL(from environment: HttpEnvironment) -> String {
         let baseUrl = environment.baseUrl
@@ -39,10 +41,12 @@ enum OrderbookEndPoint {
     func createRequest(environment: HttpEnvironment) -> NetworkRequest {
         var headers: [String: String] = [:]
         headers["Content-Type"] = "application/json"
-        return NetworkRequest(url: getURL(from: environment),
-                              headers: headers,
-                              reqBody: requestBody,
-                              reqTimeout: requestTimeOut,
-                              httpMethod: httpMethod)
+        return NetworkRequest(
+            url: getURL(from: environment),
+            headers: headers,
+            reqBody: requestBody,
+            reqTimeout: requestTimeOut,
+            httpMethod: httpMethod
+        )
     }
 }

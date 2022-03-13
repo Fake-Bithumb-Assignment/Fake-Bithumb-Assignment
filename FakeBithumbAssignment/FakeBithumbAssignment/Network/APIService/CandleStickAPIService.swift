@@ -7,8 +7,13 @@
 
 import Foundation
 
-struct BTCandleStickAPIService {
+struct CandleStickAPIService {
+    
+    // MARK: - Instance Property
+    
     private let httpService: HttpService = HttpService()
+    
+    // MARK: - custom func
     
     /// 빗썸 캔들스틱 api로 요청을 보내는 API. 응답의 인덱스 0이 최신의 데이터임.
     func requestCandleStick(

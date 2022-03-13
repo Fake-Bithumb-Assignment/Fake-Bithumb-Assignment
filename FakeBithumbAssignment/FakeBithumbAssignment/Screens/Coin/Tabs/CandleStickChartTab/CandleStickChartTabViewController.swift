@@ -12,7 +12,7 @@ final class CandleStickChartTabViewController: BaseViewController, CoinAcceptabl
     // MARK: - Instance Property
 
     private let btCandleStickRepository: BTCandleStickRepository = BTCandleStickRepository()
-    private let btCandleStickApiService: BTCandleStickAPIService = BTCandleStickAPIService()
+    private let btCandleStickApiService: CandleStickAPIService = CandleStickAPIService()
     private var orderCurrency: Coin = .BTC
     private var selectedIntervalButton: IntervalButton?
     private let intervalButtons: [IntervalButton] = [

@@ -8,16 +8,15 @@
 import Foundation
 
 struct TransactionAPIService {
-    private let apiService: HttpService
-    private let environment: HttpEnvironment
-
-    init(apiService: HttpService, environment: HttpEnvironment) {
-        self.apiService = apiService
-        self.environment = environment
-    }
-        
+    
+    // MARK: - Instance Property
+    
+    private let apiService: HttpService = HttpService()
+    
+    // MARK: - custom func
+    
     func requestTransactionHistory(of orderCurrency: Coin) async -> [TransactionAPIResponse]? {
-        let url: String = "https://api.bithumb.com/public/transaction_history/\(String(describing: orderCurrency))_KRW?count=100"
+        let url: String = "\(HttpEnvironment.development.baseUrl)/transaction_history/\(String(describing: orderCurrency))_KRW?count=100"
         let request: NetworkRequest = NetworkRequest(
             url: url,
             headers: nil,

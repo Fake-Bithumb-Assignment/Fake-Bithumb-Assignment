@@ -20,16 +20,10 @@ final class MainViewController: BaseViewController {
     lazy var interestedCoinTableView: MainCoinTableView = MainCoinTableView().then {
         $0.isInterestView = true
     }
-    private var tickerMidWebSocket: BTSocketAPIService = BTSocketAPIService()
-    private var ticker24WebSocket: BTSocketAPIService = BTSocketAPIService()
-    private let tickerAPIService: TickerAPIService = TickerAPIService(
-        apiService: HttpService(),
-        environment: .development
-    )
-    private let transactionAPIService: TransactionAPIService = TransactionAPIService(
-        apiService: HttpService(),
-        environment: .development
-    )
+    private var tickerMidWebSocket: SocketAPIService = SocketAPIService()
+    private var ticker24WebSocket: SocketAPIService = SocketAPIService()
+    private let tickerAPIService: TickerAPIService = TickerAPIService()
+    private let transactionAPIService: TransactionAPIService = TransactionAPIService()
     private var searchText: String? = nil
     private var sortOption: SortOption = SortOption.sortedBypopular
     private let sortedBy: [SortOption: (CoinData, CoinData) -> Bool] = {

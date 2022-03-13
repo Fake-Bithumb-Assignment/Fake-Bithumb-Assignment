@@ -11,7 +11,7 @@ final class DepositAndWithdrawalViewController: BaseViewController {
     
     // MARK: - Instance Property
     
-    private let btAssetsStatusAPIService: BTAssetsStatusAPIService = BTAssetsStatusAPIService()
+    private let btAssetsStatusAPIService: AssetsStatusAPIService = AssetsStatusAPIService()
     private let searchBar: UISearchBar = UISearchBar().then {
         $0.searchBarStyle = .minimal
     }

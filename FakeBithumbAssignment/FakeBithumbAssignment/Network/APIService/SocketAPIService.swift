@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BTSocketAPIService {
+struct SocketAPIService {
     
     // MARK: - Instance Property
     
