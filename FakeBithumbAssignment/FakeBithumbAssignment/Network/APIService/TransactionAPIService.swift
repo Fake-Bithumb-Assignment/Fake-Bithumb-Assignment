@@ -17,7 +17,7 @@ struct TransactionAPIService {
     }
         
     func requestTransactionHistory(of orderCurrency: Coin) async -> [TransactionAPIResponse]? {
-        let url: String = "https://api.bithumb.com/public/transaction_history/\(String(describing: orderCurrency))_krw"
+        let url: String = "https://api.bithumb.com/public/transaction_history/\(String(describing: orderCurrency))_KRW?count=100"
         let request: NetworkRequest = NetworkRequest(
             url: url,
             headers: nil,
