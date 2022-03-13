@@ -24,7 +24,7 @@ final class CoinCompactInformationView: UIView {
         }
     }
     private let lineView: UIView = UIView().then {
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = .gray
         $0.snp.makeConstraints { make in
             make.height.equalTo(0.5)
         }

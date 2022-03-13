@@ -248,18 +248,18 @@ final class CoinQuoteInformationTabViewController: BaseViewController, CoinAccep
                 CoinInformation.Row(
                     title: "거래량",
                     value: Double(response.unitsTraded) ?? 0.0,
-                    color: .lightGray
+                    color: .gray
                 ),
                 CoinInformation.Row(
                     title: "거래금",
                     value: Double(response.accTradeValue) ?? 0.0,
-                    color: .lightGray
+                    color: .gray
                 ),
                 CoinInformation.Row.line,
                 CoinInformation.Row(
                     title: "시가",
                     value: Double(response.openingPrice) ?? 0.0,
-                    color: .lightGray
+                    color: .gray
                 ),
                 CoinInformation.Row(
                     title: "고가",
@@ -277,28 +277,28 @@ final class CoinQuoteInformationTabViewController: BaseViewController, CoinAccep
                 CoinInformation.Row(
                     title: "거래량24",
                     value: Double(response.unitsTraded24H) ?? 0.0,
-                    color: .lightGray
+                    color: .gray
                 ),
                 CoinInformation.Row(
                     title: "거래금24",
                     value: Double(response.accTradeValue24H) ?? 0.0,
-                    color: .lightGray
+                    color: .gray
                 ),
                 CoinInformation.Row.line,
                 CoinInformation.Row(
                     title: "변동가24",
                     value: Double(response.fluctate24H) ?? 0.0,
-                    color: .lightGray
+                    color: .gray
                 ),
                 CoinInformation.Row(
                     title: "변동률24",
                     value: Double(response.fluctateRate24H) ?? 0.0,
-                    color: .lightGray
+                    color: .gray
                 ),
                 CoinInformation.Row(
                     title: "전일종가",
                     value: Double(response.prevClosingPrice) ?? 0.0,
-                    color: .lightGray
+                    color: .gray
                 )
             ]
             self.coinSecondInformationView.informtion = CoinInformation(rows: secondInformation)
