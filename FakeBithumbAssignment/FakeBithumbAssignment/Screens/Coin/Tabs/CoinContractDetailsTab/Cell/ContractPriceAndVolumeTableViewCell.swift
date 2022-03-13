@@ -21,6 +21,7 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
     private let contentLabel = UILabel().then {
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
         $0.textColor = .darkGray
+        $0.textAlignment = .right
     }
     
     
@@ -38,7 +39,8 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
         self.contentView.addSubView(self.contentLabel)
         
         self.contentLabel.snp.makeConstraints { make in
-            make.center.equalTo(self.contentView)
+            make.top.bottom.leading.equalTo(self)
+            make.trailing.equalTo(self).inset(5)
         }
     }
     
@@ -54,11 +56,24 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
     // MARK: - custom funcs
     
     func update(to: TransactionAPIResponse, type: ContractTableLabelType) {
+        self.setLabelColor(to: to)
         switch type {
         case .price:
             self.contentLabel.text = self.configurePrice(to.price)
         case .volume:
-            self.contentLabel.text = to.unitsTraded
+            self.contentLabel.text = self.configureTrade(to.unitsTraded)
+        }
+    }
+    
+    private func setLabelColor(to: TransactionAPIResponse) {
+        guard let type = to.type else { return }
+        switch type {
+        case "ask":
+            self.contentLabel.textColor = UIColor(named: "down")
+        case "bid":
+            self.contentLabel.textColor = UIColor(named: "up")
+        default:
+            self.contentLabel.textColor = .black
         }
     }
     
@@ -72,6 +87,20 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
         }
 
         return String.insertComma(value: givenPrice)
+    }
+    
+    private func configureTrade(_ price: String) -> String? {
+        guard var givenPrice = Double(price) else {
+            return nil
+        }
+        
+        givenPrice = round(givenPrice*10000)/10000
+        
+        if givenPrice > 1000.0 {
+             return String.insertComma(value: Int(givenPrice))
+        }
+        
+        return String(format: "%.4f", givenPrice)
     }
 }
 

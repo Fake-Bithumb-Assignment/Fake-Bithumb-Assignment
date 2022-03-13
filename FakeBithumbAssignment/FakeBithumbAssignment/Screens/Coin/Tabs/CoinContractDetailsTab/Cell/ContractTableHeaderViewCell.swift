@@ -49,14 +49,14 @@ class ContractTableHeaderViewCell: UITableViewHeaderFooterView {
     
     // MARK: - custom funcs
     
-    func setHeaderViewTitle(to type: ContractHeader) {
+    func setHeaderViewTitle(to type: ContractHeader, coin: Coin) {
         switch type {
         case .time:
             self.titleLabel.text = "시간"
         case .price:
             self.titleLabel.text = "가격(KRW)"
         case .volume:
-            self.titleLabel.text = "체결량(BTC)"
+            self.titleLabel.text = "체결량(\(String(describing: coin)))"
         }
     }
 }

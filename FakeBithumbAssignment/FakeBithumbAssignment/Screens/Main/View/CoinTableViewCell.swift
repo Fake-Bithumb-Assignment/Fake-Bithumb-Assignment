@@ -18,7 +18,7 @@ class CoinTableViewCell: BaseTableViewCell {
         $0.font = .preferredFont(forTextStyle: .subheadline)
         $0.textAlignment = .left
         $0.textColor = UIColor(named: "primaryBlack")
-        $0.numberOfLines = 0
+        $0.numberOfLines = 2
     }
 
     private let coinSymbol = UILabel().then {

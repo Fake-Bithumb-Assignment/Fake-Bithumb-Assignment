@@ -63,6 +63,11 @@ final class CoinContractDetailsTabViewController: BaseViewController, CoinAccept
         self.getWebsocketTransactionData(orderCurrency: self.orderCurreny)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        btsocketAPIService.disconnectAll()
+        super.viewDidDisappear(animated)
+    }
+    
     override func render() {
         self.view.addSubview(self.scrollView)
         
@@ -204,11 +209,11 @@ extension CoinContractDetailsTabViewController: UITableViewDataSource {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: ContractTableHeaderViewCell.className) as? ContractTableHeaderViewCell else { return UITableViewCell() }
         switch tableView {
         case self.timeTableView:
-            header.setHeaderViewTitle(to: ContractHeader.time)
+            header.setHeaderViewTitle(to: ContractHeader.time, coin: self.orderCurreny)
         case self.priceTableView:
-            header.setHeaderViewTitle(to: ContractHeader.price)
+            header.setHeaderViewTitle(to: ContractHeader.price, coin: self.orderCurreny)
         case self.volumeTableView:
-            header.setHeaderViewTitle(to: ContractHeader.volume)
+            header.setHeaderViewTitle(to: ContractHeader.volume, coin: self.orderCurreny)
         default:
             return UITableViewCell()
         }

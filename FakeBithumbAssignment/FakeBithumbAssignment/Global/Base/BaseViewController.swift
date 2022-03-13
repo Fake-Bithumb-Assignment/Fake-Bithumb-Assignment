@@ -7,12 +7,13 @@
 
 import UIKit
 
-class BaseViewController: UIViewController {
+class BaseViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         render()
         configUI()
+        setNavigationGesture()
     }
     
     func render() {
@@ -40,6 +41,10 @@ class BaseViewController: UIViewController {
         navigationBar.scrollEdgeAppearance = appearance
         navigationBar.isTranslucent = isTranslucent
         navigationBar.tintColor = tintColor
+    }
+    
+    private func setNavigationGesture() {
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
 
 }

@@ -10,34 +10,34 @@ import UIKit
 import SnapKit
 import Then
 
-final class TotalCoinListView: UIView {
+final class MainCoinTableView: UIView {
 
     // MARK: - Instance Property
-
-    private var dataSource: UITableViewDiffableDataSource<Section, CoinData>?
-
-    weak var delegate: CoinDelgate?
-
-    var totalCoinList: [CoinData] = [] {
+    
+    var isInterestView: Bool = false {
         didSet {
-            self.configurediffableDataSource()
-            noInterestedCoinView.isHidden = !totalCoinList.isEmpty
+            noInterestedCoinView.isHidden = coinDatas.isEmpty ? false : true
         }
     }
-
-    let totalCoinListTableView = UITableView().then {
+    private var dataSource: UITableViewDiffableDataSource<Section, CoinData>?
+    weak var delegate: CoinDelgate?
+    var coinDatas: [CoinData] = [] {
+        didSet {
+            noInterestedCoinView.isHidden = coinDatas.isEmpty ? false : true
+            self.configureSnapshot()
+        }
+    }
+    let tableView = UITableView().then {
         $0.register(CoinTableViewCell.self, forCellReuseIdentifier: CoinTableViewCell.className)
         $0.backgroundColor = .clear
         $0.keyboardDismissMode = .onDrag
         $0.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
-
     private let noInterestedCoinLabel = UILabel().then {
         $0.text = "등록된 관심 가상자산이 없습니다."
         $0.font = .preferredFont(forTextStyle: .headline)
         $0.textColor = .darkGray
     }
-
     private let noInterestedCoinView = UIView().then {
         $0.backgroundColor = .clear
         $0.isHidden = true
@@ -47,10 +47,9 @@ final class TotalCoinListView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.configureTotalCoinListTableView()
-        self.configureNoInterestedCoinView()
-        self.configureNotificationCenter()
-        self.setUpInterestedCoinListTableView()
+        self.configUI()
+        self.configurediffableDataSource()
+        self.tableView.delegate = self
     }
 
     @available(*, unavailable)
@@ -60,31 +59,23 @@ final class TotalCoinListView: UIView {
 
     // MARK: - custom func
 
-    private func configureNoInterestedCoinView() {
+    private func configUI() {
         noInterestedCoinView.addSubview(noInterestedCoinLabel)
         noInterestedCoinLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
-        
         self.addSubview(noInterestedCoinView)
         noInterestedCoinView.snp.makeConstraints { make in
             make.size.equalToSuperview()
         }
-    }
-
-    private func configureTotalCoinListTableView() {
-        self.addSubview(totalCoinListTableView)
-        totalCoinListTableView.snp.makeConstraints { make in
+        self.addSubview(tableView)
+        tableView.snp.makeConstraints { make in
             make.size.equalToSuperview()
         }
     }
 
-    private func setUpInterestedCoinListTableView() {
-        totalCoinListTableView.delegate = self
-    }
-
     private func configurediffableDataSource() {
-        dataSource = UITableViewDiffableDataSource(tableView: totalCoinListTableView)
+        self.dataSource = UITableViewDiffableDataSource(tableView: tableView)
         { tableView, indexPath, coinList in
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: CoinTableViewCell.className,
@@ -98,8 +89,7 @@ final class TotalCoinListView: UIView {
             cell?.configure(with: coinList)
             return cell
         }
-
-        self.totalCoinListTableView.dataSource = dataSource
+        self.tableView.dataSource = dataSource
         configureSnapshot()
     }
     
@@ -107,79 +97,62 @@ final class TotalCoinListView: UIView {
         guard var snapshot = self.dataSource?.snapshot() else {
             return
         }
-
         snapshot.deleteAllItems()
         snapshot.appendSections([.main])
-        snapshot.appendItems(totalCoinList)
-        self.dataSource?.apply(snapshot)
-    }
-    
-    private func configureNotificationCenter() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(sortTableView),
-            name: .updateTableView,
-            object: nil
-        )
-    }
-    
-    func updateSnapshot(of coin: CoinData) {
-        guard var snapshot = self.dataSource?.snapshot() else {
-            return
-        }
-
-        snapshot.reconfigureItems([coin])
-        self.dataSource?.apply(snapshot)
-    }
-
-    // MARK: - @objc
-
-    @objc private func sortTableView() {
-        configurediffableDataSource()
+        snapshot.appendItems(self.coinDatas)
+        self.dataSource?.apply(snapshot, animatingDifferences: false)
     }
 }
 
 // MARK: - UITableViewDelegate
 
-extension TotalCoinListView: UITableViewDelegate {
+extension MainCoinTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 55
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        delegate?.showCoinInformation(coin: totalCoinList[indexPath.row])
+        delegate?.showCoinInformation(coin: coinDatas[indexPath.row])
     }
     
     func tableView(
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let interest = UIContextualAction(
-            style: .normal,
-            title: nil
-        ) { _, view, completion in
-            self.delegate?.updateInterestList(coin: self.totalCoinList[indexPath.row])
-
-            let star = self.totalCoinList[indexPath.row].isInterested ? "Interested" : "Interest"
-            let closingImageView = UIImageView(image: UIImage(named: star))
-
-            view.addSubView(closingImageView) {
-                $0.snp.makeConstraints { make in
-                    make.center.equalToSuperview()
-                }
+        if self.isInterestView {
+            let interest = UIContextualAction(
+                style: .normal,
+                title: nil
+            ) { _, _, completion in
+                self.delegate?.updateInterestList(coinData: self.coinDatas[indexPath.row])
+                completion(true)
             }
-
-            completion(true)
-        }
-        
-        if self.totalCoinList[indexPath.row].isInterested {
             interest.image = UIImage(named: "Interested")
+            return UISwipeActionsConfiguration(actions: [interest])
+        } else {
+            let interest = UIContextualAction(
+                style: .normal,
+                title: nil
+            ) { _, view, completion in
+                self.delegate?.updateInterestList(coinData: self.coinDatas[indexPath.row])
+                let star = self.coinDatas[indexPath.row].isInterested ?
+                "Interested" : "Interest"
+                let closingImageView = UIImageView(image: UIImage(named: star))
+                view.addSubView(closingImageView) {
+                    $0.snp.makeConstraints { make in
+                        make.center.equalToSuperview()
+                    }
+                }
+                completion(true)
+            }
+            if self.coinDatas[indexPath.row].isInterested {
+                interest.image = UIImage(named: "Interested")
+            }
+            else {
+                interest.image = UIImage(named: "Interest")
+            }
+            return UISwipeActionsConfiguration(actions: [interest])
         }
-        else {
-            interest.image = UIImage(named: "Interest")
-        }
-
-        return UISwipeActionsConfiguration(actions: [interest])
     }
 }
