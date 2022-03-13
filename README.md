@@ -32,7 +32,7 @@
 ## 기술 스택
 <img width="77" src="https://img.shields.io/badge/iOS-15.2+-silver"> <img width="95" src="https://img.shields.io/badge/Xcode-13.2.1-blue">
 
-<img width="77" src="https://img.shields.io/badge/URLSession-pink"> <img width="77" src="https://img.shields.io/badge/Websocket-yellow"> <img width="95" src="https://img.shields.io/badge/Github Actions-green">
+<img width="77" src="https://img.shields.io/badge/URLSession-pink"> <img width="77" src="https://img.shields.io/badge/Websocket-yellow"> <img width="95" src="https://img.shields.io/badge/Github Actions-green"> <img width="77" src="https://img.shields.io/badge/Coredata-green">
 
 <img width="50" src="https://img.shields.io/badge/iPhone-red"> <img width="35" src="https://img.shields.io/badge/iPad-orange">
 
