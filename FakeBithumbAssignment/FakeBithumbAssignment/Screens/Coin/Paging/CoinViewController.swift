@@ -186,7 +186,7 @@ final class CoinViewController: BaseViewController {
         btsocketAPIService.subscribeTicker(
             orderCurrency: [orderCurrency],
             paymentCurrency: .krw,
-            tickTypes: [._24h]
+            tickTypes: [.mid]
         ) { response in
             self.updateHeaderViewTickerData(coin: orderCurrency, data: response)
         }
