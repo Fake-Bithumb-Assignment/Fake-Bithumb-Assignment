@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OrderBookTableViewCell: BaseTableViewCell {
+final class OrderBookTableViewCell: BaseTableViewCell {
     
     // MARK: - Instance Property
     

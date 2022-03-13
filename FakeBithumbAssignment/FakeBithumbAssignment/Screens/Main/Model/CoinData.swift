@@ -16,6 +16,7 @@ final class CoinData {
     var popularity: Int
     var changeAmount: String
     var previousPrice: String
+
     // MARK: - Initializer
 
     init(

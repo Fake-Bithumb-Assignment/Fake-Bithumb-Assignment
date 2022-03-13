@@ -9,18 +9,24 @@ import UIKit
 
 class MainTabBarViewController: UITabBarController {
 
-    private var selectedTap = 0
+    // MARK: - Instance Property
+
+    private var selectedTap: Int = 0
+
+    // MARK: - Life Cycle func
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
+        self.configureUI()
         self.delegate = self
     }
+
+    // MARK: - custom func
 
     private func configureUI() {
         self.tabBar.tintColor = .black
         self.tabBar.backgroundColor = .white
-        configureTabBarShadow()
+        self.configureTabBarShadow()
     }
 
     private func configureTabBarShadow() {
@@ -46,8 +52,8 @@ extension MainTabBarViewController: UITabBarControllerDelegate {
         _ tabBarController: UITabBarController,
         didSelect viewController: UIViewController
     ) {
-        let tabBarIndex = tabBarController.selectedIndex
-        let indexPath = IndexPath(row: NSNotFound, section: 0)
+        let tabBarIndex: Int = tabBarController.selectedIndex
+        let indexPath: IndexPath = IndexPath(row: NSNotFound, section: 0)
         let navigationViewController = viewController as? UINavigationController
 
         if tabBarIndex == 0 {

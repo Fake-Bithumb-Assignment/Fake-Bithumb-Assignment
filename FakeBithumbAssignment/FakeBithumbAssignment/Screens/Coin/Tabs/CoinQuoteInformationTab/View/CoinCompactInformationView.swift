@@ -11,7 +11,9 @@ import SnapKit
 import Then
 
 final class CoinCompactInformationView: UIView {
-    
+
+    // MARK: - Type Property
+
     private static let fontSize: CGFloat = 10.0
     
     // MARK: - Instance Property
@@ -21,7 +23,7 @@ final class CoinCompactInformationView: UIView {
             self.setNeedsLayout()
         }
     }
-    private let lineView = UIView().then {
+    private let lineView: UIView = UIView().then {
         $0.backgroundColor = .lightGray
         $0.snp.makeConstraints { make in
             make.height.equalTo(0.5)
@@ -102,26 +104,5 @@ final class CoinCompactInformationView: UIView {
         } else {
             return String.insertComma(value: number)
         }
-    }
-}
-
-struct CoinInformation {
-    let rows: [Row]
-    
-    struct Row {
-        let title: String
-        let value: Double
-        var color: UIColor
-        var type: RowType = .info
-        
-        static let line: Row = {
-            var line = Row(title: "", value: 0.0, color: .lightGray)
-            line.type = .line
-            return line
-        }()
-    }
-
-    enum RowType {
-        case info, line
     }
 }

@@ -14,18 +14,16 @@ final class CoinNavigationTitleView: UIView {
     
     // MARK: - Instance Property
     
-    let coinLabel = UILabel().then {
+    private let coinLabel: UILabel = UILabel().then {
         $0.text = "비트코인"
         $0.textColor = .black
         $0.font = .preferredFont(forTextStyle: .headline)
     }
-    
-    let subCoinLabel = UILabel().then {
+    private let subCoinLabel: UILabel = UILabel().then {
         $0.text = "BTC/KRW"
         $0.font = .preferredFont(forTextStyle: .caption2)
         $0.textColor = .gray
     }
-    
     
     // MARK: - Life Cycle func
     
@@ -44,7 +42,7 @@ final class CoinNavigationTitleView: UIView {
     // MARK: - custom func
     
     private func render() {
-        self.addSubViews([coinLabel, subCoinLabel])
+        self.addSubViews([self.coinLabel, self.subCoinLabel])
         
         self.coinLabel.snp.makeConstraints { make in
             make.leading.top.trailing.equalTo(self)
@@ -57,7 +55,7 @@ final class CoinNavigationTitleView: UIView {
     }
     
     private func configUI() {
-        configureStackView()
+        self.configureStackView()
     }
     
     private func configureStackView() {

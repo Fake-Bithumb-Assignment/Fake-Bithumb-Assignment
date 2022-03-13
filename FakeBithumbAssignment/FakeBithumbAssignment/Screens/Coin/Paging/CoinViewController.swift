@@ -19,56 +19,50 @@ final class CoinViewController: BaseViewController {
             self.pageViewController.coin = self.coin
         }
     }
-    
-    private let tickerAPIService = TickerAPIService(apiService: HttpService(),
-                                                    environment: .development)
-    var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
-    
+    private let tickerAPIService: TickerAPIService = TickerAPIService(
+        apiService: HttpService(),
+        environment: .development
+    )
+    private var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
     private var tickerData: Item?
-    
-    let sectionInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-    
+    private let sectionInsets: UIEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     private let headerView = CoinHeaderView()
-    
-    let quoteButton = UIButton().then {
+    private let quoteButton: UIButton = UIButton().then {
         $0.setTitle("호가", for: .normal)
         $0.setTitleColor(.black, for: .normal)
         $0.titleLabel?.font = .preferredFont(forTextStyle: .headline)
     }
-    
-    let graphButton = UIButton().then {
+    private let graphButton: UIButton = UIButton().then {
         $0.setTitle("차트", for: .normal)
         $0.setTitleColor(.black, for: .normal)
         $0.titleLabel?.font = .preferredFont(forTextStyle: .headline)
     }
-    
-    let contractDetailsButton = UIButton().then {
+    private let contractDetailsButton: UIButton = UIButton().then {
         $0.setTitle("시세", for: .normal)
         $0.setTitleColor(.black, for: .normal)
         $0.titleLabel?.font = .preferredFont(forTextStyle: .headline)
     }
-    
-    private let indicatorView = UIView().then {
+    private let indicatorView: UIView = UIView().then {
         $0.backgroundColor = UIColor(named: "primaryBlack")
     }
-    
-    private var starBarButton = UIBarButtonItem()
-    private var arrowBarButton = UIBarButtonItem()
-    private let starButton = UIButton().then {
-        guard let starImage: UIImage = UIImage(named: "notFillStar") else { return }
+    private var starBarButton: UIBarButtonItem = UIBarButtonItem()
+    private var arrowBarButton: UIBarButtonItem = UIBarButtonItem()
+    private let starButton: UIButton = UIButton().then {
+        guard let starImage: UIImage = UIImage(named: "notFillStar") else {
+            return
+        }
         $0.setImage(starImage, for: .normal)
     }
-    private let arrowButton = UIButton().then {
-        guard let starImage: UIImage = UIImage(named: "arrow") else { return }
+    private let arrowButton: UIButton = UIButton().then {
+        guard let starImage: UIImage = UIImage(named: "arrow") else {
+            return
+        }
         $0.setImage(starImage, for: .normal)
     }
-    
-    private let pageView = UIView().then {
+    private let pageView: UIView = UIView().then {
         $0.backgroundColor = .white
     }
-    
-    var pageViewController: CoinPagingViewController = CoinPagingViewController()
-    
+    private var pageViewController: CoinPagingViewController = CoinPagingViewController()
     
     // MARK: - Life Cycle func
     
@@ -120,18 +114,30 @@ final class CoinViewController: BaseViewController {
     }
     
     private func configMenuButtons() {
-        self.graphButton.addTarget(self, action: #selector(self.tapGraphButton), for: .touchUpInside)
+        self.graphButton.addTarget(
+            self,
+            action: #selector(self.tapGraphButton),
+            for: .touchUpInside
+        )
         self.setBottomBorder(to: self.graphButton)
         
-        self.contractDetailsButton.addTarget(self, action: #selector(self.tapContractDetailsButton), for: .touchUpInside)
+        self.contractDetailsButton.addTarget(
+            self,
+            action: #selector(self.tapContractDetailsButton),
+            for: .touchUpInside
+        )
         self.setBottomBorder(to: self.contractDetailsButton)
         
-        self.quoteButton.addTarget(self, action: #selector(self.tapQuoteButton), for: .touchUpInside)
+        self.quoteButton.addTarget(
+            self,
+            action: #selector(self.tapQuoteButton),
+            for: .touchUpInside
+        )
         self.setBottomBorder(to: self.quoteButton)
     }
     
     private func configNavigation(orderCurrency: Coin) {
-        let navigationTitleView = CoinNavigationTitleView()
+        let navigationTitleView: CoinNavigationTitleView = CoinNavigationTitleView()
         navigationTitleView.patchData(orderCurrency: orderCurrency)
         self.navigationItem.titleView = navigationTitleView
         
@@ -145,18 +151,18 @@ final class CoinViewController: BaseViewController {
     }
     
     private func setPageView() {
-        self.addChild(pageViewController)
+        self.addChild(self.pageViewController)
         self.pageView.addSubview(pageViewController.view)
         self.pageViewController.view.snp.makeConstraints { make in
             make.top.leading.trailing.bottom.equalTo(self.pageView)
         }
-        pageViewController.didMove(toParent: self)
+        self.pageViewController.didMove(toParent: self)
     }
     
     private func setBottomBorder(to button: UIButton) {
         self.indicatorView.removeFromSuperview()
-        button.addSubview(indicatorView)
-        indicatorView.snp.makeConstraints { make in
+        button.addSubview(self.indicatorView)
+        self.indicatorView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.leading.equalToSuperview().offset(30)
             make.trailing.equalToSuperview().inset(30)
@@ -167,7 +173,9 @@ final class CoinViewController: BaseViewController {
     private func getTickerData(orderCurrency: Coin) {
         Task {
             do {
-                let tickerData = try await tickerAPIService.getOneTickerData(orderCurrency: String(describing: orderCurrency))
+                let tickerData = try await tickerAPIService.getOneTickerData(
+                    orderCurrency: String(describing: orderCurrency)
+                )
                 if let tickerData = tickerData {
                     self.tickerData = tickerData
                 } else {
@@ -177,13 +185,13 @@ final class CoinViewController: BaseViewController {
             } catch HttpServiceError.serverError {
                 print("serverError")
             } catch HttpServiceError.clientError(let message) {
-                print("clientError:\(message)")
+                print("clientError:\(String(describing: message))")
             }
         }
     }
     
     private func getWebsocketTickerData(orderCurrency: Coin) {
-        btsocketAPIService.subscribeTicker(
+        self.btsocketAPIService.subscribeTicker(
             orderCurrency: [orderCurrency],
             paymentCurrency: .krw,
             tickTypes: [.mid]
@@ -194,26 +202,28 @@ final class CoinViewController: BaseViewController {
     
     private func patchHeaderViewData() {
         guard let tickerData = self.tickerData else { return }
-        self.headerView.patchData(data: CoinHeaderModel(currentPrice: tickerData.closingPrice,
-                                                        fluctate: tickerData.fluctate24H,
-                                                        fluctateRate: tickerData.fluctateRate24H))
+        self.headerView.patchData(data: CoinHeaderModel(
+            currentPrice: tickerData.closingPrice,
+            fluctate: tickerData.fluctate24H,
+            fluctateRate: tickerData.fluctateRate24H
+        ))
     }
     
     private func updateHeaderViewTickerData(coin: Coin, data: BTSocketAPIResponse.TickerResponse) {
-        self.headerView.patchData(data: CoinHeaderModel(currentPrice: "\(data.content.closePrice)",
-                                                        fluctate: "\(data.content.chgAmt)",
-                                                        fluctateRate: "\(data.content.chgRate)"))
+        self.headerView.patchData(data: CoinHeaderModel(
+            currentPrice: "\(data.content.closePrice)",
+            fluctate: "\(data.content.chgAmt)",
+            fluctateRate: "\(data.content.chgRate)"
+        ))
     }
     
     private func patchStarButton() {
-        if let alreadyInterestedCoin = UserDefaults.standard.string(forKey: self.coin.rawValue) {
+        if UserDefaults.standard.string(forKey: self.coin.rawValue) != nil {
             self.starButton.setImage(UIImage(named: "fillStar"), for: .normal)
-        }
-        else {
+        } else {
             self.starButton.setImage(UIImage(named: "notFillStar"), for: .normal)
         }
     }
-    
     
     // MARK: - @objc
     
@@ -240,8 +250,7 @@ final class CoinViewController: BaseViewController {
         if let alreadyInterestedCoin = UserDefaults.standard.string(forKey: self.coin.rawValue) {
             UserDefaults.standard.removeObject(forKey: alreadyInterestedCoin)
             self.starButton.setImage(UIImage(named: "notFillStar"), for: .normal)
-        }
-        else {
+        } else {
             UserDefaults.standard.set(self.coin.rawValue, forKey: self.coin.rawValue)
             self.starButton.setImage(UIImage(named: "fillStar"), for: .normal)
         }

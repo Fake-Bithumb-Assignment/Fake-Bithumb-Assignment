@@ -10,22 +10,29 @@ import UIKit
 import SnapKit
 import Then
 
-class NavigationLogoTitleView: UIView {
-    private let logoImageView = UIImageView().then {
+final class NavigationLogoTitleView: UIView {
+
+    // MARK: - Instance Property
+
+    private let logoImageView: UIImageView = UIImageView().then {
         $0.image = UIImage(named: "logo")
     }
-    
+
+    // MARK: - Initializer
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configUI()
+        self.configUI()
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
-    func configUI() {
+
+    // MARK: - custom func
+
+    private func configUI() {
         self.addSubview(logoImageView)
         self.logoImageView.snp.makeConstraints {
             $0.width.equalTo(200)

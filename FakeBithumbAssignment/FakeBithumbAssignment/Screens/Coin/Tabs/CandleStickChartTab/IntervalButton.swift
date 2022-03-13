@@ -7,9 +7,14 @@
 
 import UIKit
 
-class IntervalButton: UIButton {
+final class IntervalButton: UIButton {
+    
+    // MARK: - Instance Property
+
     let interval: BTCandleStickChartInterval
     
+    // MARK: - Initializer
+
     init(title: String, interval: BTCandleStickChartInterval) {
         self.interval = interval
         super.init(frame: .zero)
@@ -24,7 +29,9 @@ class IntervalButton: UIButton {
         self.interval = ._1m
         super.init(coder: coder)
     }
-    
+
+    // MARK: - custom func
+
     func select() {
         super.backgroundColor = UIColor(named: "buttonSelected")
     }

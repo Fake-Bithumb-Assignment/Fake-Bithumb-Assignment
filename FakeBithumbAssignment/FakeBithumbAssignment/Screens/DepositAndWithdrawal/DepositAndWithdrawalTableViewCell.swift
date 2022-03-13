@@ -9,7 +9,7 @@ import UIKit
 
 import Then
 
-class DepositAndWithdrawalTableViewCell: BaseTableViewCell {
+final class DepositAndWithdrawalTableViewCell: BaseTableViewCell {
     
     // MARK: - Instance Property
     
@@ -109,22 +109,22 @@ class DepositAndWithdrawalTableViewCell: BaseTableViewCell {
         guard let assetsStatus = self.assetsStatus else {
             return
         }
-        coinKoreanLabel.text = assetsStatus.coin.rawValue
-        coinEnglishLabel.text = String(describing: assetsStatus.coin)
+        self.coinKoreanLabel.text = assetsStatus.coin.rawValue
+        self.coinEnglishLabel.text = String(describing: assetsStatus.coin)
         let depositStatusString: NSMutableAttributedString = NSMutableAttributedString()
         if let depositStatusAttatchment = self.depositStatusAttributedString {
             depositStatusString.append(depositStatusAttatchment)
             depositStatusString.append(spaceAttributedString)
         }
         depositStatusString.append(NSAttributedString(string: self.depositStatusLabelText))
-        depositStatusLabel.attributedText = depositStatusString
+        self.depositStatusLabel.attributedText = depositStatusString
         let withdrawalStatusString: NSMutableAttributedString = NSMutableAttributedString()
         if let withdrawalStatusAttatchment = self.withdrawalStatusAttributedString {
             withdrawalStatusString.append(withdrawalStatusAttatchment)
             withdrawalStatusString.append(spaceAttributedString)
         }
         withdrawalStatusString.append(NSAttributedString(string: self.withdrawalStatusLabelText))
-        withdrawalStatus.attributedText = withdrawalStatusString
+        self.withdrawalStatus.attributedText = withdrawalStatusString
     }
     
     private func getCircleAttatchment(of color: UIColor) -> NSAttributedString? {
@@ -132,10 +132,10 @@ class DepositAndWithdrawalTableViewCell: BaseTableViewCell {
         else {
             return nil
         }
-        let scaledImageSize = CGSize(width: 10, height: 10)
+        let scaledImageSize: CGSize = CGSize(width: 10, height: 10)
         
-        let renderer = UIGraphicsImageRenderer(size:scaledImageSize)
-        let scaledImage = renderer.image { _ in
+        let renderer: UIGraphicsImageRenderer = UIGraphicsImageRenderer(size:scaledImageSize)
+        let scaledImage: UIImage = renderer.image { _ in
             image.draw(in: CGRect(origin: .zero, size: scaledImageSize))
         }
         let attatchment: NSTextAttachment = NSTextAttachment().then {

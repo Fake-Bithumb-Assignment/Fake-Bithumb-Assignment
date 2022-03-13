@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CandleStickChartTabViewController: BaseViewController, CoinAcceptable {
+final class CandleStickChartTabViewController: BaseViewController, CoinAcceptable {
     
     // MARK: - Instance Property
 
@@ -95,7 +95,12 @@ class CandleStickChartTabViewController: BaseViewController, CoinAcceptable {
         }
         self.view.addSubview(entireStackView)
         entireStackView.snp.makeConstraints { make in
-            make.edges.equalTo(self.view).inset(UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20))
+            make.edges.equalTo(self.view).inset(UIEdgeInsets(
+                top: 20,
+                left: 20,
+                bottom: 20,
+                right: 20
+            ))
         }
     }
     
@@ -136,7 +141,7 @@ extension CandleStickChartTabViewController {
             orderCurrency: orderCurrency,
             chartIntervals: selectedIntervalButton.interval
         )
-        combineData(coreData: fromCoreData, apiData: fromAPI)
+        self.combineData(coreData: fromCoreData, apiData: fromAPI)
     }
     
     /// 새로운 데이터를 받아오는 메소드.
@@ -151,7 +156,7 @@ extension CandleStickChartTabViewController {
                 of: orderCurrency,
                 interval: selectedIntervalButton.interval
             )
-            combineData(coreData: self.candleSticks, apiData: fromAPI)
+            self.combineData(coreData: self.candleSticks, apiData: fromAPI)
         }
     }
     

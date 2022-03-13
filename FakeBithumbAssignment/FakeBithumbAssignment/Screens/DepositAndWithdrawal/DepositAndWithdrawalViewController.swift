@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DepositAndWithdrawalViewController: BaseViewController {
+final class DepositAndWithdrawalViewController: BaseViewController {
     
     // MARK: - Instance Property
     
@@ -26,7 +26,7 @@ class DepositAndWithdrawalViewController: BaseViewController {
     }
     private var assetStatuses: [AssetsStatus] = []
     private lazy var dataSource: UITableViewDiffableDataSource<AssetsStatusSection, AssetsStatus> =
-    configureDataSource()
+    self.configureDataSource()
     
     // MARK: - Life Cycle func
     
@@ -74,9 +74,9 @@ class DepositAndWithdrawalViewController: BaseViewController {
     
     override func configUI() {
         super.configUI()
-        configureSearchBar()
-        configureTableView()
-        configureNavigation()
+        self.configureSearchBar()
+        self.configureTableView()
+        self.configureNavigation()
     }
     
     private func configureSearchBar() {
@@ -220,22 +220,5 @@ extension DepositAndWithdrawalViewController: UISearchBarDelegate {
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.view.endEditing(true)
-    }
-}
-
-enum AssetsStatusSection {
-    case main
-}
-
-struct AssetsStatus: Hashable {
-    let coin: Coin
-    let depositStatus: Bool
-    let withdrawalStatus: Bool
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(coin)
-    }
-    static func == (lhs: AssetsStatus, rhs: AssetsStatus) -> Bool {
-        return lhs.coin == rhs.coin
     }
 }
