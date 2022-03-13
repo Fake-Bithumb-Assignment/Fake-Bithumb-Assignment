@@ -76,21 +76,16 @@ final class MainCoinTableView: UIView {
 
     private func configurediffableDataSource() {
         self.dataSource = UITableViewDiffableDataSource(tableView: tableView)
-        { tableView, indexPath, coinList in
+        { tableView, indexPath, coinData in
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: CoinTableViewCell.className,
                 for: indexPath
             ) as? CoinTableViewCell
-
-            let backgroundView = UIView()
-            backgroundView.backgroundColor = .white
-            cell?.selectedBackgroundView = backgroundView
-
-            cell?.configure(with: coinList)
+            cell?.backgroundColor = .white
+            cell?.configure(with: coinData)
             return cell
         }
         self.tableView.dataSource = dataSource
-        configureSnapshot()
     }
     
     func configureSnapshot() {
@@ -99,7 +94,7 @@ final class MainCoinTableView: UIView {
         }
         snapshot.deleteAllItems()
         snapshot.appendSections([.main])
-        snapshot.appendItems(self.coinDatas)
+        snapshot.appendItems(self.coinDatas, toSection: .main)
         self.dataSource?.apply(snapshot, animatingDifferences: false)
     }
 }
