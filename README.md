@@ -4,7 +4,25 @@
 
 > **프로젝트 기간** : 2022.02.21~2022.03.13 (3주)
 
-##
+## 😎 목차
+
+[스크린샷 및 영상](#:camera:-스크린샷-및-영상)
+
+[기술 스택](#기술-스택)
+
+[플로우 차트](#플로우-차트)
+
+[Trouble-Shooting](#Trouble-Shooting)
+
+[만든사람들](#만든사람들)
+
+[커뮤니케이션-방식](#커뮤니케이션-방식)
+
+[사용한 API, 라이브러리 및 참고자료](#사용한-API,-라이브러리-및-참고자료)
+
+
+
+## :camera: 스크린샷 및 영상
 
 <img src = "https://user-images.githubusercontent.com/46108770/158010783-7c0e290b-c23b-4293-b64b-2bf8e626ba96.png" width="150"> <img src = "https://user-images.githubusercontent.com/46108770/158010826-047a70f6-89aa-4eee-8002-dfdbed454b12.png" width="150"> <img src = "https://user-images.githubusercontent.com/46108770/158010834-b5a6d749-8911-4080-ada3-17bd447ba812.png" width="150"> <img src = "https://user-images.githubusercontent.com/46108770/158010841-2547e804-e403-4087-a6c4-2906ab6acc43.png" width="150"> <img src = "https://user-images.githubusercontent.com/46108770/158010860-f5776c78-ed83-4ba2-9943-8ac7ca8bb962.png" width="150">
 
