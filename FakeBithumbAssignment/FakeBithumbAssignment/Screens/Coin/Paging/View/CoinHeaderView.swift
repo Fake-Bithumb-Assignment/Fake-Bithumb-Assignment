@@ -40,7 +40,6 @@ final class CoinHeaderView: UIView {
         super.init(coder: coder)
     }
     
-    
     // MARK: - custom func
     
     private func render() {
@@ -83,9 +82,15 @@ final class CoinHeaderView: UIView {
     }
     
     func patchData(data: CoinHeaderModel) {
-        self.currentPriceLabel.text = String.insertComma(value: Double(data.currentPrice)!)
-        self.fluctateLabel.text = String.insertComma(value: Double(data.fluctate)!)
-        self.fluctateRateLabel.text = String.insertComma(value: Double(data.fluctateRate)!) + "%"
+        guard let currentPrice: Double = Double(data.currentPrice),
+              let fluctate: Double = Double(data.fluctate),
+              let fluctateRate: Double = Double(data.fluctateRate)
+        else {
+            return
+        }
+        self.currentPriceLabel.text = String.insertComma(value: currentPrice)
+        self.fluctateLabel.text = String.insertComma(value: fluctate)
+        self.fluctateRateLabel.text = String.insertComma(value: fluctateRate) + "%"
         self.setLabelColor(data: data)
     }
     

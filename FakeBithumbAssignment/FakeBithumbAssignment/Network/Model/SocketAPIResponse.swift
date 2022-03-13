@@ -10,8 +10,8 @@ import Foundation
 import Then
 
 /// 빗썸 Web Socket API Response 응답
-struct BTSocketAPIResponse {
-    enum BTSocketAPIResponseError: Error {
+struct SocketAPIResponse {
+    enum SocketAPIResponseError: Error {
         case canNotParse
     }
     
@@ -24,7 +24,9 @@ struct BTSocketAPIResponse {
         /// 호가
         case orderBook  = "orderbookdepth"
     }
-        
+}
+
+extension SocketAPIResponse {
     /// tick 종류
     enum TickType: String, Decodable {
         case _30m = "30M"
@@ -36,6 +38,9 @@ struct BTSocketAPIResponse {
     
     /// Ticker API 응답
     struct TickerResponse: Decodable {
+        
+        // MARK: - Instance Property
+        
         /// WebSocket API type
         let type: ResponseType
         /// Ticker 응답의 유의미한 값
@@ -43,6 +48,9 @@ struct BTSocketAPIResponse {
         
         /// Ticker 응답의 유의미한 값
         struct Ticker: Decodable {
+            
+            // MARK: - Instance Property
+            
             /// 통화 코드
             let symbol: String
             /// 변동 기준시간- 30M, 1H, 12H, 24H, MID
@@ -80,6 +88,8 @@ struct BTSocketAPIResponse {
                 case symbol, tickType, date, time, openPrice, closePrice, lowPrice, highPrice
                 case value, volume, sellVolume, buyVolume, prevClosePrice, chgRate, chgAmt, volumePower
             }
+            
+            // MARK: - Initializer
                         
             init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -100,7 +110,7 @@ struct BTSocketAPIResponse {
                       let chgAmt = Double(try values.decode(String.self, forKey: .chgAmt)),
                       let volumePower = Double(try values.decode(String.self, forKey: .volumePower))
                 else {
-                    throw BTSocketAPIResponseError.canNotParse
+                    throw SocketAPIResponseError.canNotParse
                 }
                 self.date = date
                 self.time = time
@@ -123,15 +133,22 @@ struct BTSocketAPIResponse {
             case type, content
         }
         
+        // MARK: - Initializer
+        
         init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: CodingKeys.self)
             self.type = try values.decode(ResponseType.self, forKey: .type)
             self.content = try values.decode(Ticker.self, forKey: .content)
         }
     }
-    
+}
+
+extension SocketAPIResponse {
     /// Transaction API 응답
     struct TransactionResponse: Decodable {
+        
+        // MARK: - Instance Property
+        
         /// WebSocket API type
         let type: ResponseType
         /// Transaction API의 유의미한 값
@@ -139,11 +156,17 @@ struct BTSocketAPIResponse {
         
         /// Transaction API의 유의미한 값
         struct Content: Decodable {
+            
+            // MARK: - Instance Property
+
             /// 체결 이력
             let list: [Transaction]
             
             /// 체결
             struct Transaction: Decodable {
+                
+                // MARK: - Instance Property
+
                 /// 통화코드
                 let symbol: String
                 /// 체결종류
@@ -186,6 +209,8 @@ struct BTSocketAPIResponse {
                     $0.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS"
                 }
                 
+                // MARK: - Initializer
+                
                 init(from decoder: Decoder) throws {
                     let values = try decoder.container(keyedBy: CodingKeys.self)
                     self.symbol = try values.decode(String.self, forKey: .symbol)
@@ -201,7 +226,7 @@ struct BTSocketAPIResponse {
                             from: try values.decode(String.self, forKey: .contDtm)
                           )
                     else {
-                        throw BTSocketAPIResponseError.canNotParse
+                        throw SocketAPIResponseError.canNotParse
                     }
                     self.contPrice = contPrice
                     self.contQty = contQty
@@ -214,6 +239,8 @@ struct BTSocketAPIResponse {
                 case list
             }
             
+            // MARK: - Initializer
+            
             init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: CodingKeys.self)
                 self.list = try values.decode([Transaction].self, forKey: .list)
@@ -224,15 +251,22 @@ struct BTSocketAPIResponse {
             case type, content
         }
         
+        // MARK: - Initializer
+        
         init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: CodingKeys.self)
             type = try values.decode(ResponseType.self, forKey: .type)
             content = try values.decode(Content.self, forKey: .content)
         }
     }
-    
+}
+
+extension SocketAPIResponse {
     /// OrderBook API 응답
     struct OrderBookResponse: Decodable {
+        
+        // MARK: - Instance Property
+
         /// WebSocket API type
         let type: ResponseType
         /// OrderBook API의 유의미한 값
@@ -240,6 +274,9 @@ struct BTSocketAPIResponse {
         
         /// OrderBook API의 유의미한 값
         struct Content: Decodable {
+            
+            // MARK: - Instance Property
+
             /// 호가 이력
             let list: [OrderBook]
             /// 일시
@@ -247,6 +284,9 @@ struct BTSocketAPIResponse {
             
             /// 호가
             struct OrderBook: Decodable {
+                
+                // MARK: - Instance Property
+
                 /// 통화코드
                 let symbol: String
                 /// 주문 타입
@@ -270,6 +310,8 @@ struct BTSocketAPIResponse {
                     case symbol, orderType, price, quantity, total
                 }
                 
+                // MARK: - Initializer
+                
                 init(from decoder: Decoder) throws {
                     let values = try decoder.container(keyedBy: CodingKeys.self)
                     self.symbol = try values.decode(String.self, forKey: .symbol)
@@ -278,7 +320,7 @@ struct BTSocketAPIResponse {
                     self.quantity = try values.decode(String.self, forKey: .quantity)
                     guard let total = Int(try values.decode(String.self, forKey: .price))
                     else {
-                        throw BTSocketAPIResponseError.canNotParse
+                        throw SocketAPIResponseError.canNotParse
                     }
                     self.total = total
                 }
@@ -289,11 +331,13 @@ struct BTSocketAPIResponse {
                 case list, datetime
             }
             
+            // MARK: - Initializer
+            
             init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: CodingKeys.self)
                 self.list = try values.decode([OrderBook].self, forKey: .list)
                 guard let datetime = Int(try values.decode(String.self, forKey: .datetime)) else {
-                    throw BTSocketAPIResponseError.canNotParse
+                    throw SocketAPIResponseError.canNotParse
                 }
                 self.datetime = datetime
             }
@@ -302,6 +346,8 @@ struct BTSocketAPIResponse {
         enum CodingKeys: String, CodingKey {
             case type, content
         }
+        
+        // MARK: - Initializer
         
         init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: CodingKeys.self)

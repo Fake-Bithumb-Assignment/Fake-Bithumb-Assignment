@@ -7,7 +7,9 @@
 
 import UIKit
 
-class TransactionTableViewCell: BaseTableViewCell {
+final class TransactionTableViewCell: BaseTableViewCell {
+    
+    // MARK: - Instance Property
     
     var transaction: Transaction? = nil {
         didSet {
@@ -30,23 +32,7 @@ class TransactionTableViewCell: BaseTableViewCell {
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
     }
     
-    override func configUI() {
-        let stackView: UIStackView = UIStackView(
-            arrangedSubviews: [self.dateLabel, self.priceLabel, self.quantityLabel]
-        ).then {
-            $0.axis = .horizontal
-            $0.alignment = .fill
-        }
-        self.addSubview(stackView)
-        stackView.snp.makeConstraints { make in
-            make.width.equalTo(self.dateLabel).multipliedBy(5)
-            make.width.equalTo(self.priceLabel).multipliedBy(2.5)
-            make.width.equalTo(self.quantityLabel).multipliedBy(2.5)
-            make.edges.equalTo(self)
-        }
-        self.layer.borderWidth = 0.5
-        self.layer.borderColor = UIColor.systemGray5.cgColor
-    }
+    // MARK: - Lifecycle Func
     
     override func layoutSubviews() {
         guard let transaction = transaction else {
@@ -65,6 +51,26 @@ class TransactionTableViewCell: BaseTableViewCell {
         self.quantityLabel.text = String(format: "%.4f", quantityDouble)
     }
     
+    // MARK: - custom func
+    
+    override func configUI() {
+        let stackView: UIStackView = UIStackView(
+            arrangedSubviews: [self.dateLabel, self.priceLabel, self.quantityLabel]
+        ).then {
+            $0.axis = .horizontal
+            $0.alignment = .fill
+        }
+        self.addSubview(stackView)
+        stackView.snp.makeConstraints { make in
+            make.width.equalTo(self.dateLabel).multipliedBy(5)
+            make.width.equalTo(self.priceLabel).multipliedBy(2.5)
+            make.width.equalTo(self.quantityLabel).multipliedBy(2.5)
+            make.edges.equalTo(self)
+        }
+        self.layer.borderWidth = 0.5
+        self.layer.borderColor = UIColor.systemGray5.cgColor
+    }
+    
     private func getColor() -> UIColor {
         guard let transactionType: Transaction.TransactionType = self.transaction?.transactionType else {
             return UIColor.black
@@ -78,8 +84,13 @@ class TransactionTableViewCell: BaseTableViewCell {
     }
 }
 
-class RightPaddingLabel: UILabel {
+final class RightPaddingLabel: UILabel {
+    
+    // MARK: - Instance Property
+
     private var padding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10.0)
+    
+    // MARK: - Lifecycle func
 
     override func drawText(in rect: CGRect) {
         super.drawText(in: rect.inset(by: padding))

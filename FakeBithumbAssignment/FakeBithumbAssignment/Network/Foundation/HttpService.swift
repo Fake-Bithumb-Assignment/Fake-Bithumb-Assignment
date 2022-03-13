@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class HttpService: Requestable {
+final class HttpService {
     var requestTimeOut: Float = 30
     
     func request<T: Decodable>(_ request: NetworkRequest) async throws -> T? {

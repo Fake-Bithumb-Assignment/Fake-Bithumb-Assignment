@@ -8,6 +8,9 @@
 import Foundation
 
 final class CoinData {
+    
+    // MARK: - Instance Property
+
     let coinName: Coin
     var currentPrice: String
     var changeRate: String

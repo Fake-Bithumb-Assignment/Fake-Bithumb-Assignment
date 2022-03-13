@@ -9,12 +9,16 @@ import UIKit
 
 class BaseViewController: UIViewController, UIGestureRecognizerDelegate {
     
+    // MARK: - Life Cycle func
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        render()
-        configUI()
-        setNavigationGesture()
+        self.render()
+        self.configUI()
+        self.setNavigationGesture()
     }
+    
+    // MARK: - custom func
     
     func render() {
         // 레이아웃 구성 (ex. addSubView, autolayout 코드)
@@ -22,17 +26,20 @@ class BaseViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func configUI() {
         // 뷰 configuration (ex. view 색깔, 네비게이션바 설정 ..)
-        view.backgroundColor = .white
-        navigationController?.setNavigationBarHidden(false, animated: false)
+        self.view.backgroundColor = .white
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
-    func setBaseNavigationBar(isTranslucent: Bool = false,
-                              backgroundColor: UIColor = .white,
-                              titleColor: UIColor = .black,
-                              tintColor: UIColor = .black) {
-        guard let navigationBar = navigationController?.navigationBar else { return }
+    private func setBaseNavigationBar(
+        isTranslucent: Bool = false,
+        backgroundColor: UIColor = .white,
+        titleColor: UIColor = .black,
+        tintColor: UIColor = .black
+    ) {
+        guard let navigationBar = navigationController?.navigationBar else {
+            return
+        }
         let appearance = UINavigationBarAppearance()
-
         appearance.backgroundColor = backgroundColor
         appearance.shadowColor = .clear
         

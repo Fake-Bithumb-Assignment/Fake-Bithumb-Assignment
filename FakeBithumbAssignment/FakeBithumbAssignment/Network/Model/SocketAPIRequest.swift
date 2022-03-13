@@ -8,7 +8,7 @@
 import Foundation
 
 /// 빗썸 Web Socket API 요청 시 사용되는 필터
-struct BTSocketAPIRequest: Encodable {
+struct SocketAPIRequest: Encodable {
     
     // MARK: - Instance Property
     

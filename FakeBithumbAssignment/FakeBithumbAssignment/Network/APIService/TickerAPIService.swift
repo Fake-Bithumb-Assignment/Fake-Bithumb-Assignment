@@ -8,25 +8,24 @@
 import Foundation
 
 struct TickerAPIService {
-    private let apiService: Requestable
-    private let environment: HttpEnvironment
-
-    init(apiService: Requestable, environment: HttpEnvironment) {
-        self.apiService = apiService
-        self.environment = environment
-    }
+    
+    // MARK: - Instance Property
+    
+    private let apiService: HttpService = HttpService()
+    
+    // MARK: - custom func
     
     func getTickerData(orderCurrency: String) async throws -> AllTickerResponse? {
         let request = TickerEndPoint
             .getTickerData(orderCurrency: orderCurrency)
-            .createRequest(environment: environment)
+            .createRequest(environment: HttpEnvironment.development)
         return try await self.apiService.request(request)
     }
     
-    func getOneTickerData(orderCurrency: String) async throws -> Item? {
+    func getOneTickerData(orderCurrency: String) async throws -> AllTickerResponse.Ticker? {
         let request = TickerEndPoint
             .getOneTickerData(orderCurrency: orderCurrency)
-            .createRequest(environment: environment)
+            .createRequest(environment: HttpEnvironment.development)
         return try await self.apiService.request(request)
     }
 }

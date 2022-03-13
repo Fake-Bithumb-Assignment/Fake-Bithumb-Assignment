@@ -38,7 +38,6 @@ final class CoinNavigationTitleView: UIView {
         super.init(coder: coder)
     }
     
-    
     // MARK: - custom func
     
     private func render() {

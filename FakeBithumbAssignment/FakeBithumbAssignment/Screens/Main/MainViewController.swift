@@ -20,17 +20,11 @@ final class MainViewController: BaseViewController {
     lazy var interestedCoinTableView: MainCoinTableView = MainCoinTableView().then {
         $0.isInterestView = true
     }
-    private var tickerMidWebSocket: BTSocketAPIService = BTSocketAPIService()
-    private var ticker24WebSocket: BTSocketAPIService = BTSocketAPIService()
-    private let tickerAPIService: TickerAPIService = TickerAPIService(
-        apiService: HttpService(),
-        environment: .development
-    )
-    private let transactionAPIService: TransactionAPIService = TransactionAPIService(
-        apiService: HttpService(),
-        environment: .development
-    )
-    private var searchText: String? = nil
+    private var tickerMidWebSocket: SocketAPIService = SocketAPIService()
+    private var ticker24WebSocket: SocketAPIService = SocketAPIService()
+    private let tickerAPIService: TickerAPIService = TickerAPIService()
+    private let transactionAPIService: TransactionAPIService = TransactionAPIService()
+    private var searchText: String?
     private var sortOption: SortOption = SortOption.sortedBypopular
     private let sortedBy: [SortOption: (CoinData, CoinData) -> Bool] = {
         let byPopularity: (CoinData, CoinData) -> Bool = { $0.popularity < $1.popularity }
@@ -85,7 +79,7 @@ final class MainViewController: BaseViewController {
         self.tickerMidWebSocket.disconnectAll()
     }
     
-    // MARK: - configuration
+    // MARK: - custom func
     
     override func render() {
         self.navigationItem.titleView = NavigationLogoTitleView()
@@ -118,10 +112,8 @@ final class MainViewController: BaseViewController {
     private func configureIndicator() {
         let loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .large)
         loadingIndicator.startAnimating()
-        
         self.loadingAlert.view.addSubview(loadingIndicator)
         self.loadingAlert.view.tintColor = .black
-        
         loadingIndicator.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
@@ -153,8 +145,6 @@ final class MainViewController: BaseViewController {
         }
     }
 
-    // MARK: - update tableView
-
     func updateTotalCoinTableView() {
         guard let sortedBy: (CoinData, CoinData) -> Bool =
                 self.self.sortedBy[self.sortOption] else {
@@ -177,8 +167,6 @@ final class MainViewController: BaseViewController {
             .sorted(by: sortedBy)
         self.interestedCoinTableView.coinDatas = targetCoins
     }
-
-    // MARK: - fetch from API
     
     private func fetchTickerAmountSocketData() {
         self.ticker24WebSocket.subscribeTicker(
@@ -216,18 +204,12 @@ final class MainViewController: BaseViewController {
                             self.configureCoinData(coin: coinName, value: $0.value)
                         }
                     })
-                } else {
-                   // TODO: 에러 처리 얼럿 띄우기
-                    print("tickerData is nil")
                 }
-
                 self.updateTotalCoinTableView()
                 self.updateInterestCoinTableView()
                 self.loadingAlert.dismiss(animated: true, completion: nil)
-            } catch HttpServiceError.serverError {
-                print("serverError")
-            } catch HttpServiceError.clientError(let message) {
-                print("clientError:\(String(describing: message))")
+            } catch {
+                print(error)
             }
         }
     }
@@ -255,8 +237,6 @@ final class MainViewController: BaseViewController {
             }
         }
     }
-
-    // MARK: - custom func
     
     private func isSearchMatches() -> (CoinData) -> Bool {
         guard let searchText: String = self.searchText, !searchText.isEmpty else {
@@ -273,7 +253,7 @@ final class MainViewController: BaseViewController {
 
     private func updateTickerAmount(
         coin: Coin,
-        data: BTSocketAPIResponse.TickerResponse
+        data: SocketAPIResponse.TickerResponse
     ) {
         guard let coinData: CoinData = self.totalCoins[coin] else {
             return
@@ -284,7 +264,7 @@ final class MainViewController: BaseViewController {
 
     private func updateTicker(
         coin: Coin, data:
-        BTSocketAPIResponse.TickerResponse
+        SocketAPIResponse.TickerResponse
     ) {
         let originCoinData: CoinData? = self.totalCoins[coin]
         let currentPriceResponse: Double = data.content.closePrice
@@ -303,7 +283,6 @@ final class MainViewController: BaseViewController {
         self.totalCoins[coin] = coinData
         self.updateTotalCoinTableView()
         self.updateInterestCoinTableView()
-
     }
 
     private func parseSymbol(symbol: String?) -> Coin? {
@@ -315,7 +294,7 @@ final class MainViewController: BaseViewController {
         return Coin(rawValue: parsedCoin)
     }
 
-    private func configureCoinData(coin: Coin, value: Item) {
+    private func configureCoinData(coin: Coin, value: AllTickerResponse.Ticker) {
         guard let fluctateRate24H: Double = Double(value.fluctateRate24H),
               let accTradeValue24H: Double = Double(value.accTradeValue24H),
               let fluctate24H: Double = Double(value.fluctate24H),

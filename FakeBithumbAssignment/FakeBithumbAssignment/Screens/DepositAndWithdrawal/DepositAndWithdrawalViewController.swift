@@ -11,7 +11,7 @@ final class DepositAndWithdrawalViewController: BaseViewController {
     
     // MARK: - Instance Property
     
-    private let btAssetsStatusAPIService: BTAssetsStatusAPIService = BTAssetsStatusAPIService()
+    private let btAssetsStatusAPIService: AssetsStatusAPIService = AssetsStatusAPIService()
     private let searchBar: UISearchBar = UISearchBar().then {
         $0.searchBarStyle = .minimal
     }
@@ -129,7 +129,7 @@ final class DepositAndWithdrawalViewController: BaseViewController {
     }
 }
 
-// MARK: - Table view
+// MARK: - extension
 
 extension DepositAndWithdrawalViewController {
     private func configureDataSource() -> UITableViewDiffableDataSource<AssetsStatusSection, AssetsStatus> {
@@ -152,7 +152,7 @@ extension DepositAndWithdrawalViewController {
     
     private func fetchData() {
         Task {
-            guard let response: [String: BTAssetsStatusResponse] = await
+            guard let response: [String: AssetsStatusResponse] = await
                     btAssetsStatusAPIService.requestAllAssetsStatus()
             else {
                 return
@@ -162,7 +162,7 @@ extension DepositAndWithdrawalViewController {
                 guard let coin: Coin = Coin(symbol: symbol) else {
                     return
                 }
-                guard let assetStatus: BTAssetsStatusResponse = response[symbol] else {
+                guard let assetStatus: AssetsStatusResponse = response[symbol] else {
                     return
                 }
                 let depositStatus: Bool = assetStatus.depositStatus == 1

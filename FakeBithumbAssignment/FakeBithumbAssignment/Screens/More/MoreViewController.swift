@@ -11,21 +11,27 @@ final class MoreViewController: BaseViewController {
     
     // MARK: - Instance Property
     
-    private let beansbin: MoreModel = MoreModel(characterImage: UIImage(named: "beansbin") ?? UIImage(),
-                             name: "콩이(beansbin)",
-                             mbti: "INTP",
-                             github: "https://github.com/beansbin",
-                             comment: "지식을 경험으로,\n그리고 경험을 공유로 이끌어나가는 개발자입니다.")
-    private let chuuny: MoreModel = MoreModel(characterImage: UIImage(named: "choony") ?? UIImage(),
-                             name: "추니(choony)",
-                             mbti: "ISFP",
-                             github: "https://github.com/kch1285",
-                             comment: "계속해서 전진합니다.")
-    private let momo: MoreModel = MoreModel(characterImage: UIImage(named: "momo") ?? UIImage(),
-                             name: "모모(momo-youngg)",
-                             mbti: "INFP",
-                             github: "https://github.com/momo-youngg",
-                             comment: "기똥차게 해냅니다.")
+    private let beansbin: MoreModel = MoreModel(
+        characterImage: UIImage(named: "beansbin") ?? UIImage(),
+        name: "콩이(beansbin)",
+        mbti: "INTP",
+        github: "https://github.com/beansbin",
+        comment: "지식을 경험으로,\n그리고 경험을 공유로 이끌어나가는 개발자입니다."
+    )
+    private let chuuny: MoreModel = MoreModel(
+        characterImage: UIImage(named: "choony") ?? UIImage(),
+        name: "추니(choony)",
+        mbti: "ISFP",
+        github: "https://github.com/kch1285",
+        comment: "계속해서 전진합니다."
+    )
+    private let momo: MoreModel = MoreModel(
+        characterImage: UIImage(named: "momo") ?? UIImage(),
+        name: "모모(momo-youngg)",
+        mbti: "INFP",
+        github: "https://github.com/momo-youngg",
+        comment: "기똥차게 해냅니다."
+    )
     private let beansbinView: MoreView = MoreView()
     private let chuunyView: MoreView = MoreView()
     private let momoView: MoreView = MoreView()
@@ -74,11 +80,11 @@ final class MoreViewController: BaseViewController {
     }
     
     private func configureViewForSize(_ size: CGSize) {
-      if size.width > size.height {
-        stackView.axis = .horizontal
-      } else {
-        stackView.axis = .vertical
-      }
+        if size.width > size.height {
+            stackView.axis = .horizontal
+        } else {
+            stackView.axis = .vertical
+        }
     }
     
     private func patchData() {

@@ -10,20 +10,14 @@ import UIKit
 import SnapKit
 import Then
 
-class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable {
+final class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable {
     
     // MARK: - Instance Property
     
     var orderCurrenty: Coin = .BTC
-    private let orderbookAPIService: OrderbookAPIService = OrderbookAPIService(
-        apiService: HttpService(),
-        environment: .development
-    )
-    private var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
-    private let tickerAPIService: TickerAPIService = TickerAPIService(
-        apiService: HttpService(),
-        environment: .development
-    )
+    private let orderbookAPIService: OrderbookAPIService = OrderbookAPIService()
+    private var btsocketAPIService: SocketAPIService = SocketAPIService()
+    private let tickerAPIService: TickerAPIService = TickerAPIService()
     private var askQuotes: [String: Quote] = [:] {
         didSet {
             self.updateAsk()
@@ -194,7 +188,6 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
                 self.askQuotes = askQuotes
                 self.scrollView.scrollToCenter()
             } catch {
-                // TODO: do something
                 print(error)
             }
         }
@@ -224,7 +217,7 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
     private func fetchTickerFromSocket() {
         Task {
             do {
-                guard let ticker: Item = try await self.tickerAPIService.getOneTickerData(
+                guard let ticker: AllTickerResponse.Ticker = try await self.tickerAPIService.getOneTickerData(
                     orderCurrency: String(describing: self.orderCurrenty)
                 )
                 else {
@@ -232,7 +225,6 @@ class CoinQuoteInformationTabViewController: BaseViewController, CoinAcceptable 
                 }
                 self.prevClosePrice = Double(ticker.prevClosingPrice)
             } catch {
-                //TODO: do something
                 print(error)
             }
         }

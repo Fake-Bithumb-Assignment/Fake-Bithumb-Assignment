@@ -15,11 +15,8 @@ final class CoinTransactionViewController: BaseViewController, CoinAcceptable {
     // MARK: - Instance Property
     
     private var orderCurreny: Coin = .BTC
-    private let transactionAPIService: TransactionAPIService = TransactionAPIService(
-        apiService: HttpService(),
-        environment: .development
-    )
-    private var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
+    private let transactionAPIService: TransactionAPIService = TransactionAPIService()
+    private var btsocketAPIService: SocketAPIService = SocketAPIService()
     private var sortedTransaction: [Transaction] = []
     private var totalTransactions: Set<Transaction> = Set() {
         didSet {
@@ -132,7 +129,6 @@ final class CoinTransactionViewController: BaseViewController, CoinAcceptable {
                 for: indexPath
             ) as? TransactionTableViewCell
             cell?.transaction = transaction
-            cell?.separatorInset = UIEdgeInsets()
             return cell
         }
         var snapshot = NSDiffableDataSourceSnapshot<TransactionSection, Transaction>()
@@ -200,6 +196,9 @@ extension CoinTransactionViewController: UITableViewDelegate {
 }
 
 struct Transaction: Hashable {
+    
+    // MARK: - Instance Property
+
     let date: String
     let price: String
     let quantity: String
@@ -208,7 +207,9 @@ struct Transaction: Hashable {
     enum TransactionType {
         case ask, bid
         
-        init(buyCell: BTSocketAPIResponse.TransactionResponse.Content.Transaction.BuyCell) {
+        // MARK: - Initializer
+        
+        init(buyCell: SocketAPIResponse.TransactionResponse.Content.Transaction.BuyCell) {
             switch buyCell {
             case .sell:
                 self = .ask
@@ -227,7 +228,6 @@ struct Transaction: Hashable {
         }
     }
 }
-
 
 enum TransactionSection {
     case main

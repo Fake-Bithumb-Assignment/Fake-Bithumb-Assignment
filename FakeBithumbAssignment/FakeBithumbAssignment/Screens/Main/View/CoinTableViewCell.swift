@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class CoinTableViewCell: BaseTableViewCell {
+final class CoinTableViewCell: BaseTableViewCell {
 
     // MARK: - Instance Property
 
@@ -82,7 +82,6 @@ class CoinTableViewCell: BaseTableViewCell {
         self.tradeValue.text = model.tradeValue + "백만"
 
         let changeRateString: String = model.changeRate
-
         if let changeRate = Double(changeRateString) {
             self.configureTextColor(changeRate)
         }
@@ -97,21 +96,18 @@ class CoinTableViewCell: BaseTableViewCell {
         else {
             return
         }
-
         if previousPrice != currentPrice {
             self.priceIncrement = previousPrice < currentPrice ? true : false
             guard let color = priceIncrement ? UIColor(named: "up") : UIColor(named: "down")
             else {
                 return
             }
-
             self.currentPrice.animateBorderColor(toColor: color, duration: 0.1)
         }
     }
 
     private func configureTextColor(_ changeRate: Double) {
         let changeRate: Int = Int(changeRate * 100)
-
         if changeRate < 0 {
             let color: UIColor = UIColor(named: "down") ?? .systemBlue
             self.currentPrice.textColor = color
@@ -147,7 +143,6 @@ class CoinTableViewCell: BaseTableViewCell {
             $0.axis = .horizontal
             $0.alignment = .center
         }
-
         self.addSubview(stackView)
         stackView.snp.makeConstraints { make in
             make.edges.equalTo(self).inset(UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10))
@@ -166,7 +161,6 @@ class CoinTableViewCell: BaseTableViewCell {
             $0.axis = .vertical
             $0.alignment = .trailing
         }
-
         return stackView
     }
 
@@ -179,7 +173,6 @@ class CoinTableViewCell: BaseTableViewCell {
             $0.axis = .vertical
             $0.alignment = .fill
         }
-
         return stackView
     }
 }

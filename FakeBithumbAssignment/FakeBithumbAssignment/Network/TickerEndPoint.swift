@@ -11,10 +11,11 @@ enum TickerEndPoint {
     case getTickerData(orderCurrency: String)
     case getOneTickerData(orderCurrency: String)
     
+    // MARK: - Instance Property
+    
     var requestTimeOut: Float {
         return 20
     }
-    
     var httpMethod: HttpMethod {
         switch self {
         case .getTickerData:
@@ -23,7 +24,6 @@ enum TickerEndPoint {
             return .GET
         }
     }
-    
     var requestBody: Data? {
         switch self {
         case .getTickerData:
@@ -32,6 +32,8 @@ enum TickerEndPoint {
             return nil
         }
     }
+    
+    // MARK: - custom func
     
     func getURL(from environment: HttpEnvironment) -> String {
         let baseUrl = environment.baseUrl
@@ -46,10 +48,12 @@ enum TickerEndPoint {
     func createRequest(environment: HttpEnvironment) -> NetworkRequest {
         var headers: [String: String] = [:]
         headers["Content-Type"] = "application/json"
-        return NetworkRequest(url: getURL(from: environment),
-                              headers: headers,
-                              reqBody: requestBody,
-                              reqTimeout: requestTimeOut,
-                              httpMethod: httpMethod)
+        return NetworkRequest(
+            url: getURL(from: environment),
+            headers: headers,
+            reqBody: requestBody,
+            reqTimeout: requestTimeOut,
+            httpMethod: httpMethod
+        )
     }
 }

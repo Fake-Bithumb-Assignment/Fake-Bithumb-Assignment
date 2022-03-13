@@ -8,18 +8,17 @@
 import Foundation
 
 struct OrderbookAPIService {
-    private let apiService: Requestable
-    private let environment: HttpEnvironment
-
-    init(apiService: Requestable, environment: HttpEnvironment) {
-        self.apiService = apiService
-        self.environment = environment
-    }
+    
+    // MARK: - Instance Property
+    
+    private let apiService: HttpService = HttpService()
+    
+    // MARK: - custom func
     
     func getOrderbookData(orderCurrency: String, paymentCurrency: String) async throws -> OrderbookAPIResponse? {
         let request = OrderbookEndPoint
             .getOrderbookData(orderCurrency: orderCurrency, paymentCurrency: paymentCurrency)
-            .createRequest(environment: environment)
+            .createRequest(environment: HttpEnvironment.development)
         return try await self.apiService.request(request)
     }
 }

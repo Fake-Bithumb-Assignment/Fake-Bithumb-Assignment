@@ -80,7 +80,7 @@ final class HeaderView: UIView {
         self.configureSettingButton()
         self.configureStackViews()
         self.configureKRWButon()
-        self.configureFavoritesButton()
+        self.configureInterestButton()
     }
 
     private func configureStackViews() {
@@ -170,7 +170,6 @@ final class HeaderView: UIView {
             options: .singleSelection,
             children: [popular, name, changeRate]
         )
-
         return items
     }
 
@@ -197,7 +196,6 @@ final class HeaderView: UIView {
 
             self.delegate?.sorted(by: option)
         }
-
         return action
     }
 
@@ -222,7 +220,7 @@ final class HeaderView: UIView {
         self.setBottomBorder(to: self.krwCoinListButton)
     }
 
-    private func configureFavoritesButton() {
+    private func configureInterestButton() {
         var configuration: UIButton.Configuration = UIButton.Configuration.plain()
         configuration.buttonSize = .large
 
@@ -237,7 +235,7 @@ final class HeaderView: UIView {
 
         self.interestCoinListButton.addTarget(
             self,
-            action: #selector(self.tapFavoritesButton),
+            action: #selector(self.tapInterestButton),
             for: .touchUpInside
         )
     }
@@ -288,7 +286,7 @@ final class HeaderView: UIView {
         self.delegate?.selectCategory(.krw)
     }
 
-    @objc private func tapFavoritesButton() {
+    @objc private func tapInterestButton() {
         var configuration: UIButton.Configuration = UIButton.Configuration.plain()
         configuration.buttonSize = .large
 
@@ -305,4 +303,3 @@ final class HeaderView: UIView {
         self.delegate?.selectCategory(.interest)
     }
 }
-

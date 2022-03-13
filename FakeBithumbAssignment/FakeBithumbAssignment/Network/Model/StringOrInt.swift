@@ -12,6 +12,8 @@ enum StringOrInt: Decodable {
     case string(String)
     case int(Int)
     
+    // MARK: - Instance Property
+    
     var stringValue: String {
         get {
             switch self {
@@ -32,6 +34,8 @@ enum StringOrInt: Decodable {
             }
         }
     }
+    
+    // MARK: - Initializer
     
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()

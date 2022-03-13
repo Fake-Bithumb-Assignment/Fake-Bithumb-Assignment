@@ -130,7 +130,7 @@ final class CandleStickChartView: UIView {
     }
 }
 
-// MARK: - update candlestick
+// MARK: - extension
 
 extension CandleStickChartView {
     /// 캔들스틱을 최신의 것으로 업데이트해주는 메소드.
@@ -182,8 +182,6 @@ extension CandleStickChartView {
         self.minPrice = self.candleSticks[minIndex].lowPrice
     }
 }
-
-// MARK: - gesture
 
 extension CandleStickChartView {
     private func setupPinchGesture() {
@@ -247,8 +245,6 @@ extension CandleStickChartView {
         }
     }
 }
-
-// MARK: - drawing
 
 extension CandleStickChartView {
     /// 각 레이어들의 프레임 설정해주는 메소드.
@@ -484,8 +480,6 @@ extension CandleStickChartView {
     }
 }
 
-// MARK: - drawing focus
-
 extension CandleStickChartView {
     /// 현재 탭한 지점이 캔들스틱 구간 안에 속했는지 판단해주는 메소드.
     private func isCandlestickInclude(point: CGPoint) -> Bool {
@@ -719,8 +713,6 @@ extension CandleStickChartView {
         }
     }
 }
-
-// MARK: - delegate
 
 extension CandleStickChartView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -19,12 +19,9 @@ final class CoinViewController: BaseViewController {
             self.pageViewController.coin = self.coin
         }
     }
-    private let tickerAPIService: TickerAPIService = TickerAPIService(
-        apiService: HttpService(),
-        environment: .development
-    )
-    private var btsocketAPIService: BTSocketAPIService = BTSocketAPIService()
-    private var tickerData: Item?
+    private let tickerAPIService: TickerAPIService = TickerAPIService()
+    private var btsocketAPIService: SocketAPIService = SocketAPIService()
+    private var tickerData: AllTickerResponse.Ticker?
     private let sectionInsets: UIEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     private let headerView = CoinHeaderView()
     private let quoteButton: UIButton = UIButton().then {
@@ -97,7 +94,6 @@ final class CoinViewController: BaseViewController {
             $0.distribution = .fillEqually
             $0.spacing = 1
         }
-        
         let stackView: UIStackView = UIStackView(
             arrangedSubviews: [self.headerView, menuStackView, self.pageView]
         ).then {
@@ -105,9 +101,7 @@ final class CoinViewController: BaseViewController {
             $0.alignment = .fill
             $0.spacing = 1
         }
-        
         self.view.addSubview(stackView)
-        
         stackView.snp.makeConstraints { make in
             make.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
@@ -178,14 +172,10 @@ final class CoinViewController: BaseViewController {
                 )
                 if let tickerData = tickerData {
                     self.tickerData = tickerData
-                } else {
-                    // TODO: 에러 처리 얼럿 띄우기
                 }
                 self.patchHeaderViewData()
-            } catch HttpServiceError.serverError {
-                print("serverError")
-            } catch HttpServiceError.clientError(let message) {
-                print("clientError:\(String(describing: message))")
+            } catch {
+                print(error)
             }
         }
     }
@@ -209,7 +199,7 @@ final class CoinViewController: BaseViewController {
         ))
     }
     
-    private func updateHeaderViewTickerData(coin: Coin, data: BTSocketAPIResponse.TickerResponse) {
+    private func updateHeaderViewTickerData(coin: Coin, data: SocketAPIResponse.TickerResponse) {
         self.headerView.patchData(data: CoinHeaderModel(
             currentPrice: "\(data.content.closePrice)",
             fluctate: "\(data.content.chgAmt)",
@@ -254,6 +244,5 @@ final class CoinViewController: BaseViewController {
             UserDefaults.standard.set(self.coin.rawValue, forKey: self.coin.rawValue)
             self.starButton.setImage(UIImage(named: "fillStar"), for: .normal)
         }
-        dump(UserDefaults.standard.dictionaryRepresentation())
     }
 }

@@ -8,54 +8,57 @@
 import Foundation
 
 struct AllTickerResponse: Codable, Loopable {
-    let btc, eth, ltc, etc: Item
-    let xrp, bch, qtum, btg: Item
-    let eos, icx, trx, elf: Item
-    let omg, knc, glm, zil: Item
-    let waxp, powr, lrc, steem: Item
-    let strax, zrx, rep, xem: Item
-    let snt, ada, ctxc, bat: Item
-    let wtc, theta, loom, waves: Item
-    let link, enj, vet, mtl: Item
-    let iost, tmtg, qkc, atolo: Item
-    let amo, bsv, orbs, tfuel: Item
-    let valor, con, ankr, mix: Item
-    let cro, fx, chr, mbl: Item
-    let mxc, fct2, trv, dad: Item
-    let wom, soc, boa, mev: Item
-    let sxp, cos, apix, el: Item
-    let basic, hive, xpr, vra: Item
-    let fit, egg, bora, arpa: Item
-    let ctc, apm, ckb, aergo: Item
-    let anw, cennz, evz, cyclub: Item
-    let srm, qtcon, uni, yfi: Item
-    let uma, aave, comp, ren: Item
-    let bal, rsr, nmr, rlc: Item
-    let uos, sand, gom2, ringx: Item
-    let bel, obsr, orc, pola: Item
-    let awo, adp, dvi, ghx: Item
-    let mir, mvc, bly, wozx: Item
-    let anv, grt, mm, biot: Item
-    let xno, snx, sofi, cola: Item
-    let nu, oxt, lina, map: Item
-    let aqt, wiken, ctsi, mana: Item
-    let lpt, mkr, sushi, asm: Item
-    let pundix, celr, cwd, arw: Item
-    let front, rly, ocean, bfc: Item
-    let alice, coti, cake, bnt: Item
-    let xvs, chz, axs, dao: Item
-    let dai, matic, woo, bake: Item
-    let velo, bcd, xlm, gxc: Item
-    let vsys, ipx, wicc, ont: Item
-    let luna, aion, meta, klay: Item
-    let ong, algo, jst, xtz: Item
-    let mlk, wemix, dot, atom: Item
-    let ssx, temco, hibs, burger: Item
-    let doge, ksm, ctk, xym: Item
-    let bnb, nft, sun, xec: Item
-    let pci, sol, egld, go: Item
-    let c98, med, the1Inch, boba: Item
-    let gala, btt, tdrop, sprt: Item
+    
+    // MARK: - Instance Property
+    
+    let btc, eth, ltc, etc: Ticker
+    let xrp, bch, qtum, btg: Ticker
+    let eos, icx, trx, elf: Ticker
+    let omg, knc, glm, zil: Ticker
+    let waxp, powr, lrc, steem: Ticker
+    let strax, zrx, rep, xem: Ticker
+    let snt, ada, ctxc, bat: Ticker
+    let wtc, theta, loom, waves: Ticker
+    let link, enj, vet, mtl: Ticker
+    let iost, tmtg, qkc, atolo: Ticker
+    let amo, bsv, orbs, tfuel: Ticker
+    let valor, con, ankr, mix: Ticker
+    let cro, fx, chr, mbl: Ticker
+    let mxc, fct2, trv, dad: Ticker
+    let wom, soc, boa, mev: Ticker
+    let sxp, cos, apix, el: Ticker
+    let basic, hive, xpr, vra: Ticker
+    let fit, egg, bora, arpa: Ticker
+    let ctc, apm, ckb, aergo: Ticker
+    let anw, cennz, evz, cyclub: Ticker
+    let srm, qtcon, uni, yfi: Ticker
+    let uma, aave, comp, ren: Ticker
+    let bal, rsr, nmr, rlc: Ticker
+    let uos, sand, gom2, ringx: Ticker
+    let bel, obsr, orc, pola: Ticker
+    let awo, adp, dvi, ghx: Ticker
+    let mir, mvc, bly, wozx: Ticker
+    let anv, grt, mm, biot: Ticker
+    let xno, snx, sofi, cola: Ticker
+    let nu, oxt, lina, map: Ticker
+    let aqt, wiken, ctsi, mana: Ticker
+    let lpt, mkr, sushi, asm: Ticker
+    let pundix, celr, cwd, arw: Ticker
+    let front, rly, ocean, bfc: Ticker
+    let alice, coti, cake, bnt: Ticker
+    let xvs, chz, axs, dao: Ticker
+    let dai, matic, woo, bake: Ticker
+    let velo, bcd, xlm, gxc: Ticker
+    let vsys, ipx, wicc, ont: Ticker
+    let luna, aion, meta, klay: Ticker
+    let ong, algo, jst, xtz: Ticker
+    let mlk, wemix, dot, atom: Ticker
+    let ssx, temco, hibs, burger: Ticker
+    let doge, ksm, ctk, xym: Ticker
+    let bnb, nft, sun, xec: Ticker
+    let pci, sol, egld, go: Ticker
+    let c98, med, the1Inch, boba: Ticker
+    let gala, btt, tdrop, sprt: Ticker
     let date: String
 
     enum CodingKeys: String, CodingKey {
@@ -253,25 +256,26 @@ struct AllTickerResponse: Codable, Loopable {
         case sprt = "SPRT"
         case date
     }
-}
+    
+    struct Ticker: Codable {
+        let openingPrice, closingPrice, minPrice, maxPrice: String
+        let unitsTraded, accTradeValue, prevClosingPrice, unitsTraded24H: String
+        let accTradeValue24H, fluctate24H, fluctateRate24H: String
 
-struct Item: Codable {
-    let openingPrice, closingPrice, minPrice, maxPrice: String
-    let unitsTraded, accTradeValue, prevClosingPrice, unitsTraded24H: String
-    let accTradeValue24H, fluctate24H, fluctateRate24H: String
-
-    enum CodingKeys: String, CodingKey {
-        case openingPrice = "opening_price"
-        case closingPrice = "closing_price"
-        case minPrice = "min_price"
-        case maxPrice = "max_price"
-        case unitsTraded = "units_traded"
-        case accTradeValue = "acc_trade_value"
-        case prevClosingPrice = "prev_closing_price"
-        case unitsTraded24H = "units_traded_24H"
-        case accTradeValue24H = "acc_trade_value_24H"
-        case fluctate24H = "fluctate_24H"
-        case fluctateRate24H = "fluctate_rate_24H"
+        enum CodingKeys: String, CodingKey {
+            case openingPrice = "opening_price"
+            case closingPrice = "closing_price"
+            case minPrice = "min_price"
+            case maxPrice = "max_price"
+            case unitsTraded = "units_traded"
+            case accTradeValue = "acc_trade_value"
+            case prevClosingPrice = "prev_closing_price"
+            case unitsTraded24H = "units_traded_24H"
+            case accTradeValue24H = "acc_trade_value_24H"
+            case fluctate24H = "fluctate_24H"
+            case fluctateRate24H = "fluctate_rate_24H"
+        }
     }
 }
+
 

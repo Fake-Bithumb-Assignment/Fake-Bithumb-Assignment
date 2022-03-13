@@ -8,6 +8,9 @@
 import Foundation
 
 struct TransactionAPIResponse: Codable {
+    
+    // MARK: - Instance Property
+
     var transactionDate: String
     var type: String?
     var unitsTraded: String
@@ -23,6 +26,8 @@ struct TransactionAPIResponse: Codable {
         case total
         case upDn
     }
+    
+    // MARK: - Initializer
     
     init(transactionDate: String, unitsTraded: String, price: String, upDn: String) {
         self.transactionDate = transactionDate

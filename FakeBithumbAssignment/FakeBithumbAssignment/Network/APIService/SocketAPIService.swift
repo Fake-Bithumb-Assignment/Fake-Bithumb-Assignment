@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct BTSocketAPIService {
+struct SocketAPIService {
     
     // MARK: - Instance Property
     
     private let baseURL: URL? = URL(string: "wss://pubwss.bithumb.com/pub/ws")
     private let jsonEncoder: JSONEncoder = JSONEncoder()
-    private var socketServiceByType: [BTSocketAPIRequest.RequestType: WebSocketService] = [:]
+    private var socketServiceByType: [SocketAPIRequest.RequestType: WebSocketService] = [:]
     
     // MARK: - custom func
     
@@ -25,11 +25,11 @@ struct BTSocketAPIService {
     /// - Parameter responseHander: 응답으로 온 Ticket의 핸들러
     mutating func subscribeTicker(
         orderCurrency: [Coin],
-        paymentCurrency: BTSocketAPIRequest.PaymentCurrency,
-        tickTypes: [BTSocketAPIRequest.TickType]?,
-        responseHandler: @escaping (BTSocketAPIResponse.TickerResponse) -> Void
+        paymentCurrency: SocketAPIRequest.PaymentCurrency,
+        tickTypes: [SocketAPIRequest.TickType]?,
+        responseHandler: @escaping (SocketAPIResponse.TickerResponse) -> Void
     ) {
-        let request = BTSocketAPIRequest(
+        let request = SocketAPIRequest(
             type: .ticker,
             orderCurrency: orderCurrency,
             paymentCurrency: paymentCurrency,
@@ -53,10 +53,10 @@ struct BTSocketAPIService {
     /// - Parameter responseHander: 응답으로 온 Transaction의 핸들러
     mutating func subscribeTransaction(
         orderCurrency: [Coin],
-        paymentCurrency: BTSocketAPIRequest.PaymentCurrency,
-        responseHandler: @escaping (BTSocketAPIResponse.TransactionResponse) -> Void
+        paymentCurrency: SocketAPIRequest.PaymentCurrency,
+        responseHandler: @escaping (SocketAPIResponse.TransactionResponse) -> Void
     ) {
-        let request = BTSocketAPIRequest(
+        let request = SocketAPIRequest(
             type: .transaction,
             orderCurrency: orderCurrency,
             paymentCurrency: paymentCurrency
@@ -79,10 +79,10 @@ struct BTSocketAPIService {
     /// - Parameter responseHander: 응답으로 온 OrderBook의 핸들러
     mutating func subscribeOrderBook(
         orderCurrency: [Coin],
-        paymentCurrency: BTSocketAPIRequest.PaymentCurrency,
-        responseHandler: @escaping (BTSocketAPIResponse.OrderBookResponse) -> Void
+        paymentCurrency: SocketAPIRequest.PaymentCurrency,
+        responseHandler: @escaping (SocketAPIResponse.OrderBookResponse) -> Void
     ) {
-        let request = BTSocketAPIRequest(
+        let request = SocketAPIRequest(
             type: .orderBook,
             orderCurrency: orderCurrency,
             paymentCurrency: paymentCurrency
@@ -100,12 +100,12 @@ struct BTSocketAPIService {
     
     /// 전체 연결 해제
     func disconnectAll() {
-        BTSocketAPIRequest.RequestType.allCases.forEach { requestType in
+        SocketAPIRequest.RequestType.allCases.forEach { requestType in
             self.disconnect(of: requestType)
         }
     }
     
-    private func disconnect(of requestType: BTSocketAPIRequest.RequestType) {
+    private func disconnect(of requestType: SocketAPIRequest.RequestType) {
         guard var socketService = self.socketServiceByType[requestType] else {
             return
         }
@@ -113,7 +113,7 @@ struct BTSocketAPIService {
     }
     
     private mutating func subscribe<T: Decodable>(
-        of requestType: BTSocketAPIRequest.RequestType,
+        of requestType: SocketAPIRequest.RequestType,
         writeWith filter: Data,
         responseHandler: @escaping (T) -> Void
     ) {

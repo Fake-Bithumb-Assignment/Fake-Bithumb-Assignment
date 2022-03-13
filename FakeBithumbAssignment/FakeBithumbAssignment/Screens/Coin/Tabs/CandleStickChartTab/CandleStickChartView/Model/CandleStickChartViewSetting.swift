@@ -17,6 +17,9 @@ final class CandleStickChartViewSetting {
     let format: Format = Format()
     
     class Color {
+        
+        // MARK: - Instance Property
+        
         /// 양봉 색상
         let redColor: CGColor = (UIColor(named: "up") ?? UIColor.red).cgColor
         /// 음봉 색상
@@ -32,6 +35,9 @@ final class CandleStickChartViewSetting {
     }
     
     class Number {
+        
+        // MARK: - Instance Property
+
         /// 오른쪽 값 영역에 표시될 값의 개수
         let valueInFrame: Int = 8
         /// 한 화면에 나올 날짜, 시간 레이블의 개수
@@ -39,6 +45,9 @@ final class CandleStickChartViewSetting {
     }
     
     class Size {
+        
+        // MARK: - Instance Property
+
         /// 기본 선 너비
         let defaultLineWidth: CGFloat = 1.0
         /// 그리드 선 너비
@@ -81,6 +90,9 @@ final class CandleStickChartViewSetting {
     }
     
     class Format {
+        
+        // MARK: - Instance Property
+
         let defaultTimeFormatter = DateFormatter().then {
             $0.dateFormat = "M/d HH:mm"
         }

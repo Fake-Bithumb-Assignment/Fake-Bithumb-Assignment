@@ -8,6 +8,9 @@
 import Foundation
 
 struct OrderbookAPIResponse: Codable {
+    
+    // MARK: - Instance Property
+
     let timestamp: String
     let paymentCurrency: String
     let orderCurrency: String
@@ -24,6 +27,9 @@ struct OrderbookAPIResponse: Codable {
 
 /// 주문
 struct Quote: Codable, Hashable {
+    
+    // MARK: - Instance Property
+
     var price: String
     var quantity: String
     var prevClosePrice: Double? = nil
@@ -39,14 +45,12 @@ struct Quote: Codable, Hashable {
     }
     var isEmptyQuote: Bool
     var transactionPrice: String? = nil
-        
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(self.price)
-    }
     
     enum CodingKeys: String, CodingKey {
         case price, quantity
     }
+    
+    // MARK: - Initializer
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -61,11 +65,17 @@ struct Quote: Codable, Hashable {
         self.isEmptyQuote = false
     }
     
+    // MARK: - custom func
+    
     static func == (lhs: Quote, rhs: Quote) -> Bool {
         return lhs.price == rhs.price &&
         lhs.quantity == rhs.quantity &&
         lhs.prevClosePrice == rhs.prevClosePrice &&
         lhs.transactionPrice == rhs.transactionPrice
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.price)
     }
     
     static let asc: (Quote, Quote) -> Bool = { (lhs: Quote, rhs: Quote) in

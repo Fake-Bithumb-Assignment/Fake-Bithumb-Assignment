@@ -41,7 +41,6 @@ final class MoreView: UIView {
             matrix: matrix
         )
         $0.font = UIFont(descriptor: descriptor, size: 14)
-        
         $0.textColor = .darkGray
         $0.numberOfLines = 0
     }
@@ -58,6 +57,8 @@ final class MoreView: UIView {
         super.init(coder: coder)
     }
     
+    // MARK: custom func
+    
     private func render() {
         self.addSubViews(
             [self.characterImageView,
@@ -73,34 +74,28 @@ final class MoreView: UIView {
             make.width.height.equalTo(150)
             make.leading.equalTo(self.snp.leading)
         }
-        
         self.nameLabel.snp.makeConstraints { make in
             make.leading.equalTo(self.characterImageView.snp.trailing).offset(15)
             make.top.equalTo(self.characterImageView.snp.top)
             make.trailing.equalTo(self.snp.trailing)
         }
-        
         self.mbtiLabel.snp.makeConstraints { make in
             make.top.equalTo(self.nameLabel.snp.bottom).offset(3)
             make.leading.equalTo(self.characterImageView.snp.trailing).offset(15)
             make.trailing.equalTo(self.snp.trailing)
         }
-        
         self.githubLabel.snp.makeConstraints { make in
             make.top.equalTo(self.mbtiLabel.snp.bottom).offset(0)
             make.leading.equalTo(self.characterImageView.snp.trailing).offset(15)
             make.trailing.equalTo(self.snp.trailing)
         }
-        
         self.commentLabel.snp.makeConstraints { make in
             make.top.equalTo(self.githubLabel.snp.bottom).offset(10)
             make.leading.equalTo(self.characterImageView.snp.trailing).offset(15)
             make.trailing.equalTo(self.snp.trailing).inset(10)
         }
     }
-    
-    // MARK: - custom funcs
-    
+        
     func patchData(data: MoreModel) {
         self.characterImageView.image = data.characterImage
         self.nameLabel.text = data.name

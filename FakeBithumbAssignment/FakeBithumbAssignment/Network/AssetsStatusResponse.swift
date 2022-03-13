@@ -7,9 +7,14 @@
 
 import Foundation
 
-struct BTAssetsStatusResponse: Decodable {
+struct AssetsStatusResponse: Decodable {
+    
+    // MARK: - Instance Property
+    
     let depositStatus: Int
     let withdrawalStatus: Int
+    
+    // MARK: - Initializer
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
