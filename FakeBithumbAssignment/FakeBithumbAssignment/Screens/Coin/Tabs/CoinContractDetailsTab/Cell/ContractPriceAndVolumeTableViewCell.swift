@@ -58,7 +58,7 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
         case .price:
             self.contentLabel.text = self.configurePrice(to.price)
         case .volume:
-            self.contentLabel.text = to.unitsTraded
+            self.contentLabel.text = self.configureTrade(to.unitsTraded)
         }
     }
     
@@ -72,6 +72,20 @@ class ContractPriceAndVolumeTableViewCell: BaseTableViewCell {
         }
 
         return String.insertComma(value: givenPrice)
+    }
+    
+    private func configureTrade(_ price: String) -> String? {
+        guard var givenPrice = Double(price) else {
+            return nil
+        }
+        
+        givenPrice = round(givenPrice*10000)/10000
+        
+        if givenPrice > 1000.0 {
+             return String.insertComma(value: Int(givenPrice))
+        }
+        
+        return String(format: "%.4f", givenPrice)
     }
 }
 
