@@ -61,9 +61,6 @@ final class MainViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if self.isInitialState {
-            self.present(self.loadingAlert, animated: true, completion: nil)
-        }
         self.fetchTickerAPIData(orderCurrency: "ALL", paymentCurrency: "KRW")
         if self.isInitialState {
             self.fetchTransactionAPIData()
@@ -207,7 +204,6 @@ final class MainViewController: BaseViewController {
                 }
                 self.updateTotalCoinTableView()
                 self.updateInterestCoinTableView()
-                self.loadingAlert.dismiss(animated: true, completion: nil)
             } catch {
                 print(error)
             }
