@@ -23,7 +23,7 @@ enum Coin: String, CaseIterable {
     case WEMIX, QTUM, BNT, WAXP
     case ANKR, OMG, UMA, LPT
     case BTG, RLY, ZIL, ICX
-    case ONT, ZRX, NU, SNX
+    case ONT, ZRX, SNX
     case WOO, IOST, GLM, SUSHI
     case HIVE, UOS, JST, CKB
     case REN, OCEAN, CELR, C98
@@ -117,7 +117,6 @@ enum Coin: String, CaseIterable {
         case .ICX:      return "아이콘"
         case .ONT:      return "온톨로지"
         case .ZRX:      return "제로엑스"
-        case .NU:       return "누사이퍼"
         case .SNX:      return "신세틱스"
         case .WOO:      return "우네트워크"
         case .IOST:     return "이오스트"
@@ -361,8 +360,6 @@ enum Coin: String, CaseIterable {
             self = .ONT
         case "ZRX":
             self = .ZRX
-        case "NU":
-            self = .NU
         case "SNX":
             self = .SNX
         case "WOO":
