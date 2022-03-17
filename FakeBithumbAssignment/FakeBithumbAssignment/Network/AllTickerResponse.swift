@@ -40,7 +40,7 @@ struct AllTickerResponse: Codable, Loopable {
     let mir, mvc, bly, wozx: Ticker
     let anv, grt, mm, biot: Ticker
     let xno, snx, sofi, cola: Ticker
-    let nu, oxt, lina, map: Ticker
+    let oxt, lina, map: Ticker
     let aqt, wiken, ctsi, mana: Ticker
     let lpt, mkr, sushi, asm: Ticker
     let pundix, celr, cwd, arw: Ticker
@@ -178,7 +178,6 @@ struct AllTickerResponse: Codable, Loopable {
         case snx = "SNX"
         case sofi = "SOFI"
         case cola = "COLA"
-        case nu = "NU"
         case oxt = "OXT"
         case lina = "LINA"
         case map = "MAP"
